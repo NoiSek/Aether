@@ -1,0 +1,6 @@
+[theme]
+name=Aether
+description=Aether, an Archlinux LightDM Theme.
+engine=lightdm-webkit2-greeter
+url=index.html
+session=deepin
