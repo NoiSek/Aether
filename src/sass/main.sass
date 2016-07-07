@@ -1,2 +1,378 @@
+@import reset
+@import fonts
+
+// Images
+$distro-logo: url("../img/arch-logo.png")
+
+$shutdown-icon: url("../img/shutdown.png")
+$reboot-icon: url("../img/reboot.png")
+$sleep-icon: url("../img/sleep.png")
+$hibernate-icon: url("../img/hibernate.png")
+
+$avatar-background: url("../img/avatar-background.png")
+
+$dropdown-caret: url("../img/dropdown-caret.png")
+
+// Backgrounds
+$left-background: #393939
+$right-background-image: url("../img/background-gradient.png") repeat-x
+$right-background-plate: rgba(221, 80, 30, 0.5) // #dd501e
+
+// Text
+$hostname-color: #c2c2c2
+
+.noselect
+  -webkit-user-select: none
+
+html
+  box-sizing: border-box
+*, *:before, *:after
+  box-sizing: inherit
+
 body
-  background: pink
+  font-family: "Open Sans"
+  background: url("../img/backgrounds/space-1.jpg")
+  background-size: cover
+
+
+.login-window-container
+  position: relative
+
+  height: 100vh
+  width: 100vw
+
+.login-window
+  background: $right-background-plate
+
+  // Vertical Center
+  position: absolute
+  top: 50%
+  left: 50%
+
+  margin: -250px 0px 0px -425px  
+
+  height: 500px
+  width: 850px
+
+  border-radius: 4px
+
+  .left-col, .right-col
+    float: left
+    display: inline-block
+
+    padding: 15px 35px
+
+    height: 100%
+
+  .left-col
+    color: #fff
+
+    background: $left-background
+    width: 255px
+
+    border-top-left-radius: 4px
+    border-bottom-left-radius: 4px
+
+
+  .right-col
+    background: $right-background-image
+
+    width: 595px
+
+    border-top-right-radius: 4px
+    border-bottom-right-radius: 4px
+
+.left-col
+  .distro-logo
+    background: $distro-logo no-repeat center center
+
+    margin: 0px auto
+
+    height: 125px
+    width: 125px
+
+  .distro-wrapper
+    padding-top: 35px
+    padding-bottom: 90px
+
+    height: 52%
+
+  .command
+    margin-bottom: 25px
+
+    transition: all 0.5s
+
+    @extend .noselect
+
+    &:hover
+      cursor: pointer
+      opacity: 0.6
+
+  .command .icon-wrapper, .command .text
+    display: inline-block
+    
+    @extend .noselect
+
+  .command .icon-wrapper
+    margin-right: 10px
+    width: 30px
+
+  .command.shutdown .icon
+    background: $shutdown-icon no-repeat center center
+    
+    height: 20px
+    width: 20px
+  
+  .command.reboot .icon
+    background: $reboot-icon no-repeat center center
+
+    height: 20px
+    width: 20px
+
+  .command.sleep .icon
+    background: $sleep-icon no-repeat center center
+
+    height: 25px
+    width: 29px
+
+  .command.hibernate .icon
+    background: $hibernate-icon no-repeat center center
+
+    height: 13px
+    width: 25px
+
+  .command .text
+    font-size: 16pt
+    letter-spacing: 2px
+    text-transform: uppercase
+    vertical-align: 2px
+
+  .commands-wrapper
+    height: 43%
+
+  .bottom
+    height: 5%
+    padding-top: 15px
+
+  .bottom .left, .bottom .right
+    float: left
+
+    font-size: 9pt
+    font-weight: bold
+    letter-spacing: 1px
+
+  .bottom .left
+    color: $hostname-color
+
+    overflow: hidden
+
+    text-overflow: ellipsis
+    text-transform: uppercase
+    white-space: nowrap
+
+    width: 70%
+
+    @extend .noselect
+
+  .bottom .right
+    text-align: right
+    
+    opacity: 0
+    
+    width: 30%
+
+    transition: opacity 1s
+
+    @extend .noselect
+
+  .bottom .clock.loaded
+    opacity: 1
+
+.right-col
+  color: #fff
+  border: 1px solid rgba(251, 98, 192, 0.25)
+  border-bottom: none
+
+  & > div
+    height: 100%
+
+  .avatar-container
+    height: 50%
+    padding-top: 20px
+    padding-bottom: 75px
+
+    .avatar-background
+      background: $avatar-background no-repeat center center
+
+      margin: 0 auto
+
+      height: 155px
+      width: 154px
+
+      transform: translateX(-10px)
+      transition: all 1s
+
+    .user-avatar
+      margin: 0 auto
+
+      height: 125px
+      width: 125px
+
+      backface-visibility: hidden
+      transform: translate(10px, 15px)
+
+  .login-form
+    height: 45%
+    display: block
+
+    .user-username
+      text-align: center
+      text-transform: capitalize
+
+      font-size: 32pt
+      font-style: italic
+      font-weight: bold
+
+      @extend .noselect
+
+    .user-password-container
+      margin: 15px auto
+      overflow: hidden
+      width: 200px
+
+    .user-password
+      color: #fff
+
+      background: none
+      outline: none
+      border: none
+      border-bottom: 2px solid rgba(255, 255, 255, 0.6)
+
+      font-size: 14pt
+      font-weight: bold
+      letter-spacing: 2px
+
+      width: 100%
+
+      transition: all 1s
+
+      &:focus, &:active
+        border-bottom: 2px solid rgba(255, 255, 255, 0.8)
+
+      &::-webkit-input-placeholder
+        color: rgba(255, 255, 255, 0.4)
+        @extend .noselect
+
+    .submit-row
+      margin: 0 auto
+      width: 200px
+
+      .left, .right
+        display: inline-block
+        float: left
+
+      .left
+        width: 80%
+
+      .left .dropdown
+        font-size: 9pt
+        font-style: italic
+        font-weight: bold
+
+        width: 95%
+
+        @extend .noselect
+
+        &:hover
+          cursor: pointer
+
+      .right
+        width: 20%
+
+      .right .submit-button
+        color: #fff
+        background: hsla(342,93%,76%,0.6)
+        
+        border: none
+        border-radius: 4px
+        outline: none
+        
+        position: relative
+        left: 6px
+        
+        font-weight: bold
+        font-size: 8pt
+        
+        padding: 8px
+
+        &:hover
+          cursor: pointer
+
+          background: rgba(255, 255, 255, 0.5)
+          // hsl(346, 100%, 66%) //
+
+    .left .dropdown .dropdown-item
+      color: #eee
+      display: none
+      background: rgba(255, 255, 255, 0.2)
+
+      padding: 8px 10px
+
+      z-index: 2
+
+      &:hover
+        background: rgba(255, 255, 255, 0.4)
+
+    .left .dropdown .dropdown-item.active
+      color: #fff
+      display: block
+
+      position: relative
+
+      // Lighter f73f89
+      // Darker f83f77
+
+      background: #f83f77 $dropdown-caret no-repeat 90% 50%
+
+      border-radius: 2px
+      box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05)
+
+    .left .dropdown:hover .dropdown-item
+      display: block
+
+  .bottom
+    padding-top: 15px
+    height: 5%
+
+    .left, .right
+      color: #fff
+      float: left
+
+      font-size: 9pt
+      letter-spacing: 1px
+
+      width: 50%
+
+    .left
+      font-weight: bold
+
+      @extend .noselect
+
+    .right
+      position: relative
+      top: 40px
+      right: -35px
+
+      font-style: italic
+      text-align: right
+      transition: all 1s
+
+      opacity: 0
+
+      @extend .noselect
+
+      &.loaded
+        opacity: 1
+      
+      em
+        font-weight: bold

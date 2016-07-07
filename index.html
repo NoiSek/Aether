@@ -6,12 +6,83 @@
     <link rel="stylesheet" href="src/css/main.css">
   </head>
   <body>
-    <div id="neat">This is incredible.</div>
-    <script type="text/javascript" src="src/dist/curl.js"></script>
+    <div class="login-window-container">
+      <div class="login-window">
+        <div class="left-col">
+          <div class="distro-wrapper">
+            <div class="distro-logo"></div>
+          </div>
+          <div class="commands-wrapper">
+            <div class="command shutdown">
+              <div class="icon-wrapper">
+                <div class="icon"></div>
+              </div>
+              <div class="text">Shutdown</div>
+            </div>
+            <!--<div class="command hibernate">
+              <div class="icon-wrapper">
+                <div class="icon"></div>
+              </div>
+              <div class="text">Hibernate</div>
+            </div>-->
+            <div class="command reboot">
+              <div class="icon-wrapper">
+                <div class="icon"></div>
+              </div>
+              <div class="text">Reboot</div>
+            </div>
+            <div class="command sleep">
+              <div class="icon-wrapper">
+                <div class="icon"></div>
+              </div>
+              <div class="text">Sleep</div>
+            </div>
+          </div>
+          <div class="bottom">
+            <div class="left hostname"></div>
+            <div class="right clock"></div>
+          </div>
+        </div>
+        <div id="inferno-mount" class="right-col">
+          <div class="avatar-container">
+            <div class="avatar-background">
+              <img class="user-avatar" src="src/img/default-user.png">
+            </div>
+          </div>
+          <form class="login-form">
+            <div class="user-username">Lannister</div>
+            <div class="user-password-container">
+              <input type="password" placeholder="*******************" class="user-password">
+            </div>
+            <div class="submit-row">
+              <div class="left">
+                <div class="dropdown user-session">
+                  <div class="dropdown-item active">deepin</div>
+                  <!--<div class="dropdown-item">gnome</div>
+                  <div class="dropdown-item">xfce</div>-->
+                </div>
+              </div>
+              <div class="right">
+                <input type="submit" value="GO" class="submit-button">
+              </div>
+            </div>
+          </form>
+          <div class="bottom">
+            <div class="left">SWITCH USER</div>
+            <div class="right date"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="./src/dist/js/curl.js"></script>
     <script type="text/javascript">
       curl([
         'src/js/main'
-      ]);
+      ]).then(function(main){
+        main.default();
+      }, function(exception){
+        console.log(exception);
+      });
     </script>
   </body>
 </html>

@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "src/js/test.js",
-    "build": "babel src/es6 --out-file src/js/main.js"
+    "build": "babel src/es6 --out-dir src/js",
+    "watch": "babel src/es6 --watch --out-dir src/js"
   },
   "repository": {
     "type": "git",
@@ -21,13 +22,14 @@
     "arch"
   ],
   "author": "Noi Sek",
-  "license": "ISC",
+  "license": "GPLv2",
   "bugs": {
     "url": "https://github.com/noisek/lightdm-webkit-aether/issues"
   },
   "homepage": "https://github.com/noisek/lightdm-webkit-aether#readme",
   "devDependencies": {
     "babel": "^6.5.2",
+    "babel-cli": "^6.10.1",
     "babel-plugin-inferno": "^0.7.3",
     "babel-plugin-transform-es2015-modules-amd": "^6.8.0",
     "babel-preset-es2015": "^6.9.0",

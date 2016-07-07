@@ -1,4 +1,301 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+ * v2.0 | 20110126
+ * License: none (public domain) */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block; }
+
 body {
-  background: pink; }
+  line-height: 1; }
+
+ol, ul {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: "";
+  content: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("../font/OpenSans-Regular-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: "Open Sans";
+  src: url("../font/OpenSans-Bold-webfont.woff") format("woff");
+  font-weight: bold;
+  font-style: normal; }
+@font-face {
+  font-family: "Open Sans";
+  src: url("../font/OpenSans-Italic-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: italic; }
+@font-face {
+  font-family: "Open Sans";
+  src: url("../font/OpenSans-BoldItalic-webfont.woff") format("woff");
+  font-weight: bold;
+  font-style: italic; }
+.noselect, .left-col .command, .left-col .command .icon-wrapper, .left-col .command .text, .left-col .bottom .left, .left-col .bottom .right, .right-col .login-form .user-username, .right-col .login-form .user-password::-webkit-input-placeholder, .right-col .login-form .submit-row .left .dropdown, .right-col .bottom .left, .right-col .bottom .right {
+  -webkit-user-select: none; }
+
+html {
+  box-sizing: border-box; }
+
+*, *:before, *:after {
+  box-sizing: inherit; }
+
+body {
+  font-family: "Open Sans";
+  background: url("../img/backgrounds/space-1.jpg");
+  background-size: cover; }
+
+.login-window-container {
+  position: relative;
+  height: 100vh;
+  width: 100vw; }
+
+.login-window {
+  background: rgba(221, 80, 30, 0.5);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -250px 0px 0px -425px;
+  height: 500px;
+  width: 850px;
+  border-radius: 4px; }
+  .login-window .left-col, .login-window .right-col {
+    float: left;
+    display: inline-block;
+    padding: 15px 35px;
+    height: 100%; }
+  .login-window .left-col {
+    color: #fff;
+    background: #393939;
+    width: 255px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px; }
+  .login-window .right-col {
+    background: url("../img/background-gradient.png") repeat-x;
+    width: 595px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px; }
+
+.left-col .distro-logo {
+  background: url("../img/arch-logo.png") no-repeat center center;
+  margin: 0px auto;
+  height: 125px;
+  width: 125px; }
+.left-col .distro-wrapper {
+  padding-top: 35px;
+  padding-bottom: 90px;
+  height: 52%; }
+.left-col .command {
+  margin-bottom: 25px;
+  transition: all 0.5s; }
+  .left-col .command:hover {
+    cursor: pointer;
+    opacity: 0.6; }
+.left-col .command .icon-wrapper, .left-col .command .text {
+  display: inline-block; }
+.left-col .command .icon-wrapper {
+  margin-right: 10px;
+  width: 30px; }
+.left-col .command.shutdown .icon {
+  background: url("../img/shutdown.png") no-repeat center center;
+  height: 20px;
+  width: 20px; }
+.left-col .command.reboot .icon {
+  background: url("../img/reboot.png") no-repeat center center;
+  height: 20px;
+  width: 20px; }
+.left-col .command.sleep .icon {
+  background: url("../img/sleep.png") no-repeat center center;
+  height: 25px;
+  width: 29px; }
+.left-col .command.hibernate .icon {
+  background: url("../img/hibernate.png") no-repeat center center;
+  height: 13px;
+  width: 25px; }
+.left-col .command .text {
+  font-size: 16pt;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  vertical-align: 2px; }
+.left-col .commands-wrapper {
+  height: 43%; }
+.left-col .bottom {
+  height: 5%;
+  padding-top: 15px; }
+.left-col .bottom .left, .left-col .bottom .right {
+  float: left;
+  font-size: 9pt;
+  font-weight: bold;
+  letter-spacing: 1px; }
+.left-col .bottom .left {
+  color: #c2c2c2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+  width: 70%; }
+.left-col .bottom .right {
+  text-align: right;
+  opacity: 0;
+  width: 30%;
+  transition: opacity 1s; }
+.left-col .bottom .clock.loaded {
+  opacity: 1; }
+
+.right-col {
+  color: #fff;
+  border: 1px solid rgba(251, 98, 192, 0.25);
+  border-bottom: none; }
+  .right-col > div {
+    height: 100%; }
+  .right-col .avatar-container {
+    height: 50%;
+    padding-top: 20px;
+    padding-bottom: 75px; }
+    .right-col .avatar-container .avatar-background {
+      background: url("../img/avatar-background.png") no-repeat center center;
+      margin: 0 auto;
+      height: 155px;
+      width: 154px;
+      transform: translateX(-10px);
+      transition: all 1s; }
+    .right-col .avatar-container .user-avatar {
+      margin: 0 auto;
+      height: 125px;
+      width: 125px;
+      backface-visibility: hidden;
+      transform: translate(10px, 15px); }
+  .right-col .login-form {
+    height: 45%;
+    display: block; }
+    .right-col .login-form .user-username {
+      text-align: center;
+      text-transform: capitalize;
+      font-size: 32pt;
+      font-style: italic;
+      font-weight: bold; }
+    .right-col .login-form .user-password-container {
+      margin: 15px auto;
+      overflow: hidden;
+      width: 200px; }
+    .right-col .login-form .user-password {
+      color: #fff;
+      background: none;
+      outline: none;
+      border: none;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.6);
+      font-size: 14pt;
+      font-weight: bold;
+      letter-spacing: 2px;
+      width: 100%;
+      transition: all 1s; }
+      .right-col .login-form .user-password:focus, .right-col .login-form .user-password:active {
+        border-bottom: 2px solid rgba(255, 255, 255, 0.8); }
+      .right-col .login-form .user-password::-webkit-input-placeholder {
+        color: rgba(255, 255, 255, 0.4); }
+    .right-col .login-form .submit-row {
+      margin: 0 auto;
+      width: 200px; }
+      .right-col .login-form .submit-row .left, .right-col .login-form .submit-row .right {
+        display: inline-block;
+        float: left; }
+      .right-col .login-form .submit-row .left {
+        width: 80%; }
+      .right-col .login-form .submit-row .left .dropdown {
+        font-size: 9pt;
+        font-style: italic;
+        font-weight: bold;
+        width: 95%; }
+        .right-col .login-form .submit-row .left .dropdown:hover {
+          cursor: pointer; }
+      .right-col .login-form .submit-row .right {
+        width: 20%; }
+      .right-col .login-form .submit-row .right .submit-button {
+        color: #fff;
+        background: rgba(251, 137, 171, 0.6);
+        border: none;
+        border-radius: 4px;
+        outline: none;
+        position: relative;
+        left: 6px;
+        font-weight: bold;
+        font-size: 8pt;
+        padding: 8px; }
+        .right-col .login-form .submit-row .right .submit-button:hover {
+          cursor: pointer;
+          background: rgba(255, 255, 255, 0.5); }
+    .right-col .login-form .left .dropdown .dropdown-item {
+      color: #eee;
+      display: none;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 8px 10px;
+      z-index: 2; }
+      .right-col .login-form .left .dropdown .dropdown-item:hover {
+        background: rgba(255, 255, 255, 0.4); }
+    .right-col .login-form .left .dropdown .dropdown-item.active {
+      color: #fff;
+      display: block;
+      position: relative;
+      background: #f83f77 url("../img/dropdown-caret.png") no-repeat 90% 50%;
+      border-radius: 2px;
+      box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05); }
+    .right-col .login-form .left .dropdown:hover .dropdown-item {
+      display: block; }
+  .right-col .bottom {
+    padding-top: 15px;
+    height: 5%; }
+    .right-col .bottom .left, .right-col .bottom .right {
+      color: #fff;
+      float: left;
+      font-size: 9pt;
+      letter-spacing: 1px;
+      width: 50%; }
+    .right-col .bottom .left {
+      font-weight: bold; }
+    .right-col .bottom .right {
+      position: relative;
+      top: 40px;
+      right: -35px;
+      font-style: italic;
+      text-align: right;
+      transition: all 1s;
+      opacity: 0; }
+      .right-col .bottom .right.loaded {
+        opacity: 1; }
+      .right-col .bottom .right em {
+        font-weight: bold; }
 
 /*# sourceMappingURL=main.css.map */
