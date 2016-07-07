@@ -5,6 +5,7 @@ import InfernoDOM from 'src/dist/js/inferno-dom.min';
 import { Notifications } from './Notifications';
 import { CommandPanel } from './CommandPanel';
 import { LoginPanel } from './LoginPanel';
+import { Clock } from './Clock';
 
 export default function Main() {
   // Add notifications to the global scope for error handling

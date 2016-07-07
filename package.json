@@ -6,7 +6,7 @@
   "scripts": {
     "test": "src/js/test.js",
     "build": "babel src/es6 --out-dir src/js",
-    "watch": "babel src/es6 --watch --out-dir src/js"
+    "watch": "babel src/es6 --watch --out-dir src/js & sass --watch src/sass:src/css"
   },
   "repository": {
     "type": "git",

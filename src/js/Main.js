@@ -1,4 +1,4 @@
-define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min', 'src/dist/js/inferno-dom.min', './Notifications', './CommandPanel', './LoginPanel'], function (exports, _inferno, _infernoComponent, _infernoDom, _Notifications, _CommandPanel, _LoginPanel) {
+define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min', 'src/dist/js/inferno-dom.min', './Notifications', './CommandPanel', './LoginPanel', './Clock'], function (exports, _inferno, _infernoComponent, _infernoDom, _Notifications, _CommandPanel, _LoginPanel, _Clock) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {

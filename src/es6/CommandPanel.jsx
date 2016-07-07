@@ -1,63 +1,34 @@
 import Inferno from 'src/dist/js/inferno.min';
 import Component from 'src/dist/js/inferno-component.min';
 
+import { Clock } from './Clock';
+
 export class CommandPanel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      "currentTime": undefined,
-      "expandedCommands": false,
-      "timeInitialized": false
+      "expandedCommands": false
     };
   }
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.updateClock();
-      let timer = setInterval(this.updateClock.bind(this), 1000);
-    }, 1000);
-  }
-
-  handleCommand(event) {
-    let command = event.target.getAttribute('data-command').toLowerCase();
-    let disabled = event.target.className.indexOf('disabled') !== -1;
-
-    if (disabled) {
+  handleCommand(command, disabled, event) {
+    if (disabled !== false) {
       window.notifications.generate(`${command} is disabled on this system.`, "error")
+      return false;
     }
-
-    return false;
 
     if (command === "shutdown") {
+      window.notifications.generate("Shutting down.");
       window.lightdm.shutdown();
     } else if (command === "hibernate") {
+      window.notifications.generate("Hibernating system.");
       window.lightdm.hibernate();
     } else if (command === "reboot") {
+      window.notifications.generate("Rebooting system.");
       window.lightdm.restart();
     } else if (command === "sleep") {
+      window.notifications.generate("Suspending system.");
       window.lightdm.suspend();
-    }
-  }
-
-  updateClock() {
-    let padZeroes = (i) => (i < 10) ? "0" + i : i;
-
-    let now = new Date();
-    let hours = padZeroes(now.getHours());
-    let minutes = padZeroes(now.getMinutes());
-    let formattedTime = `${hours}:${minutes}`;
-
-    this.setState({
-      "currentTime": formattedTime
-    });
-
-    // Cycle through a render pass once in order for the fadeIn animation to play properly.
-    if (this.state.timeInitialized === false) {
-      setTimeout(() => {
-        this.setState({
-          "timeInitialized": true
-        });
-      }, 100);
     }
   }
 
@@ -69,12 +40,14 @@ export class CommandPanel extends Component {
       "Sleep": window.lightdm.can_suspend
     };
 
+    // Filter out commands we can't execute.
     let enabledCommands = Object.keys(commands)
     .map((key) => commands[key] ? key : false)
     .filter((command) => command !== false);
 
+    // Are both hibernation and suspend disabled?
+    // Add the row back and disable it so that the user is aware of what's happening.
     if (window.lightdm.can_suspend === false && window.lightdm.can_hibernate === false) {
-      // Add the row back and disable it so that the user is aware of what's happening.
       enabledCommands.push("Sleep.disabled")
     }
 
@@ -94,7 +67,7 @@ export class CommandPanel extends Component {
       let classes = ['command', command, disabled].filter((e) => e);
 
       return (
-        <div className={ classes.join(' ') } data-command={ command } onClick={ this.handleCommand }>
+        <div className={ classes.join(' ') } onClick={ this.handleCommand.bind(this, command, disabled) }>
           <div class="icon-wrapper">
             <div class="icon"></div>
           </div>
@@ -114,14 +87,7 @@ export class CommandPanel extends Component {
 
   render() {
     let hostname = window.lightdm.hostname;
-    let currentTime = this.state.currentTime;
     let commands = this.generateCommands();
-
-    let currentTimeClasses = ['right', 'clock'];
-
-    if (this.state.timeInitialized) {
-      currentTimeClasses.push('loaded');
-    }
 
     return (
       <div>
@@ -131,7 +97,7 @@ export class CommandPanel extends Component {
         { commands }
         <div className="bottom">
           <div className="left hostname">{ hostname }</div>
-          <div className={ currentTimeClasses.join(' ') }>{ currentTime }</div>
+          <Clock />
         </div>
       </div>
     );

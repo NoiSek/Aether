@@ -1,4 +1,4 @@
-define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min'], function (exports, _inferno, _infernoComponent) {
+define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min', './Clock'], function (exports, _inferno, _infernoComponent, _Clock) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -90,14 +90,11 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     className: {
       arg: 0
     },
-    attrs: {
+    events: {
       arg: 1
     },
-    events: {
-      arg: 2
-    },
     children: {
-      arg: 3
+      arg: 2
     }
   });
 
@@ -112,12 +109,8 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
   });
 
   var bp10 = _inferno2.default.createBlueprint({
-    tag: 'div',
-    className: {
+    tag: {
       arg: 0
-    },
-    children: {
-      arg: 1
     }
   });
 
@@ -166,76 +159,37 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
       var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CommandPanel).call(this, props));
 
       _this.state = {
-        "currentTime": undefined,
-        "expandedCommands": false,
-        "timeInitialized": false
+        "expandedCommands": false
       };
       return _this;
     }
 
     _createClass(CommandPanel, [{
-      key: 'componentDidMount',
-      value: function componentDidMount() {
-        var _this2 = this;
-
-        setTimeout(function () {
-          _this2.updateClock();
-          var timer = setInterval(_this2.updateClock.bind(_this2), 1000);
-        }, 1000);
-      }
-    }, {
       key: 'handleCommand',
-      value: function handleCommand(event) {
-        var command = event.target.getAttribute('data-command').toLowerCase();
-        var disabled = event.target.className.indexOf('disabled') !== -1;
-
-        if (disabled) {
+      value: function handleCommand(command, disabled, event) {
+        if (disabled !== false) {
           window.notifications.generate(command + ' is disabled on this system.', "error");
+          return false;
         }
-
-        return false;
 
         if (command === "shutdown") {
+          window.notifications.generate("Shutting down.");
           window.lightdm.shutdown();
         } else if (command === "hibernate") {
+          window.notifications.generate("Hibernating system.");
           window.lightdm.hibernate();
         } else if (command === "reboot") {
+          window.notifications.generate("Rebooting system.");
           window.lightdm.restart();
         } else if (command === "sleep") {
+          window.notifications.generate("Suspending system.");
           window.lightdm.suspend();
-        }
-      }
-    }, {
-      key: 'updateClock',
-      value: function updateClock() {
-        var _this3 = this;
-
-        var padZeroes = function padZeroes(i) {
-          return i < 10 ? "0" + i : i;
-        };
-
-        var now = new Date();
-        var hours = padZeroes(now.getHours());
-        var minutes = padZeroes(now.getMinutes());
-        var formattedTime = hours + ':' + minutes;
-
-        this.setState({
-          "currentTime": formattedTime
-        });
-
-        // Cycle through a render pass once in order for the fadeIn animation to play properly.
-        if (this.state.timeInitialized === false) {
-          setTimeout(function () {
-            _this3.setState({
-              "timeInitialized": true
-            });
-          }, 100);
         }
       }
     }, {
       key: 'generateCommands',
       value: function generateCommands() {
-        var _this4 = this;
+        var _this2 = this;
 
         var commands = {
           "Shutdown": window.lightdm.can_shutdown,
@@ -244,14 +198,16 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
           "Sleep": window.lightdm.can_suspend
         };
 
+        // Filter out commands we can't execute.
         var enabledCommands = Object.keys(commands).map(function (key) {
           return commands[key] ? key : false;
         }).filter(function (command) {
           return command !== false;
         });
 
+        // Are both hibernation and suspend disabled?
+        // Add the row back and disable it so that the user is aware of what's happening.
         if (window.lightdm.can_suspend === false && window.lightdm.can_hibernate === false) {
-          // Add the row back and disable it so that the user is aware of what's happening.
           enabledCommands.push("Sleep.disabled");
         }
 
@@ -273,9 +229,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
           });
 
           return bp0(classes.join(' '), {
-            'data-command': command
-          }, {
-            onclick: _this4.handleCommand
+            onclick: _this2.handleCommand.bind(_this2, command, disabled)
           }, [bp1(bp2()), bp3(command)]);
         });
 
@@ -287,16 +241,9 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
       key: 'render',
       value: function render() {
         var hostname = window.lightdm.hostname;
-        var currentTime = this.state.currentTime;
         var commands = this.generateCommands();
 
-        var currentTimeClasses = ['right', 'clock'];
-
-        if (this.state.timeInitialized) {
-          currentTimeClasses.push('loaded');
-        }
-
-        return bp5([bp6(bp7()), commands, bp8([bp9(hostname), bp10(currentTimeClasses.join(' '), currentTime)])]);
+        return bp5([bp6(bp7()), commands, bp8([bp9(hostname), bp10(_Clock.Clock)])]);
       }
     }]);
 

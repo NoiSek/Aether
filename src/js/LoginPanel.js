@@ -284,8 +284,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
           "dayValue": undefined,
           "formattedDayValue": undefined,
           "monthName": undefined,
-          "monthValue": undefined,
-          "updateDelay": false
+          "monthValue": undefined
         },
         "activeUser": undefined,
         "activeSession": undefined,
@@ -296,20 +295,9 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
 
     _createClass(LoginPanel, [{
-      key: 'componentDidMount',
-      value: function componentDidMount() {
-        var _this2 = this;
-
-        // Wait one second, so that the clock can render first and they fade in sequentially rather than in parallel.
-        setTimeout(function () {
-          _this2.setDate();
-          setInterval(_this2.setDate.bind(_this2), 30 * 1000);
-        }, 2000);
-      }
-    }, {
       key: 'componentWillMount',
       value: function componentWillMount() {
-        var _this3 = this;
+        var _this2 = this;
 
         var defaultUser = this.findDefaultUser();
         var defaultSession = this.findDefaultSession(defaultUser);
@@ -319,12 +307,24 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
           "activeSession": defaultSession
         });
 
-        // Functions that lightdm needs
+        // Wait two seconds, so that the clock can render first and they fade in sequentially rather than in parallel.
+        setTimeout(function () {
+          _this2.setDate();
+
+          var date = _this2.state.date;
+          date.initialized = true;
+
+          _this2.setState({
+            "date": date
+          });
+        }, 2000);
+
+        // Define functions required in the global scope by LightDM.
         window.show_prompt = function (text, type) {
           if (type === "text") {
             window.notifications.generate(text);
           } else if (type === "password") {
-            lightdm.respond(_this3.state.password);
+            lightdm.respond(_this2.state.password);
           }
         };
         window.show_message = function (text, type) {
@@ -332,7 +332,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
         };
         window.authentication_complete = function () {
           if (lightdm.is_authenticated) {
-            lightdm.start_session_sync(_this3.state.activeSession.key);
+            lightdm.start_session_sync(_this2.state.activeSession.key);
           }
         };
         window.autologin_timer_expired = function () {
@@ -415,6 +415,8 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }, {
       key: 'setDate',
       value: function setDate() {
+        var _this3 = this;
+
         var dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
         var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -449,48 +451,37 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
         this.setState({
           "date": date
         });
+
+        setTimeout(function () {
+          _this3.setDate();
+        }, 30 * 1000);
       }
     }, {
       key: 'generateDateString',
       value: function generateDateString() {
-        var _this4 = this;
-
         var date = this.state.date;
-        var dateString = false;
 
-        if (date.initialized === true) {
-          dateString = bp0([bp1(date.dayName), ', the ', bp2(date.formattedDayValue), ' of ', bp3(date.monthName)]);
-        }
-
-        // Cycle through a render pass once in order for the fadeIn animation to play properly.
-        if (date.updateDelay === false) {
-          setTimeout(function () {
-            date.updateDelay = true;
-            _this4.setState({
-              "date": date
-            });
-          }, 100);
-        }
+        var dateString = bp0([bp1(date.dayName), ', the ', bp2(date.formattedDayValue), ' of ', bp3(date.monthName)]);
 
         return dateString;
       }
     }, {
       key: 'generateSessionDropdown',
       value: function generateSessionDropdown() {
-        var _this5 = this;
+        var _this4 = this;
 
         // Sort by active, then alphabetical.
         // Doing this requires using sort in reverse.
         var rows = window.lightdm.sessions.sort(function (a, b) {
           return a.name.toUpperCase() > b.name.toUpperCase();
         }).sort(function (a, b) {
-          return b.key.toLowerCase() === _this5.state.activeSession.key.toLowerCase() ? 1 : -1;
+          return b.key.toLowerCase() === _this4.state.activeSession.key.toLowerCase() ? 1 : -1;
         }).map(function (session) {
           var classes = ["dropdown-item"];
-          var eventHandler = _this5.setActiveSession.bind(_this5, session.key);
+          var eventHandler = _this4.setActiveSession.bind(_this4, session.key);
 
-          if (session.key === _this5.state.activeSession.key) {
-            eventHandler = _this5.handleDropdownClick.bind(_this5);
+          if (session.key === _this4.state.activeSession.key) {
+            eventHandler = _this4.handleDropdownClick.bind(_this4);
             classes.push("active");
           }
 
@@ -536,7 +527,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
         var dateClasses = ["right", "date"];
         var dateString = this.generateDateString();
 
-        if (this.state.date.initialized === true && this.state.date.updateDelay === true) {
+        if (this.state.date.initialized === true) {
           dateClasses.push("loaded");
         }
 

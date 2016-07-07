@@ -13,21 +13,12 @@ export class LoginPanel extends Component {
         "formattedDayValue": undefined,
         "monthName": undefined,
         "monthValue": undefined,
-        "updateDelay": false
       },
       "activeUser": undefined,
       "activeSession": undefined,
       "password": "",
       "dropdownActive": false
     };
-  }
-
-  componentDidMount() {
-    // Wait one second, so that the clock can render first and they fade in sequentially rather than in parallel.
-    setTimeout(() => {
-      this.setDate();
-      setInterval(this.setDate.bind(this), 30 * 1000)
-    }, 2000);
   }
 
   componentWillMount() {
@@ -39,7 +30,19 @@ export class LoginPanel extends Component {
       "activeSession": defaultSession
     });
 
-    // Functions that lightdm needs
+    // Wait two seconds, so that the clock can render first and they fade in sequentially rather than in parallel.
+    setTimeout(() => {
+      this.setDate();
+      
+      let date = this.state.date;
+      date.initialized = true;
+
+      this.setState({
+        "date": date
+      });
+    }, 2000);
+
+    // Define functions required in the global scope by LightDM.
     window.show_prompt = (text, type) => {
       if (type === "text") {
         window.notifications.generate(text);
@@ -175,29 +178,20 @@ export class LoginPanel extends Component {
     this.setState({
       "date": date
     });
+
+    setTimeout(() => {
+      this.setDate();
+    }, 30 * 1000);
   }
 
   generateDateString() {
     let date = this.state.date;
-    let dateString = false;
-
-    if (date.initialized === true) {
-      dateString = (
-        <span>
-          <em>{ date.dayName }</em>, the <em>{ date.formattedDayValue }</em> of <em>{ date.monthName }</em>
-        </span>
-      );
-    }
-
-    // Cycle through a render pass once in order for the fadeIn animation to play properly.
-    if (date.updateDelay === false) {
-      setTimeout(() => {
-        date.updateDelay = true;
-        this.setState({
-          "date": date
-        });
-      }, 100);
-    }
+    
+    let dateString = (
+      <span>
+        <em>{ date.dayName }</em>, the <em>{ date.formattedDayValue }</em> of <em>{ date.monthName }</em>
+      </span>
+    );
 
     return dateString;
   }
@@ -263,7 +257,7 @@ export class LoginPanel extends Component {
     let dateClasses = ["right", "date"];
     let dateString = this.generateDateString();
 
-    if (this.state.date.initialized === true && this.state.date.updateDelay === true) {
+    if (this.state.date.initialized === true) {
       dateClasses.push("loaded");
     }
 
