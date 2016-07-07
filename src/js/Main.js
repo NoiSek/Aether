@@ -1,10 +1,10 @@
-define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min', 'src/dist/js/inferno-dom.min', './LoginPanel'], function (exports, _inferno, _infernoComponent, _infernoDom, _LoginPanel) {
+define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min', 'src/dist/js/inferno-dom.min', './Notifications', './LoginPanel'], function (exports, _inferno, _infernoComponent, _infernoDom, _Notifications, _LoginPanel) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = main;
+  exports.default = Main;
 
   var _inferno2 = _interopRequireDefault(_inferno);
 
@@ -54,9 +54,12 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
-  function main() {
+  function Main() {
     setHostname();
     initClock();
     _infernoDom2.default.render(bp0(_LoginPanel.LoginPanel), document.getElementById("inferno-mount"));
+
+    // Add notifications to the global scope for error handling
+    window.notifications = new _Notifications.Notifications();
   }
 });

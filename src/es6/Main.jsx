@@ -1,6 +1,8 @@
 import Inferno from 'src/dist/js/inferno.min';
 import Component from 'src/dist/js/inferno-component.min';
 import InfernoDOM from 'src/dist/js/inferno-dom.min';
+
+import { Notifications } from './Notifications';
 import { LoginPanel } from './LoginPanel';
 
 function initClock() {
@@ -31,8 +33,11 @@ function setHostname() {
   hostname.innerText = window.lightdm.hostname;
 }
 
-export default function main() {
+export default function Main() {
   setHostname();
   initClock();
   InfernoDOM.render(<LoginPanel />, document.getElementById("inferno-mount"));
+
+  // Add notifications to the global scope for error handling
+  window.notifications = new Notifications();
 }

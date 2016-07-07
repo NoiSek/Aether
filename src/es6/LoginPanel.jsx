@@ -14,7 +14,10 @@ export class LoginPanel extends Component {
         "monthName": undefined,
         "monthValue": undefined,
         "updateDelay": false
-      }
+      },
+      "activeUser": undefined,
+      "activeSession": undefined,
+      "password": ""
     };
   }
 
@@ -23,8 +26,83 @@ export class LoginPanel extends Component {
     setInterval(this.setDate.bind(this), 30 * 1000);
   }
 
+  componentWillMount() {
+    let defaultUser = this.findDefaultUser();
+    let defaultSession = this.findDefaultSession(defaultUser);
+
+    this.setState({
+      "activeUser": defaultUser,
+      "activeSession": defaultSession
+    });
+
+    // Functions that lightdm needs
+    window.show_prompt = (text, type) => {
+      if (type === "text") {
+        window.notifications.generate(text);
+      } else if (type === "password") {
+        lightdm.respond(this.state.password);
+      }
+    };
+    window.show_message = (text, type) => {
+      window.notifications.generate(text, type);
+    };
+    window.authentication_complete = () => {
+      if (lightdm.is_authenticated) {
+        lightdm.start_session_sync(this.state.activeSession.key);
+      }
+    };
+    window.autologin_timer_expired = () => {
+      window.notifications.generate(text, type);
+    };
+  }
+
+  findDefaultUser() {
+    if (window.lightdm.lock_hint === true) {
+      return window.lightdm.users.filter((user) => user.logged_in)[0];
+    } else {
+      if(this.state.activeUser !== undefined) {
+        return this.state.activeUser;
+      } else if (window.lightdm.select_user !== undefined && window.lightdm.select_user !== null) {
+        window.lightdm.users.filter((user) => user.name === window.lightdm.select_user)[0];
+      } else {
+        return window.lightdm.users[0];
+      }
+    }
+  }
+
+  findDefaultSession(user) {
+    return this.findSession(window.lightdm.default_session) || this.findSession(user.session) || window.lightdm.sessions[0];
+  }
+
+  findSession(sessionName) {
+    if (sessionName === undefined) {
+      return false;
+    }
+    return window.lightdm.sessions.filter((session) => session.name.toLowerCase() === sessionName.toLowerCase() || session.key.toLowerCase() === sessionName.toLowerCase())[0];
+  }
+
+  handleLoginSubmit(event) {
+    event.preventDefault();
+    lightdm.authenticate(this.state.activeUser.name);
+  }
+
+  handlePasswordInput(event) {
+    this.setState({
+      "password": event.target.value
+    });
+  }
+
+  setActiveSession(session) {
+    if (typeof session === typeof String()) {
+      session = this.findSession(session);
+    }
+
+    this.setState({
+      "activeSession": session
+    });
+  }
+
   setDate() {
-    console.log("Running setDate");
     let dayNames = [
       "Sunday",
       "Monday",
@@ -107,6 +185,54 @@ export class LoginPanel extends Component {
     return dateString;
   }
 
+  generateSessionDropdown() {
+    // Sort by active, then alphabetical. 
+    // Doing this requires using sort in reverse.
+    let rows = window.lightdm.sessions
+    .sort((a, b) => {
+      return a.name.toUpperCase() > b.name.toUpperCase();
+    })
+    .sort((a, b) => {
+      return (b.key.toLowerCase() === this.state.activeSession.key.toLowerCase()) ? 1 : -1;
+    })
+    .map((session) => {
+      let classes = ["dropdown-item"];
+      let eventHandler = this.setActiveSession.bind(this, session.key);
+
+      if (session.key === this.state.activeSession.key) {
+        eventHandler = false;
+        classes.push("active");
+      }
+
+      return (
+        <div className={ classes.join(' ') } key={ session.key } onClick={ eventHandler }>{ session.name }</div>
+      );
+    });
+
+    return (
+      <div className="dropdown user-session">
+        { rows }
+      </div>
+    );
+  }
+
+  generateSwitchUserButton() {
+    let classes = ['left'];
+
+    let eventHandler = () => {
+      alert("Not yet implemented! Complain on Github!");
+    };
+
+    if (window.lightdm.users.length < 20) {
+      eventHandler = false;
+      classes.push("disabled");
+    }
+
+    return (
+      <div className={ classes.join(' ') } onClick={ eventHandler }>SWITCH USER</div>
+    );
+  }
+
   render() {
     let dateClasses = ["right", "date"];
     let dateString = this.generateDateString();
@@ -115,25 +241,32 @@ export class LoginPanel extends Component {
       dateClasses.push("loaded");
     }
 
+    let sessionDropdown = this.generateSessionDropdown();
+    let switchUserButton = this.generateSwitchUserButton();
+
     return (
       <div>
         <div className="avatar-container">
           <div className="avatar-background">
-            <img className="user-avatar" src="src/img/default-user.png" />
+            <div className="avatar-mask">
+              <img className="user-avatar" src={ this.state.activeUser.image } />
+            </div>
           </div>
         </div>
-        <form className="login-form">
-          <div className="user-username">LannisterX</div>
+        <form className="login-form" onSubmit={ this.handleLoginSubmit.bind(this) }>
+          <div className="user-username">{ this.state.activeUser.display_name }</div>
           <div className="user-password-container">
-            <input type="password" placeholder="*******************" className="user-password" />
+            <input 
+              type="password" 
+              placeholder="*******************" 
+              className="user-password" 
+              value={ this.state.password }
+              onChange={ this.handlePasswordInput.bind(this) }
+            />
           </div>
           <div className="submit-row">
             <div className="left">
-              <div className="dropdown user-session">
-                <div className="dropdown-item active">deepin</div>
-                <div className="dropdown-item">gnome</div>
-                <div className="dropdown-item">xfce</div>
-              </div>
+              { sessionDropdown }
             </div>
             <div className="right">
               <input type="submit" value="GO" className="submit-button" />
@@ -141,7 +274,7 @@ export class LoginPanel extends Component {
           </div>
         </form>
         <div className="bottom">
-          <div className="left">SWITCH USER</div>
+          { switchUserButton }
           <div className={ dateClasses.join(' ') }>
             { dateString }
           </div>

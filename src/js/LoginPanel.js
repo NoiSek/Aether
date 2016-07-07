@@ -16,6 +16,12 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     };
   }
 
+  var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
+  };
+
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
@@ -92,21 +98,50 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
-  var bp22 = _inferno2.default.createBlueprint({
+  var bp4 = _inferno2.default.createBlueprint({
+    tag: 'div',
+    key: {
+      arg: 0
+    },
+    className: {
+      arg: 1
+    },
+    events: {
+      arg: 2
+    },
+    children: {
+      arg: 3
+    }
+  });
+
+  var bp5 = _inferno2.default.createBlueprint({
+    tag: 'div',
+    className: 'dropdown user-session',
+    children: {
+      arg: 0
+    }
+  });
+
+  var bp6 = _inferno2.default.createBlueprint({
+    tag: 'div',
+    className: {
+      arg: 0
+    },
+    events: {
+      arg: 1
+    },
+    children: {
+      arg: 2
+    }
+  });
+
+  var bp21 = _inferno2.default.createBlueprint({
     tag: 'div',
     className: {
       arg: 0
     },
     children: {
       arg: 1
-    }
-  });
-
-  var bp21 = _inferno2.default.createBlueprint({
-    tag: 'div',
-    className: 'left',
-    children: {
-      arg: 0
     }
   });
 
@@ -137,7 +172,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
 
   var bp17 = _inferno2.default.createBlueprint({
     tag: 'div',
-    className: 'dropdown-item',
+    className: 'left',
     children: {
       arg: 0
     }
@@ -145,54 +180,24 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
 
   var bp16 = _inferno2.default.createBlueprint({
     tag: 'div',
-    className: 'dropdown-item',
-    children: {
-      arg: 0
-    }
-  });
-
-  var bp15 = _inferno2.default.createBlueprint({
-    tag: 'div',
-    className: 'dropdown-item active',
-    children: {
-      arg: 0
-    }
-  });
-
-  var bp14 = _inferno2.default.createBlueprint({
-    tag: 'div',
-    className: 'dropdown user-session',
-    children: {
-      arg: 0
-    }
-  });
-
-  var bp13 = _inferno2.default.createBlueprint({
-    tag: 'div',
-    className: 'left',
-    children: {
-      arg: 0
-    }
-  });
-
-  var bp12 = _inferno2.default.createBlueprint({
-    tag: 'div',
     className: 'submit-row',
     children: {
       arg: 0
     }
   });
 
-  var bp11 = _inferno2.default.createBlueprint({
+  var bp15 = _inferno2.default.createBlueprint({
     tag: 'input',
     className: 'user-password',
     attrs: {
-      type: 'password',
-      placeholder: '*******************'
+      arg: 0
+    },
+    events: {
+      arg: 1
     }
   });
 
-  var bp10 = _inferno2.default.createBlueprint({
+  var bp14 = _inferno2.default.createBlueprint({
     tag: 'div',
     className: 'user-password-container',
     children: {
@@ -200,7 +205,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
-  var bp9 = _inferno2.default.createBlueprint({
+  var bp13 = _inferno2.default.createBlueprint({
     tag: 'div',
     className: 'user-username',
     children: {
@@ -208,23 +213,34 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
-  var bp8 = _inferno2.default.createBlueprint({
+  var bp12 = _inferno2.default.createBlueprint({
     tag: 'form',
     className: 'login-form',
+    events: {
+      arg: 0
+    },
+    children: {
+      arg: 1
+    }
+  });
+
+  var bp11 = _inferno2.default.createBlueprint({
+    tag: 'img',
+    className: 'user-avatar',
+    attrs: {
+      arg: 0
+    }
+  });
+
+  var bp10 = _inferno2.default.createBlueprint({
+    tag: 'div',
+    className: 'avatar-mask',
     children: {
       arg: 0
     }
   });
 
-  var bp7 = _inferno2.default.createBlueprint({
-    tag: 'img',
-    className: 'user-avatar',
-    attrs: {
-      src: 'src/img/default-user.png'
-    }
-  });
-
-  var bp6 = _inferno2.default.createBlueprint({
+  var bp9 = _inferno2.default.createBlueprint({
     tag: 'div',
     className: 'avatar-background',
     children: {
@@ -232,7 +248,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
-  var bp5 = _inferno2.default.createBlueprint({
+  var bp8 = _inferno2.default.createBlueprint({
     tag: 'div',
     className: 'avatar-container',
     children: {
@@ -240,7 +256,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
-  var bp4 = _inferno2.default.createBlueprint({
+  var bp7 = _inferno2.default.createBlueprint({
     tag: 'div',
     children: {
       arg: 0
@@ -265,8 +281,14 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
           "monthName": undefined,
           "monthValue": undefined,
           "updateDelay": false
-        }
+        },
+        "activeUser": undefined,
+        "activeSession": undefined,
+        "password": ""
       };
+
+      // Example User: {"display_name":"captain","language":"en_US.utf8","real_name":"","layout":null,"image":"/var/lib/AccountsService/icons/local/captain-d795e09269c1f3a9efd0f37da33c67ec","home_directory":"/home/captain","name":"captain","logged_in":false,"session":"deepin"}
+      // Example Session: {"name":"Deepin","key":"deepin","comment":"Deepin Desktop Environment"}
       return _this;
     }
 
@@ -277,9 +299,102 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
         setInterval(this.setDate.bind(this), 30 * 1000);
       }
     }, {
+      key: 'componentWillMount',
+      value: function componentWillMount() {
+        var _this2 = this;
+
+        var defaultUser = this.findDefaultUser();
+        var defaultSession = this.findDefaultSession(defaultUser);
+
+        this.setState({
+          "activeUser": defaultUser,
+          "activeSession": defaultSession
+        });
+
+        // Functions that lightdm needs
+        window.show_prompt = function (text, type) {
+          if (type === "text") {
+            window.notifications.generate(text);
+          } else if (type === "password") {
+            lightdm.respond(_this2.state.password);
+          }
+        };
+        window.show_message = function (text, type) {
+          window.notifications.generate(text, type);
+        };
+        window.authentication_complete = function () {
+          window.notifications.generate("Welcome back.");
+          if (lightdm.is_authenticated) {
+            lightdm.start_session_sync(_this2.state.activeSession.key);
+          }
+        };
+        window.autologin_timer_expired = function () {
+          window.notifications.generate(text, type);
+        };
+      }
+    }, {
+      key: 'findDefaultUser',
+      value: function findDefaultUser() {
+        if (window.lightdm.lock_hint === true) {
+          return window.lightdm.users.filter(function (user) {
+            return user.logged_in;
+          })[0];
+        } else {
+          if (this.state.activeUser !== undefined) {
+            return this.state.activeUser;
+          } else if (window.lightdm.select_user !== undefined && window.lightdm.select_user !== null) {
+            window.lightdm.users.filter(function (user) {
+              return user.name === window.lightdm.select_user;
+            })[0];
+          } else {
+            return window.lightdm.users[0];
+          }
+        }
+      }
+    }, {
+      key: 'findDefaultSession',
+      value: function findDefaultSession(user) {
+        console.log("OLK");
+        console.log(typeof user === 'undefined' ? 'undefined' : _typeof(user));
+        return this.findSession(window.lightdm.default_session) || this.findSession(user.session) || window.lightdm.sessions[0];
+      }
+    }, {
+      key: 'findSession',
+      value: function findSession(sessionName) {
+        if (sessionName === undefined) {
+          return false;
+        }
+        return window.lightdm.sessions.filter(function (session) {
+          return session.name.toLowerCase() === sessionName.toLowerCase() || session.key.toLowerCase() === sessionName.toLowerCase();
+        })[0];
+      }
+    }, {
+      key: 'handleLoginSubmit',
+      value: function handleLoginSubmit(event) {
+        event.preventDefault();
+        lightdm.authenticate(this.state.activeUser.name);
+      }
+    }, {
+      key: 'handlePasswordInput',
+      value: function handlePasswordInput(event) {
+        this.setState({
+          "password": event.target.value
+        });
+      }
+    }, {
+      key: 'setActiveSession',
+      value: function setActiveSession(session) {
+        if ((typeof session === 'undefined' ? 'undefined' : _typeof(session)) === _typeof(String())) {
+          session = this.findSession(session);
+        }
+
+        this.setState({
+          "activeSession": session
+        });
+      }
+    }, {
       key: 'setDate',
       value: function setDate() {
-        console.log("Running setDate");
         var dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
         var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -318,7 +433,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }, {
       key: 'generateDateString',
       value: function generateDateString() {
-        var _this2 = this;
+        var _this3 = this;
 
         var date = this.state.date;
         var dateString = false;
@@ -331,13 +446,58 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
         if (date.updateDelay === false) {
           setTimeout(function () {
             date.updateDelay = true;
-            _this2.setState({
+            _this3.setState({
               "date": date
             });
           }, 100);
         }
 
         return dateString;
+      }
+    }, {
+      key: 'generateSessionDropdown',
+      value: function generateSessionDropdown() {
+        var _this4 = this;
+
+        // Sort by active, then alphabetical.
+        // Doing this requires using sort in reverse.
+        var rows = window.lightdm.sessions.sort(function (a, b) {
+          return a.name.toUpperCase() > b.name.toUpperCase();
+        }).sort(function (a, b) {
+          return b.key.toLowerCase() === _this4.state.activeSession.key.toLowerCase() ? 1 : -1;
+        }).map(function (session) {
+          var classes = ["dropdown-item"];
+          var eventHandler = _this4.setActiveSession.bind(_this4, session.key);
+
+          if (session.key === _this4.state.activeSession.key) {
+            eventHandler = false;
+            classes.push("active");
+          }
+
+          return bp4(session.key, classes.join(' '), {
+            onclick: eventHandler
+          }, session.name);
+        });
+
+        return bp5(rows);
+      }
+    }, {
+      key: 'generateSwitchUserButton',
+      value: function generateSwitchUserButton() {
+        var classes = ['left'];
+
+        var eventHandler = function eventHandler() {
+          alert("Not yet implemented! Complain on Github!");
+        };
+
+        if (window.lightdm.users.length < 20) {
+          eventHandler = false;
+          classes.push("disabled");
+        }
+
+        return bp6(classes.join(' '), {
+          onclick: eventHandler
+        }, 'SWITCH USER');
       }
     }, {
       key: 'render',
@@ -349,7 +509,20 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
           dateClasses.push("loaded");
         }
 
-        return bp4([bp5(bp6(bp7())), bp8([bp9('LannisterX'), bp10(bp11()), bp12([bp13(bp14([bp15('deepin'), bp16('gnome'), bp17('xfce')])), bp18(bp19())])]), bp20([bp21('SWITCH USER'), bp22(dateClasses.join(' '), dateString)])]);
+        var sessionDropdown = this.generateSessionDropdown();
+        var switchUserButton = this.generateSwitchUserButton();
+
+        return bp7([bp8(bp9(bp10(bp11({
+          src: this.state.activeUser.image
+        })))), bp12({
+          onsubmit: this.handleLoginSubmit.bind(this)
+        }, [bp13(this.state.activeUser.display_name), bp14(bp15({
+          type: 'password',
+          placeholder: '*******************',
+          value: this.state.password
+        }, {
+          onchange: this.handlePasswordInput.bind(this)
+        })), bp16([bp17(sessionDropdown), bp18(bp19())])]), bp20([switchUserButton, bp21(dateClasses.join(' '), dateString)])]);
       }
     }]);
 

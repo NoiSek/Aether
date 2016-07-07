@@ -212,14 +212,20 @@ body
       transform: translateX(-10px)
       transition: all 1s
 
+    .avatar-mask
+      border-radius: 100%
+      overflow: hidden
+
+      height: 125px
+      width: 125px
+
+      transform: translate(20px, 15px)
+
     .user-avatar
       margin: 0 auto
 
       height: 125px
       width: 125px
-
-      backface-visibility: hidden
-      transform: translate(10px, 15px)
 
   .login-form
     height: 45%
@@ -298,6 +304,7 @@ body
         outline: none
         
         position: relative
+        top: -1px
         left: 6px
         
         font-weight: bold
@@ -358,6 +365,16 @@ body
 
       @extend .noselect
 
+      &:hover
+        cursor: pointer
+
+      &.disabled
+        opacity: 0.4
+
+      &.disabled:hover
+        cursor: not-allowed
+
+
     .right
       position: relative
       top: 40px
@@ -376,3 +393,43 @@ body
       
       em
         font-weight: bold
+
+.notifications-container
+  position: absolute
+  top: 10px
+
+  overflow: hidden
+
+  width: 100%
+
+  .notification
+    color: #2f0909
+    background: rgba(252,237,238,0.75)
+    border: 1px solid rgba(255, 255, 255, 0.15)
+
+    position: relative
+    top: -200px
+    
+    padding: 15px
+    margin: 0 auto 25px auto
+
+    width: 80vw
+
+    z-index: 3
+
+    animation: drop-in 0.5s forwards
+    border-radius: 2px
+    transition: opacity 0.5s
+
+    &.error
+      color: #fff
+      background: rgba(180, 30, 30, 0.45)
+
+    &.fadeout
+      opacity: 0
+
+@keyframes drop-in
+  0%
+    top: -200px
+  100%
+    top: 0px

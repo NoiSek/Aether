@@ -192,12 +192,16 @@ body {
       width: 154px;
       transform: translateX(-10px);
       transition: all 1s; }
+    .right-col .avatar-container .avatar-mask {
+      border-radius: 100%;
+      overflow: hidden;
+      height: 125px;
+      width: 125px;
+      transform: translate(20px, 15px); }
     .right-col .avatar-container .user-avatar {
       margin: 0 auto;
       height: 125px;
-      width: 125px;
-      backface-visibility: hidden;
-      transform: translate(10px, 15px); }
+      width: 125px; }
   .right-col .login-form {
     height: 45%;
     display: block; }
@@ -250,6 +254,7 @@ body {
         border-radius: 4px;
         outline: none;
         position: relative;
+        top: -1px;
         left: 6px;
         font-weight: bold;
         font-size: 8pt;
@@ -285,6 +290,12 @@ body {
       width: 50%; }
     .right-col .bottom .left {
       font-weight: bold; }
+      .right-col .bottom .left:hover {
+        cursor: pointer; }
+      .right-col .bottom .left.disabled {
+        opacity: 0.4; }
+      .right-col .bottom .left.disabled:hover {
+        cursor: not-allowed; }
     .right-col .bottom .right {
       position: relative;
       top: 40px;
@@ -297,5 +308,35 @@ body {
         opacity: 1; }
       .right-col .bottom .right em {
         font-weight: bold; }
+
+.notifications-container {
+  position: absolute;
+  top: 10px;
+  overflow: hidden;
+  width: 100%; }
+  .notifications-container .notification {
+    color: #2f0909;
+    background: rgba(252, 237, 238, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    position: relative;
+    top: -200px;
+    padding: 15px;
+    margin: 0 auto 25px auto;
+    width: 80vw;
+    z-index: 3;
+    animation: drop-in 0.5s forwards;
+    border-radius: 2px;
+    transition: opacity 0.5s; }
+    .notifications-container .notification.error {
+      color: #fff;
+      background: rgba(180, 30, 30, 0.45); }
+    .notifications-container .notification.fadeout {
+      opacity: 0; }
+
+@keyframes drop-in {
+  0% {
+    top: -200px; }
+  100% {
+    top: 0px; } }
 
 /*# sourceMappingURL=main.css.map */
