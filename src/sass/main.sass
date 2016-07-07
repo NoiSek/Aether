@@ -31,7 +31,7 @@ html
 
 body
   font-family: "Open Sans"
-  background: url("../img/backgrounds/space-1.jpg")
+  background: #963218 url("../img/backgrounds/space-1.jpg")
   background-size: cover
 
 
@@ -43,6 +43,7 @@ body
 
 .login-window
   background: $right-background-plate
+  //opacity: 0
 
   // Vertical Center
   position: absolute
@@ -55,6 +56,11 @@ body
   width: 850px
 
   border-radius: 4px
+  //transform: scale(0.7)
+
+  //animation: fade-in 0.5s forwards
+  //animation-delay: 200ms
+  //animation-timing-function: ease-out
 
   .left-col, .right-col
     float: left
@@ -83,6 +89,9 @@ body
     border-bottom-right-radius: 4px
 
 .left-col
+  & > div
+    height: 100%
+
   .distro-logo
     background: $distro-logo no-repeat center center
 
@@ -344,7 +353,7 @@ body
       border-radius: 2px
       box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05)
 
-    .left .dropdown:hover .dropdown-item
+    .left .dropdown.active .dropdown-item
       display: block
 
   .bottom
@@ -433,3 +442,11 @@ body
     top: -200px
   100%
     top: 0px
+
+@keyframes fade-in
+  0%
+    opacity: 0
+    transform: scale(0.7)
+  100%
+    opacity: 1
+    transform: scale(1)

@@ -17,13 +17,17 @@ export class LoginPanel extends Component {
       },
       "activeUser": undefined,
       "activeSession": undefined,
-      "password": ""
+      "password": "",
+      "dropdownActive": false
     };
   }
 
   componentDidMount() {
-    this.setDate();
-    setInterval(this.setDate.bind(this), 30 * 1000);
+    // Wait one second, so that the clock can render first and they fade in sequentially rather than in parallel.
+    setTimeout(() => {
+      this.setDate();
+      setInterval(this.setDate.bind(this), 30 * 1000)
+    }, 2000);
   }
 
   componentWillMount() {
@@ -81,6 +85,18 @@ export class LoginPanel extends Component {
     return window.lightdm.sessions.filter((session) => session.name.toLowerCase() === sessionName.toLowerCase() || session.key.toLowerCase() === sessionName.toLowerCase())[0];
   }
 
+  handleDropdownClick(event) {
+    this.setState({
+      "dropdownActive": true
+    });
+  }
+
+  handleDropdownLeave(event) {
+    this.setState({
+      "dropdownActive": false
+    });
+  }
+
   handleLoginSubmit(event) {
     event.preventDefault();
     lightdm.authenticate(this.state.activeUser.name);
@@ -98,7 +114,8 @@ export class LoginPanel extends Component {
     }
 
     this.setState({
-      "activeSession": session
+      "activeSession": session,
+      "dropdownActive": false
     });
   }
 
@@ -131,7 +148,7 @@ export class LoginPanel extends Component {
     let now = new Date();
 
     let dayValue = now.getDate();
-    let dayName = dayNames[dayValue];
+    let dayName = dayNames[now.getUTCDay()];
     let monthValue = now.getMonth();
     let monthName = monthNames[monthValue];
 
@@ -200,7 +217,7 @@ export class LoginPanel extends Component {
       let eventHandler = this.setActiveSession.bind(this, session.key);
 
       if (session.key === this.state.activeSession.key) {
-        eventHandler = false;
+        eventHandler = this.handleDropdownClick.bind(this);
         classes.push("active");
       }
 
@@ -209,8 +226,14 @@ export class LoginPanel extends Component {
       );
     });
 
+    let classes = ['dropdown', 'user-session'];
+
+    if (this.state.dropdownActive) {
+      classes.push('active');
+    }
+
     return (
-      <div className="dropdown user-session">
+      <div className={ classes.join(' ') } onMouseLeave={ this.handleDropdownLeave.bind(this) }>
         { rows }
       </div>
     );
@@ -234,6 +257,9 @@ export class LoginPanel extends Component {
   }
 
   render() {
+    // Do as I say, not as I do. 
+    // Having to generate this many sections is a strong indicator that they should be sub-components instead, 
+    // but they are remaining here for good reason. As a login screen, fewer dependencies to load is preferable to readability.
     let dateClasses = ["right", "date"];
     let dateString = this.generateDateString();
 

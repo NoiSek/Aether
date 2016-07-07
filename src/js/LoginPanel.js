@@ -116,9 +116,14 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
 
   var bp5 = _inferno2.default.createBlueprint({
     tag: 'div',
-    className: 'dropdown user-session',
-    children: {
+    className: {
       arg: 0
+    },
+    events: {
+      arg: 1
+    },
+    children: {
+      arg: 2
     }
   });
 
@@ -284,24 +289,27 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
         },
         "activeUser": undefined,
         "activeSession": undefined,
-        "password": ""
+        "password": "",
+        "dropdownActive": false
       };
-
-      // Example User: {"display_name":"captain","language":"en_US.utf8","real_name":"","layout":null,"image":"/var/lib/AccountsService/icons/local/captain-d795e09269c1f3a9efd0f37da33c67ec","home_directory":"/home/captain","name":"captain","logged_in":false,"session":"deepin"}
-      // Example Session: {"name":"Deepin","key":"deepin","comment":"Deepin Desktop Environment"}
       return _this;
     }
 
     _createClass(LoginPanel, [{
       key: 'componentDidMount',
       value: function componentDidMount() {
-        this.setDate();
-        setInterval(this.setDate.bind(this), 30 * 1000);
+        var _this2 = this;
+
+        // Wait one second, so that the clock can render first and they fade in sequentially rather than in parallel.
+        setTimeout(function () {
+          _this2.setDate();
+          setInterval(_this2.setDate.bind(_this2), 30 * 1000);
+        }, 2000);
       }
     }, {
       key: 'componentWillMount',
       value: function componentWillMount() {
-        var _this2 = this;
+        var _this3 = this;
 
         var defaultUser = this.findDefaultUser();
         var defaultSession = this.findDefaultSession(defaultUser);
@@ -316,16 +324,15 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
           if (type === "text") {
             window.notifications.generate(text);
           } else if (type === "password") {
-            lightdm.respond(_this2.state.password);
+            lightdm.respond(_this3.state.password);
           }
         };
         window.show_message = function (text, type) {
           window.notifications.generate(text, type);
         };
         window.authentication_complete = function () {
-          window.notifications.generate("Welcome back.");
           if (lightdm.is_authenticated) {
-            lightdm.start_session_sync(_this2.state.activeSession.key);
+            lightdm.start_session_sync(_this3.state.activeSession.key);
           }
         };
         window.autologin_timer_expired = function () {
@@ -354,8 +361,6 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }, {
       key: 'findDefaultSession',
       value: function findDefaultSession(user) {
-        console.log("OLK");
-        console.log(typeof user === 'undefined' ? 'undefined' : _typeof(user));
         return this.findSession(window.lightdm.default_session) || this.findSession(user.session) || window.lightdm.sessions[0];
       }
     }, {
@@ -367,6 +372,20 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
         return window.lightdm.sessions.filter(function (session) {
           return session.name.toLowerCase() === sessionName.toLowerCase() || session.key.toLowerCase() === sessionName.toLowerCase();
         })[0];
+      }
+    }, {
+      key: 'handleDropdownClick',
+      value: function handleDropdownClick(event) {
+        this.setState({
+          "dropdownActive": true
+        });
+      }
+    }, {
+      key: 'handleDropdownLeave',
+      value: function handleDropdownLeave(event) {
+        this.setState({
+          "dropdownActive": false
+        });
       }
     }, {
       key: 'handleLoginSubmit',
@@ -389,7 +408,8 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
         }
 
         this.setState({
-          "activeSession": session
+          "activeSession": session,
+          "dropdownActive": false
         });
       }
     }, {
@@ -402,7 +422,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
         var now = new Date();
 
         var dayValue = now.getDate();
-        var dayName = dayNames[dayValue];
+        var dayName = dayNames[now.getUTCDay()];
         var monthValue = now.getMonth();
         var monthName = monthNames[monthValue];
 
@@ -433,7 +453,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }, {
       key: 'generateDateString',
       value: function generateDateString() {
-        var _this3 = this;
+        var _this4 = this;
 
         var date = this.state.date;
         var dateString = false;
@@ -446,7 +466,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
         if (date.updateDelay === false) {
           setTimeout(function () {
             date.updateDelay = true;
-            _this3.setState({
+            _this4.setState({
               "date": date
             });
           }, 100);
@@ -457,20 +477,20 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }, {
       key: 'generateSessionDropdown',
       value: function generateSessionDropdown() {
-        var _this4 = this;
+        var _this5 = this;
 
         // Sort by active, then alphabetical.
         // Doing this requires using sort in reverse.
         var rows = window.lightdm.sessions.sort(function (a, b) {
           return a.name.toUpperCase() > b.name.toUpperCase();
         }).sort(function (a, b) {
-          return b.key.toLowerCase() === _this4.state.activeSession.key.toLowerCase() ? 1 : -1;
+          return b.key.toLowerCase() === _this5.state.activeSession.key.toLowerCase() ? 1 : -1;
         }).map(function (session) {
           var classes = ["dropdown-item"];
-          var eventHandler = _this4.setActiveSession.bind(_this4, session.key);
+          var eventHandler = _this5.setActiveSession.bind(_this5, session.key);
 
-          if (session.key === _this4.state.activeSession.key) {
-            eventHandler = false;
+          if (session.key === _this5.state.activeSession.key) {
+            eventHandler = _this5.handleDropdownClick.bind(_this5);
             classes.push("active");
           }
 
@@ -479,7 +499,15 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
           }, session.name);
         });
 
-        return bp5(rows);
+        var classes = ['dropdown', 'user-session'];
+
+        if (this.state.dropdownActive) {
+          classes.push('active');
+        }
+
+        return bp5(classes.join(' '), {
+          onmouseleave: this.handleDropdownLeave.bind(this)
+        }, rows);
       }
     }, {
       key: 'generateSwitchUserButton',
@@ -502,6 +530,9 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }, {
       key: 'render',
       value: function render() {
+        // Do as I say, not as I do.
+        // Having to generate this many sections is a strong indicator that they should be sub-components instead,
+        // but they are remaining here for good reason. As a login screen, fewer dependencies to load is preferable to readability.
         var dateClasses = ["right", "date"];
         var dateString = this.generateDateString();
 

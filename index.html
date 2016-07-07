@@ -10,42 +10,9 @@
     </div>
     <div class="login-window-container">
       <div class="login-window">
-        <div class="left-col">
-          <div class="distro-wrapper">
-            <div class="distro-logo"></div>
-          </div>
-          <div class="commands-wrapper">
-            <div class="command shutdown">
-              <div class="icon-wrapper">
-                <div class="icon"></div>
-              </div>
-              <div class="text">Shutdown</div>
-            </div>
-            <!--<div class="command hibernate">
-              <div class="icon-wrapper">
-                <div class="icon"></div>
-              </div>
-              <div class="text">Hibernate</div>
-            </div>-->
-            <div class="command reboot">
-              <div class="icon-wrapper">
-                <div class="icon"></div>
-              </div>
-              <div class="text">Reboot</div>
-            </div>
-            <div class="command sleep">
-              <div class="icon-wrapper">
-                <div class="icon"></div>
-              </div>
-              <div class="text">Sleep</div>
-            </div>
-          </div>
-          <div class="bottom">
-            <div class="left hostname"></div>
-            <div class="right clock"></div>
-          </div>
+        <div id="command-panel" class="left-col">
         </div>
-        <div id="inferno-mount" class="right-col">
+        <div id="login-panel" class="right-col">
         </div>
       </div>
     </div>
@@ -60,6 +27,10 @@
           if (window.lightdm === undefined) {
             window.lightdm = {
               "authenticate": function(){ return true; },
+              "can_hibernate": false,
+              "can_restart": true,
+              "can_shutdown": true,
+              "can_suspend": true,
               "hostname": "Mercury",
               "default_session": 'deepin',
               "lock_hint": false,
