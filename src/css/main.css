@@ -75,8 +75,7 @@ html {
 
 body {
   font-family: "Open Sans";
-  background: #963218 url("../img/backgrounds/space-1.jpg");
-  background-size: cover; }
+  background: #222; }
 
 .login-window-container {
   position: relative;
@@ -120,11 +119,50 @@ body {
   background: url("../img/arch-logo.png") no-repeat center center;
   margin: 0px auto;
   height: 125px;
-  width: 125px; }
+  width: 125px;
+  transition: opacity 400ms; }
+  .left-col .distro-logo:hover {
+    cursor: pointer; }
+  .left-col .distro-logo:active {
+    opacity: 0.8; }
 .left-col .distro-wrapper {
   padding-top: 35px;
   padding-bottom: 90px;
   height: 52%; }
+  .left-col .distro-wrapper .options {
+    position: relative;
+    top: -100px;
+    opacity: 0; }
+    .left-col .distro-wrapper .options.active {
+      animation: drop-in-options 200ms forwards;
+      animation-timing-function: ease-out; }
+    .left-col .distro-wrapper .options .button-accept, .left-col .distro-wrapper .options .button-reject {
+      background: rgba(0, 0, 0, 0.2);
+      position: relative;
+      opacity: 0.4;
+      text-align: center;
+      margin-top: 10px;
+      padding: 7px 8px;
+      height: 30px;
+      width: 30px;
+      border-radius: 100%; }
+      .left-col .distro-wrapper .options .button-accept:hover, .left-col .distro-wrapper .options .button-reject:hover {
+        cursor: pointer;
+        opacity: 1; }
+    .left-col .distro-wrapper .options .button-accept {
+      float: right;
+      left: -15%; }
+      .left-col .distro-wrapper .options .button-accept:hover {
+        background: #6e9200; }
+    .left-col .distro-wrapper .options .button-reject {
+      float: left;
+      left: 15%; }
+      .left-col .distro-wrapper .options .button-reject:hover {
+        background: #b93300; }
+  .left-col .distro-wrapper .options-wrapper {
+    overflow: hidden;
+    height: 45px;
+    width: 100%; }
 .left-col .command {
   margin-bottom: 25px;
   transition: all 0.5s; }
@@ -211,7 +249,8 @@ body {
       width: 125px; }
   .right-col .login-form {
     height: 45%;
-    display: block; }
+    display: block;
+    z-index: 2; }
     .right-col .login-form .user-username {
       text-align: center;
       text-transform: capitalize;
@@ -239,7 +278,9 @@ body {
         color: rgba(255, 255, 255, 0.4); }
     .right-col .login-form .submit-row {
       margin: 0 auto;
-      width: 200px; }
+      width: 200px;
+      position: absolute;
+      left: 162.5px; }
       .right-col .login-form .submit-row .left, .right-col .login-form .submit-row .right {
         display: inline-block;
         float: left; }
@@ -247,9 +288,8 @@ body {
         width: 80%; }
       .right-col .login-form .submit-row .left .dropdown {
         font-size: 9pt;
-        font-style: italic;
-        font-weight: bold;
-        width: 95%; }
+        width: 95%;
+        z-index: 2; }
         .right-col .login-form .submit-row .left .dropdown:hover {
           cursor: pointer; }
       .right-col .login-form .submit-row .right {
@@ -269,26 +309,35 @@ body {
         .right-col .login-form .submit-row .right .submit-button:hover {
           cursor: pointer;
           background: rgba(255, 255, 255, 0.5); }
+    .right-col .login-form .submit-row-container {
+      position: relative; }
     .right-col .login-form .left .dropdown .dropdown-item {
-      color: #eee;
+      color: #525252;
       display: none;
-      background: rgba(255, 255, 255, 0.2);
-      padding: 8px 10px;
-      z-index: 2; }
+      background: rgba(255, 255, 255, 0.9);
+      padding: 8px 10px; }
       .right-col .login-form .left .dropdown .dropdown-item:hover {
-        background: rgba(255, 255, 255, 0.4); }
+        background: white; }
     .right-col .login-form .left .dropdown .dropdown-item.active {
       color: #fff;
       display: block;
-      position: relative;
       background: #f83f77 url("../img/dropdown-caret.png") no-repeat 90% 50%;
+      position: relative;
+      font-style: italic;
+      font-weight: bold;
+      line-height: 1.2em;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      padding-right: 30px;
       border-radius: 2px;
       box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05); }
     .right-col .login-form .left .dropdown.active .dropdown-item {
       display: block; }
   .right-col .bottom {
     padding-top: 15px;
-    height: 5%; }
+    height: 5%;
+    z-index: 2; }
     .right-col .bottom .left, .right-col .bottom .right {
       color: #fff;
       float: left;
@@ -331,7 +380,7 @@ body {
     margin: 0 auto 25px auto;
     width: 80vw;
     z-index: 3;
-    animation: drop-in 0.5s forwards;
+    animation: drop-in-notifications 0.5s forwards;
     border-radius: 2px;
     transition: opacity 0.5s; }
     .notifications-container .notification.error {
@@ -340,11 +389,32 @@ body {
     .notifications-container .notification.fadeout {
       opacity: 0; }
 
-@keyframes drop-in {
+.wallpaper-background, .wallpaper-foreground {
+  background-size: cover;
+  overflow: hidden;
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  z-index: -1; }
+
+.wallpaper-foreground {
+  opacity: 1; }
+  .wallpaper-foreground.fadeout {
+    animation: fade-out 600ms forwards;
+    animation-timing-function: ease-out; }
+
+@keyframes drop-in-notifications {
   0% {
     top: -200px; }
   100% {
     top: 0px; } }
+@keyframes drop-in-options {
+  0% {
+    top: -100px;
+    opacity: 0; }
+  100% {
+    top: 0px;
+    opacity: 1; } }
 @keyframes fade-in {
   0% {
     opacity: 0;
@@ -352,5 +422,10 @@ body {
   100% {
     opacity: 1;
     transform: scale(1); } }
+@keyframes fade-out {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
 
 /*# sourceMappingURL=main.css.map */

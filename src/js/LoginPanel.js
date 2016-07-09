@@ -140,7 +140,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
-  var bp21 = _inferno2.default.createBlueprint({
+  var bp22 = _inferno2.default.createBlueprint({
     tag: 'div',
     className: {
       arg: 0
@@ -150,7 +150,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
-  var bp20 = _inferno2.default.createBlueprint({
+  var bp21 = _inferno2.default.createBlueprint({
     tag: 'div',
     className: 'bottom',
     children: {
@@ -158,7 +158,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
-  var bp19 = _inferno2.default.createBlueprint({
+  var bp20 = _inferno2.default.createBlueprint({
     tag: 'input',
     className: 'submit-button',
     attrs: {
@@ -167,7 +167,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
-  var bp18 = _inferno2.default.createBlueprint({
+  var bp19 = _inferno2.default.createBlueprint({
     tag: 'div',
     className: 'right',
     children: {
@@ -175,7 +175,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
-  var bp17 = _inferno2.default.createBlueprint({
+  var bp18 = _inferno2.default.createBlueprint({
     tag: 'div',
     className: 'left',
     children: {
@@ -183,9 +183,17 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
-  var bp16 = _inferno2.default.createBlueprint({
+  var bp17 = _inferno2.default.createBlueprint({
     tag: 'div',
     className: 'submit-row',
+    children: {
+      arg: 0
+    }
+  });
+
+  var bp16 = _inferno2.default.createBlueprint({
+    tag: 'div',
+    className: 'submit-row-container',
     children: {
       arg: 0
     }
@@ -544,7 +552,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
           value: this.state.password
         }, {
           onchange: this.handlePasswordInput.bind(this)
-        })), bp16([bp17(sessionDropdown), bp18(bp19())])]), bp20([switchUserButton, bp21(dateClasses.join(' '), dateString)])]);
+        })), bp16(bp17([bp18(sessionDropdown), bp19(bp20())]))]), bp21([switchUserButton, bp22(dateClasses.join(' '), dateString)])]);
       }
     }]);
 

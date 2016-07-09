@@ -284,12 +284,14 @@ export class LoginPanel extends Component {
               onChange={ this.handlePasswordInput.bind(this) }
             />
           </div>
-          <div className="submit-row">
-            <div className="left">
-              { sessionDropdown }
-            </div>
-            <div className="right">
-              <input type="submit" value="GO" className="submit-button" />
+          <div className="submit-row-container">
+            <div className="submit-row">
+              <div className="left">
+                { sessionDropdown }
+              </div>
+              <div className="right">
+                <input type="submit" value="GO" className="submit-button" />
+              </div>
             </div>
           </div>
         </form>

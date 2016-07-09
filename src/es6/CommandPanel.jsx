@@ -1,6 +1,7 @@
 import Inferno from 'src/dist/js/inferno.min';
 import Component from 'src/dist/js/inferno-component.min';
 
+import { WallpaperSwitcher } from "./WallpaperSwitcher";
 import { Clock } from './Clock';
 
 export class CommandPanel extends Component {
@@ -35,8 +36,8 @@ export class CommandPanel extends Component {
   generateCommands() {
     let commands = {
       "Shutdown": window.lightdm.can_shutdown,
-      "Hibernate": window.lightdm.can_hibernate, 
       "Reboot": window.lightdm.can_restart, 
+      "Hibernate": window.lightdm.can_hibernate, 
       "Sleep": window.lightdm.can_suspend
     };
 
@@ -91,9 +92,7 @@ export class CommandPanel extends Component {
 
     return (
       <div>
-        <div className="distro-wrapper">
-          <div className="distro-logo"></div>
-        </div>
+        <WallpaperSwitcher backgrounds={ this.props.backgrounds } />
         { commands }
         <div className="bottom">
           <div className="left hostname">{ hostname }</div>

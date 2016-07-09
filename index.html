@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="src/css/main.css">
   </head>
   <body>
+    <div class="wallpaper-background">
+      <div class="wallpaper-foreground">
+      </div>
+    </div>
     <div class="notifications-container">
     </div>
     <div class="login-window-container">
@@ -27,7 +31,7 @@
           if (window.lightdm === undefined) {
             window.lightdm = {
               "authenticate": function(){ return true; },
-              "can_hibernate": false,
+              "can_hibernate": true,
               "can_restart": true,
               "can_shutdown": true,
               "can_suspend": true,
@@ -42,7 +46,10 @@
               "sessions": [
                 {"name":"Deepin","key":"deepin","comment":"Deepin Desktop Environment"},
                 {"name":"Gnome","key":"gnome","comment":"Gnome Desktop Environment"},
-                {"name":"XFCE4","key":"xfce","comment":"XFCE Desktop Environment"}
+                {"name":"XFCE4","key":"xfce","comment":"XFCE Desktop Environment"},
+                {"name":"Cinnamon","key":"cinnamon","comment":"Cinnamon DE"},
+                {"name":"Cinnamon (Software)","key":"cinnamon-software","comment":"Cinnamon DE (Software Rendering)"},
+                {"name":"LXDE","key":"lxde","comment":"LXDE Desktop Environment"}
               ]
             };
           }

@@ -19,7 +19,16 @@ $right-background-image: url("../img/background-gradient.png") repeat-x
 $right-background-plate: rgba(221, 80, 30, 0.5) // #dd501e
 
 // Text
+$primary-color: #fff
 $hostname-color: #c2c2c2
+
+// Dimensions, Positioning
+$panel-padding-x: 35px
+$panel-padding-y: 15px
+
+$command-panel-width: 255px
+$login-panel-width: 595px
+
 
 .noselect
   -webkit-user-select: none
@@ -31,9 +40,7 @@ html
 
 body
   font-family: "Open Sans"
-  background: #963218 url("../img/backgrounds/space-1.jpg")
-  background-size: cover
-
+  background: #222
 
 .login-window-container
   position: relative
@@ -66,7 +73,7 @@ body
     float: left
     display: inline-block
 
-    padding: 15px 35px
+    padding: $panel-padding-y $panel-padding-x
 
     height: 100%
 
@@ -74,7 +81,7 @@ body
     color: #fff
 
     background: $left-background
-    width: 255px
+    width: $command-panel-width
 
     border-top-left-radius: 4px
     border-bottom-left-radius: 4px
@@ -83,7 +90,7 @@ body
   .right-col
     background: $right-background-image
 
-    width: 595px
+    width: $login-panel-width
 
     border-top-right-radius: 4px
     border-bottom-right-radius: 4px
@@ -100,11 +107,69 @@ body
     height: 125px
     width: 125px
 
+    transition: opacity 400ms
+
+    &:hover
+      cursor: pointer
+
+    &:active
+      opacity: 0.8
+
   .distro-wrapper
     padding-top: 35px
     padding-bottom: 90px
 
     height: 52%
+
+    .options
+      position: relative
+      top: -100px
+      opacity: 0
+
+      &.active
+        animation: drop-in-options 200ms forwards
+        animation-timing-function: ease-out
+
+      .button-accept, .button-reject
+        background: rgba(0, 0, 0, 0.2)
+        position: relative
+        opacity: 0.4
+
+        text-align: center
+
+        margin-top: 10px
+        padding: 7px 8px
+        
+        height: 30px
+        width: 30px
+
+        border-radius: 100%
+
+        &:hover
+          cursor: pointer
+          opacity: 1
+        
+
+      .button-accept
+        float: right
+        left: -15%
+
+        &:hover
+          background: #6e9200
+
+      .button-reject
+        float: left
+        left: 15%
+
+        &:hover
+          background: #b93300
+
+    .options-wrapper
+      overflow: hidden
+
+      height: 45px
+      width: 100%
+
 
   .command
     margin-bottom: 25px
@@ -240,6 +305,8 @@ body
     height: 45%
     display: block
 
+    z-index: 2
+
     .user-username
       text-align: center
       text-transform: capitalize
@@ -279,8 +346,13 @@ body
         @extend .noselect
 
     .submit-row
+      $submit-row-width: 200px
+
       margin: 0 auto
-      width: 200px
+      width: $submit-row-width
+
+      position: absolute
+      left: (($login-panel-width / 2) - ($submit-row-width / 2)) - $panel-padding-x
 
       .left, .right
         display: inline-block
@@ -291,10 +363,9 @@ body
 
       .left .dropdown
         font-size: 9pt
-        font-style: italic
-        font-weight: bold
 
         width: 95%
+        z-index: 2
 
         @extend .noselect
 
@@ -323,32 +394,39 @@ body
 
         &:hover
           cursor: pointer
-
           background: rgba(255, 255, 255, 0.5)
-          // hsl(346, 100%, 66%) //
+
+    .submit-row-container
+      position: relative
 
     .left .dropdown .dropdown-item
-      color: #eee
+      color: #525252
       display: none
-      background: rgba(255, 255, 255, 0.2)
+      background: rgba(255, 255, 255, 0.9)
 
       padding: 8px 10px
 
-      z-index: 2
-
       &:hover
-        background: rgba(255, 255, 255, 0.4)
+        background: rgba(255, 255, 255, 1)
 
     .left .dropdown .dropdown-item.active
       color: #fff
       display: block
-
-      position: relative
-
+      
       // Lighter f73f89
       // Darker f83f77
-
       background: #f83f77 $dropdown-caret no-repeat 90% 50%
+      position: relative
+
+      font-style: italic
+      font-weight: bold
+      line-height: 1.2em
+
+      text-overflow: ellipsis
+      overflow: hidden
+      white-space: nowrap
+      
+      padding-right: 30px
 
       border-radius: 2px
       box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05)
@@ -359,6 +437,8 @@ body
   .bottom
     padding-top: 15px
     height: 5%
+
+    z-index: 2
 
     .left, .right
       color: #fff
@@ -426,7 +506,7 @@ body
 
     z-index: 3
 
-    animation: drop-in 0.5s forwards
+    animation: drop-in-notifications 0.5s forwards
     border-radius: 2px
     transition: opacity 0.5s
 
@@ -437,11 +517,38 @@ body
     &.fadeout
       opacity: 0
 
-@keyframes drop-in
+
+.wallpaper-background, .wallpaper-foreground
+  background-size: cover
+
+  overflow: hidden
+  position: fixed
+
+  height: 100vh
+  width: 100vw
+
+  z-index: -1
+
+.wallpaper-foreground
+  opacity: 1
+
+  &.fadeout
+    animation: fade-out 600ms forwards
+    animation-timing-function: ease-out
+
+@keyframes drop-in-notifications
   0%
     top: -200px
   100%
     top: 0px
+
+@keyframes drop-in-options
+  0%
+    top: -100px
+    opacity: 0
+  100%
+    top: 0px
+    opacity: 1
 
 @keyframes fade-in
   0%
@@ -450,3 +557,10 @@ body
   100%
     opacity: 1
     transform: scale(1)
+
+
+@keyframes fade-out
+  0%
+    opacity: 1
+  100%
+    opacity: 0

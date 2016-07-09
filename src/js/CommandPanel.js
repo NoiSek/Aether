@@ -1,4 +1,4 @@
-define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min', './Clock'], function (exports, _inferno, _infernoComponent, _Clock) {
+define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min', './WallpaperSwitcher', './Clock'], function (exports, _inferno, _infernoComponent, _WallpaperSwitcher, _Clock) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -108,13 +108,13 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
-  var bp10 = _inferno2.default.createBlueprint({
+  var bp9 = _inferno2.default.createBlueprint({
     tag: {
       arg: 0
     }
   });
 
-  var bp9 = _inferno2.default.createBlueprint({
+  var bp8 = _inferno2.default.createBlueprint({
     tag: 'div',
     className: 'left hostname',
     children: {
@@ -122,7 +122,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
-  var bp8 = _inferno2.default.createBlueprint({
+  var bp7 = _inferno2.default.createBlueprint({
     tag: 'div',
     className: 'bottom',
     children: {
@@ -130,16 +130,12 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
-  var bp7 = _inferno2.default.createBlueprint({
-    tag: 'div',
-    className: 'distro-logo'
-  });
-
   var bp6 = _inferno2.default.createBlueprint({
-    tag: 'div',
-    className: 'distro-wrapper',
-    children: {
+    tag: {
       arg: 0
+    },
+    attrs: {
+      arg: 1
     }
   });
 
@@ -193,8 +189,8 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
 
         var commands = {
           "Shutdown": window.lightdm.can_shutdown,
-          "Hibernate": window.lightdm.can_hibernate,
           "Reboot": window.lightdm.can_restart,
+          "Hibernate": window.lightdm.can_hibernate,
           "Sleep": window.lightdm.can_suspend
         };
 
@@ -243,7 +239,9 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
         var hostname = window.lightdm.hostname;
         var commands = this.generateCommands();
 
-        return bp5([bp6(bp7()), commands, bp8([bp9(hostname), bp10(_Clock.Clock)])]);
+        return bp5([bp6(_WallpaperSwitcher.WallpaperSwitcher, {
+          backgrounds: this.props.backgrounds
+        }), commands, bp7([bp8(hostname), bp9(_Clock.Clock)])]);
       }
     }]);
 
