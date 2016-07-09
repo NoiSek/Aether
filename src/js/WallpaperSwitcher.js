@@ -178,7 +178,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
 
         // Due diligence.
         localStorage.setItem("wallpaper", currentWallpaper);
-        window.notifications.generate("This wallpaper has been saved as your default background.");
+        window.notifications.generate("This wallpaper has been saved as your default background.", 'success');
 
         // Reset switcher state
         switcher.active = false;

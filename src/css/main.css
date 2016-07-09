@@ -127,7 +127,6 @@ body {
     opacity: 0.8; }
 .left-col .distro-wrapper {
   padding-top: 35px;
-  padding-bottom: 90px;
   height: 52%; }
   .left-col .distro-wrapper .options {
     position: relative;
@@ -259,7 +258,6 @@ body {
       font-weight: bold; }
     .right-col .login-form .user-password-container {
       margin: 15px auto;
-      overflow: hidden;
       width: 200px; }
     .right-col .login-form .user-password {
       color: #fff;
@@ -271,11 +269,17 @@ body {
       font-weight: bold;
       letter-spacing: 2px;
       width: 100%;
-      transition: all 1s; }
+      transition: opacity 1s; }
       .right-col .login-form .user-password:focus, .right-col .login-form .user-password:active {
         border-bottom: 2px solid rgba(255, 255, 255, 0.8); }
       .right-col .login-form .user-password::-webkit-input-placeholder {
         color: rgba(255, 255, 255, 0.4); }
+      .right-col .login-form .user-password.error {
+        animation: error-shake 600ms forwards; }
+      .right-col .login-form .user-password.error, .right-col .login-form .user-password.error:focus, .right-col .login-form .user-password.error:active {
+        border-bottom: 2px solid rgba(175, 3, 3, 0.6); }
+      .right-col .login-form .user-password.error::-webkit-input-placeholder {
+        color: #af0303; }
     .right-col .login-form .submit-row {
       margin: 0 auto;
       width: 200px;
@@ -385,7 +389,9 @@ body {
     transition: opacity 0.5s; }
     .notifications-container .notification.error {
       color: #fff;
-      background: rgba(180, 30, 30, 0.45); }
+      background: rgba(180, 30, 30, 0.65); }
+    .notifications-container .notification.success {
+      background: rgba(120, 255, 64, 0.65); }
     .notifications-container .notification.fadeout {
       opacity: 0; }
 
@@ -415,6 +421,27 @@ body {
   100% {
     top: 0px;
     opacity: 1; } }
+@keyframes error-shake {
+  0% {
+    transform: translateX(0px) scale(1); }
+  11% {
+    transform: translateX(-10px) scale(1.05); }
+  22% {
+    transform: translateX(10px) scale(1.05); }
+  33% {
+    transform: translateX(-10px) scale(1.05); }
+  44% {
+    transform: translateX(10px) scale(1.05); }
+  55% {
+    transform: translateX(-10px) scale(1.05); }
+  66% {
+    transform: translateX(10px) scale(1.05); }
+  77% {
+    transform: translateX(10px) scale(1.05); }
+  88% {
+    transform: translateX(10px) scale(1); }
+  100% {
+    transform: translateX(0px); } }
 @keyframes fade-in {
   0% {
     opacity: 0;

@@ -6,15 +6,16 @@ WIP. A Sleek, straightforward Archlinux themed login screen written on lightdm a
 
 ![](./screenshot.png)
 
-# Requirements
+## Requirements
 - [lightdm-webkit2-greeter](https://github.com/Antergos/lightdm-webkit2-greeter)
 
 ##### Todo
 - [ ] AUR Package
 - [ ] Multi-user support
 - [x] Full single-user support
-- [ ] Handle login errors more visibly.
-- [ ] Separately styling when used as a lock screen
+- [x] Handle login errors more visibly.
+- [ ] Dependency optimization, inline CSS
+- [ ] Separate styling when used as a lock screen
 
 ##### Credit
 - *Bear by Yu luck from the Noun Project*

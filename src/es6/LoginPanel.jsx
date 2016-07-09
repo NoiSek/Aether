@@ -1,6 +1,8 @@
 import Inferno from 'src/dist/js/inferno.min';
 import Component from 'src/dist/js/inferno-component.min';
 
+const ERROR_SHAKE_DURATION = 600;
+
 export class LoginPanel extends Component {
   constructor(props) {
     super(props);
@@ -16,8 +18,9 @@ export class LoginPanel extends Component {
       },
       "activeUser": undefined,
       "activeSession": undefined,
+      "dropdownActive": false,
       "password": "",
-      "dropdownActive": false
+      "passwordFailed": false
     };
   }
 
@@ -56,6 +59,8 @@ export class LoginPanel extends Component {
     window.authentication_complete = () => {
       if (lightdm.is_authenticated) {
         lightdm.start_session_sync(this.state.activeSession.key);
+      } else {
+        this.rejectPassword();
       }
     };
     window.autologin_timer_expired = () => {
@@ -120,6 +125,23 @@ export class LoginPanel extends Component {
       "activeSession": session,
       "dropdownActive": false
     });
+  }
+
+  rejectPassword() {    
+    if(this.state.passwordFailed === false) {
+      window.notifications.generate("Password incorrect, please try again.", 'error');
+
+      this.setState({
+        "password": "",
+        "passwordFailed": true
+      });
+
+      setTimeout(() => {
+        this.setState({
+          "passwordFailed": false
+        });
+      }, ERROR_SHAKE_DURATION)
+    }
   }
 
   setDate() {
@@ -196,6 +218,24 @@ export class LoginPanel extends Component {
     return dateString;
   }
 
+  generatePasswordField() {
+    let classes = ['user-password'];
+
+    if (this.state.passwordFailed === true) {
+      classes.push('error');
+    }
+
+    return (
+      <input 
+        type="password" 
+        placeholder="*******************" 
+        className={ classes.join(' ') } 
+        value={ this.state.password }
+        onChange={ this.handlePasswordInput.bind(this) }
+      />
+    );
+  }
+
   generateSessionDropdown() {
     // Sort by active, then alphabetical. 
     // Doing this requires using sort in reverse.
@@ -261,6 +301,7 @@ export class LoginPanel extends Component {
       dateClasses.push("loaded");
     }
 
+    let passwordField = this.generatePasswordField();
     let sessionDropdown = this.generateSessionDropdown();
     let switchUserButton = this.generateSwitchUserButton();
 
@@ -276,13 +317,7 @@ export class LoginPanel extends Component {
         <form className="login-form" onSubmit={ this.handleLoginSubmit.bind(this) }>
           <div className="user-username">{ this.state.activeUser.display_name }</div>
           <div className="user-password-container">
-            <input 
-              type="password" 
-              placeholder="*******************" 
-              className="user-password" 
-              value={ this.state.password }
-              onChange={ this.handlePasswordInput.bind(this) }
-            />
+            { passwordField }
           </div>
           <div className="submit-row-container">
             <div className="submit-row">

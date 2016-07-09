@@ -117,7 +117,6 @@ body
 
   .distro-wrapper
     padding-top: 35px
-    padding-bottom: 90px
 
     height: 52%
 
@@ -319,7 +318,6 @@ body
 
     .user-password-container
       margin: 15px auto
-      overflow: hidden
       width: 200px
 
     .user-password
@@ -336,7 +334,7 @@ body
 
       width: 100%
 
-      transition: all 1s
+      transition: opacity 1s
 
       &:focus, &:active
         border-bottom: 2px solid rgba(255, 255, 255, 0.8)
@@ -344,6 +342,15 @@ body
       &::-webkit-input-placeholder
         color: rgba(255, 255, 255, 0.4)
         @extend .noselect
+
+      &.error
+        animation: error-shake 600ms forwards
+
+      &.error, &.error:focus, &.error:active
+        border-bottom: 2px solid rgba(175, 3, 3, 0.6)
+
+      &.error::-webkit-input-placeholder
+        color: #af0303
 
     .submit-row
       $submit-row-width: 200px
@@ -512,7 +519,10 @@ body
 
     &.error
       color: #fff
-      background: rgba(180, 30, 30, 0.45)
+      background: rgba(180, 30, 30, 0.65)
+
+    &.success
+      background: rgba(120, 255, 64, 0.65)
 
     &.fadeout
       opacity: 0
@@ -550,6 +560,28 @@ body
     top: 0px
     opacity: 1
 
+@keyframes error-shake
+  0%
+    transform: translateX(0px) scale(1)
+  11%
+    transform: translateX(-10px) scale(1.05)
+  22%
+    transform: translateX(10px) scale(1.05)
+  33%
+    transform: translateX(-10px) scale(1.05)
+  44%
+    transform: translateX(10px) scale(1.05)
+  55%
+    transform: translateX(-10px) scale(1.05)
+  66%
+    transform: translateX(10px) scale(1.05)
+  77%
+    transform: translateX(10px) scale(1.05)
+  88%
+    transform: translateX(10px) scale(1)
+  100%
+    transform: translateX(0px)
+
 @keyframes fade-in
   0%
     opacity: 0
@@ -558,9 +590,9 @@ body
     opacity: 1
     transform: scale(1)
 
-
 @keyframes fade-out
   0%
     opacity: 1
+
   100%
     opacity: 0

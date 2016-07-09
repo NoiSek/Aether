@@ -38,7 +38,3 @@ export default function Main() {
   InfernoDOM.render(<CommandPanel backgrounds={ BACKGROUNDS } />, document.getElementById("command-panel"));
   InfernoDOM.render(<LoginPanel />, document.getElementById("login-panel"));
 }
-
-// User Switcher
-// Password handling
-// Lock screen

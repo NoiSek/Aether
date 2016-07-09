@@ -70,6 +70,8 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
   }
 
+  var ERROR_SHAKE_DURATION = 600;
+
   var bp3 = _inferno2.default.createBlueprint({
     tag: 'em',
     children: {
@@ -99,6 +101,19 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
   });
 
   var bp4 = _inferno2.default.createBlueprint({
+    tag: 'input',
+    className: {
+      arg: 0
+    },
+    attrs: {
+      arg: 1
+    },
+    events: {
+      arg: 2
+    }
+  });
+
+  var bp5 = _inferno2.default.createBlueprint({
     tag: 'div',
     key: {
       arg: 0
@@ -114,7 +129,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
-  var bp5 = _inferno2.default.createBlueprint({
+  var bp6 = _inferno2.default.createBlueprint({
     tag: 'div',
     className: {
       arg: 0
@@ -127,7 +142,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
-  var bp6 = _inferno2.default.createBlueprint({
+  var bp7 = _inferno2.default.createBlueprint({
     tag: 'div',
     className: {
       arg: 0
@@ -200,17 +215,6 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
   });
 
   var bp15 = _inferno2.default.createBlueprint({
-    tag: 'input',
-    className: 'user-password',
-    attrs: {
-      arg: 0
-    },
-    events: {
-      arg: 1
-    }
-  });
-
-  var bp14 = _inferno2.default.createBlueprint({
     tag: 'div',
     className: 'user-password-container',
     children: {
@@ -218,7 +222,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
-  var bp13 = _inferno2.default.createBlueprint({
+  var bp14 = _inferno2.default.createBlueprint({
     tag: 'div',
     className: 'user-username',
     children: {
@@ -226,7 +230,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
-  var bp12 = _inferno2.default.createBlueprint({
+  var bp13 = _inferno2.default.createBlueprint({
     tag: 'form',
     className: 'login-form',
     events: {
@@ -237,7 +241,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
-  var bp11 = _inferno2.default.createBlueprint({
+  var bp12 = _inferno2.default.createBlueprint({
     tag: 'img',
     className: 'user-avatar',
     attrs: {
@@ -245,7 +249,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
-  var bp10 = _inferno2.default.createBlueprint({
+  var bp11 = _inferno2.default.createBlueprint({
     tag: 'div',
     className: 'avatar-mask',
     children: {
@@ -253,7 +257,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
-  var bp9 = _inferno2.default.createBlueprint({
+  var bp10 = _inferno2.default.createBlueprint({
     tag: 'div',
     className: 'avatar-background',
     children: {
@@ -261,7 +265,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
-  var bp8 = _inferno2.default.createBlueprint({
+  var bp9 = _inferno2.default.createBlueprint({
     tag: 'div',
     className: 'avatar-container',
     children: {
@@ -269,7 +273,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
-  var bp7 = _inferno2.default.createBlueprint({
+  var bp8 = _inferno2.default.createBlueprint({
     tag: 'div',
     children: {
       arg: 0
@@ -296,8 +300,9 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
         },
         "activeUser": undefined,
         "activeSession": undefined,
+        "dropdownActive": false,
         "password": "",
-        "dropdownActive": false
+        "passwordFailed": false
       };
       return _this;
     }
@@ -341,6 +346,8 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
         window.authentication_complete = function () {
           if (lightdm.is_authenticated) {
             lightdm.start_session_sync(_this2.state.activeSession.key);
+          } else {
+            _this2.rejectPassword();
           }
         };
         window.autologin_timer_expired = function () {
@@ -421,9 +428,29 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
         });
       }
     }, {
+      key: 'rejectPassword',
+      value: function rejectPassword() {
+        var _this3 = this;
+
+        if (this.state.passwordFailed === false) {
+          window.notifications.generate("Password incorrect, please try again.", 'error');
+
+          this.setState({
+            "password": "",
+            "passwordFailed": true
+          });
+
+          setTimeout(function () {
+            _this3.setState({
+              "passwordFailed": false
+            });
+          }, ERROR_SHAKE_DURATION);
+        }
+      }
+    }, {
       key: 'setDate',
       value: function setDate() {
-        var _this3 = this;
+        var _this4 = this;
 
         var dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
@@ -461,7 +488,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
         });
 
         setTimeout(function () {
-          _this3.setDate();
+          _this4.setDate();
         }, 30 * 1000);
       }
     }, {
@@ -474,26 +501,43 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
         return dateString;
       }
     }, {
+      key: 'generatePasswordField',
+      value: function generatePasswordField() {
+        var classes = ['user-password'];
+
+        if (this.state.passwordFailed === true) {
+          classes.push('error');
+        }
+
+        return bp4(classes.join(' '), {
+          type: 'password',
+          placeholder: '*******************',
+          value: this.state.password
+        }, {
+          onchange: this.handlePasswordInput.bind(this)
+        });
+      }
+    }, {
       key: 'generateSessionDropdown',
       value: function generateSessionDropdown() {
-        var _this4 = this;
+        var _this5 = this;
 
         // Sort by active, then alphabetical.
         // Doing this requires using sort in reverse.
         var rows = window.lightdm.sessions.sort(function (a, b) {
           return a.name.toUpperCase() > b.name.toUpperCase();
         }).sort(function (a, b) {
-          return b.key.toLowerCase() === _this4.state.activeSession.key.toLowerCase() ? 1 : -1;
+          return b.key.toLowerCase() === _this5.state.activeSession.key.toLowerCase() ? 1 : -1;
         }).map(function (session) {
           var classes = ["dropdown-item"];
-          var eventHandler = _this4.setActiveSession.bind(_this4, session.key);
+          var eventHandler = _this5.setActiveSession.bind(_this5, session.key);
 
-          if (session.key === _this4.state.activeSession.key) {
-            eventHandler = _this4.handleDropdownClick.bind(_this4);
+          if (session.key === _this5.state.activeSession.key) {
+            eventHandler = _this5.handleDropdownClick.bind(_this5);
             classes.push("active");
           }
 
-          return bp4(session.key, classes.join(' '), {
+          return bp5(session.key, classes.join(' '), {
             onclick: eventHandler
           }, session.name);
         });
@@ -504,7 +548,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
           classes.push('active');
         }
 
-        return bp5(classes.join(' '), {
+        return bp6(classes.join(' '), {
           onmouseleave: this.handleDropdownLeave.bind(this)
         }, rows);
       }
@@ -522,7 +566,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
           classes.push("disabled");
         }
 
-        return bp6(classes.join(' '), {
+        return bp7(classes.join(' '), {
           onclick: eventHandler
         }, 'SWITCH USER');
       }
@@ -539,20 +583,15 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
           dateClasses.push("loaded");
         }
 
+        var passwordField = this.generatePasswordField();
         var sessionDropdown = this.generateSessionDropdown();
         var switchUserButton = this.generateSwitchUserButton();
 
-        return bp7([bp8(bp9(bp10(bp11({
+        return bp8([bp9(bp10(bp11(bp12({
           src: this.state.activeUser.image
-        })))), bp12({
+        })))), bp13({
           onsubmit: this.handleLoginSubmit.bind(this)
-        }, [bp13(this.state.activeUser.display_name), bp14(bp15({
-          type: 'password',
-          placeholder: '*******************',
-          value: this.state.password
-        }, {
-          onchange: this.handlePasswordInput.bind(this)
-        })), bp16(bp17([bp18(sessionDropdown), bp19(bp20())]))]), bp21([switchUserButton, bp22(dateClasses.join(' '), dateString)])]);
+        }, [bp14(this.state.activeUser.display_name), bp15(passwordField), bp16(bp17([bp18(sessionDropdown), bp19(bp20())]))]), bp21([switchUserButton, bp22(dateClasses.join(' '), dateString)])]);
       }
     }]);
 

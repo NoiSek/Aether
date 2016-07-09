@@ -48,8 +48,4 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }), document.getElementById("command-panel"));
     _infernoDom2.default.render(bp1(_LoginPanel.LoginPanel), document.getElementById("login-panel"));
   }
-
-  // User Switcher
-  // Password handling
-  // Lock screen
 });

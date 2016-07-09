@@ -31,6 +31,10 @@
           if (window.lightdm === undefined) {
             window.lightdm = {
               "authenticate": function(){ return true; },
+              "hibernate": function(){ return true; },
+              "restart": function(){ return true; },
+              "shutdown": function(){ return true; },
+              "suspend": function(){ return true; },
               "can_hibernate": true,
               "can_restart": true,
               "can_shutdown": true,
