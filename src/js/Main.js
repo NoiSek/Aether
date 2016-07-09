@@ -1,4 +1,4 @@
-define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min', 'src/dist/js/inferno-dom.min', './WallpaperSwitcher', './Notifications', './CommandPanel', './LoginPanel', './Clock'], function (exports, _inferno, _infernoComponent, _infernoDom, _WallpaperSwitcher, _Notifications, _CommandPanel, _LoginPanel, _Clock) {
+define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min', 'src/dist/js/inferno-dom.min', './WallpaperSwitcher', './Notifications', './UserSwitcher', './CommandPanel', './LoginPanel', './Clock'], function (exports, _inferno, _infernoComponent, _infernoDom, _WallpaperSwitcher, _Notifications, _UserSwitcher, _CommandPanel, _LoginPanel, _Clock) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -19,10 +19,8 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     };
   }
 
-  var BACKGROUNDS = exports.BACKGROUNDS = ['abstract.jpg', 'boko.jpg', 'car.jpg', 'cavern.jpg', 'dark-grass.jpg', 'frosted.jpg', 'jet.jpg', 'mountains-1.jpg', 'mountains-2.png', 'mountains-3.jpg', 'night.png', 'ocean.jpg', 'paper-lanterns.jpg', 'pier.jpg', 'sanfran.jpg', 'space-1.jpg', 'space-2.jpg', 'space-3.jpg', 'tree.jpg'];
-
   // For some reason, this loader requires that libraries be loaded here in order for them to work elsewhere.
-
+  var BACKGROUNDS = exports.BACKGROUNDS = ['abstract.jpg', 'boko.jpg', 'car.jpg', 'cavern.jpg', 'dark-grass.jpg', 'frosted.jpg', 'jet.jpg', 'mountains-1.jpg', 'mountains-2.png', 'mountains-3.jpg', 'night.png', 'ocean.jpg', 'paper-lanterns.jpg', 'pier.jpg', 'sanfran.jpg', 'space-1.jpg', 'space-2.jpg', 'space-3.jpg', 'tree.jpg'];
 
   var bp0 = _inferno2.default.createBlueprint({
     tag: {

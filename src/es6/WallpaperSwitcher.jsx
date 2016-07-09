@@ -17,7 +17,7 @@ export class WallpaperSwitcher extends Component {
         "currentlyFading": false,
         "index": 0
       }
-    }
+    };
   }
 
   componentWillMount() {

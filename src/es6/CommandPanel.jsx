@@ -14,7 +14,7 @@ export class CommandPanel extends Component {
 
   handleCommand(command, disabled, event) {
     if (disabled !== false) {
-      window.notifications.generate(`${command} is disabled on this system.`, "error")
+      window.notifications.generate(`${command} is disabled on this system.`, "error");
       return false;
     }
 
@@ -49,7 +49,7 @@ export class CommandPanel extends Component {
     // Are both hibernation and suspend disabled?
     // Add the row back and disable it so that the user is aware of what's happening.
     if (window.lightdm.can_suspend === false && window.lightdm.can_hibernate === false) {
-      enabledCommands.push("Sleep.disabled")
+      enabledCommands.push("Sleep.disabled");
     }
 
     // Save ourselves some work, when all four commands are enabled

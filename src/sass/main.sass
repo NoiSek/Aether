@@ -1,37 +1,8 @@
 @import reset
 @import fonts
-
-// Images
-$distro-logo: url("../img/arch-logo.png")
-
-$shutdown-icon: url("../img/shutdown.png")
-$reboot-icon: url("../img/reboot.png")
-$sleep-icon: url("../img/sleep.png")
-$hibernate-icon: url("../img/hibernate.png")
-
-$avatar-background: url("../img/avatar-background.png")
-
-$dropdown-caret: url("../img/dropdown-caret.png")
-
-// Backgrounds
-$left-background: #393939
-$right-background-image: url("../img/background-gradient.png") repeat-x
-$right-background-plate: rgba(221, 80, 30, 0.5) // #dd501e
-
-// Text
-$primary-color: #fff
-$hostname-color: #c2c2c2
-
-// Dimensions, Positioning
-$panel-padding-x: 35px
-$panel-padding-y: 15px
-
-$command-panel-width: 255px
-$login-panel-width: 595px
-
-
-.noselect
-  -webkit-user-select: none
+@import config
+@import utility
+@import animations
 
 html
   box-sizing: border-box
@@ -65,7 +36,7 @@ body
   border-radius: 4px
   transform: scale(0.7)
 
-  animation: fade-in 0.5s forwards
+  animation: window-fade-in 0.5s forwards
   animation-delay: 200ms
   animation-timing-function: ease-out
 
@@ -269,226 +240,336 @@ body
   & > div
     height: 100%
 
-  .avatar-container
-    height: 50%
-    padding-top: 20px
-    padding-bottom: 75px
+  .login-panel-main
+    height: 100%
 
-    .avatar-background
-      background: $avatar-background no-repeat center center
+    &.fadeout
+      display: none
 
-      margin: 0 auto
+    .avatar-container
+      height: 50%
+      padding-top: 20px
+      padding-bottom: 75px
 
-      height: 155px
-      width: 154px
+      .avatar-background
+        background: $avatar-background no-repeat center center
 
-      transform: translateX(-10px)
-      transition: all 1s
+        margin: 0 auto
 
-    .avatar-mask
-      border-radius: 100%
-      overflow: hidden
+        height: 155px
+        width: 154px
 
-      height: 125px
-      width: 125px
+        transform: translateX(-10px)
+        transition: all 1s
 
-      transform: translate(20px, 15px)
+      .avatar-mask
+        border-radius: 100%
+        overflow: hidden
 
-    .user-avatar
-      margin: 0 auto
+        height: 125px
+        width: 125px
 
-      height: 125px
-      width: 125px
+        transform: translate(20px, 15px)
 
-  .login-form
-    height: 45%
-    display: block
+      .user-avatar
+        margin: 0 auto
 
-    z-index: 2
+        height: 125px
+        width: 125px
 
-    .user-username
-      text-align: center
-      text-transform: capitalize
+    .login-form
+      height: 45%
+      display: block
 
-      font-size: 32pt
-      font-style: italic
-      font-weight: bold
+      z-index: 2
 
-      @extend .noselect
+      .user-username
+        text-align: center
+        text-transform: capitalize
 
-    .user-password-container
-      margin: 15px auto
-      width: 200px
+        font-size: 32pt
+        font-style: italic
+        font-weight: bold
 
-    .user-password
-      color: #fff
-
-      background: none
-      outline: none
-      border: none
-      border-bottom: 2px solid rgba(255, 255, 255, 0.6)
-
-      font-size: 14pt
-      font-weight: bold
-      letter-spacing: 2px
-
-      width: 100%
-
-      transition: opacity 1s
-
-      &:focus, &:active
-        border-bottom: 2px solid rgba(255, 255, 255, 0.8)
-
-      &::-webkit-input-placeholder
-        color: rgba(255, 255, 255, 0.4)
         @extend .noselect
 
-      &.error
-        animation: error-shake 600ms forwards
+      .user-password-container
+        margin: 15px auto
+        width: 200px
 
-      &.error, &.error:focus, &.error:active
-        border-bottom: 2px solid rgba(175, 3, 3, 0.6)
+      .user-password
+        color: #fff
 
-      &.error::-webkit-input-placeholder
-        color: #af0303
+        background: none
+        outline: none
+        border: none
+        border-bottom: 2px solid rgba(255, 255, 255, 0.6)
 
-    .submit-row
-      $submit-row-width: 200px
+        font-size: 14pt
+        font-weight: bold
+        letter-spacing: 2px
 
-      margin: 0 auto
-      width: $submit-row-width
+        width: 100%
 
-      position: absolute
-      left: (($login-panel-width / 2) - ($submit-row-width / 2)) - $panel-padding-x
+        transition: opacity 1s
+
+        &:focus, &:active
+          border-bottom: 2px solid rgba(255, 255, 255, 0.8)
+
+        &::-webkit-input-placeholder
+          color: rgba(255, 255, 255, 0.4)
+          @extend .noselect
+
+        &.error
+          animation: error-shake 600ms forwards
+
+        &.error, &.error:focus, &.error:active
+          border-bottom: 2px solid rgba(175, 3, 3, 0.6)
+
+        &.error::-webkit-input-placeholder
+          color: #af0303
+
+      .submit-row
+        $submit-row-width: 200px
+
+        margin: 0 auto
+        width: $submit-row-width
+
+        position: absolute
+        left: (($login-panel-width / 2) - ($submit-row-width / 2)) - $panel-padding-x
+
+        .left, .right
+          display: inline-block
+          float: left
+
+        .left
+          width: 80%
+
+        .left .dropdown
+          font-size: 9pt
+
+          width: 95%
+          z-index: 2
+
+          @extend .noselect
+
+          &:hover
+            cursor: pointer
+
+        .right
+          width: 20%
+
+        .right .submit-button
+          color: #fff
+          background: hsla(342,93%,76%,0.6)
+          
+          border: none
+          border-radius: 4px
+          outline: none
+          
+          position: relative
+          top: -1px
+          left: 6px
+          
+          font-weight: bold
+          font-size: 8pt
+          
+          padding: 8px
+
+          &:hover
+            cursor: pointer
+            background: rgba(255, 255, 255, 0.5)
+
+      .submit-row-container
+        position: relative
+
+      .left .dropdown .dropdown-item
+        color: #525252
+        display: none
+        background: rgba(255, 255, 255, 0.9)
+
+        padding: 8px 10px
+
+        &:hover
+          background: rgba(255, 255, 255, 1)
+
+      .left .dropdown .dropdown-item.active
+        color: #fff
+        display: block
+        
+        // Lighter f73f89
+        // Darker f83f77
+        background: #f83f77 $dropdown-caret no-repeat 90% 50%
+        position: relative
+
+        font-style: italic
+        font-weight: bold
+        line-height: 1.2em
+
+        text-overflow: ellipsis
+        overflow: hidden
+        white-space: nowrap
+        
+        padding-right: 30px
+
+        border-radius: 2px
+        box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05)
+
+      .left .dropdown.active .dropdown-item
+        display: block
+
+    .bottom
+      padding-top: 15px
+      height: 5%
+
+      z-index: 2
 
       .left, .right
-        display: inline-block
+        color: #fff
         float: left
 
-      .left
-        width: 80%
-
-      .left .dropdown
         font-size: 9pt
+        letter-spacing: 1px
 
-        width: 95%
-        z-index: 2
+        width: 50%
+
+      .left
+        font-weight: bold
 
         @extend .noselect
 
         &:hover
           cursor: pointer
 
+        &.disabled
+          opacity: 0.4
+
+        &.disabled:hover
+          cursor: not-allowed
+
+
       .right
-        width: 20%
-
-      .right .submit-button
-        color: #fff
-        background: hsla(342,93%,76%,0.6)
-        
-        border: none
-        border-radius: 4px
-        outline: none
-        
         position: relative
-        top: -1px
-        left: 6px
+        top: 40px
+        right: -35px
+
+        font-style: italic
+        text-align: right
+        transition: all 1s
+
+        opacity: 0
+
+        @extend .noselect
+
+        &.loaded
+          opacity: 1
         
-        font-weight: bold
-        font-size: 8pt
+        em
+          font-weight: bold
+  
+  .login-panel-switcher
+    display: none
+    height: 100%
+
+    &.active
+      display: block
+
+    ul
+      list-style-type: none
+      transform-style: preserve-3d
+
+      padding-top: 50px
+      height: 90%
+
+    li
+      display: inline-block
+      padding-top: 25px
+
+      width: 33.33%
+
+      transition: -webkit-filter 200ms, opacity 300ms
+
+      .avatar-background
+        background: $avatar-background no-repeat center center
+
+        margin: 0 auto
+
+        height: 155px
+        width: 154px
+
+        transform: translateX(-10px)
+        transition: all 1s
+
+      .avatar-mask
+        border-radius: 100%
+        overflow: hidden
+
+        height: 125px
+        width: 125px
+
+        transform: translate(20px, 15px)
+
+      .avatar-name
+        text-align: center
         
-        padding: 8px
+        .username
+          font-size: 16pt
+          font-weight: bold
+        .real-name
+          font-size: 12pt
+          font-style: italic
 
-        &:hover
-          cursor: pointer
-          background: rgba(255, 255, 255, 0.5)
+      .user-avatar
+        margin: 0 auto
 
-    .submit-row-container
-      position: relative
+        height: 125px
+        width: 125px
 
-    .left .dropdown .dropdown-item
-      color: #525252
+    li:not(.active)
       display: none
-      background: rgba(255, 255, 255, 0.9)
-
-      padding: 8px 10px
+      -webkit-filter: blur(1px)
 
       &:hover
-        background: rgba(255, 255, 255, 1)
+        cursor: pointer
+        opacity: 0.9
+        -webkit-filter: blur(0.5px)
 
-    .left .dropdown .dropdown-item.active
-      color: #fff
-      display: block
-      
-      // Lighter f73f89
-      // Darker f83f77
-      background: #f83f77 $dropdown-caret no-repeat 90% 50%
-      position: relative
+    li.active
+      transform: translateZ(10px)
 
-      font-style: italic
-      font-weight: bold
-      line-height: 1.2em
+    li.previous, li.next
+      display: inline-block
+      opacity: 0.8
 
-      text-overflow: ellipsis
-      overflow: hidden
-      white-space: nowrap
-      
-      padding-right: 30px
+    li.previous
+      transform: translate3d(50px, 0px, -10px) scale(0.9)
+    
+    li.next
+      transform: translate3d(-50px, 0px, -10px) scale(0.9)
 
-      border-radius: 2px
-      box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05)
-
-    .left .dropdown.active .dropdown-item
-      display: block
-
-  .bottom
-    padding-top: 15px
-    height: 5%
-
-    z-index: 2
-
-    .left, .right
-      color: #fff
-      float: left
+    .bottom
+      padding-top: 15px
 
       font-size: 9pt
+      font-weight: bold
       letter-spacing: 1px
 
-      width: 50%
-
-    .left
-      font-weight: bold
-
-      @extend .noselect
+      height: 5%
 
       &:hover
         cursor: pointer
 
-      &.disabled
-        opacity: 0.4
-
-      &.disabled:hover
-        cursor: not-allowed
-
-
-    .right
-      position: relative
-      top: 40px
-      right: -35px
-
+    .header
+      font-size: 11pt
       font-style: italic
-      text-align: right
-      transition: all 1s
+      text-align: center
+      letter-spacing: 1px
 
-      opacity: 0
+      height: 5%
 
-      @extend .noselect
-
-      &.loaded
-        opacity: 1
-      
       em
         font-weight: bold
+
 
 .notifications-container
   position: absolute
@@ -527,7 +608,6 @@ body
     &.fadeout
       opacity: 0
 
-
 .wallpaper-background, .wallpaper-foreground
   background-size: cover
 
@@ -543,56 +623,5 @@ body
   opacity: 1
 
   &.fadeout
-    animation: fade-out 600ms forwards
+    animation: wallpaper-fade-out 600ms forwards
     animation-timing-function: ease-out
-
-@keyframes drop-in-notifications
-  0%
-    top: -200px
-  100%
-    top: 0px
-
-@keyframes drop-in-options
-  0%
-    top: -100px
-    opacity: 0
-  100%
-    top: 0px
-    opacity: 1
-
-@keyframes error-shake
-  0%
-    transform: translateX(0px) scale(1)
-  11%
-    transform: translateX(-10px) scale(1.05)
-  22%
-    transform: translateX(10px) scale(1.05)
-  33%
-    transform: translateX(-10px) scale(1.05)
-  44%
-    transform: translateX(10px) scale(1.05)
-  55%
-    transform: translateX(-10px) scale(1.05)
-  66%
-    transform: translateX(10px) scale(1.05)
-  77%
-    transform: translateX(10px) scale(1.05)
-  88%
-    transform: translateX(10px) scale(1)
-  100%
-    transform: translateX(0px)
-
-@keyframes fade-in
-  0%
-    opacity: 0
-    transform: scale(0.7)
-  100%
-    opacity: 1
-    transform: scale(1)
-
-@keyframes fade-out
-  0%
-    opacity: 1
-
-  100%
-    opacity: 0

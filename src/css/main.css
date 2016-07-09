@@ -1,6 +1,6 @@
 /* http://meyerweb.com/eric/tools/css/reset/
- * v2.0 | 20110126
- * License: none (public domain) */
+   v2.0 | 20110126
+   License: none (public domain) */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -37,7 +37,7 @@ blockquote, q {
 
 blockquote:before, blockquote:after,
 q:before, q:after {
-  content: "";
+  content: '';
   content: none; }
 
 table {
@@ -45,27 +45,87 @@ table {
   border-spacing: 0; }
 
 @font-face {
-  font-family: "Open Sans";
+  font-family: 'Open Sans';
   src: url("../font/OpenSans-Regular-webfont.woff") format("woff");
   font-weight: normal;
   font-style: normal; }
+
 @font-face {
-  font-family: "Open Sans";
+  font-family: 'Open Sans';
   src: url("../font/OpenSans-Bold-webfont.woff") format("woff");
   font-weight: bold;
   font-style: normal; }
+
 @font-face {
-  font-family: "Open Sans";
+  font-family: 'Open Sans';
   src: url("../font/OpenSans-Italic-webfont.woff") format("woff");
   font-weight: normal;
   font-style: italic; }
+
 @font-face {
-  font-family: "Open Sans";
+  font-family: 'Open Sans';
   src: url("../font/OpenSans-BoldItalic-webfont.woff") format("woff");
   font-weight: bold;
   font-style: italic; }
-.noselect, .left-col .command, .left-col .command .icon-wrapper, .left-col .command .text, .left-col .bottom .left, .left-col .bottom .right, .right-col .login-form .user-username, .right-col .login-form .user-password::-webkit-input-placeholder, .right-col .login-form .submit-row .left .dropdown, .right-col .bottom .left, .right-col .bottom .right {
+
+.noselect, .left-col .command, .left-col .command .icon-wrapper, .left-col .command .text, .left-col .bottom .left, .left-col .bottom .right, .right-col .login-panel-main .login-form .user-username, .right-col .login-panel-main .login-form .user-password::-webkit-input-placeholder, .right-col .login-panel-main .login-form .submit-row .left .dropdown, .right-col .login-panel-main .bottom .left, .right-col .login-panel-main .bottom .right {
   -webkit-user-select: none; }
+
+@keyframes drop-in-notifications {
+  0% {
+    top: -200px; }
+  100% {
+    top: 0px; } }
+
+@keyframes drop-in-options {
+  0% {
+    top: -100px;
+    opacity: 0; }
+  100% {
+    top: 0px;
+    opacity: 1; } }
+
+@keyframes error-shake {
+  0% {
+    transform: translateX(0px) scale(1); }
+  11% {
+    transform: translateX(-10px) scale(1.05); }
+  22% {
+    transform: translateX(10px) scale(1.05); }
+  33% {
+    transform: translateX(-10px) scale(1.05); }
+  44% {
+    transform: translateX(10px) scale(1.05); }
+  55% {
+    transform: translateX(-10px) scale(1.05); }
+  66% {
+    transform: translateX(10px) scale(1.05); }
+  77% {
+    transform: translateX(10px) scale(1.05); }
+  88% {
+    transform: translateX(10px) scale(1); }
+  100% {
+    transform: translateX(0px); } }
+
+@keyframes login-fade-out {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@keyframes wallpaper-fade-out {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@keyframes window-fade-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.7); }
+  100% {
+    opacity: 1;
+    transform: scale(1); } }
 
 html {
   box-sizing: border-box; }
@@ -93,7 +153,7 @@ body {
   width: 850px;
   border-radius: 4px;
   transform: scale(0.7);
-  animation: fade-in 0.5s forwards;
+  animation: window-fade-in 0.5s forwards;
   animation-delay: 200ms;
   animation-timing-function: ease-out; }
   .login-window .left-col, .login-window .right-col {
@@ -115,6 +175,7 @@ body {
 
 .left-col > div {
   height: 100%; }
+
 .left-col .distro-logo {
   background: url("../img/arch-logo.png") no-repeat center center;
   margin: 0px auto;
@@ -125,6 +186,7 @@ body {
     cursor: pointer; }
   .left-col .distro-logo:active {
     opacity: 0.8; }
+
 .left-col .distro-wrapper {
   padding-top: 35px;
   height: 52%; }
@@ -162,48 +224,60 @@ body {
     overflow: hidden;
     height: 45px;
     width: 100%; }
+
 .left-col .command {
   margin-bottom: 25px;
   transition: all 0.5s; }
   .left-col .command:hover {
     cursor: pointer;
     opacity: 0.6; }
+
 .left-col .command .icon-wrapper, .left-col .command .text {
   display: inline-block; }
+
 .left-col .command .icon-wrapper {
   margin-right: 10px;
   width: 30px; }
+
 .left-col .command.shutdown .icon {
   background: url("../img/shutdown.png") no-repeat center center;
   height: 20px;
   width: 20px; }
+
 .left-col .command.reboot .icon {
   background: url("../img/reboot.png") no-repeat center center;
   height: 20px;
   width: 20px; }
+
 .left-col .command.sleep .icon {
   background: url("../img/sleep.png") no-repeat center center;
   height: 25px;
   width: 29px; }
+
 .left-col .command.hibernate .icon {
   background: url("../img/hibernate.png") no-repeat center center;
   height: 13px;
   width: 25px; }
+
 .left-col .command .text {
   font-size: 16pt;
   letter-spacing: 2px;
   text-transform: uppercase;
   vertical-align: 2px; }
+
 .left-col .commands-wrapper {
   height: 43%; }
+
 .left-col .bottom {
   height: 5%;
   padding-top: 15px; }
+
 .left-col .bottom .left, .left-col .bottom .right {
   float: left;
   font-size: 9pt;
   font-weight: bold;
   letter-spacing: 1px; }
+
 .left-col .bottom .left {
   color: #c2c2c2;
   overflow: hidden;
@@ -211,11 +285,13 @@ body {
   text-transform: uppercase;
   white-space: nowrap;
   width: 70%; }
+
 .left-col .bottom .right {
   text-align: right;
   opacity: 0;
   width: 30%;
   transition: opacity 1s; }
+
 .left-col .bottom .clock.loaded {
   opacity: 1; }
 
@@ -225,148 +301,224 @@ body {
   border-bottom: none; }
   .right-col > div {
     height: 100%; }
-  .right-col .avatar-container {
-    height: 50%;
-    padding-top: 20px;
-    padding-bottom: 75px; }
-    .right-col .avatar-container .avatar-background {
-      background: url("../img/avatar-background.png") no-repeat center center;
-      margin: 0 auto;
-      height: 155px;
-      width: 154px;
-      transform: translateX(-10px);
-      transition: all 1s; }
-    .right-col .avatar-container .avatar-mask {
-      border-radius: 100%;
-      overflow: hidden;
-      height: 125px;
-      width: 125px;
-      transform: translate(20px, 15px); }
-    .right-col .avatar-container .user-avatar {
-      margin: 0 auto;
-      height: 125px;
-      width: 125px; }
-  .right-col .login-form {
-    height: 45%;
-    display: block;
-    z-index: 2; }
-    .right-col .login-form .user-username {
-      text-align: center;
-      text-transform: capitalize;
-      font-size: 32pt;
-      font-style: italic;
-      font-weight: bold; }
-    .right-col .login-form .user-password-container {
-      margin: 15px auto;
-      width: 200px; }
-    .right-col .login-form .user-password {
-      color: #fff;
-      background: none;
-      outline: none;
-      border: none;
-      border-bottom: 2px solid rgba(255, 255, 255, 0.6);
-      font-size: 14pt;
-      font-weight: bold;
-      letter-spacing: 2px;
-      width: 100%;
-      transition: opacity 1s; }
-      .right-col .login-form .user-password:focus, .right-col .login-form .user-password:active {
-        border-bottom: 2px solid rgba(255, 255, 255, 0.8); }
-      .right-col .login-form .user-password::-webkit-input-placeholder {
-        color: rgba(255, 255, 255, 0.4); }
-      .right-col .login-form .user-password.error {
-        animation: error-shake 600ms forwards; }
-      .right-col .login-form .user-password.error, .right-col .login-form .user-password.error:focus, .right-col .login-form .user-password.error:active {
-        border-bottom: 2px solid rgba(175, 3, 3, 0.6); }
-      .right-col .login-form .user-password.error::-webkit-input-placeholder {
-        color: #af0303; }
-    .right-col .login-form .submit-row {
-      margin: 0 auto;
-      width: 200px;
-      position: absolute;
-      left: 162.5px; }
-      .right-col .login-form .submit-row .left, .right-col .login-form .submit-row .right {
-        display: inline-block;
-        float: left; }
-      .right-col .login-form .submit-row .left {
-        width: 80%; }
-      .right-col .login-form .submit-row .left .dropdown {
-        font-size: 9pt;
-        width: 95%;
-        z-index: 2; }
-        .right-col .login-form .submit-row .left .dropdown:hover {
-          cursor: pointer; }
-      .right-col .login-form .submit-row .right {
-        width: 20%; }
-      .right-col .login-form .submit-row .right .submit-button {
-        color: #fff;
-        background: rgba(251, 137, 171, 0.6);
-        border: none;
-        border-radius: 4px;
-        outline: none;
-        position: relative;
-        top: -1px;
-        left: 6px;
-        font-weight: bold;
-        font-size: 8pt;
-        padding: 8px; }
-        .right-col .login-form .submit-row .right .submit-button:hover {
-          cursor: pointer;
-          background: rgba(255, 255, 255, 0.5); }
-    .right-col .login-form .submit-row-container {
-      position: relative; }
-    .right-col .login-form .left .dropdown .dropdown-item {
-      color: #525252;
-      display: none;
-      background: rgba(255, 255, 255, 0.9);
-      padding: 8px 10px; }
-      .right-col .login-form .left .dropdown .dropdown-item:hover {
-        background: white; }
-    .right-col .login-form .left .dropdown .dropdown-item.active {
-      color: #fff;
+  .right-col .login-panel-main {
+    height: 100%; }
+    .right-col .login-panel-main.fadeout {
+      display: none; }
+    .right-col .login-panel-main .avatar-container {
+      height: 50%;
+      padding-top: 20px;
+      padding-bottom: 75px; }
+      .right-col .login-panel-main .avatar-container .avatar-background {
+        background: url("../img/avatar-background.png") no-repeat center center;
+        margin: 0 auto;
+        height: 155px;
+        width: 154px;
+        transform: translateX(-10px);
+        transition: all 1s; }
+      .right-col .login-panel-main .avatar-container .avatar-mask {
+        border-radius: 100%;
+        overflow: hidden;
+        height: 125px;
+        width: 125px;
+        transform: translate(20px, 15px); }
+      .right-col .login-panel-main .avatar-container .user-avatar {
+        margin: 0 auto;
+        height: 125px;
+        width: 125px; }
+    .right-col .login-panel-main .login-form {
+      height: 45%;
       display: block;
-      background: #f83f77 url("../img/dropdown-caret.png") no-repeat 90% 50%;
-      position: relative;
-      font-style: italic;
-      font-weight: bold;
-      line-height: 1.2em;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-      padding-right: 30px;
-      border-radius: 2px;
-      box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05); }
-    .right-col .login-form .left .dropdown.active .dropdown-item {
+      z-index: 2; }
+      .right-col .login-panel-main .login-form .user-username {
+        text-align: center;
+        text-transform: capitalize;
+        font-size: 32pt;
+        font-style: italic;
+        font-weight: bold; }
+      .right-col .login-panel-main .login-form .user-password-container {
+        margin: 15px auto;
+        width: 200px; }
+      .right-col .login-panel-main .login-form .user-password {
+        color: #fff;
+        background: none;
+        outline: none;
+        border: none;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.6);
+        font-size: 14pt;
+        font-weight: bold;
+        letter-spacing: 2px;
+        width: 100%;
+        transition: opacity 1s; }
+        .right-col .login-panel-main .login-form .user-password:focus, .right-col .login-panel-main .login-form .user-password:active {
+          border-bottom: 2px solid rgba(255, 255, 255, 0.8); }
+        .right-col .login-panel-main .login-form .user-password::-webkit-input-placeholder {
+          color: rgba(255, 255, 255, 0.4); }
+        .right-col .login-panel-main .login-form .user-password.error {
+          animation: error-shake 600ms forwards; }
+        .right-col .login-panel-main .login-form .user-password.error, .right-col .login-panel-main .login-form .user-password.error:focus, .right-col .login-panel-main .login-form .user-password.error:active {
+          border-bottom: 2px solid rgba(175, 3, 3, 0.6); }
+        .right-col .login-panel-main .login-form .user-password.error::-webkit-input-placeholder {
+          color: #af0303; }
+      .right-col .login-panel-main .login-form .submit-row {
+        margin: 0 auto;
+        width: 200px;
+        position: absolute;
+        left: 162.5px; }
+        .right-col .login-panel-main .login-form .submit-row .left, .right-col .login-panel-main .login-form .submit-row .right {
+          display: inline-block;
+          float: left; }
+        .right-col .login-panel-main .login-form .submit-row .left {
+          width: 80%; }
+        .right-col .login-panel-main .login-form .submit-row .left .dropdown {
+          font-size: 9pt;
+          width: 95%;
+          z-index: 2; }
+          .right-col .login-panel-main .login-form .submit-row .left .dropdown:hover {
+            cursor: pointer; }
+        .right-col .login-panel-main .login-form .submit-row .right {
+          width: 20%; }
+        .right-col .login-panel-main .login-form .submit-row .right .submit-button {
+          color: #fff;
+          background: rgba(251, 137, 171, 0.6);
+          border: none;
+          border-radius: 4px;
+          outline: none;
+          position: relative;
+          top: -1px;
+          left: 6px;
+          font-weight: bold;
+          font-size: 8pt;
+          padding: 8px; }
+          .right-col .login-panel-main .login-form .submit-row .right .submit-button:hover {
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.5); }
+      .right-col .login-panel-main .login-form .submit-row-container {
+        position: relative; }
+      .right-col .login-panel-main .login-form .left .dropdown .dropdown-item {
+        color: #525252;
+        display: none;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 8px 10px; }
+        .right-col .login-panel-main .login-form .left .dropdown .dropdown-item:hover {
+          background: white; }
+      .right-col .login-panel-main .login-form .left .dropdown .dropdown-item.active {
+        color: #fff;
+        display: block;
+        background: #f83f77 url("../img/dropdown-caret.png") no-repeat 90% 50%;
+        position: relative;
+        font-style: italic;
+        font-weight: bold;
+        line-height: 1.2em;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        padding-right: 30px;
+        border-radius: 2px;
+        box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05); }
+      .right-col .login-panel-main .login-form .left .dropdown.active .dropdown-item {
+        display: block; }
+    .right-col .login-panel-main .bottom {
+      padding-top: 15px;
+      height: 5%;
+      z-index: 2; }
+      .right-col .login-panel-main .bottom .left, .right-col .login-panel-main .bottom .right {
+        color: #fff;
+        float: left;
+        font-size: 9pt;
+        letter-spacing: 1px;
+        width: 50%; }
+      .right-col .login-panel-main .bottom .left {
+        font-weight: bold; }
+        .right-col .login-panel-main .bottom .left:hover {
+          cursor: pointer; }
+        .right-col .login-panel-main .bottom .left.disabled {
+          opacity: 0.4; }
+        .right-col .login-panel-main .bottom .left.disabled:hover {
+          cursor: not-allowed; }
+      .right-col .login-panel-main .bottom .right {
+        position: relative;
+        top: 40px;
+        right: -35px;
+        font-style: italic;
+        text-align: right;
+        transition: all 1s;
+        opacity: 0; }
+        .right-col .login-panel-main .bottom .right.loaded {
+          opacity: 1; }
+        .right-col .login-panel-main .bottom .right em {
+          font-weight: bold; }
+  .right-col .login-panel-switcher {
+    display: none;
+    height: 100%; }
+    .right-col .login-panel-switcher.active {
       display: block; }
-  .right-col .bottom {
-    padding-top: 15px;
-    height: 5%;
-    z-index: 2; }
-    .right-col .bottom .left, .right-col .bottom .right {
-      color: #fff;
-      float: left;
+    .right-col .login-panel-switcher ul {
+      list-style-type: none;
+      transform-style: preserve-3d;
+      padding-top: 50px;
+      height: 90%; }
+    .right-col .login-panel-switcher li {
+      display: inline-block;
+      padding-top: 25px;
+      width: 33.33%;
+      transition: -webkit-filter 200ms, opacity 300ms; }
+      .right-col .login-panel-switcher li .avatar-background {
+        background: url("../img/avatar-background.png") no-repeat center center;
+        margin: 0 auto;
+        height: 155px;
+        width: 154px;
+        transform: translateX(-10px);
+        transition: all 1s; }
+      .right-col .login-panel-switcher li .avatar-mask {
+        border-radius: 100%;
+        overflow: hidden;
+        height: 125px;
+        width: 125px;
+        transform: translate(20px, 15px); }
+      .right-col .login-panel-switcher li .avatar-name {
+        text-align: center; }
+        .right-col .login-panel-switcher li .avatar-name .username {
+          font-size: 16pt;
+          font-weight: bold; }
+        .right-col .login-panel-switcher li .avatar-name .real-name {
+          font-size: 12pt;
+          font-style: italic; }
+      .right-col .login-panel-switcher li .user-avatar {
+        margin: 0 auto;
+        height: 125px;
+        width: 125px; }
+    .right-col .login-panel-switcher li:not(.active) {
+      display: none;
+      -webkit-filter: blur(1px); }
+      .right-col .login-panel-switcher li:not(.active):hover {
+        cursor: pointer;
+        opacity: 0.9;
+        -webkit-filter: blur(0.5px); }
+    .right-col .login-panel-switcher li.active {
+      transform: translateZ(10px); }
+    .right-col .login-panel-switcher li.previous, .right-col .login-panel-switcher li.next {
+      display: inline-block;
+      opacity: 0.8; }
+    .right-col .login-panel-switcher li.previous {
+      transform: translate3d(50px, 0px, -10px) scale(0.9); }
+    .right-col .login-panel-switcher li.next {
+      transform: translate3d(-50px, 0px, -10px) scale(0.9); }
+    .right-col .login-panel-switcher .bottom {
+      padding-top: 15px;
       font-size: 9pt;
+      font-weight: bold;
       letter-spacing: 1px;
-      width: 50%; }
-    .right-col .bottom .left {
-      font-weight: bold; }
-      .right-col .bottom .left:hover {
+      height: 5%; }
+      .right-col .login-panel-switcher .bottom:hover {
         cursor: pointer; }
-      .right-col .bottom .left.disabled {
-        opacity: 0.4; }
-      .right-col .bottom .left.disabled:hover {
-        cursor: not-allowed; }
-    .right-col .bottom .right {
-      position: relative;
-      top: 40px;
-      right: -35px;
+    .right-col .login-panel-switcher .header {
+      font-size: 11pt;
       font-style: italic;
-      text-align: right;
-      transition: all 1s;
-      opacity: 0; }
-      .right-col .bottom .right.loaded {
-        opacity: 1; }
-      .right-col .bottom .right em {
+      text-align: center;
+      letter-spacing: 1px;
+      height: 5%; }
+      .right-col .login-panel-switcher .header em {
         font-weight: bold; }
 
 .notifications-container {
@@ -406,53 +558,5 @@ body {
 .wallpaper-foreground {
   opacity: 1; }
   .wallpaper-foreground.fadeout {
-    animation: fade-out 600ms forwards;
+    animation: wallpaper-fade-out 600ms forwards;
     animation-timing-function: ease-out; }
-
-@keyframes drop-in-notifications {
-  0% {
-    top: -200px; }
-  100% {
-    top: 0px; } }
-@keyframes drop-in-options {
-  0% {
-    top: -100px;
-    opacity: 0; }
-  100% {
-    top: 0px;
-    opacity: 1; } }
-@keyframes error-shake {
-  0% {
-    transform: translateX(0px) scale(1); }
-  11% {
-    transform: translateX(-10px) scale(1.05); }
-  22% {
-    transform: translateX(10px) scale(1.05); }
-  33% {
-    transform: translateX(-10px) scale(1.05); }
-  44% {
-    transform: translateX(10px) scale(1.05); }
-  55% {
-    transform: translateX(-10px) scale(1.05); }
-  66% {
-    transform: translateX(10px) scale(1.05); }
-  77% {
-    transform: translateX(10px) scale(1.05); }
-  88% {
-    transform: translateX(10px) scale(1); }
-  100% {
-    transform: translateX(0px); } }
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-    transform: scale(0.7); }
-  100% {
-    opacity: 1;
-    transform: scale(1); } }
-@keyframes fade-out {
-  0% {
-    opacity: 1; }
-  100% {
-    opacity: 0; } }
-
-/*# sourceMappingURL=main.css.map */

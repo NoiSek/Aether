@@ -1,6 +1,8 @@
 import Inferno from 'src/dist/js/inferno.min';
 import Component from 'src/dist/js/inferno-component.min';
 
+import { UserSwitcher } from './UserSwitcher';
+
 const ERROR_SHAKE_DURATION = 600;
 
 export class LoginPanel extends Component {
@@ -20,7 +22,8 @@ export class LoginPanel extends Component {
       "activeSession": undefined,
       "dropdownActive": false,
       "password": "",
-      "passwordFailed": false
+      "passwordFailed": false,
+      "switcherActive": false
     };
   }
 
@@ -50,21 +53,21 @@ export class LoginPanel extends Component {
       if (type === "text") {
         window.notifications.generate(text);
       } else if (type === "password") {
-        lightdm.respond(this.state.password);
+        window.lightdm.respond(this.state.password);
       }
     };
     window.show_message = (text, type) => {
       window.notifications.generate(text, type);
     };
     window.authentication_complete = () => {
-      if (lightdm.is_authenticated) {
-        lightdm.start_session_sync(this.state.activeSession.key);
+      if (window.lightdm.is_authenticated) {
+        window.lightdm.start_session_sync(this.state.activeSession.key);
       } else {
         this.rejectPassword();
       }
     };
     window.autologin_timer_expired = () => {
-      window.notifications.generate(text, type);
+      window.notifications.generate("Autologin expired.");
     };
   }
 
@@ -107,7 +110,26 @@ export class LoginPanel extends Component {
 
   handleLoginSubmit(event) {
     event.preventDefault();
-    lightdm.authenticate(this.state.activeUser.name);
+    window.lightdm.authenticate(this.state.activeUser.name);
+  }
+
+  handleSwitcherClick(event) {
+    if (window.lightdm.users.length < 2) {
+      window.notifications.generate("You are the only user that is able to log in on this system.", 'error');
+      return false;
+    } else if (window.lightdm.users.length === 2) {
+      // No point in showing them the switcher if there is only one other user. Switch immediately.
+      let otherUser = window.lightdm.users.filter((user) => {
+        return user.name !== this.state.activeUser.name;
+      })[0];
+
+      this.setActiveUser(otherUser);
+      window.notifications.generate("User has been automatically switched to the only other user on this system.");
+    } else {
+      this.setState({
+        "switcherActive": true
+      });
+    }
   }
 
   handlePasswordInput(event) {
@@ -127,6 +149,13 @@ export class LoginPanel extends Component {
     });
   }
 
+  setActiveUser(user) {
+    this.setState({
+      "activeUser": user,
+      "switcherActive": false
+    });
+  }
+
   rejectPassword() {    
     if(this.state.passwordFailed === false) {
       window.notifications.generate("Password incorrect, please try again.", 'error');
@@ -140,7 +169,7 @@ export class LoginPanel extends Component {
         this.setState({
           "passwordFailed": false
         });
-      }, ERROR_SHAKE_DURATION)
+      }, ERROR_SHAKE_DURATION);
     }
   }
 
@@ -276,17 +305,12 @@ export class LoginPanel extends Component {
   generateSwitchUserButton() {
     let classes = ['left'];
 
-    let eventHandler = () => {
-      alert("Not yet implemented! Complain on Github!");
-    };
-
-    if (window.lightdm.users.length < 20) {
-      eventHandler = false;
+    if (window.lightdm.users.length < 2) {
       classes.push("disabled");
     }
 
     return (
-      <div className={ classes.join(' ') } onClick={ eventHandler }>SWITCH USER</div>
+      <div className={ classes.join(' ') } onClick={ this.handleSwitcherClick.bind(this) }>SWITCH USER</div>
     );
   }
 
@@ -294,8 +318,13 @@ export class LoginPanel extends Component {
     // Do as I say, not as I do. 
     // Having to generate this many sections is a strong indicator that they should be sub-components instead, 
     // but they are remaining here for good reason. As a login screen, fewer dependencies to load is preferable to readability.
+    let loginPanelClasses = ['login-panel-main'];
     let dateClasses = ["right", "date"];
     let dateString = this.generateDateString();
+
+    if (this.state.switcherActive === true) {
+      loginPanelClasses.push('fadeout');
+    }
 
     if (this.state.date.initialized === true) {
       dateClasses.push("loaded");
@@ -306,36 +335,43 @@ export class LoginPanel extends Component {
     let switchUserButton = this.generateSwitchUserButton();
 
     return (
-      <div>
-        <div className="avatar-container">
-          <div className="avatar-background">
-            <div className="avatar-mask">
-              <img className="user-avatar" src={ this.state.activeUser.image } />
-            </div>
-          </div>
-        </div>
-        <form className="login-form" onSubmit={ this.handleLoginSubmit.bind(this) }>
-          <div className="user-username">{ this.state.activeUser.display_name }</div>
-          <div className="user-password-container">
-            { passwordField }
-          </div>
-          <div className="submit-row-container">
-            <div className="submit-row">
-              <div className="left">
-                { sessionDropdown }
-              </div>
-              <div className="right">
-                <input type="submit" value="GO" className="submit-button" />
+      <div className="login-panel-contents">
+        <div className={ loginPanelClasses.join(' ') }>
+          <div className="avatar-container">
+            <div className="avatar-background">
+              <div className="avatar-mask">
+                <img className="user-avatar" src={ this.state.activeUser.image } />
               </div>
             </div>
           </div>
-        </form>
-        <div className="bottom">
-          { switchUserButton }
-          <div className={ dateClasses.join(' ') }>
-            { dateString }
+          <form className="login-form" onSubmit={ this.handleLoginSubmit.bind(this) }>
+            <div className="user-username">{ this.state.activeUser.display_name }</div>
+            <div className="user-password-container">
+              { passwordField }
+            </div>
+            <div className="submit-row-container">
+              <div className="submit-row">
+                <div className="left">
+                  { sessionDropdown }
+                </div>
+                <div className="right">
+                  <input type="submit" value="GO" className="submit-button" />
+                </div>
+              </div>
+            </div>
+          </form>
+          <div className="bottom">
+            { switchUserButton }
+            <div className={ dateClasses.join(' ') }>
+              { dateString }
+            </div>
           </div>
         </div>
+        <UserSwitcher 
+          active={ this.state.switcherActive }
+          activeUser={ this.state.activeUser }
+          setActiveUser={ this.setActiveUser.bind(this) } 
+        />
       </div>
     );
   }

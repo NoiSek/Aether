@@ -5,6 +5,7 @@ import InfernoDOM from 'src/dist/js/inferno-dom.min';
 // For some reason, this loader requires that libraries be loaded here in order for them to work elsewhere.
 import { WallpaperSwitcher } from './WallpaperSwitcher';
 import { Notifications } from './Notifications';
+import { UserSwitcher } from './UserSwitcher';
 import { CommandPanel } from './CommandPanel';
 import { LoginPanel } from './LoginPanel';
 import { Clock } from './Clock';
