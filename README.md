@@ -6,6 +6,8 @@ WIP. A Sleek, straightforward Archlinux themed login screen written on lightdm a
 
 ![](../screenshots/screenshot.png)
 
+![](../screenshots/screenshot-2.png)
+
 ## Features
 
 **Multi User Support**
