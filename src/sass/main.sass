@@ -417,55 +417,6 @@ body
 
       .left .dropdown.active .dropdown-item
         display: block
-
-    .bottom
-      padding-top: 15px
-      height: 5%
-
-      z-index: 2
-
-      .left, .right
-        color: #fff
-        float: left
-
-        font-size: 9pt
-        letter-spacing: 1px
-
-        width: 30%
-
-      .left
-        font-weight: bold
-
-        @extend .noselect
-
-        &:hover
-          cursor: pointer
-
-        &.disabled
-          opacity: 0.4
-
-        &.disabled:hover
-          cursor: not-allowed
-
-
-      .right
-        position: relative
-        top: 40px
-        right: -245px
-
-        font-style: italic
-        text-align: right
-        transition: all 1s
-
-        opacity: 0
-
-        @extend .noselect
-
-        &.loaded
-          opacity: 1
-        
-        em
-          font-weight: bold
   
   .login-panel-switcher
     display: none
@@ -547,18 +498,6 @@ body
     li.next
       transform: translate3d(-50px, 0px, -10px) scale(0.9)
 
-    .bottom
-      padding-top: 15px
-
-      font-size: 9pt
-      font-weight: bold
-      letter-spacing: 1px
-
-      height: 5%
-
-      &:hover
-        cursor: pointer
-
     .header
       font-size: 11pt
       font-style: italic
@@ -567,6 +506,53 @@ body
 
       height: 5%
 
+      em
+        font-weight: bold
+
+  .login-panel-main .bottom, .login-panel-switcher .bottom
+    padding-top: 15px
+    height: 5%
+
+    .left, .right
+      color: #fff
+      float: left
+
+      font-size: 9pt
+      letter-spacing: 1px
+
+      width: 30%
+
+    .left
+      font-weight: bold
+
+      @extend .noselect
+
+      &:hover
+        cursor: pointer
+
+      &.disabled
+        opacity: 0.4
+
+      &.disabled:hover
+        cursor: not-allowed
+
+
+    .right
+      position: relative
+      top: 40px
+      right: -245px
+
+      font-style: italic
+      text-align: right
+      transition: all 1s
+
+      opacity: 0
+
+      @extend .noselect
+
+      &.loaded
+        opacity: 1
+      
       em
         font-weight: bold
 

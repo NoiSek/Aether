@@ -16,6 +16,44 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     };
   }
 
+  var _slicedToArray = function () {
+    function sliceIterator(arr, i) {
+      var _arr = [];
+      var _n = true;
+      var _d = false;
+      var _e = undefined;
+
+      try {
+        for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+          _arr.push(_s.value);
+
+          if (i && _arr.length === i) break;
+        }
+      } catch (err) {
+        _d = true;
+        _e = err;
+      } finally {
+        try {
+          if (!_n && _i["return"]) _i["return"]();
+        } finally {
+          if (_d) throw _e;
+        }
+      }
+
+      return _arr;
+    }
+
+    return function (arr, i) {
+      if (Array.isArray(arr)) {
+        return arr;
+      } else if (Symbol.iterator in Object(arr)) {
+        return sliceIterator(arr, i);
+      } else {
+        throw new TypeError("Invalid attempt to destructure non-iterable instance");
+      }
+    };
+  }();
+
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
@@ -251,6 +289,24 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
   });
 
+  var bp28 = _inferno2.default.createBlueprint({
+    tag: 'div',
+    className: {
+      arg: 0
+    },
+    children: {
+      arg: 1
+    }
+  });
+
+  var bp27 = _inferno2.default.createBlueprint({
+    tag: 'div',
+    className: 'left',
+    children: {
+      arg: 0
+    }
+  });
+
   var bp26 = _inferno2.default.createBlueprint({
     tag: 'div',
     className: 'bottom',
@@ -374,16 +430,28 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
       key: 'render',
       value: function render() {
         var classes = ['login-panel-switcher'];
+        var dateClasses = ['right', 'date'];
+
         var userList = this.generateUserList();
         var userCount = window.lightdm.users.length;
+
+        var _props$date = _slicedToArray(this.props.date, 2);
+
+        var dateInitialized = _props$date[0];
+        var dateString = _props$date[1];
+
 
         if (this.props.active === true) {
           classes.push("active");
         }
 
+        if (dateInitialized === true) {
+          dateClasses.push('loaded');
+        }
+
         return bp22(classes.join(' '), [bp23(['User ', bp24(this.state.selectedUserIndex + 1), ' of ', bp25(userCount)]), userList, bp26({
           onclick: this.props.setActiveUser.bind(this, this.state.selectedUser)
-        }, 'BACK')]);
+        }, [bp27('BACK'), bp28(dateClasses.join(' '), dateString)])]);
       }
     }]);
 

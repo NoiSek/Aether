@@ -370,6 +370,7 @@ export class LoginPanel extends Component {
         <UserSwitcher 
           active={ this.state.switcherActive }
           activeUser={ this.state.activeUser }
+          date={ [this.state.date.initialized, this.generateDateString()] }
           setActiveUser={ this.setActiveUser.bind(this) } 
         />
       </div>

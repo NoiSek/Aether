@@ -68,7 +68,7 @@ table {
   font-weight: bold;
   font-style: italic; }
 
-.noselect, .left-col .command, .left-col .command .icon-wrapper, .left-col .command .text, .left-col .bottom .left, .left-col .bottom .right, .right-col .login-panel-main .login-form .user-username, .right-col .login-panel-main .login-form .user-password::-webkit-input-placeholder, .right-col .login-panel-main .login-form .submit-row .left .dropdown, .right-col .login-panel-main .bottom .left, .right-col .login-panel-main .bottom .right {
+.noselect, .left-col .command, .left-col .command .icon-wrapper, .left-col .command .text, .left-col .bottom .left, .left-col .bottom .right, .right-col .login-panel-main .login-form .user-username, .right-col .login-panel-main .login-form .user-password::-webkit-input-placeholder, .right-col .login-panel-main .login-form .submit-row .left .dropdown, .right-col .login-panel-main .bottom .left, .right-col .login-panel-switcher .bottom .left, .right-col .login-panel-main .bottom .right, .right-col .login-panel-switcher .bottom .right {
   -webkit-user-select: none; }
 
 @keyframes drop-in-notifications {
@@ -418,36 +418,6 @@ body {
         box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05); }
       .right-col .login-panel-main .login-form .left .dropdown.active .dropdown-item {
         display: block; }
-    .right-col .login-panel-main .bottom {
-      padding-top: 15px;
-      height: 5%;
-      z-index: 2; }
-      .right-col .login-panel-main .bottom .left, .right-col .login-panel-main .bottom .right {
-        color: #fff;
-        float: left;
-        font-size: 9pt;
-        letter-spacing: 1px;
-        width: 30%; }
-      .right-col .login-panel-main .bottom .left {
-        font-weight: bold; }
-        .right-col .login-panel-main .bottom .left:hover {
-          cursor: pointer; }
-        .right-col .login-panel-main .bottom .left.disabled {
-          opacity: 0.4; }
-        .right-col .login-panel-main .bottom .left.disabled:hover {
-          cursor: not-allowed; }
-      .right-col .login-panel-main .bottom .right {
-        position: relative;
-        top: 40px;
-        right: -245px;
-        font-style: italic;
-        text-align: right;
-        transition: all 1s;
-        opacity: 0; }
-        .right-col .login-panel-main .bottom .right.loaded {
-          opacity: 1; }
-        .right-col .login-panel-main .bottom .right em {
-          font-weight: bold; }
   .right-col .login-panel-switcher {
     display: none;
     height: 100%; }
@@ -504,14 +474,6 @@ body {
       transform: translate3d(50px, 0px, -10px) scale(0.9); }
     .right-col .login-panel-switcher li.next {
       transform: translate3d(-50px, 0px, -10px) scale(0.9); }
-    .right-col .login-panel-switcher .bottom {
-      padding-top: 15px;
-      font-size: 9pt;
-      font-weight: bold;
-      letter-spacing: 1px;
-      height: 5%; }
-      .right-col .login-panel-switcher .bottom:hover {
-        cursor: pointer; }
     .right-col .login-panel-switcher .header {
       font-size: 11pt;
       font-style: italic;
@@ -519,6 +481,35 @@ body {
       letter-spacing: 1px;
       height: 5%; }
       .right-col .login-panel-switcher .header em {
+        font-weight: bold; }
+  .right-col .login-panel-main .bottom, .right-col .login-panel-switcher .bottom {
+    padding-top: 15px;
+    height: 5%; }
+    .right-col .login-panel-main .bottom .left, .right-col .login-panel-main .bottom .right, .right-col .login-panel-switcher .bottom .left, .right-col .login-panel-switcher .bottom .right {
+      color: #fff;
+      float: left;
+      font-size: 9pt;
+      letter-spacing: 1px;
+      width: 30%; }
+    .right-col .login-panel-main .bottom .left, .right-col .login-panel-switcher .bottom .left {
+      font-weight: bold; }
+      .right-col .login-panel-main .bottom .left:hover, .right-col .login-panel-switcher .bottom .left:hover {
+        cursor: pointer; }
+      .right-col .login-panel-main .bottom .left.disabled, .right-col .login-panel-switcher .bottom .left.disabled {
+        opacity: 0.4; }
+      .right-col .login-panel-main .bottom .left.disabled:hover, .right-col .login-panel-switcher .bottom .left.disabled:hover {
+        cursor: not-allowed; }
+    .right-col .login-panel-main .bottom .right, .right-col .login-panel-switcher .bottom .right {
+      position: relative;
+      top: 40px;
+      right: -245px;
+      font-style: italic;
+      text-align: right;
+      transition: all 1s;
+      opacity: 0; }
+      .right-col .login-panel-main .bottom .right.loaded, .right-col .login-panel-switcher .bottom .right.loaded {
+        opacity: 1; }
+      .right-col .login-panel-main .bottom .right em, .right-col .login-panel-switcher .bottom .right em {
         font-weight: bold; }
 
 .notifications-container {

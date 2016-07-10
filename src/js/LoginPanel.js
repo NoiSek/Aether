@@ -645,6 +645,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
         }, [bp15(this.state.activeUser.display_name), bp16(passwordField), bp17(bp18([bp19(sessionDropdown), bp20(bp21())]))]), bp22([switchUserButton, bp23(dateClasses.join(' '), dateString)])]), bp24(_UserSwitcher.UserSwitcher, {
           active: this.state.switcherActive,
           activeUser: this.state.activeUser,
+          date: [this.state.date.initialized, this.generateDateString()],
           setActiveUser: this.setActiveUser.bind(this)
         })]);
       }

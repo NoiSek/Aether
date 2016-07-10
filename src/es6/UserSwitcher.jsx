@@ -99,18 +99,29 @@ export class UserSwitcher extends Component {
 
   render() {
     let classes = ['login-panel-switcher'];
+    let dateClasses = ['right', 'date'];
+
     let userList = this.generateUserList();
     let userCount = window.lightdm.users.length;
+    
+    let [ dateInitialized, dateString ] = this.props.date;
 
     if (this.props.active === true) {
       classes.push("active");
+    }
+
+    if (dateInitialized === true) {
+      dateClasses.push('loaded');
     }
 
     return (
       <div className={ classes.join(' ') }>
         <div className="header">User <em>{ this.state.selectedUserIndex + 1 }</em> of <em>{ userCount }</em></div>
         { userList }
-        <div className="bottom" onClick={ this.props.setActiveUser.bind(this, this.state.selectedUser) }>BACK</div>
+        <div className="bottom" onClick={ this.props.setActiveUser.bind(this, this.state.selectedUser) }>
+          <div className="left">BACK</div>
+          <div className={ dateClasses.join(' ') }>{ dateString }</div>
+        </div>
       </div>
     );
   }
