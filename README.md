@@ -2,7 +2,9 @@
 ###### ( lightdm-webkit-aether )
 Inspired by a lifelong love with space. 
 
-WIP. A Sleek, straightforward Archlinux themed login screen written on lightdm and the lightdm-webkit2-greeter.
+A Sleek, straightforward Archlinux themed login screen written on lightdm and the lightdm-webkit2-greeter.
+
+**Try it out [here, at the live demo](https://noisek.github.io/Aether/).**
 
 ![](../screenshots/screenshot.png)
 
@@ -52,7 +54,7 @@ echo "light-locker &" >> ~/.xprofile
 ```
 
 ##### Todo
-- [ ] Live demo
+- [x] Live demo
 - [ ] AUR Package
 - [x] Animated previews
 - [x] Multi-user support
