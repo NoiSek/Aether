@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAAA,SAAS;EACP,mBAAmB,EAAE,IAAI",
-"sources": ["../sass/utility.sass"],
-"names": [],
-"file": "utility.css"
-}

@@ -1,6 +1,0 @@
-[theme]
-name=Aether
-description=Aether, an Archlinux LightDM Theme.
-engine=lightdm-webkit-greeter
-url=index.html
-session=cinnamon
