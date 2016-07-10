@@ -427,7 +427,7 @@ body {
         float: left;
         font-size: 9pt;
         letter-spacing: 1px;
-        width: 50%; }
+        width: 30%; }
       .right-col .login-panel-main .bottom .left {
         font-weight: bold; }
         .right-col .login-panel-main .bottom .left:hover {
@@ -439,7 +439,7 @@ body {
       .right-col .login-panel-main .bottom .right {
         position: relative;
         top: 40px;
-        right: -35px;
+        right: -245px;
         font-style: italic;
         text-align: right;
         transition: all 1s;
