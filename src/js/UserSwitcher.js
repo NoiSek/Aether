@@ -102,6 +102,9 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
   }
 
+  // I hope nobody who uses this actually has to switch users regularly, this is terrible.
+  var FADE_DURATION = 200;
+
   var bp6 = _inferno2.default.createBlueprint({
     tag: 'div',
     className: 'real-name',
@@ -359,6 +362,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
       var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(UserSwitcher).call(this, props));
 
       _this.state = {
+        "fadeOut": false,
         "selectedUser": _this.props.activeUser,
         "selectedUserIndex": window.lightdm.users.indexOf(_this.props.activeUser)
       };
@@ -366,6 +370,23 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }
 
     _createClass(UserSwitcher, [{
+      key: 'handleBackButton',
+      value: function handleBackButton(event) {
+        var _this2 = this;
+
+        this.props.setActiveUser(this.state.selectedUser);
+
+        this.setState({
+          "fadeOut": true
+        });
+
+        setTimeout(function () {
+          _this2.setState({
+            "fadeOut": false
+          });
+        }, FADE_DURATION);
+      }
+    }, {
       key: 'handleUserClick',
       value: function handleUserClick(index) {
         this.setState({
@@ -376,7 +397,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }, {
       key: 'generateUserList',
       value: function generateUserList() {
-        var _this2 = this;
+        var _this3 = this;
 
         var activeIndex = this.state.selectedUserIndex;
 
@@ -396,7 +417,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
           }
 
           return bp0(classes.join(' '), {
-            onclick: _this2.handleUserClick.bind(_this2, index)
+            onclick: _this3.handleUserClick.bind(_this3, index)
           }, [bp1(bp2(bp3({
             src: user.image
           }))), bp4([bp5(user.display_name), bp6(user.real_name)])]);
@@ -443,6 +464,8 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
 
         if (this.props.active === true) {
           classes.push("active");
+        } else if (this.state.fadeOut === true) {
+          classes.push("fadeout");
         }
 
         if (dateInitialized === true) {
@@ -450,7 +473,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
         }
 
         return bp22(classes.join(' '), [bp23(['User ', bp24(this.state.selectedUserIndex + 1), ' of ', bp25(userCount)]), userList, bp26({
-          onclick: this.props.setActiveUser.bind(this, this.state.selectedUser)
+          onclick: this.handleBackButton.bind(this)
         }, [bp27('BACK'), bp28(dateClasses.join(' '), dateString)])]);
       }
     }]);

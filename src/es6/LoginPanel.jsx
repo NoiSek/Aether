@@ -3,6 +3,7 @@ import Component from 'src/dist/js/inferno-component.min';
 
 import { UserSwitcher } from './UserSwitcher';
 
+const FADE_IN_DURATION = 200;
 const ERROR_SHAKE_DURATION = 600;
 
 export class LoginPanel extends Component {
@@ -21,6 +22,7 @@ export class LoginPanel extends Component {
       "activeUser": undefined,
       "activeSession": undefined,
       "dropdownActive": false,
+      "fadeIn": false,
       "password": "",
       "passwordFailed": false,
       "switcherActive": false
@@ -123,7 +125,7 @@ export class LoginPanel extends Component {
         return user.name !== this.state.activeUser.name;
       })[0];
 
-      this.setActiveUser(otherUser);
+      this.setActiveUser(otherUser, true);
       window.notifications.generate("User has been automatically switched to the only other user on this system.");
     } else {
       this.setState({
@@ -149,11 +151,23 @@ export class LoginPanel extends Component {
     });
   }
 
-  setActiveUser(user) {
+  setActiveUser(user, isBypass) {
     this.setState({
       "activeUser": user,
       "switcherActive": false
     });
+
+    if (isBypass === false || isBypass === undefined) {
+      this.setState({
+        "fadeIn": true
+      });
+
+      setTimeout(() => {
+        this.setState({
+          "fadeIn": false
+        });
+      }, FADE_IN_DURATION);
+    }
   }
 
   rejectPassword() {    
@@ -321,6 +335,10 @@ export class LoginPanel extends Component {
     let loginPanelClasses = ['login-panel-main'];
     let dateClasses = ["right", "date"];
     let dateString = this.generateDateString();
+
+    if (this.state.fadeIn === true) {
+      loginPanelClasses.push('fadein');
+    }
 
     if (this.state.switcherActive === true) {
       loginPanelClasses.push('fadeout');

@@ -2,14 +2,30 @@ import Inferno from 'src/dist/js/inferno.min';
 import Component from 'src/dist/js/inferno-component.min';
 
 // I hope nobody who uses this actually has to switch users regularly, this is terrible.
+const FADE_DURATION = 200;
 
 export class UserSwitcher extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      "fadeOut": false,
       "selectedUser": this.props.activeUser,
       "selectedUserIndex": window.lightdm.users.indexOf(this.props.activeUser)
     };
+  }
+
+  handleBackButton(event) {
+    this.props.setActiveUser(this.state.selectedUser);
+
+    this.setState({
+      "fadeOut": true
+    });
+
+    setTimeout(() => {
+      this.setState({
+        "fadeOut": false
+      });
+    }, FADE_DURATION);
   }
 
   handleUserClick(index) {
@@ -108,6 +124,8 @@ export class UserSwitcher extends Component {
 
     if (this.props.active === true) {
       classes.push("active");
+    } else if (this.state.fadeOut === true) {
+      classes.push("fadeout");
     }
 
     if (dateInitialized === true) {
@@ -118,7 +136,7 @@ export class UserSwitcher extends Component {
       <div className={ classes.join(' ') }>
         <div className="header">User <em>{ this.state.selectedUserIndex + 1 }</em> of <em>{ userCount }</em></div>
         { userList }
-        <div className="bottom" onClick={ this.props.setActiveUser.bind(this, this.state.selectedUser) }>
+        <div className="bottom" onClick={ this.handleBackButton.bind(this) }>
           <div className="left">BACK</div>
           <div className={ dateClasses.join(' ') }>{ dateString }</div>
         </div>

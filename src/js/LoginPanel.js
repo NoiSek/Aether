@@ -70,6 +70,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
   }
 
+  var FADE_IN_DURATION = 200;
   var ERROR_SHAKE_DURATION = 600;
 
   var bp3 = _inferno2.default.createBlueprint({
@@ -321,6 +322,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
         "activeUser": undefined,
         "activeSession": undefined,
         "dropdownActive": false,
+        "fadeIn": false,
         "password": "",
         "passwordFailed": false,
         "switcherActive": false
@@ -443,7 +445,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
             return user.name !== _this3.state.activeUser.name;
           })[0];
 
-          this.setActiveUser(otherUser);
+          this.setActiveUser(otherUser, true);
           window.notifications.generate("User has been automatically switched to the only other user on this system.");
         } else {
           this.setState({
@@ -472,16 +474,30 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
       }
     }, {
       key: 'setActiveUser',
-      value: function setActiveUser(user) {
+      value: function setActiveUser(user, isBypass) {
+        var _this4 = this;
+
         this.setState({
           "activeUser": user,
           "switcherActive": false
         });
+
+        if (isBypass === false || isBypass === undefined) {
+          this.setState({
+            "fadeIn": true
+          });
+
+          setTimeout(function () {
+            _this4.setState({
+              "fadeIn": false
+            });
+          }, FADE_IN_DURATION);
+        }
       }
     }, {
       key: 'rejectPassword',
       value: function rejectPassword() {
-        var _this4 = this;
+        var _this5 = this;
 
         if (this.state.passwordFailed === false) {
           window.notifications.generate("Password incorrect, please try again.", 'error');
@@ -492,7 +508,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
           });
 
           setTimeout(function () {
-            _this4.setState({
+            _this5.setState({
               "passwordFailed": false
             });
           }, ERROR_SHAKE_DURATION);
@@ -501,7 +517,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }, {
       key: 'setDate',
       value: function setDate() {
-        var _this5 = this;
+        var _this6 = this;
 
         var dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
@@ -539,7 +555,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
         });
 
         setTimeout(function () {
-          _this5.setDate();
+          _this6.setDate();
         }, 30 * 1000);
       }
     }, {
@@ -571,20 +587,20 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }, {
       key: 'generateSessionDropdown',
       value: function generateSessionDropdown() {
-        var _this6 = this;
+        var _this7 = this;
 
         // Sort by active, then alphabetical.
         // Doing this requires using sort in reverse.
         var rows = window.lightdm.sessions.sort(function (a, b) {
           return a.name.toUpperCase() > b.name.toUpperCase();
         }).sort(function (a, b) {
-          return b.key.toLowerCase() === _this6.state.activeSession.key.toLowerCase() ? 1 : -1;
+          return b.key.toLowerCase() === _this7.state.activeSession.key.toLowerCase() ? 1 : -1;
         }).map(function (session) {
           var classes = ["dropdown-item"];
-          var eventHandler = _this6.setActiveSession.bind(_this6, session.key);
+          var eventHandler = _this7.setActiveSession.bind(_this7, session.key);
 
-          if (session.key === _this6.state.activeSession.key) {
-            eventHandler = _this6.handleDropdownClick.bind(_this6);
+          if (session.key === _this7.state.activeSession.key) {
+            eventHandler = _this7.handleDropdownClick.bind(_this7);
             classes.push("active");
           }
 
@@ -625,6 +641,10 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
         var loginPanelClasses = ['login-panel-main'];
         var dateClasses = ["right", "date"];
         var dateString = this.generateDateString();
+
+        if (this.state.fadeIn === true) {
+          loginPanelClasses.push('fadein');
+        }
 
         if (this.state.switcherActive === true) {
           loginPanelClasses.push('fadeout');

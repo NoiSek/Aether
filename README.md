@@ -13,9 +13,10 @@ WIP. A Sleek, straightforward Archlinux themed login screen written on lightdm a
 - [ ] AUR Package
 - [x] Multi-user support
 - [x] Full single-user support
-- [ ] User-switching animations
+- [x] User-switching animations
 - [x] Handle login errors more visibly.
 - [ ] Dependency optimization, inline CSS
+- [ ] Separate dates from their parent components
 - [ ] Separate styling when used as a lock screen
 
 ##### Credit

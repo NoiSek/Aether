@@ -109,9 +109,36 @@ table {
 
 @keyframes login-fade-out {
   0% {
-    opacity: 1; }
+    opacity: 1;
+    transform: translateY(0); }
+  90% {
+    transform: translateY(10px); }
   100% {
     opacity: 0; } }
+
+@keyframes login-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(5px); }
+  100% {
+    opacity: 1;
+    transform: translateY(0px); } }
+
+@keyframes switcher-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(5px) scale(0.95); }
+  100% {
+    opacity: 1;
+    transform: translateY(0px) scale(1); } }
+
+@keyframes switcher-fade-out {
+  0% {
+    opacity: 1;
+    transform: translateY(0px) scale(1); }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95); } }
 
 @keyframes wallpaper-fade-out {
   0% {
@@ -302,9 +329,14 @@ body {
   .right-col > div {
     height: 100%; }
   .right-col .login-panel-main {
+    position: relative;
+    z-index: 2;
     height: 100%; }
     .right-col .login-panel-main.fadeout {
-      display: none; }
+      animation: login-fade-out 500ms ease forwards;
+      z-index: 1; }
+    .right-col .login-panel-main.fadein {
+      animation: login-fade-in 200ms ease-out forwards; }
     .right-col .login-panel-main .avatar-container {
       height: 50%;
       padding-top: 20px;
@@ -328,8 +360,7 @@ body {
         width: 125px; }
     .right-col .login-panel-main .login-form {
       height: 45%;
-      display: block;
-      z-index: 2; }
+      display: block; }
       .right-col .login-panel-main .login-form .user-username {
         text-align: center;
         text-transform: capitalize;
@@ -372,8 +403,7 @@ body {
           width: 80%; }
         .right-col .login-panel-main .login-form .submit-row .left .dropdown {
           font-size: 9pt;
-          width: 95%;
-          z-index: 2; }
+          width: 95%; }
           .right-col .login-panel-main .login-form .submit-row .left .dropdown:hover {
             cursor: pointer; }
         .right-col .login-panel-main .login-form .submit-row .right {
@@ -419,15 +449,23 @@ body {
       .right-col .login-panel-main .login-form .left .dropdown.active .dropdown-item {
         display: block; }
   .right-col .login-panel-switcher {
-    display: none;
+    display: block;
+    opacity: 0;
+    position: relative;
+    top: -100%;
+    z-index: 1;
     height: 100%; }
     .right-col .login-panel-switcher.active {
-      display: block; }
+      animation: 200ms switcher-fade-in ease-out forwards;
+      animation-delay: 150ms;
+      z-index: 2; }
+    .right-col .login-panel-switcher.fadeout {
+      animation: 200ms switcher-fade-out ease-out forwards; }
     .right-col .login-panel-switcher ul {
       list-style-type: none;
       transform-style: preserve-3d;
       padding-top: 50px;
-      height: 90%; }
+      height: 95%; }
     .right-col .login-panel-switcher li {
       display: inline-block;
       padding-top: 25px;
@@ -479,7 +517,9 @@ body {
       font-style: italic;
       text-align: center;
       letter-spacing: 1px;
-      height: 5%; }
+      position: absolute;
+      height: 5%;
+      width: 100%; }
       .right-col .login-panel-switcher .header em {
         font-weight: bold; }
   .right-col .login-panel-main .bottom, .right-col .login-panel-switcher .bottom {

@@ -241,10 +241,17 @@ body
     height: 100%
 
   .login-panel-main
+    position: relative
+    z-index: 2
+
     height: 100%
 
     &.fadeout
-      display: none
+      animation: login-fade-out 500ms ease forwards
+      z-index: 1
+
+    &.fadein
+      animation: login-fade-in 200ms ease-out forwards
 
     .avatar-container
       height: 50%
@@ -280,8 +287,6 @@ body
     .login-form
       height: 45%
       display: block
-
-      z-index: 2
 
       .user-username
         text-align: center
@@ -349,7 +354,6 @@ body
           font-size: 9pt
 
           width: 95%
-          z-index: 2
 
           @extend .noselect
 
@@ -419,18 +423,31 @@ body
         display: block
   
   .login-panel-switcher
-    display: none
+    display: block
+    opacity: 0
+
+    position: relative
+    top: -100%
+
+    z-index: 1
+
     height: 100%
 
     &.active
-      display: block
+      animation: 200ms switcher-fade-in ease-out forwards
+      animation-delay: 150ms
+
+      z-index: 2
+
+    &.fadeout
+      animation: 200ms switcher-fade-out ease-out forwards
 
     ul
       list-style-type: none
       transform-style: preserve-3d
 
       padding-top: 50px
-      height: 90%
+      height: 95%
 
     li
       display: inline-block
@@ -504,7 +521,10 @@ body
       text-align: center
       letter-spacing: 1px
 
+      position: absolute
+
       height: 5%
+      width: 100%
 
       em
         font-weight: bold
