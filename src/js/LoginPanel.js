@@ -429,7 +429,14 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
       key: 'handleLoginSubmit',
       value: function handleLoginSubmit(event) {
         event.preventDefault();
-        window.lightdm.authenticate(this.state.activeUser.name);
+
+        if (window.debug === false) {
+          window.lightdm.authenticate(this.state.activeUser.name);
+        } else {
+          if (this.state.password.toLowerCase() !== "password") {
+            this.rejectPassword();
+          }
+        }
       }
     }, {
       key: 'handleSwitcherClick',

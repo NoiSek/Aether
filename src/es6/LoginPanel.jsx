@@ -112,7 +112,14 @@ export class LoginPanel extends Component {
 
   handleLoginSubmit(event) {
     event.preventDefault();
-    window.lightdm.authenticate(this.state.activeUser.name);
+    
+    if (window.debug === false) {
+      window.lightdm.authenticate(this.state.activeUser.name);
+    } else {
+      if (this.state.password.toLowerCase() !== "password") {
+        this.rejectPassword();
+      }
+    }
   }
 
   handleSwitcherClick(event) {

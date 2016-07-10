@@ -68,6 +68,11 @@ table {
   font-weight: bold;
   font-style: italic; }
 
+.disabled {
+  opacity: 0.4; }
+  .disabled .disabled:hover {
+    cursor: not-allowed !important; }
+
 .noselect, .left-col .command, .left-col .command .icon-wrapper, .left-col .command .text, .left-col .bottom .left, .left-col .bottom .right, .right-col .login-panel-main .login-form .user-username, .right-col .login-panel-main .login-form .user-password::-webkit-input-placeholder, .right-col .login-panel-main .login-form .submit-row .left .dropdown, .right-col .login-panel-main .bottom .left, .right-col .login-panel-switcher .bottom .left, .right-col .login-panel-main .bottom .right, .right-col .login-panel-switcher .bottom .right {
   -webkit-user-select: none; }
 
@@ -166,6 +171,7 @@ body {
 
 .login-window-container {
   position: relative;
+  overflow: hidden;
   height: 100vh;
   width: 100vw; }
 
@@ -535,10 +541,6 @@ body {
       font-weight: bold; }
       .right-col .login-panel-main .bottom .left:hover, .right-col .login-panel-switcher .bottom .left:hover {
         cursor: pointer; }
-      .right-col .login-panel-main .bottom .left.disabled, .right-col .login-panel-switcher .bottom .left.disabled {
-        opacity: 0.4; }
-      .right-col .login-panel-main .bottom .left.disabled:hover, .right-col .login-panel-switcher .bottom .left.disabled:hover {
-        cursor: not-allowed; }
     .right-col .login-panel-main .bottom .right, .right-col .login-panel-switcher .bottom .right {
       position: relative;
       top: 40px;

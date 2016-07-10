@@ -1,2 +1,7 @@
+.disabled {
+  opacity: 0.4; }
+  .disabled .disabled:hover {
+    cursor: not-allowed !important; }
+
 .noselect {
   -webkit-user-select: none; }
