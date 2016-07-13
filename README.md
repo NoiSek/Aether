@@ -1,5 +1,5 @@
 # Aether
-###### ( lightdm-webkit-aether )
+###### ( lightdm-webkit-theme-aether )
 Inspired by a lifelong love with space. 
 
 A Sleek, straightforward Archlinux themed login screen written on lightdm and the lightdm-webkit2-greeter.
@@ -60,11 +60,11 @@ echo "light-locker &" >> ~/.xprofile
 - [x] Multi-user support
 - [x] Full single-user support
 - [x] User-switching animations
-- [ ] Animation on successful login
+- [x] ~~Animation on successful login~~ Unnecessary and sluggish feeling.
 - [x] Handle login errors more visibly.
-- [ ] Dependency optimization, inline CSS
+- [x] ~~Dependency optimization, inline CSS~~ Introduced too many dependencies, ironically.
 - [ ] Separate dates from their parent components
-- [ ] Separate styling when used as a lock screen
+- [x] ~~Separate styling when used as a lock screen~~ Out of scope.
 
 ##### Credit
 - *Bear by Yu luck from the Noun Project*
