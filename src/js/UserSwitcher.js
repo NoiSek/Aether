@@ -423,7 +423,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
           }))), bp4([bp5(user.display_name), bp6(user.real_name)])]);
         });
 
-        // Very hacky. Add an extra copy of the last element to the beginning of the list
+        // Very hacky. Add an extra copy of the last element to the beginning of the list 
         // if the first element in the list is currently selected.
         if (activeIndex === 0) {
           var user = window.lightdm.users[window.lightdm.users.length - 1];
@@ -434,7 +434,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
           }))), bp11([bp12(user.display_name), bp13(user.real_name)])]));
         }
 
-        // Very hacky. Add an extra copy of the first element to the end of the list
+        // Very hacky. Add an extra copy of the first element to the end of the list 
         // if the last element in the list is currently selected.
         if (activeIndex === window.lightdm.users.length - 1) {
           var _user = window.lightdm.users[0];

@@ -596,7 +596,7 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
       value: function generateSessionDropdown() {
         var _this7 = this;
 
-        // Sort by active, then alphabetical.
+        // Sort by active, then alphabetical. 
         // Doing this requires using sort in reverse.
         var rows = window.lightdm.sessions.sort(function (a, b) {
           return a.name.toUpperCase() > b.name.toUpperCase();
@@ -642,8 +642,8 @@ define(['exports', 'src/dist/js/inferno.min', 'src/dist/js/inferno-component.min
     }, {
       key: 'render',
       value: function render() {
-        // Do as I say, not as I do.
-        // Having to generate this many sections is a strong indicator that they should be sub-components instead,
+        // Do as I say, not as I do. 
+        // Having to generate this many sections is a strong indicator that they should be sub-components instead, 
         // but they are remaining here for good reason. As a login screen, fewer dependencies to load is preferable to readability.
         var loginPanelClasses = ['login-panel-main'];
         var dateClasses = ["right", "date"];
