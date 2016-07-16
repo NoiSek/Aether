@@ -38,7 +38,7 @@ pacaur -S lightdm-webkit-theme-aether
 This assumes that you already have lightdm and lightdm-webkit2-greeter installed (but not configured).
 
 ```
-# If you prefer the last stable release, download from the releaeses page instead: https://github.com/NoiSek/Aether/releases/latest
+# If you prefer the last stable release, download from the releases page instead: https://github.com/NoiSek/Aether/releases/latest
 git clone git@github.com:NoiSek/Aether.git
 sudo cp --recursive Aether /usr/share/lightdm-webkit/themes/Aether
 
