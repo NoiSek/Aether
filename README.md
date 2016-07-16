@@ -23,6 +23,42 @@ A Sleek, straightforward Archlinux themed login screen written on lightdm and th
 ## Requirements
 - [lightdm-webkit2-greeter (aur/lightdm-webkit2-greeter )](https://github.com/Antergos/lightdm-webkit2-greeter)
 
+## Installation
+
+**Recommended Automatic Installation**
+
+[Available on the AUR](https://aur.archlinux.org/packages/lightdm-webkit-theme-aether/). ArchLinux users can substitute pacaur with yaourt, packer, etc. as necessary and install with the following:
+
+```
+pacaur -S lightdm-webkit-theme-aether
+```
+
+**Manual Installation**
+
+This assumes that you already have lightdm and lightdm-webkit2-greeter installed (but not configured).
+
+```
+# If you prefer the last stable release, download from the releaeses page instead: https://github.com/NoiSek/Aether/releases/latest
+git clone git@github.com:NoiSek/Aether.git
+sudo cp --recursive Aether /usr/share/lightdm-webkit/themes/Aether
+
+# Set default lightdm-webkit2-greeter theme to Aether
+sudo sed -i 's/^webkit-theme\s*=\s*\(.*\)/webkit-theme = lightdm-webkit-aether #\1/g' etc/lightdm/lightdm-webkit2-greeter.conf
+
+# Set default lightdm greeter to lightdm-webkit2-greeter
+sudo sed -i 's/^\(#?greeter\)-session\s*=\s*\(.*\)/greeter-session = lightdm-webkit2-greeter #\1/ #\2g' etc/lightdm/lightdm.conf
+```
+
+### **Setting an Avatar Image**
+
+![](./src/img/default-user.png)
+
+Once LightDM, LightDM Webkit Greeter, and Aether are installed you will need to set an avatar image for your users. Size is irrelevant, and avatars will be displayed as a 125x125 circle (Yes, square images too). Users that don't have an avatar set will default to the [astronaut](./src/img/default-user.png).
+
+To accomplish this, you can do either of the following: 
+- Create an image in your home directory named `.face`.
+- Append `Icon=/path/to/your/avatar.png` to the bottom of the file at `/var/lib/AccountsService/users/<youraccountname>`
+
 ## Troubleshooting
 
 ### My login screen hasn't changed!
@@ -55,7 +91,7 @@ echo "light-locker &" >> ~/.xprofile
 
 ##### Todo
 - [x] Live demo
-- [ ] AUR Package
+- [x] AUR Package
 - [x] Animated previews
 - [x] Multi-user support
 - [x] Full single-user support
