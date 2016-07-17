@@ -70,7 +70,7 @@ sudo systemctl enable lightdm.service
 
 ### My screen is black!
 
-Verify that your libgl / glx drivers are properly installed. Find any potential issues with your X config by switching to another TTY with Ctrl+Alt+F2 and trying:
+Verify that your libgl / glx drivers are properly installed. Find any potential issues with your X config by switching to another TTY with <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>F2</kbd> and trying:
 ```
 sudo cat /var/log/Xorg.0.log | grep -i "glx"
 ```
