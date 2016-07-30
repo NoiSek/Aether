@@ -90,17 +90,10 @@ echo "light-locker &" >> ~/.xprofile
 ```
 
 ##### Todo
-- [x] Live demo
-- [x] AUR Package
-- [x] Animated previews
-- [x] Multi-user support
-- [x] Full single-user support
-- [x] User-switching animations
-- [x] ~~Animation on successful login~~ Unnecessary and sluggish feeling.
-- [x] Handle login errors more visibly.
-- [x] ~~Dependency optimization, inline CSS~~ Introduced too many dependencies, ironically.
 - [ ] Separate dates from their parent components
-- [x] ~~Separate styling when used as a lock screen~~ Out of scope.
+- [ ] Add switchable CSS themes
+- [ ] Implement wallpaper customization
+
 
 ##### Credit
 - *Bear by Yu luck from the Noun Project*
