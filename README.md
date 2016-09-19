@@ -131,13 +131,13 @@ npm run test
 
 ### Building Project
 ```
-// Note: Automatically runs tests first.
+# Note: Automatically runs tests first.
 npm run build
 ```
 
 ### Monitoring Changes
 ```
-// Automatically detects and re-compiles changes.
+# Automatically detects and re-compiles changes.
 npm run watch
 ```
 
