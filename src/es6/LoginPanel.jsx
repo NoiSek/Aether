@@ -1,12 +1,12 @@
-import Inferno from 'src/dist/js/inferno.min';
-import Component from 'src/dist/js/inferno-component.min';
+import Inferno from 'inferno.min';
+import Component from 'inferno-component.min';
 
-import { UserSwitcher } from './UserSwitcher';
+import UserSwitcher from './UserSwitcher';
 
 const FADE_IN_DURATION = 200;
 const ERROR_SHAKE_DURATION = 600;
 
-export class LoginPanel extends Component {
+export default class LoginPanel extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -118,6 +118,11 @@ export class LoginPanel extends Component {
     } else {
       if (this.state.password.toLowerCase() !== "password") {
         this.rejectPassword();
+      } else {
+        window.notifications.generate("You are now logged in.", 'success');
+        this.setState({
+          "password": ""
+        });
       }
     }
   }

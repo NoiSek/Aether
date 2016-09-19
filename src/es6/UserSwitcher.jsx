@@ -1,10 +1,10 @@
-import Inferno from 'src/dist/js/inferno.min';
-import Component from 'src/dist/js/inferno-component.min';
+import Inferno from 'inferno.min';
+import Component from 'inferno-component.min';
 
 // I hope nobody who uses this actually has to switch users regularly, this is terrible.
 const FADE_DURATION = 200;
 
-export class UserSwitcher extends Component {
+export default class UserSwitcher extends Component {
   constructor(props) {
     super(props);
     this.state = {

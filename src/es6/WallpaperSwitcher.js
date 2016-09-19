@@ -1,13 +1,48 @@
-import Inferno from 'src/dist/js/inferno.min';
-import Component from 'src/dist/js/inferno-component.min';
+import Inferno from 'inferno.min';
+import Component from 'inferno-component.min';
 
 const FADEOUT_TIME = 600;
 
-export class WallpaperSwitcher extends Component {
+export const WALLPAPERS = getWallpapers();
+
+function getWallpapers() {
+  // If we're in test mode, we stick to a static rotation of three default wallpapers.
+  // In production, it is possible that a user will change what wallpapers are available.
+  let _wallpapers = undefined;
+
+  if (window.debug === true) {
+    _wallpapers = ['boko.jpg', 'mountains-2.png', 'space-1.jpg'];
+  } else {
+    let wallpapersDirectory = window.config.get_str("branding", "background_images");
+
+    // Do NOT allow the default wallpaper directory to set, as this will prevent the default provided backgrounds from 
+    // being used 100% of the time in a stock install.
+    if (wallpapersDirectory == "/usr/share/backgrounds" || wallpapersDirectory == "/usr/share/backgrounds/") {
+      wallpapersDirectory = "/usr/share/lightdm-webkit/themes/lightdm-webkit-theme-aether/src/img/backgrounds/";
+    }
+
+    _wallpapers = window.greeterutil.dirlist(wallpapersDirectory);
+    _wallpapers = _wallpapers.map((e, i, a) => e.split("/").pop());
+  }
+
+  return _wallpapers;
+}
+
+export default class WallpaperSwitcher extends Component {
   constructor(props) {
     super(props);
 
+    let wallpaperDirectory;
+    
+    // Set background directory
+    if (window.debug === true) {
+      wallpaperDirectory = "src/test/wallpapers/";
+    } else {
+      wallpaperDirectory = "src/img/wallpapers/";
+    }
+
     this.state = {
+      "wallpaperDirectory": wallpaperDirectory,
       "currentWallpaper": undefined,
       "establishedWallpaper": undefined,
       "wallpaperBackground": undefined,
@@ -28,11 +63,12 @@ export class WallpaperSwitcher extends Component {
         localStorage.setItem("wallpaper", "abstract.jpg");
       }
 
+      let wallpaperDirectory = this.state.wallpaperDirectory;
       let wallpaperImage = localStorage.getItem("wallpaper");
       let wallpaperBackground = document.querySelectorAll('.wallpaper-background')[0];
       let wallpaperForeground = document.querySelectorAll('.wallpaper-foreground')[0];
 
-      wallpaperForeground.style.background = `url('src/img/backgrounds/${wallpaperImage}')`;
+      wallpaperForeground.style.background = `url('${wallpaperDirectory}${wallpaperImage}')`;
       wallpaperForeground.style.backgroundSize = "cover";
 
       this.setState({
@@ -70,10 +106,10 @@ export class WallpaperSwitcher extends Component {
       return false;
     }
 
-    let backgrounds = this.props.backgrounds;
+    let wallpapers = WALLPAPERS;
     let switcher = this.state.switcher;
-    let index = (switcher.index + backgrounds.length + 1) % backgrounds.length;
-    let newWallpaper = backgrounds[index];
+    let index = (switcher.index + wallpapers.length + 1) % wallpapers.length;
+    let newWallpaper = wallpapers[index];
 
     this.setWallpaper(newWallpaper);
 
@@ -115,7 +151,8 @@ export class WallpaperSwitcher extends Component {
     let switcher = this.state.switcher;
 
     // Fadeout foreground wallpaper to new wallpaper
-    this.state.wallpaperBackground.style.background = `url('src/img/backgrounds/${newWallpaper}')`;
+    let wallpaperDirectory = this.state.wallpaperDirectory;
+    this.state.wallpaperBackground.style.background = `url('${wallpaperDirectory}${newWallpaper}')`;
     this.state.wallpaperBackground.style.backgroundSize = 'cover';
     this.state.wallpaperForeground.className += " fadeout";
 
@@ -123,7 +160,7 @@ export class WallpaperSwitcher extends Component {
 
     setTimeout(() => {
       // Cycle new wallpaper back to the front, make it visible again.
-      this.state.wallpaperForeground.style.background = `url('src/img/backgrounds/${newWallpaper}')`;
+      this.state.wallpaperForeground.style.background = `url('${wallpaperDirectory}${newWallpaper}')`;
       this.state.wallpaperForeground.style.backgroundSize = 'cover';
       this.state.wallpaperForeground.className = this.state.wallpaperForeground.className.replace(" fadeout", "");
 

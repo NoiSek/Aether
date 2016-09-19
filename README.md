@@ -59,6 +59,15 @@ To accomplish this, you can do either of the following:
 - Create an image in your home directory named `.face`.
 - Append `Icon=/path/to/your/avatar.png` to the bottom of the file at `/var/lib/AccountsService/users/<youraccountname>`
 
+### **Using Your Own Wallpapers**
+
+#### Method One:
+Add and delete wallpapers within the `src/img/wallpapers/` directory as you see fit. By default, you will find this folder at the absolute path: `/usr/share/lightdm-webkit/themes/lightdm-webkit-theme-aether/src/img/wallpapers/`.
+
+#### Method Two:
+Edit the `background_images` value under `branding` within your lightdm-webkit config file located at `/etc/lightdm/lightdm-webkit2-greeter.conf`.
+*Note: This ignores the default value of /usr/share/backgrounds, as this is always set and would prevent the default wallpapers from working. To use wallpapers from within that directory, create a subdirectory at /usr/share/backgrounds/aether (or any other folder name) and change your config value accordingly.*
+
 ## Troubleshooting
 
 ### My login screen hasn't changed!
@@ -87,6 +96,30 @@ Solution:
 
 ```
 echo "light-locker &" >> ~/.xprofile
+```
+
+## Development
+
+Make sure you have [Node](https://nodejs.org/en/) installed.
+
+- `sudo npm install -g webpack`
+- `npm install` *(While in project directory)*
+
+**Running Tests**
+```
+npm run test
+```
+
+**Building Project**
+```
+// Note: Automatically runs tests first.
+npm run build
+```
+
+**Development**
+```
+// Automatically detects and re-compiles changes.
+npm run watch
 ```
 
 ##### Todo

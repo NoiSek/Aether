@@ -20,48 +20,40 @@
         </div>
       </div>
     </div>
-    <script type="text/javascript" src="src/dist/js/curl.js"></script>
     <script type="text/javascript">
-      curl([
-        'src/js/Main'
-      ]).then(function(main){
-        window.debug = false;
+      window.debug = false;
 
-        if (window.lightdm === undefined) {
-          window.debug = true;
-          window.lightdm = {
-            "authenticate": function(){ return true; },
-            "hibernate": function(){ return true; },
-            "restart": function(){ return true; },
-            "shutdown": function(){ return true; },
-            "suspend": function(){ return true; },
-            "can_hibernate": true,
-            "can_restart": true,
-            "can_shutdown": true,
-            "can_suspend": true,
-            "hostname": "Mercury",
-            "default_session": 'deepin',
-            "lock_hint": false,
-            "users": [
-              {"display_name":"captain","language":"en_US.utf8","real_name":"John Doe","layout":null,"image":"src/img/default-user.png","home_directory":"/home/captain","name":"captain","logged_in":false,"session":"deepin"},
-              {"display_name":"GClooney","language":"en_US.utf8","real_name":"George Clooney","layout":null,"image":"src/img/default-user.png","home_directory":"/home/gclooney","name":"gclooney","logged_in":false,"session":"xfce"},
-              {"display_name":"LannisterX","language":"en_US.utf8","real_name":"Jaime Lannister","layout":null,"image":"src/img/default-user.png","home_directory":"/home/lannisterx","name":"lannisterx","logged_in":false,"session":"gnome"}
-            ],
-            "sessions": [
-              {"name":"Deepin","key":"deepin","comment":"Deepin Desktop Environment"},
-              {"name":"Gnome","key":"gnome","comment":"Gnome Desktop Environment"},
-              {"name":"XFCE4","key":"xfce","comment":"XFCE Desktop Environment"},
-              {"name":"Cinnamon","key":"cinnamon","comment":"Cinnamon DE"},
-              {"name":"Cinnamon (Software)","key":"cinnamon-software","comment":"Cinnamon DE (Software Rendering)"},
-              {"name":"LXDE","key":"lxde","comment":"LXDE Desktop Environment"}
-            ]
-          };
-        }
-
-        main.default();
-      }, function(exception){
-        console.log(exception);
-      });
+      if (window.lightdm === undefined) {
+        window.debug = true;
+        window.lightdm = {
+          "authenticate": function(){ return true; },
+          "hibernate": function(){ return true; },
+          "restart": function(){ return true; },
+          "shutdown": function(){ return true; },
+          "suspend": function(){ return true; },
+          "can_hibernate": true,
+          "can_restart": true,
+          "can_shutdown": true,
+          "can_suspend": true,
+          "hostname": "Mercury",
+          "default_session": 'deepin',
+          "lock_hint": false,
+          "users": [
+            {"display_name":"captain","language":"en_US.utf8","real_name":"John Doe","layout":null,"image":"src/img/default-user.png","home_directory":"/home/captain","name":"captain","logged_in":false,"session":"deepin"},
+            {"display_name":"GClooney","language":"en_US.utf8","real_name":"George Clooney","layout":null,"image":"src/img/default-user.png","home_directory":"/home/gclooney","name":"gclooney","logged_in":false,"session":"xfce"},
+            {"display_name":"LannisterX","language":"en_US.utf8","real_name":"Jaime Lannister","layout":null,"image":"src/img/default-user.png","home_directory":"/home/lannisterx","name":"lannisterx","logged_in":false,"session":"gnome"}
+          ],
+          "sessions": [
+            {"name":"Deepin","key":"deepin","comment":"Deepin Desktop Environment"},
+            {"name":"Gnome","key":"gnome","comment":"Gnome Desktop Environment"},
+            {"name":"XFCE4","key":"xfce","comment":"XFCE Desktop Environment"},
+            {"name":"Cinnamon","key":"cinnamon","comment":"Cinnamon DE"},
+            {"name":"Cinnamon (Software)","key":"cinnamon-software","comment":"Cinnamon DE (Software Rendering)"},
+            {"name":"LXDE","key":"lxde","comment":"LXDE Desktop Environment"}
+          ]
+        };
+      }
     </script>
+    <script src="src/js/Aether.js"></script>
   </body>
 </html>

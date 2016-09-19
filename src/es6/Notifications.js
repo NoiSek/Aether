@@ -1,4 +1,4 @@
-export class Notifications {
+export default class Notifications {
   constructor() {
     this.container = document.querySelectorAll('.notifications-container')[0];
   }
