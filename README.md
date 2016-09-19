@@ -10,6 +10,25 @@ A Sleek, straightforward Archlinux themed login screen written on lightdm and th
 
 ![](../screenshots/screenshot-2.png)
 
+## Table of Contents
+
+- [Aether](#aether)
+  - [Features](#features)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+    - [Setting an Avatar Image](#setting-an-avatar-image)
+    - [Using Your Own Wallpapers](#using-your-own-wallpapers)
+  - [Troubleshooting](#troubleshooting)
+    - [My login screen hasn't changed!](#my-login-screen-hasnt-changed)
+    - [My screen is black!](#my-screen-is-black)
+    - [The lock screen isn't using my lightdm theme!](#the-lock-screen-isnt-using-my-lightdm-theme)
+  - [Development](#development)
+    - [Running Tests](#running-tests)
+    - [Building Project](#building-project)
+    - [Monitoring Changes](#monitoring-changes)
+    - [Todo](#todo)
+    - [Credit](#credits)
+
 ## Features
 
 **Multi User Support**
@@ -105,18 +124,18 @@ Make sure you have [Node](https://nodejs.org/en/) installed.
 - `sudo npm install -g webpack`
 - `npm install` *(While in project directory)*
 
-**Running Tests**
+### Running Tests
 ```
 npm run test
 ```
 
-**Building Project**
+### Building Project
 ```
 // Note: Automatically runs tests first.
 npm run build
 ```
 
-**Development**
+### Monitoring Changes
 ```
 // Automatically detects and re-compiles changes.
 npm run watch
