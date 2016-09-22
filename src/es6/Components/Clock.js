@@ -1,9 +1,6 @@
 import Inferno from 'inferno.min';
 import Component from 'inferno-component.min';
 
-// For some reason this caused undiagnosable hangs in LightDM-webkit (But not in-browser)
-// until it was separated into its own component.
-
 export default class Clock extends Component {
   constructor(props) {
     super(props);

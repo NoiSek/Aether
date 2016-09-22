@@ -142,9 +142,10 @@ npm run watch
 ```
 
 ##### Todo
-- [ ] Separate dates from their parent components
+- [x] Separate dates from their parent components
+- [x] Implement wallpaper customization
 - [ ] Add switchable CSS themes
-- [ ] Implement wallpaper customization
+- [ ] Rewrite using Redux for testing reasons.
 
 
 ##### Credit

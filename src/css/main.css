@@ -73,7 +73,7 @@ table {
   .disabled .disabled:hover {
     cursor: not-allowed !important; }
 
-.noselect, .left-col .command, .left-col .command .icon-wrapper, .left-col .command .text, .left-col .bottom .left, .left-col .bottom .right, .right-col .login-panel-main .login-form .user-username, .right-col .login-panel-main .login-form .user-password::-webkit-input-placeholder, .right-col .login-panel-main .login-form .submit-row .left .dropdown, .right-col .login-panel-main .bottom .left, .right-col .login-panel-switcher .bottom .left, .right-col .login-panel-main .bottom .right, .right-col .login-panel-switcher .bottom .right {
+.noselect, .date, .left-col .command, .left-col .command .icon-wrapper, .left-col .command .text, .left-col .bottom .left, .left-col .bottom .right, .right-col .login-panel-main .login-form .user-username, .right-col .login-panel-main .login-form .user-password::-webkit-input-placeholder, .right-col .login-panel-main .login-form .submit-row .left .dropdown, .right-col .login-panel-main .bottom .left, .right-col .login-panel-switcher .bottom .left {
   -webkit-user-select: none; }
 
 @keyframes drop-in-notifications {
@@ -168,6 +168,24 @@ html {
 body {
   font-family: "Open Sans";
   background: #222; }
+
+.date {
+  color: #fff;
+  opacity: 0;
+  font-size: 9pt;
+  font-style: italic;
+  text-align: right;
+  letter-spacing: 1px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: 265px 0px 0px -425px;
+  width: 850px;
+  transition: all 1s; }
+  .date.loaded {
+    opacity: 1; }
+  .date em {
+    font-weight: bold; }
 
 .login-window-container {
   position: relative;
@@ -531,7 +549,7 @@ body {
   .right-col .login-panel-main .bottom, .right-col .login-panel-switcher .bottom {
     padding-top: 15px;
     height: 5%; }
-    .right-col .login-panel-main .bottom .left, .right-col .login-panel-main .bottom .right, .right-col .login-panel-switcher .bottom .left, .right-col .login-panel-switcher .bottom .right {
+    .right-col .login-panel-main .bottom .left, .right-col .login-panel-switcher .bottom .left {
       color: #fff;
       float: left;
       font-size: 9pt;
@@ -541,19 +559,6 @@ body {
       width: 30%; }
       .right-col .login-panel-main .bottom .left:hover, .right-col .login-panel-switcher .bottom .left:hover {
         cursor: pointer; }
-    .right-col .login-panel-main .bottom .right, .right-col .login-panel-switcher .bottom .right {
-      position: relative;
-      top: 40px;
-      right: -89px;
-      font-style: italic;
-      text-align: right;
-      transition: all 1s;
-      opacity: 0;
-      width: 60%; }
-      .right-col .login-panel-main .bottom .right.loaded, .right-col .login-panel-switcher .bottom .right.loaded {
-        opacity: 1; }
-      .right-col .login-panel-main .bottom .right em, .right-col .login-panel-switcher .bottom .right em {
-        font-weight: bold; }
 
 .notifications-container {
   position: absolute;

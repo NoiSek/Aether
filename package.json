@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/eslint src/es6/**",
-    "build": "npm run test && ./node_modules/.bin/webpack --progress --colors && ./node_modules/.bin/node-sass src/sass --output src/css",
+    "build": "npm run test && ./node_modules/.bin/webpack --progress --colors --optimize-dedupe --optimize-minimize --optimize-occurrence-order && ./node_modules/.bin/node-sass src/sass --output src/css",
     "watch": "./node_modules/.bin/webpack --progress --colors --watch & ./node_modules/.bin/node-sass --watch src/sass --output src/css"
   },
   "repository": {
@@ -28,11 +28,9 @@
   },
   "homepage": "https://github.com/noisek/Aether#readme",
   "devDependencies": {
-    "babel": "^6.5.2",
-    "babel-cli": "^6.10.1",
     "babel-loader": "^6.2.5",
-    "babel-plugin-inferno": "^0.7.3",
-    "babel-preset-es2015": "^6.9.0",
+    "babel-plugin-inferno": "^0.7.7",
+    "babel-preset-es2015": "^6.14.0",
     "eslint": "^3.0.1",
     "eslint-plugin-react": "^5.2.2",
     "node-sass": "^3.8.0",
