@@ -10,6 +10,25 @@ A Sleek, straightforward Archlinux themed login screen written on lightdm and th
 
 ![](../screenshots/screenshot-2.png)
 
+## Table of Contents
+
+- [Aether](#aether)
+  - [Features](#features)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+    - [Setting an Avatar Image](#setting-an-avatar-image)
+    - [Using Your Own Wallpapers](#using-your-own-wallpapers)
+  - [Troubleshooting](#troubleshooting)
+    - [My login screen hasn't changed!](#my-login-screen-hasnt-changed)
+    - [My screen is black!](#my-screen-is-black)
+    - [The lock screen isn't using my lightdm theme!](#the-lock-screen-isnt-using-my-lightdm-theme)
+  - [Development](#development)
+    - [Running Tests](#running-tests)
+    - [Building Project](#building-project)
+    - [Monitoring Changes](#monitoring-changes)
+    - [Todo](#todo)
+    - [Credit](#credits)
+
 ## Features
 
 **Multi User Support**
@@ -59,6 +78,15 @@ To accomplish this, you can do either of the following:
 - Create an image in your home directory named `.face`.
 - Append `Icon=/path/to/your/avatar.png` to the bottom of the file at `/var/lib/AccountsService/users/<youraccountname>`
 
+### **Using Your Own Wallpapers**
+
+#### Method One:
+Add and delete wallpapers within the `src/img/wallpapers/` directory as you see fit. By default, you will find this folder at the absolute path: `/usr/share/lightdm-webkit/themes/lightdm-webkit-theme-aether/src/img/wallpapers/`.
+
+#### Method Two:
+Edit the `background_images` value under `branding` within your lightdm-webkit config file located at `/etc/lightdm/lightdm-webkit2-greeter.conf`.
+*Note: This ignores the default value of /usr/share/backgrounds, as this is always set and would prevent the default wallpapers from working. To use wallpapers from within that directory, create a subdirectory at /usr/share/backgrounds/aether (or any other folder name) and change your config value accordingly.*
+
 ## Troubleshooting
 
 ### My login screen hasn't changed!
@@ -89,10 +117,35 @@ Solution:
 echo "light-locker &" >> ~/.xprofile
 ```
 
+## Development
+
+Make sure you have [Node](https://nodejs.org/en/) installed.
+
+- `sudo npm install -g webpack`
+- `npm install` *(While in project directory)*
+
+### Running Tests
+```
+npm run test
+```
+
+### Building Project
+```
+# Note: Automatically runs tests first.
+npm run build
+```
+
+### Monitoring Changes
+```
+# Automatically detects and re-compiles changes.
+npm run watch
+```
+
 ##### Todo
-- [ ] Separate dates from their parent components
+- [x] Separate dates from their parent components
+- [x] Implement wallpaper customization
 - [ ] Add switchable CSS themes
-- [ ] Implement wallpaper customization
+- [ ] Rewrite using Redux for testing reasons.
 
 
 ##### Credit

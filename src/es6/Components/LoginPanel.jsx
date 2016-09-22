@@ -1,24 +1,16 @@
-import Inferno from 'src/dist/js/inferno.min';
-import Component from 'src/dist/js/inferno-component.min';
+import Inferno from 'inferno.min';
+import Component from 'inferno-component.min';
 
-import { UserSwitcher } from './UserSwitcher';
+import UserSwitcher from './UserSwitcher';
+import LoginPanelForm from './LoginPanelForm';
 
 const FADE_IN_DURATION = 200;
 const ERROR_SHAKE_DURATION = 600;
 
-export class LoginPanel extends Component {
+export default class LoginPanel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      "date": {
-        "formattedString": undefined,
-        "initialized": false,
-        "dayName": undefined,
-        "dayValue": undefined,
-        "formattedDayValue": undefined,
-        "monthName": undefined,
-        "monthValue": undefined,
-      },
       "activeUser": undefined,
       "activeSession": undefined,
       "dropdownActive": false,
@@ -37,18 +29,6 @@ export class LoginPanel extends Component {
       "activeUser": defaultUser,
       "activeSession": defaultSession
     });
-
-    // Wait two seconds, so that the clock can render first and they fade in sequentially rather than in parallel.
-    setTimeout(() => {
-      this.setDate();
-      
-      let date = this.state.date;
-      date.initialized = true;
-
-      this.setState({
-        "date": date
-      });
-    }, 2000);
 
     // Define functions required in the global scope by LightDM.
     window.show_prompt = (text, type) => {
@@ -118,6 +98,11 @@ export class LoginPanel extends Component {
     } else {
       if (this.state.password.toLowerCase() !== "password") {
         this.rejectPassword();
+      } else {
+        window.notifications.generate(`You are now logged in as ${this.state.activeUser.display_name} to ${this.state.activeSession.name}.`, 'success');
+        this.setState({
+          "password": ""
+        });
       }
     }
   }
@@ -194,135 +179,6 @@ export class LoginPanel extends Component {
     }
   }
 
-  setDate() {
-    let dayNames = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday"
-    ];
-
-    let monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"
-    ];
-
-    let now = new Date();
-
-    let dayValue = now.getDate();
-    let dayName = dayNames[now.getUTCDay()];
-    let monthValue = now.getMonth();
-    let monthName = monthNames[monthValue];
-
-    let formattedDayValue;
-
-    if (4 <= dayValue <= 20 || 24 <= dayValue <= 30) {
-      formattedDayValue = dayValue + "th";
-    } else {
-      formattedDayValue = dayValue + ["st", "nd", "rd"][dayValue % 10 - 1];
-    }
-
-    let formattedDateString = `<em>${dayName}</em>, the <em>${formattedDayValue}</em> of <em>${monthName}</em>`;
-    
-    let date = this.state.date;
-    date.formattedString = formattedDateString;
-    date.initialized = true;
-
-    date.dayName = dayName;
-    date.dayValue = dayValue;
-    date.formattedDayValue = formattedDayValue;
-    date.monthName = monthName;
-    date.monthValue = monthValue;
-
-    this.setState({
-      "date": date
-    });
-
-    setTimeout(() => {
-      this.setDate();
-    }, 30 * 1000);
-  }
-
-  generateDateString() {
-    let date = this.state.date;
-    
-    let dateString = (
-      <span>
-        <em>{ date.dayName }</em>, the <em>{ date.formattedDayValue }</em> of <em>{ date.monthName }</em>
-      </span>
-    );
-
-    return dateString;
-  }
-
-  generatePasswordField() {
-    let classes = ['user-password'];
-
-    if (this.state.passwordFailed === true) {
-      classes.push('error');
-    }
-
-    return (
-      <input 
-        type="password" 
-        placeholder="*******************" 
-        className={ classes.join(' ') } 
-        value={ this.state.password }
-        onChange={ this.handlePasswordInput.bind(this) }
-      />
-    );
-  }
-
-  generateSessionDropdown() {
-    // Sort by active, then alphabetical. 
-    // Doing this requires using sort in reverse.
-    let rows = window.lightdm.sessions
-    .sort((a, b) => {
-      return a.name.toUpperCase() > b.name.toUpperCase();
-    })
-    .sort((a, b) => {
-      return (b.key.toLowerCase() === this.state.activeSession.key.toLowerCase()) ? 1 : -1;
-    })
-    .map((session) => {
-      let classes = ["dropdown-item"];
-      let eventHandler = this.setActiveSession.bind(this, session.key);
-
-      if (session.key === this.state.activeSession.key) {
-        eventHandler = this.handleDropdownClick.bind(this);
-        classes.push("active");
-      }
-
-      return (
-        <div className={ classes.join(' ') } key={ session.key } onClick={ eventHandler }>{ session.name }</div>
-      );
-    });
-
-    let classes = ['dropdown', 'user-session'];
-
-    if (this.state.dropdownActive) {
-      classes.push('active');
-    }
-
-    return (
-      <div className={ classes.join(' ') } onMouseLeave={ this.handleDropdownLeave.bind(this) }>
-        { rows }
-      </div>
-    );
-  }
-
   generateSwitchUserButton() {
     let classes = ['left'];
 
@@ -336,12 +192,7 @@ export class LoginPanel extends Component {
   }
 
   render() {
-    // Do as I say, not as I do. 
-    // Having to generate this many sections is a strong indicator that they should be sub-components instead, 
-    // but they are remaining here for good reason. As a login screen, fewer dependencies to load is preferable to readability.
     let loginPanelClasses = ['login-panel-main'];
-    let dateClasses = ["right", "date"];
-    let dateString = this.generateDateString();
 
     if (this.state.fadeIn === true) {
       loginPanelClasses.push('fadein');
@@ -351,12 +202,6 @@ export class LoginPanel extends Component {
       loginPanelClasses.push('fadeout');
     }
 
-    if (this.state.date.initialized === true) {
-      dateClasses.push("loaded");
-    }
-
-    let passwordField = this.generatePasswordField();
-    let sessionDropdown = this.generateSessionDropdown();
     let switchUserButton = this.generateSwitchUserButton();
 
     return (
@@ -369,33 +214,25 @@ export class LoginPanel extends Component {
               </div>
             </div>
           </div>
-          <form className="login-form" onSubmit={ this.handleLoginSubmit.bind(this) }>
-            <div className="user-username">{ this.state.activeUser.display_name }</div>
-            <div className="user-password-container">
-              { passwordField }
-            </div>
-            <div className="submit-row-container">
-              <div className="submit-row">
-                <div className="left">
-                  { sessionDropdown }
-                </div>
-                <div className="right">
-                  <input type="submit" value="GO" className="submit-button" />
-                </div>
-              </div>
-            </div>
-          </form>
+          <LoginPanelForm 
+            activeSession={ this.state.activeSession }
+            activeUser={ this.state.activeUser }
+            dropdownActive={ this.state.dropdownActive }
+            password={ this.state.password }
+            passwordFailed={ this.state.passwordFailed }
+            handleLoginSubmit={ this.handleLoginSubmit.bind(this) } 
+            handleDropdownClick={ this.handleDropdownClick.bind(this) }
+            handleDropdownLeave={ this.handleDropdownLeave.bind(this) }
+            handlePasswordInput={ this.handlePasswordInput.bind(this) }
+            setActiveSession={ this.setActiveSession.bind(this) }
+          />
           <div className="bottom">
             { switchUserButton }
-            <div className={ dateClasses.join(' ') }>
-              { dateString }
-            </div>
           </div>
         </div>
         <UserSwitcher 
           active={ this.state.switcherActive }
           activeUser={ this.state.activeUser }
-          date={ [this.state.date.initialized, this.generateDateString()] }
           setActiveUser={ this.setActiveUser.bind(this) } 
         />
       </div>

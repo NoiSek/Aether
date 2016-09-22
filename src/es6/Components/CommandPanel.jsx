@@ -1,10 +1,10 @@
-import Inferno from 'src/dist/js/inferno.min';
-import Component from 'src/dist/js/inferno-component.min';
+import Inferno from 'inferno.min';
+import Component from 'inferno-component.min';
 
-import { WallpaperSwitcher } from "./WallpaperSwitcher";
-import { Clock } from './Clock';
+import WallpaperSwitcher from "./WallpaperSwitcher";
+import Clock from './Clock';
 
-export class CommandPanel extends Component {
+export default class CommandPanel extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -92,7 +92,7 @@ export class CommandPanel extends Component {
 
     return (
       <div>
-        <WallpaperSwitcher backgrounds={ this.props.backgrounds } />
+        <WallpaperSwitcher />
         { commands }
         <div className="bottom">
           <div className="left hostname">{ hostname }</div>
