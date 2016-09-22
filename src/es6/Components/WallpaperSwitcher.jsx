@@ -18,7 +18,7 @@ function getWallpapers() {
     // Do NOT allow the default wallpaper directory to set, as this will prevent the default provided backgrounds from 
     // being used 100% of the time in a stock install.
     if (wallpapersDirectory == "/usr/share/backgrounds" || wallpapersDirectory == "/usr/share/backgrounds/") {
-      wallpapersDirectory = "/usr/share/lightdm-webkit/themes/lightdm-webkit-theme-aether/src/img/backgrounds/";
+      wallpapersDirectory = "/usr/share/lightdm-webkit/themes/lightdm-webkit-theme-aether/src/img/wallpapers/";
     }
 
     _wallpapers = window.greeterutil.dirlist(wallpapersDirectory);
