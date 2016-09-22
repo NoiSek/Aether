@@ -60,7 +60,7 @@ export default class WallpaperSwitcher extends Component {
     if (typeof(Storage) !== "undefined") {
       // Set a default wallpaper if none found.
       if (localStorage.getItem("wallpaper") === null) {
-        localStorage.setItem("wallpaper", "abstract.jpg");
+        localStorage.setItem("wallpaper", "space-1.jpg");
       }
 
       let wallpaperDirectory = this.state.wallpaperDirectory;
