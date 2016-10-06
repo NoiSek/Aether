@@ -141,13 +141,6 @@ npm run build
 npm run watch
 ```
 
-##### Todo
-- [x] Separate dates from their parent components
-- [x] Implement wallpaper customization
-- [ ] Add switchable CSS themes
-- [ ] Rewrite using Redux for testing reasons.
-
-
 ##### Credit
 - *Bear by Yu luck from the Noun Project*
 - *Power by Nikita Kozin from the Noun Project*
