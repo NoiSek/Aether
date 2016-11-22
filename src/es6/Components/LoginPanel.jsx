@@ -72,7 +72,7 @@ export default class LoginPanel extends Component {
   }
 
   findSession(sessionName) {
-    if (sessionName === undefined) {
+    if (sessionName === undefined || sessionName === null) {
       return false;
     }
     return window.lightdm.sessions.filter((session) => session.name.toLowerCase() === sessionName.toLowerCase() || session.key.toLowerCase() === sessionName.toLowerCase())[0];
