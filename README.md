@@ -1,6 +1,6 @@
 # Aether
 ###### ( lightdm-webkit-theme-aether )
-Inspired by a lifelong love with space. 
+Inspired by a lifelong love with space.
 
 A Sleek, straightforward Archlinux themed login screen written on lightdm and the lightdm-webkit2-greeter.
 
@@ -74,7 +74,7 @@ sudo sed -i 's/^\(#?greeter\)-session\s*=\s*\(.*\)/greeter-session = lightdm-web
 
 Once LightDM, LightDM Webkit Greeter, and Aether are installed you will need to set an avatar image for your users. Size is irrelevant, and avatars will be displayed as a 125x125 circle (Yes, square images too). Users that don't have an avatar set will default to the [astronaut](./src/img/default-user.png).
 
-To accomplish this, you can do either of the following: 
+To accomplish this, you can do either of the following:
 - Create an image in your home directory named `.face`.
 - Append `Icon=/path/to/your/avatar.png` to the bottom of the file at `/var/lib/AccountsService/users/<youraccountname>`
 
@@ -104,6 +104,21 @@ sudo cat /var/log/Xorg.0.log | grep -i "glx"
 ```
 
 Are you able to run `glxinfo` without errors?
+
+### My system hangs at the boot screen!
+
+Switch to another TTY with <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>F2</kbd> and check your lightdm logs by running:
+```
+sudo tail /var/log/lightdm/seat0-greeter.log
+```
+
+If you see something similar to:
+```
+*** (lightdm:709): CRITICAL **: session_get_login1_session_id: assertion 'session != NULL' failed
+```
+
+Then you should try re-installing and / or reconfiguring your graphics drivers, especially if this occurred after a kernel update.
+
 
 ### The lock screen isn't using my lightdm theme!
 
@@ -140,6 +155,13 @@ npm run build
 # Automatically detects and re-compiles changes.
 npm run watch
 ```
+
+##### Todo
+- [x] Separate dates from their parent components
+- [x] Implement wallpaper customization
+- [ ] Add switchable CSS themes
+- [ ] Rewrite using Redux for testing reasons.
+
 
 ##### Credit
 - *Bear by Yu luck from the Noun Project*
