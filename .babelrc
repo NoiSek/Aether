@@ -1,4 +1,8 @@
-{   
+{
     "presets": ["es2015"],
-    "plugins": ["babel-plugin-syntax-jsx", "babel-plugin-inferno"]
+    "plugins": [
+      "babel-plugin-syntax-jsx",
+      "babel-plugin-inferno",
+      "transform-object-rest-spread"
+    ]
 }

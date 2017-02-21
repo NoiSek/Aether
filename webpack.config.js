@@ -5,15 +5,15 @@ module.exports = {
     "filename": "Aether.js"
   },
   "module": {
-    "loaders": [
-      { 
-        "es6": "src/es6", 
-        "loader": "babel-loader"
+    "rules": [
+      {
+        "test": /\.(js|jsx)$/,
+        "use": 'babel-loader'
       }
     ]
   },
   "resolve": {
-    "extensions": ["", ".js", ".jsx"],
-    "modulesDirectories": ["./src/dist/js"],
+    "extensions": ["", ".js", ".min.js", ".jsx"],
+    "modulesDirectories": ["./src/dist/js", "./node_modules"],
   }
 };

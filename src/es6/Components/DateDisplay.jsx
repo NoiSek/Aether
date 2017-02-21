@@ -1,5 +1,5 @@
-import Inferno from 'inferno.min';
-import Component from 'inferno-component.min';
+import Inferno from 'inferno';
+import Component from 'inferno-component';
 
 export default class DateDisplay extends Component {
   constructor(props) {

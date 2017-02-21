@@ -1,5 +1,5 @@
-import Inferno from 'inferno.min';
-import Component from 'inferno-component.min';
+import Inferno from 'inferno';
+import Component from 'inferno-component';
 
 import LoginSessionDropdown from './LoginSessionDropdown';
 import PasswordField from './PasswordField';
@@ -15,7 +15,7 @@ export default class LoginPanelForm extends Component {
       <form className="login-form" onSubmit={ this.props.handleLoginSubmit }>
         <div className="user-username">{ this.props.activeUser.display_name }</div>
         <div className="user-password-container">
-          <PasswordField 
+          <PasswordField
             password={ this.props.password }
             passwordFailed={ this.props.passwordFailed }
             handlePasswordInput={ this.props.handlePasswordInput }
@@ -24,7 +24,7 @@ export default class LoginPanelForm extends Component {
         <div className="submit-row-container">
           <div className="submit-row">
             <div className="left">
-              <LoginSessionDropdown 
+              <LoginSessionDropdown
                 activeSession={ this.props.activeSession }
                 dropdownActive={ this.props.dropdownActive }
                 handleDropdownClick={ this.props.handleDropdownClick }

@@ -1,5 +1,5 @@
-import Inferno from 'inferno.min';
-import Component from 'inferno-component.min';
+import Inferno from 'inferno';
+import Component from 'inferno-component';
 
 import WallpaperSwitcher from "./WallpaperSwitcher";
 import Clock from './Clock';
@@ -36,8 +36,8 @@ export default class CommandPanel extends Component {
   generateCommands() {
     let commands = {
       "Shutdown": window.lightdm.can_shutdown,
-      "Reboot": window.lightdm.can_restart, 
-      "Hibernate": window.lightdm.can_hibernate, 
+      "Reboot": window.lightdm.can_restart,
+      "Hibernate": window.lightdm.can_hibernate,
       "Sleep": window.lightdm.can_suspend
     };
 
@@ -64,7 +64,7 @@ export default class CommandPanel extends Component {
     let rows = enabledCommands.map((command) => {
       let disabled = command.toLowerCase().split('.')[1] || false;
       command = command.toLowerCase().split('.')[0];
-      
+
       let classes = ['command', command, disabled].filter((e) => e);
 
       return (

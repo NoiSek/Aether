@@ -1,5 +1,5 @@
-import Inferno from 'inferno.min';
-import Component from 'inferno-component.min';
+import Inferno from 'inferno';
+import Component from 'inferno-component';
 
 export default class Clock extends Component {
   constructor(props) {
@@ -23,7 +23,7 @@ export default class Clock extends Component {
     return (i < 10) ? "0" + i : i;
   }
 
-  updateClock() {    
+  updateClock() {
     let now = new Date();
     let hours = this.padZeroes(now.getHours());
     let minutes = this.padZeroes(now.getMinutes());

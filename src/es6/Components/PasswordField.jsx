@@ -1,5 +1,5 @@
-import Inferno from 'inferno.min';
-import Component from 'inferno-component.min';
+import Inferno from 'inferno';
+import Component from 'inferno-component';
 
 export default class PasswordField extends Component {
   constructor(props) {
@@ -13,12 +13,12 @@ export default class PasswordField extends Component {
     if (this.props.passwordFailed === true) {
       classes.push('error');
     }
-    
+
     return (
-      <input 
-        type="password" 
-        placeholder="*******************" 
-        className={ classes.join(' ') } 
+      <input
+        type="password"
+        placeholder="*******************"
+        className={ classes.join(' ') }
         value={ this.props.password }
         onChange={ this.props.handlePasswordInput }
       />

@@ -1,5 +1,5 @@
-import Inferno from 'inferno.min';
-import Component from 'inferno-component.min';
+import Inferno from 'inferno';
+import Component from 'inferno-component';
 
 import LoginSessionRow from './LoginSessionRow';
 
@@ -10,7 +10,7 @@ export default class LoginSessionDropdown extends Component {
   }
 
   render() {
-    // Sort by active, then alphabetical. 
+    // Sort by active, then alphabetical.
     // Doing this requires using sort in reverse.
     let rows = window.lightdm.sessions
     .sort((a, b) => {

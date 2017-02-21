@@ -1,5 +1,5 @@
-import Inferno from 'inferno.min';
-import Component from 'inferno-component.min';
+import Inferno from 'inferno';
+import Component from 'inferno-component';
 
 const FADEOUT_TIME = 600;
 
@@ -15,7 +15,7 @@ function getWallpapers() {
   } else {
     let wallpapersDirectory = window.config.get_str("branding", "background_images");
 
-    // Do NOT allow the default wallpaper directory to set, as this will prevent the default provided backgrounds from 
+    // Do NOT allow the default wallpaper directory to set, as this will prevent the default provided backgrounds from
     // being used 100% of the time in a stock install.
     if (wallpapersDirectory == "/usr/share/backgrounds" || wallpapersDirectory == "/usr/share/backgrounds/") {
       wallpapersDirectory = "/usr/share/lightdm-webkit/themes/lightdm-webkit-theme-aether/src/img/wallpapers/";
@@ -33,7 +33,7 @@ export default class WallpaperSwitcher extends Component {
     super(props);
 
     let wallpaperDirectory;
-    
+
     // Set background directory
     if (window.debug === true) {
       wallpaperDirectory = "src/test/wallpapers/";
@@ -57,38 +57,29 @@ export default class WallpaperSwitcher extends Component {
 
   componentWillMount() {
     // Set background wallpaper
-    if (typeof(Storage) !== "undefined") {
-      // Set a default wallpaper if none found.
-      if (localStorage.getItem("wallpaper") === null) {
-        localStorage.setItem("wallpaper", "space-1.jpg");
-      }
+    let wallpaperDirectory = this.state.wallpaperDirectory;
+    let wallpaperImage = Settings.requestSetting("wallpaper", "space-1.jpg");
+    let wallpaperBackground = document.querySelectorAll('.wallpaper-background')[0];
+    let wallpaperForeground = document.querySelectorAll('.wallpaper-foreground')[0];
 
-      let wallpaperDirectory = this.state.wallpaperDirectory;
-      let wallpaperImage = localStorage.getItem("wallpaper");
-      let wallpaperBackground = document.querySelectorAll('.wallpaper-background')[0];
-      let wallpaperForeground = document.querySelectorAll('.wallpaper-foreground')[0];
+    wallpaperForeground.style.background = `url('${wallpaperDirectory}${wallpaperImage}')`;
+    wallpaperForeground.style.backgroundSize = "cover";
 
-      wallpaperForeground.style.background = `url('${wallpaperDirectory}${wallpaperImage}')`;
-      wallpaperForeground.style.backgroundSize = "cover";
-
-      this.setState({
-        "establishedWallpaper": wallpaperImage,
-        "wallpaperBackground": wallpaperBackground,
-        "wallpaperForeground": wallpaperForeground
-      });
-    } else {
-      window.notifications.generate("localStorage not supported.", 'error');
-    }
+    this.setState({
+      "establishedWallpaper": wallpaperImage,
+      "wallpaperBackground": wallpaperBackground,
+      "wallpaperForeground": wallpaperForeground
+    });
   }
 
   acceptWallpaper() {
     let currentWallpaper = this.state.currentWallpaper;
     let switcher = this.state.switcher;
-    
+
     // Due diligence.
     localStorage.setItem("wallpaper", currentWallpaper);
     window.notifications.generate("This wallpaper has been saved as your default background.", 'success');
-    
+
     // Reset switcher state
     switcher.active = false;
     switcher.index = 0;

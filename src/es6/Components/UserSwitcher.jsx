@@ -1,5 +1,5 @@
-import Inferno from 'inferno.min';
-import Component from 'inferno-component.min';
+import Inferno from 'inferno';
+import Component from 'inferno-component';
 
 // I hope nobody who uses this actually has to switch users regularly, this is terrible.
 const FADE_DURATION = 200;
@@ -68,7 +68,7 @@ export default class UserSwitcher extends Component {
       );
     });
 
-    // Very hacky. Add an extra copy of the last element to the beginning of the list 
+    // Very hacky. Add an extra copy of the last element to the beginning of the list
     // if the first element in the list is currently selected.
     if (activeIndex === 0) {
       let user = window.lightdm.users[window.lightdm.users.length - 1];
@@ -86,8 +86,8 @@ export default class UserSwitcher extends Component {
         </li>
       );
     }
-    
-    // Very hacky. Add an extra copy of the first element to the end of the list 
+
+    // Very hacky. Add an extra copy of the first element to the end of the list
     // if the last element in the list is currently selected.
     if (activeIndex === window.lightdm.users.length - 1) {
       let user = window.lightdm.users[0];
@@ -118,7 +118,7 @@ export default class UserSwitcher extends Component {
 
     let userList = this.generateUserList();
     let userCount = window.lightdm.users.length;
-    
+
     if (this.props.active === true) {
       classes.push("active");
     } else if (this.state.fadeOut === true) {

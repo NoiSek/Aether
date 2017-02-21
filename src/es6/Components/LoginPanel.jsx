@@ -1,5 +1,5 @@
-import Inferno from 'inferno.min';
-import Component from 'inferno-component.min';
+import Inferno from 'inferno';
+import Component from 'inferno-component';
 
 import UserSwitcher from './UserSwitcher';
 import LoginPanelForm from './LoginPanelForm';
@@ -22,14 +22,6 @@ export default class LoginPanel extends Component {
   }
 
   componentWillMount() {
-    let defaultUser = this.findDefaultUser();
-    let defaultSession = this.findDefaultSession(defaultUser);
-
-    this.setState({
-      "activeUser": defaultUser,
-      "activeSession": defaultSession
-    });
-
     // Define functions required in the global scope by LightDM.
     window.show_prompt = (text, type) => {
       if (type === "text") {
@@ -68,7 +60,7 @@ export default class LoginPanel extends Component {
   }
 
   findDefaultSession(user) {
-    return this.findSession(window.lightdm.default_session) || this.findSession(user.session) || window.lightdm.sessions[0];
+    return this.findSession(user.session) || this.findSession(window.lightdm.default_session) || window.lightdm.sessions[0];
   }
 
   findSession(sessionName) {
@@ -92,7 +84,7 @@ export default class LoginPanel extends Component {
 
   handleLoginSubmit(event) {
     event.preventDefault();
-    
+
     if (window.debug === false) {
       window.lightdm.authenticate(this.state.activeUser.name);
     } else {
@@ -162,7 +154,7 @@ export default class LoginPanel extends Component {
     }
   }
 
-  rejectPassword() {    
+  rejectPassword() {
     if(this.state.passwordFailed === false) {
       window.notifications.generate("Password incorrect, please try again.", 'error');
 
@@ -214,13 +206,13 @@ export default class LoginPanel extends Component {
               </div>
             </div>
           </div>
-          <LoginPanelForm 
+          <LoginPanelForm
             activeSession={ this.state.activeSession }
             activeUser={ this.state.activeUser }
             dropdownActive={ this.state.dropdownActive }
             password={ this.state.password }
             passwordFailed={ this.state.passwordFailed }
-            handleLoginSubmit={ this.handleLoginSubmit.bind(this) } 
+            handleLoginSubmit={ this.handleLoginSubmit.bind(this) }
             handleDropdownClick={ this.handleDropdownClick.bind(this) }
             handleDropdownLeave={ this.handleDropdownLeave.bind(this) }
             handlePasswordInput={ this.handlePasswordInput.bind(this) }
@@ -230,10 +222,10 @@ export default class LoginPanel extends Component {
             { switchUserButton }
           </div>
         </div>
-        <UserSwitcher 
+        <UserSwitcher
           active={ this.state.switcherActive }
           activeUser={ this.state.activeUser }
-          setActiveUser={ this.setActiveUser.bind(this) } 
+          setActiveUser={ this.setActiveUser.bind(this) }
         />
       </div>
     );
