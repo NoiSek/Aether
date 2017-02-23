@@ -42,28 +42,28 @@ export default class DateDisplay extends Component {
 
   setDate() {
     let dayNames = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday"
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday'
     ];
 
     let monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
     ];
 
     let now = new Date();
@@ -77,9 +77,9 @@ export default class DateDisplay extends Component {
 
     // Because Javascript is terrible, (x <= y <= z) becomes ((x <= y) && (y <= z))
     if ( ((4 <= dayValue) && (dayValue <= 20)) || ((24 <= dayValue) && (dayValue <= 30)) ) {
-      formattedDayValue = dayValue + "th";
+      formattedDayValue = dayValue + 'th';
     } else {
-      formattedDayValue = dayValue + ["st", "nd", "rd"][dayValue % 10 - 1];
+      formattedDayValue = dayValue + ['st', 'nd', 'rd'][dayValue % 10 - 1];
     }
 
     let formattedDateString = `<em>${dayName}</em>, the <em>${formattedDayValue}</em> of <em>${monthName}</em>`;
@@ -101,11 +101,11 @@ export default class DateDisplay extends Component {
 
 
   render() {
-    let dateClasses = ["date"];
+    let dateClasses = ['date'];
     let dateString = this.generateDateString();
 
     if (this.state.initialized === true) {
-      dateClasses.push("loaded");
+      dateClasses.push('loaded');
     }
 
     return (

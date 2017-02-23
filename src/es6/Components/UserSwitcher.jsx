@@ -82,7 +82,7 @@ export default class UserSwitcher extends Component {
     if (activeIndex === 0) {
       let user = window.lightdm.users[window.lightdm.users.length - 1];
       avatars.splice(0, 0,
-        <li className='avatar-container previous' onClick={ this.handleUserClick.bind(this, window.lightdm.users.length - 1) }>
+        <li className="avatar-container previous" onClick={ this.handleUserClick.bind(this, window.lightdm.users.length - 1) }>
           <div className="avatar-background">
             <div className="avatar-mask">
               <img className="user-avatar" src={ user.image } />
@@ -101,7 +101,7 @@ export default class UserSwitcher extends Component {
     if (activeIndex === window.lightdm.users.length - 1) {
       let user = window.lightdm.users[0];
       avatars.push(
-        <li className='avatar-container next' onClick={ this.handleUserClick.bind(this, 0) }>
+        <li className="avatar-container next" onClick={ this.handleUserClick.bind(this, 0) }>
           <div className="avatar-background">
             <div className="avatar-mask">
               <img className="user-avatar" src={ user.image } />
@@ -130,9 +130,9 @@ export default class UserSwitcher extends Component {
     let userCount = window.lightdm.users.length;
 
     if (this.props.active === true) {
-      classes.push("active");
+      classes.push('active');
     } else if (this.state.fadeOut === true) {
-      classes.push("fadeout");
+      classes.push('fadeout');
     }
 
     return (

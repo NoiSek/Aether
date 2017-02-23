@@ -39,9 +39,9 @@ export default class LoginPanel extends Component {
   componentWillMount() {
     // Define functions required in the global scope by LightDM.
     window.show_prompt = (text, type) => {
-      if (type === "text") {
+      if (type === 'text') {
         window.notifications.generate(text);
-      } else if (type === "password") {
+      } else if (type === 'password') {
         window.lightdm.respond(this.state.password);
       }
     };
@@ -79,7 +79,7 @@ export default class LoginPanel extends Component {
     event.preventDefault();
 
     if (window.debug === true) {
-      if (this.state.password.toLowerCase() !== "password") {
+      if (this.state.password.toLowerCase() !== 'password') {
         this.rejectPassword();
       } else {
         window.notifications.generate(`You are now logged in as ${this.storeState.user.display_name} to ${this.storeState.session.name}.`, 'success');
@@ -132,8 +132,8 @@ export default class LoginPanel extends Component {
 
   setActiveUser(user, isBypass) {
     this.store.dispatch({
-      'type': 'AUTH_SET_ACTIVE_USER',
-      'user': user
+      "type": 'AUTH_SET_ACTIVE_USER',
+      "user": user
     });
 
     // Fade in, except when switching between 1 of 2 users.
@@ -174,7 +174,7 @@ export default class LoginPanel extends Component {
     let classes = ['left'];
 
     if (window.lightdm.users.length < 2) {
-      classes.push("disabled");
+      classes.push('disabled');
     }
 
     return (

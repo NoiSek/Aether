@@ -6,8 +6,8 @@
 import Inferno from 'inferno';
 import Component from 'inferno-component';
 
-import * as SystemOperations from "../Logic/SystemOperations";
-import WallpaperSwitcher from "./WallpaperSwitcher";
+import * as SystemOperations from '../Logic/SystemOperations';
+import WallpaperSwitcher from './WallpaperSwitcher';
 import Clock from './Clock';
 
 
@@ -56,7 +56,7 @@ export default class CommandPanel extends Component {
     let expanded = (enabledCommands.length > 3);
     if (expanded === true) {
       this.setState({
-        'expandedCommands': true
+        "expandedCommands": true
       });
     }
 

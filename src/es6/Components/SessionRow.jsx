@@ -6,12 +6,12 @@ import Inferno from 'inferno';
 
 
 const SessionRow = (props) => {
-  let classes = ["dropdown-item"];
+  let classes = ['dropdown-item'];
   let eventHandler = props.setActiveSession.bind(this, props.session.key);
 
   if (props.session.key === props.activeSession.key) {
     eventHandler = props.handleDropdownClick;
-    classes.push("active");
+    classes.push('active');
   }
 
   return (

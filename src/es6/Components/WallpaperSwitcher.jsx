@@ -5,8 +5,8 @@
 import Inferno from 'inferno';
 import Component from 'inferno-component';
 
-import * as WallpaperOperations from "../Logic/WallpaperOperations";
-import * as Settings from "../Logic/Settings";
+import * as WallpaperOperations from '../Logic/WallpaperOperations';
+import * as Settings from '../Logic/Settings';
 
 const FADEOUT_TIME = 600;
 
@@ -39,7 +39,7 @@ export default class WallpaperSwitcher extends Component {
   componentWillMount() {
     // Set background wallpaper
     let directory = this.state.directory;
-    let image = Settings.requestSetting("wallpaper", "space-1.jpg");
+    let image = Settings.requestSetting('wallpaper', 'space-1.jpg');
     this.cyclerBackground = document.querySelectorAll('.wallpaper-background')[0];
     this.cyclerForeground = document.querySelectorAll('.wallpaper-foreground')[0];
     this.cyclerPreloader = document.querySelectorAll('.wallpaper-preload')[0];
@@ -58,7 +58,7 @@ export default class WallpaperSwitcher extends Component {
     let switcher = this.state.switcher;
 
     // Due diligence.
-    Settings.saveSetting("wallpaper", selectedWallpaper);
+    Settings.saveSetting('wallpaper', selectedWallpaper);
     window.notifications.generate("This wallpaper has been saved as your default background.", 'success');
 
     // Reset switcher state
@@ -166,7 +166,7 @@ export default class WallpaperSwitcher extends Component {
     let classes = ['options'];
 
     if (this.state.switcher.active === true) {
-      classes.push("active");
+      classes.push('active');
     }
 
     return (
