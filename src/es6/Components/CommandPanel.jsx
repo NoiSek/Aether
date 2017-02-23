@@ -7,8 +7,8 @@ import Inferno from 'inferno';
 import Component from 'inferno-component';
 
 import * as SystemOperations from '../Logic/SystemOperations';
-import WallpaperSwitcher from './WallpaperSwitcher';
-import Clock from './Clock';
+import WallpaperSwitcher from './CommandPanel/WallpaperSwitcher';
+import Clock from './CommandPanel/Clock';
 
 
 export default class CommandPanel extends Component {

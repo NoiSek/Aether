@@ -1,6 +1,8 @@
-// SessionRow -> Required by Components/SessionDropdown
+// SessionRow -> Required by Components/UserPanel/SessionDropdown
 // --------------------------------------
 // Just a row.
+
+import Inferno from "inferno";
 
 const SessionRow = (props) => {
   let classes = ['dropdown-item'];

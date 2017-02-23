@@ -1,4 +1,4 @@
-// SessionDropdown -> Required by Components/UserPanelForm
+// SessionDropdown -> Required by Components/UserPanel/Form
 // --------------------------------------
 // Displays session rows as a dropdown to handle
 // session switching.

@@ -5,8 +5,8 @@
 import Inferno from 'inferno';
 import Component from 'inferno-component';
 
-import UserSwitcher from './UserSwitcher';
-import UserPanelForm from './UserPanelForm';
+import UserSwitcher from './UserPanel/UserSwitcher';
+import UserPanelForm from './UserPanel/Form';
 
 const FADE_IN_DURATION = 200;
 const ERROR_SHAKE_DURATION = 600;

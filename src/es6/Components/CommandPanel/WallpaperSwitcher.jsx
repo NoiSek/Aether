@@ -5,8 +5,8 @@
 import Inferno from 'inferno';
 import Component from 'inferno-component';
 
-import * as WallpaperOperations from '../Logic/WallpaperOperations';
-import * as Settings from '../Logic/Settings';
+import * as WallpaperOperations from '../../Logic/WallpaperOperations';
+import * as Settings from '../../Logic/Settings';
 
 const FADEOUT_TIME = 600;
 

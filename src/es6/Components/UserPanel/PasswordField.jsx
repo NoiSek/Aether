@@ -1,4 +1,4 @@
-// PasswordField -> Required by Components/UserPanelForm
+// PasswordField -> Required by Components/UserPanel/Form
 // --------------------------------------
 // Simple password input field.
 

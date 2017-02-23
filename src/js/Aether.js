@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 48);
+/******/ 	return __webpack_require__(__webpack_require__.s = 42);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -73,7 +73,7 @@
 "use strict";
 
 
-module.exports = __webpack_require__(23);
+module.exports = __webpack_require__(19);
 module.exports.default = module.exports;
 
 /***/ }),
@@ -83,7 +83,7 @@ module.exports.default = module.exports;
 "use strict";
 
 
-module.exports = __webpack_require__(22);
+module.exports = __webpack_require__(18);
 module.exports.default = module.exports;
 
 /***/ }),
@@ -274,39 +274,7 @@ process.umask = function () {
 };
 
 /***/ }),
-/* 3 */,
-/* 4 */,
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var g;
-
-// This works in non-strict mode
-g = function () {
-	return this;
-}();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1, eval)("this");
-} catch (e) {
-	// This works if the window reference is available
-	if ((typeof window === "undefined" ? "undefined" : _typeof(window)) === "object") g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-/***/ }),
-/* 6 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -320,7 +288,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 exports.addAdditionalSettings = addAdditionalSettings;
 
-var _Settings = __webpack_require__(14);
+var _Settings = __webpack_require__(10);
 
 var Settings = _interopRequireWildcard(_Settings);
 
@@ -376,8 +344,7 @@ function addAdditionalSettings(state) {
 }
 
 /***/ }),
-/* 7 */,
-/* 8 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -387,7 +354,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _root = __webpack_require__(30);
+var _root = __webpack_require__(26);
 
 var _root2 = _interopRequireDefault(_root);
 
@@ -399,7 +366,7 @@ var _Symbol = _root2.default.Symbol;
 exports.default = _Symbol;
 
 /***/ }),
-/* 9 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -409,15 +376,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _baseGetTag = __webpack_require__(24);
+var _baseGetTag = __webpack_require__(20);
 
 var _baseGetTag2 = _interopRequireDefault(_baseGetTag);
 
-var _getPrototype = __webpack_require__(26);
+var _getPrototype = __webpack_require__(22);
 
 var _getPrototype2 = _interopRequireDefault(_getPrototype);
 
-var _isObjectLike = __webpack_require__(31);
+var _isObjectLike = __webpack_require__(27);
 
 var _isObjectLike2 = _interopRequireDefault(_isObjectLike);
 
@@ -482,7 +449,7 @@ function isPlainObject(value) {
 exports.default = isPlainObject;
 
 /***/ }),
-/* 10 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -528,7 +495,7 @@ function compose() {
 }
 
 /***/ }),
-/* 11 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -543,11 +510,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 exports.default = createStore;
 
-var _isPlainObject = __webpack_require__(9);
+var _isPlainObject = __webpack_require__(5);
 
 var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-var _symbolObservable = __webpack_require__(36);
+var _symbolObservable = __webpack_require__(31);
 
 var _symbolObservable2 = _interopRequireDefault(_symbolObservable);
 
@@ -800,7 +767,7 @@ function createStore(reducer, preloadedState, enhancer) {
 }
 
 /***/ }),
-/* 12 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -833,37 +800,37 @@ function warning(message) {
 }
 
 /***/ }),
-/* 13 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = function (module) {
-	if (!module.webpackPolyfill) {
-		module.deprecate = function () {};
-		module.paths = [];
-		// module.parent = undefined by default
-		if (!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			get: function get() {
-				return module.l;
-			}
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			get: function get() {
-				return module.i;
-			}
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
-};
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var g;
+
+// This works in non-strict mode
+g = function () {
+	return this;
+}();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1, eval)("this");
+} catch (e) {
+	// This works if the window reference is available
+	if ((typeof window === "undefined" ? "undefined" : _typeof(window)) === "object") g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
 
 /***/ }),
-/* 14 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -905,7 +872,7 @@ function saveSetting(setting) {
 }
 
 /***/ }),
-/* 15 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -984,7 +951,7 @@ function findSession(sessionName) {
 }
 
 /***/ }),
-/* 16 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -995,27 +962,27 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.compose = exports.applyMiddleware = exports.bindActionCreators = exports.combineReducers = exports.createStore = undefined;
 
-var _createStore = __webpack_require__(11);
+var _createStore = __webpack_require__(7);
 
 var _createStore2 = _interopRequireDefault(_createStore);
 
-var _combineReducers = __webpack_require__(35);
+var _combineReducers = __webpack_require__(30);
 
 var _combineReducers2 = _interopRequireDefault(_combineReducers);
 
-var _bindActionCreators = __webpack_require__(34);
+var _bindActionCreators = __webpack_require__(29);
 
 var _bindActionCreators2 = _interopRequireDefault(_bindActionCreators);
 
-var _applyMiddleware = __webpack_require__(33);
+var _applyMiddleware = __webpack_require__(28);
 
 var _applyMiddleware2 = _interopRequireDefault(_applyMiddleware);
 
-var _compose = __webpack_require__(10);
+var _compose = __webpack_require__(6);
 
 var _compose2 = _interopRequireDefault(_compose);
 
-var _warning = __webpack_require__(12);
+var _warning = __webpack_require__(8);
 
 var _warning2 = _interopRequireDefault(_warning);
 
@@ -1039,7 +1006,7 @@ exports.compose = _compose2.default;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 17 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1059,15 +1026,15 @@ var _infernoComponent = __webpack_require__(1);
 
 var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
 
-var _SystemOperations = __webpack_require__(15);
+var _SystemOperations = __webpack_require__(11);
 
 var SystemOperations = _interopRequireWildcard(_SystemOperations);
 
-var _WallpaperSwitcher = __webpack_require__(45);
+var _WallpaperSwitcher = __webpack_require__(35);
 
 var _WallpaperSwitcher2 = _interopRequireDefault(_WallpaperSwitcher);
 
-var _Clock = __webpack_require__(39);
+var _Clock = __webpack_require__(43);
 
 var _Clock2 = _interopRequireDefault(_Clock);
 
@@ -1191,7 +1158,7 @@ var CommandPanel = function (_Component) {
 exports.default = CommandPanel;
 
 /***/ }),
-/* 18 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1323,7 +1290,7 @@ var DateDisplay = function (_Component) {
 exports.default = DateDisplay;
 
 /***/ }),
-/* 19 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1343,13 +1310,13 @@ var _infernoComponent = __webpack_require__(1);
 
 var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
 
-var _UserSwitcher = __webpack_require__(44);
+var _UserSwitcher = __webpack_require__(40);
 
 var _UserSwitcher2 = _interopRequireDefault(_UserSwitcher);
 
-var _UserPanelForm = __webpack_require__(43);
+var _Form = __webpack_require__(36);
 
-var _UserPanelForm2 = _interopRequireDefault(_UserPanelForm);
+var _Form2 = _interopRequireDefault(_Form);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1587,7 +1554,7 @@ var LoginPanel = function (_Component) {
       }, createVNode(2, 'img', {
         'className': 'user-avatar',
         'src': this.storeState.user.image
-      })))), createVNode(16, _UserPanelForm2.default, {
+      })))), createVNode(16, _Form2.default, {
         'activeSession': this.storeState.session,
         'activeUser': this.storeState.user,
         'dropdownActive': this.state.dropdownActive,
@@ -1614,7 +1581,7 @@ var LoginPanel = function (_Component) {
 exports.default = LoginPanel;
 
 /***/ }),
-/* 20 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1631,9 +1598,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 exports.getDefaultState = getDefaultState;
 
-var _SettingsReducer = __webpack_require__(6);
+var _SettingsReducer = __webpack_require__(3);
 
-var _SystemOperations = __webpack_require__(15);
+var _SystemOperations = __webpack_require__(11);
 
 var SystemOperations = _interopRequireWildcard(_SystemOperations);
 
@@ -1674,7 +1641,7 @@ var PrimaryReducer = exports.PrimaryReducer = function PrimaryReducer(state, act
 };
 
 /***/ }),
-/* 21 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1724,7 +1691,7 @@ var Notifications = function () {
 exports.default = Notifications;
 
 /***/ }),
-/* 22 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2026,7 +1993,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 23 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4482,7 +4449,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 24 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4492,15 +4459,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Symbol2 = __webpack_require__(8);
+var _Symbol2 = __webpack_require__(4);
 
 var _Symbol3 = _interopRequireDefault(_Symbol2);
 
-var _getRawTag = __webpack_require__(27);
+var _getRawTag = __webpack_require__(23);
 
 var _getRawTag2 = _interopRequireDefault(_getRawTag);
 
-var _objectToString = __webpack_require__(28);
+var _objectToString = __webpack_require__(24);
 
 var _objectToString2 = _interopRequireDefault(_objectToString);
 
@@ -4530,7 +4497,7 @@ function baseGetTag(value) {
 exports.default = baseGetTag;
 
 /***/ }),
-/* 25 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4546,10 +4513,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 var freeGlobal = (typeof global === 'undefined' ? 'undefined' : _typeof(global)) == 'object' && global && global.Object === Object && global;
 
 exports.default = freeGlobal;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ }),
-/* 26 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4559,7 +4526,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _overArg = __webpack_require__(29);
+var _overArg = __webpack_require__(25);
 
 var _overArg2 = _interopRequireDefault(_overArg);
 
@@ -4571,7 +4538,7 @@ var getPrototype = (0, _overArg2.default)(Object.getPrototypeOf, Object);
 exports.default = getPrototype;
 
 /***/ }),
-/* 27 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4581,7 +4548,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Symbol2 = __webpack_require__(8);
+var _Symbol2 = __webpack_require__(4);
 
 var _Symbol3 = _interopRequireDefault(_Symbol2);
 
@@ -4633,7 +4600,7 @@ function getRawTag(value) {
 exports.default = getRawTag;
 
 /***/ }),
-/* 28 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4666,7 +4633,7 @@ function objectToString(value) {
 exports.default = objectToString;
 
 /***/ }),
-/* 29 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4692,7 +4659,7 @@ function overArg(func, transform) {
 exports.default = overArg;
 
 /***/ }),
-/* 30 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4704,7 +4671,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _freeGlobal = __webpack_require__(25);
+var _freeGlobal = __webpack_require__(21);
 
 var _freeGlobal2 = _interopRequireDefault(_freeGlobal);
 
@@ -4719,7 +4686,7 @@ var root = _freeGlobal2.default || freeSelf || Function('return this')();
 exports.default = root;
 
 /***/ }),
-/* 31 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4762,8 +4729,7 @@ function isObjectLike(value) {
 exports.default = isObjectLike;
 
 /***/ }),
-/* 32 */,
-/* 33 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4774,7 +4740,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = applyMiddleware;
 
-var _compose = __webpack_require__(10);
+var _compose = __webpack_require__(6);
 
 var _compose2 = _interopRequireDefault(_compose);
 
@@ -4836,7 +4802,7 @@ function applyMiddleware() {
 }
 
 /***/ }),
-/* 34 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4898,7 +4864,7 @@ function bindActionCreators(actionCreators, dispatch) {
 }
 
 /***/ }),
-/* 35 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4909,13 +4875,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = combineReducers;
 
-var _createStore = __webpack_require__(11);
+var _createStore = __webpack_require__(7);
 
-var _isPlainObject = __webpack_require__(9);
+var _isPlainObject = __webpack_require__(5);
 
 var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-var _warning = __webpack_require__(12);
+var _warning = __webpack_require__(8);
 
 var _warning2 = _interopRequireDefault(_warning);
 
@@ -5049,16 +5015,16 @@ function combineReducers(reducers) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 36 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(37);
+module.exports = __webpack_require__(32);
 
 /***/ }),
-/* 37 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5068,7 +5034,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _ponyfill = __webpack_require__(38);
+var _ponyfill = __webpack_require__(33);
 
 var _ponyfill2 = _interopRequireDefault(_ponyfill);
 
@@ -5092,10 +5058,10 @@ if (typeof self !== 'undefined') {
 
 var result = (0, _ponyfill2['default'])(root);
 exports['default'] = result;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(13)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(34)(module)))
 
 /***/ }),
-/* 38 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5124,148 +5090,37 @@ function symbolObservablePonyfill(root) {
 };
 
 /***/ }),
-/* 39 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _inferno = __webpack_require__(0);
-
-var _inferno2 = _interopRequireDefault(_inferno);
-
-var _infernoComponent = __webpack_require__(1);
-
-var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
-
-var _Utils = __webpack_require__(47);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Clock -> Required by Components/CommandPanel
-// --------------------------------------
-// Just a clock.
-
-var createVNode = _inferno2.default.createVNode;
-
-var Clock = function (_Component) {
-  _inherits(Clock, _Component);
-
-  function Clock(props) {
-    _classCallCheck(this, Clock);
-
-    var _this = _possibleConstructorReturn(this, (Clock.__proto__ || Object.getPrototypeOf(Clock)).call(this, props));
-
-    _this.state = {
-      "currentTime": undefined,
-      "initialized": false
-    };
-    return _this;
-  }
-
-  _createClass(Clock, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      setTimeout(function () {
-        _this2.updateClock();
-        _this2.setState({
-          "initialized": true
-        });
-      }, 1000);
-    }
-  }, {
-    key: 'updateClock',
-    value: function updateClock() {
-      var _this3 = this;
-
-      var now = new Date();
-      var hours = (0, _Utils.padZeroes)(now.getHours());
-      var minutes = (0, _Utils.padZeroes)(now.getMinutes());
-      var formattedTime = hours + ':' + minutes;
-
-      this.setState({
-        "currentTime": formattedTime
-      });
-
-      setTimeout(function () {
-        _this3.updateClock();
-      }, 1000);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var classes = ['right', 'clock'];
-      var currentTime = this.state.currentTime;
-
-      if (this.state.initialized === true) {
-        classes.push('loaded');
-      }
-
-      return createVNode(2, 'div', {
-        'className': classes.join(' ')
-      }, currentTime);
-    }
-  }]);
-
-  return Clock;
-}(_infernoComponent2.default);
-
-exports.default = Clock;
-
-/***/ }),
-/* 40 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _inferno = __webpack_require__(0);
-
-var _inferno2 = _interopRequireDefault(_inferno);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var createVNode = _inferno2.default.createVNode; // PasswordField -> Required by Components/UserPanelForm
-// --------------------------------------
-// Simple password input field.
-
-var PasswordField = function PasswordField(props) {
-  var classes = ['user-password'];
-
-  if (props.passwordFailed === true) {
-    classes.push('error');
-  }
-
-  return createVNode(512, 'input', {
-    'type': 'password',
-    'placeholder': '*******************',
-    'className': classes.join(' '),
-    'value': props.password
-  }, null, {
-    'onInput': props.handlePasswordInput
-  });
+module.exports = function (module) {
+	if (!module.webpackPolyfill) {
+		module.deprecate = function () {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if (!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function get() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function get() {
+				return module.i;
+			}
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
 };
 
-exports.default = PasswordField;
-
 /***/ }),
-/* 41 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5285,405 +5140,11 @@ var _infernoComponent = __webpack_require__(1);
 
 var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
 
-var _SessionRow = __webpack_require__(42);
-
-var _SessionRow2 = _interopRequireDefault(_SessionRow);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // SessionDropdown -> Required by Components/UserPanelForm
-// --------------------------------------
-// Displays session rows as a dropdown to handle
-// session switching.
-
-var createVNode = _inferno2.default.createVNode;
-
-var SessionDropdown = function (_Component) {
-  _inherits(SessionDropdown, _Component);
-
-  function SessionDropdown(props) {
-    _classCallCheck(this, SessionDropdown);
-
-    var _this = _possibleConstructorReturn(this, (SessionDropdown.__proto__ || Object.getPrototypeOf(SessionDropdown)).call(this, props));
-
-    _this.state = {};
-    return _this;
-  }
-
-  _createClass(SessionDropdown, [{
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      // Sort by active, then alphabetical.
-      // Doing this requires using sort in reverse.
-      var rows = window.lightdm.sessions.sort(function (a, b) {
-        return a.name.toUpperCase() > b.name.toUpperCase();
-      }).sort(function (a, b) {
-        return b.key.toLowerCase() === _this2.props.activeSession.key.toLowerCase() ? 1 : -1;
-      }).map(function (session) {
-        return createVNode(16, _SessionRow2.default, {
-          'activeSession': _this2.props.activeSession,
-          'session': session,
-          'handleDropdownClick': _this2.props.handleDropdownClick,
-          'handleDropdownLeave': _this2.props.handleDropdownLeave,
-          'setActiveSession': _this2.props.setActiveSession
-        });
-      });
-
-      var classes = ['dropdown', 'user-session'];
-
-      if (this.props.dropdownActive === true) {
-        classes.push('active');
-      }
-
-      return createVNode(2, 'div', {
-        'className': classes.join(' ')
-      }, rows, {
-        'onMouseLeave': this.props.handleDropdownLeave
-      });
-    }
-  }]);
-
-  return SessionDropdown;
-}(_infernoComponent2.default);
-
-exports.default = SessionDropdown;
-
-/***/ }),
-/* 42 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var createVNode = Inferno.createVNode;
-// SessionRow -> Required by Components/SessionDropdown
-// --------------------------------------
-// Just a row.
-
-var SessionRow = function SessionRow(props) {
-  var classes = ['dropdown-item'];
-  var eventHandler = props.setActiveSession.bind(undefined, props.session.key);
-
-  if (props.session.key === props.activeSession.key) {
-    eventHandler = props.handleDropdownClick;
-    classes.push('active');
-  }
-
-  return createVNode(2, 'div', {
-    'className': classes.join(' ')
-  }, props.session.name, {
-    'onClick': eventHandler
-  }, props.session.key);
-};
-
-exports.default = SessionRow;
-
-/***/ }),
-/* 43 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.UserPanelForm = undefined;
-
-var _inferno = __webpack_require__(0);
-
-var _inferno2 = _interopRequireDefault(_inferno);
-
-var _SessionDropdown = __webpack_require__(41);
-
-var _SessionDropdown2 = _interopRequireDefault(_SessionDropdown);
-
-var _PasswordField = __webpack_require__(40);
-
-var _PasswordField2 = _interopRequireDefault(_PasswordField);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var createVNode = _inferno2.default.createVNode; // UserPanelForm -> Required by Components/UserPanel
-// --------------------------------------
-// The form displayed within the User Panel to handle
-// user input for the authentication process.
-
-var UserPanelForm = exports.UserPanelForm = function UserPanelForm(props) {
-  return createVNode(2, 'form', {
-    'className': 'login-form'
-  }, [createVNode(2, 'div', {
-    'className': 'user-username'
-  }, props.activeUser.display_name), createVNode(2, 'div', {
-    'className': 'user-password-container'
-  }, createVNode(16, _PasswordField2.default, {
-    'password': props.password,
-    'passwordFailed': props.passwordFailed,
-    'handlePasswordInput': props.handlePasswordInput
-  })), createVNode(2, 'div', {
-    'className': 'submit-row-container'
-  }, createVNode(2, 'div', {
-    'className': 'submit-row'
-  }, [createVNode(2, 'div', {
-    'className': 'left'
-  }, createVNode(16, _SessionDropdown2.default, {
-    'activeSession': props.activeSession,
-    'dropdownActive': props.dropdownActive,
-    'handleDropdownClick': props.handleDropdownClick,
-    'handleDropdownLeave': props.handleDropdownLeave,
-    'setActiveSession': props.setActiveSession
-  })), createVNode(2, 'div', {
-    'className': 'right'
-  }, createVNode(512, 'input', {
-    'type': 'submit',
-    'value': 'GO',
-    'className': 'submit-button'
-  }))]))], {
-    'onSubmit': props.handleLoginSubmit
-  });
-};
-
-exports.default = UserPanelForm;
-
-/***/ }),
-/* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _inferno = __webpack_require__(0);
-
-var _inferno2 = _interopRequireDefault(_inferno);
-
-var _infernoComponent = __webpack_require__(1);
-
-var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // UserSwitcher -> Required by Components/UserPanel
-// --------------------------------------
-// Handles (poorly) the task of switching between
-// multiple users on the same system.
-
-var FADE_DURATION = 200;
-
-var createVNode = _inferno2.default.createVNode;
-
-var UserSwitcher = function (_Component) {
-  _inherits(UserSwitcher, _Component);
-
-  function UserSwitcher(props) {
-    _classCallCheck(this, UserSwitcher);
-
-    var _this = _possibleConstructorReturn(this, (UserSwitcher.__proto__ || Object.getPrototypeOf(UserSwitcher)).call(this, props));
-
-    _this.state = {
-      "fadeOut": false,
-      "selectedUser": _this.props.activeUser,
-      "selectedUserIndex": window.lightdm.users.indexOf(_this.props.activeUser)
-    };
-    return _this;
-  }
-
-  _createClass(UserSwitcher, [{
-    key: 'handleBackButton',
-    value: function handleBackButton(event) {
-      var _this2 = this;
-
-      this.props.setActiveUser(this.state.selectedUser);
-
-      this.setState({
-        "fadeOut": true
-      });
-
-      setTimeout(function () {
-        _this2.setState({
-          "fadeOut": false
-        });
-      }, FADE_DURATION);
-    }
-  }, {
-    key: 'handleUserClick',
-    value: function handleUserClick(index) {
-      this.setState({
-        "selectedUser": window.lightdm.users[index],
-        "selectedUserIndex": index
-      });
-    }
-  }, {
-    key: 'generateUserList',
-    value: function generateUserList() {
-      var _this3 = this;
-
-      var activeIndex = this.state.selectedUserIndex;
-
-      var avatars = window.lightdm.users.map(function (user, index) {
-        var classes = ['avatar-container'];
-
-        if (index === activeIndex) {
-          classes.push('active');
-        }
-
-        if (index === activeIndex - 1) {
-          classes.push('previous');
-        }
-
-        if (index === activeIndex + 1) {
-          classes.push('next');
-        }
-
-        return createVNode(2, 'li', {
-          'className': classes.join(' ')
-        }, [createVNode(2, 'div', {
-          'className': 'avatar-background'
-        }, createVNode(2, 'div', {
-          'className': 'avatar-mask'
-        }, createVNode(2, 'img', {
-          'className': 'user-avatar',
-          'src': user.image
-        }))), createVNode(2, 'div', {
-          'className': 'avatar-name'
-        }, [createVNode(2, 'div', {
-          'className': 'username'
-        }, user.display_name), createVNode(2, 'div', {
-          'className': 'real-name'
-        }, user.real_name)])], {
-          'onClick': _this3.handleUserClick.bind(_this3, index)
-        });
-      });
-
-      // Very hacky. Add an extra copy of the last element to the beginning of the list
-      // if the first element in the list is currently selected.
-      if (activeIndex === 0) {
-        var user = window.lightdm.users[window.lightdm.users.length - 1];
-        avatars.splice(0, 0, createVNode(2, 'li', {
-          'className': 'avatar-container previous'
-        }, [createVNode(2, 'div', {
-          'className': 'avatar-background'
-        }, createVNode(2, 'div', {
-          'className': 'avatar-mask'
-        }, createVNode(2, 'img', {
-          'className': 'user-avatar',
-          'src': user.image
-        }))), createVNode(2, 'div', {
-          'className': 'avatar-name'
-        }, [createVNode(2, 'div', {
-          'className': 'username'
-        }, user.display_name), createVNode(2, 'div', {
-          'className': 'real-name'
-        }, user.real_name)])], {
-          'onClick': this.handleUserClick.bind(this, window.lightdm.users.length - 1)
-        }));
-      }
-
-      // Very hacky. Add an extra copy of the first element to the end of the list
-      // if the last element in the list is currently selected.
-      if (activeIndex === window.lightdm.users.length - 1) {
-        var _user = window.lightdm.users[0];
-        avatars.push(createVNode(2, 'li', {
-          'className': 'avatar-container next'
-        }, [createVNode(2, 'div', {
-          'className': 'avatar-background'
-        }, createVNode(2, 'div', {
-          'className': 'avatar-mask'
-        }, createVNode(2, 'img', {
-          'className': 'user-avatar',
-          'src': _user.image
-        }))), createVNode(2, 'div', {
-          'className': 'avatar-name'
-        }, [createVNode(2, 'div', {
-          'className': 'username'
-        }, _user.display_name), createVNode(2, 'div', {
-          'className': 'real-name'
-        }, _user.real_name)])], {
-          'onClick': this.handleUserClick.bind(this, 0)
-        }));
-      }
-
-      return createVNode(2, 'ul', {
-        'className': 'avatar-slider'
-      }, avatars);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var classes = ['login-panel-switcher'];
-
-      var userList = this.generateUserList();
-      var userCount = window.lightdm.users.length;
-
-      if (this.props.active === true) {
-        classes.push('active');
-      } else if (this.state.fadeOut === true) {
-        classes.push('fadeout');
-      }
-
-      return createVNode(2, 'div', {
-        'className': classes.join(' ')
-      }, [createVNode(2, 'div', {
-        'className': 'header'
-      }, ['User ', createVNode(2, 'em', null, this.state.selectedUserIndex + 1), ' of ', createVNode(2, 'em', null, userCount)]), userList, createVNode(2, 'div', {
-        'className': 'bottom'
-      }, createVNode(2, 'div', {
-        'className': 'left'
-      }, 'BACK'), {
-        'onClick': this.handleBackButton.bind(this)
-      })]);
-    }
-  }]);
-
-  return UserSwitcher;
-}(_infernoComponent2.default);
-
-exports.default = UserSwitcher;
-
-/***/ }),
-/* 45 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _inferno = __webpack_require__(0);
-
-var _inferno2 = _interopRequireDefault(_inferno);
-
-var _infernoComponent = __webpack_require__(1);
-
-var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
-
-var _WallpaperOperations = __webpack_require__(46);
+var _WallpaperOperations = __webpack_require__(41);
 
 var WallpaperOperations = _interopRequireWildcard(_WallpaperOperations);
 
-var _Settings = __webpack_require__(14);
+var _Settings = __webpack_require__(10);
 
 var Settings = _interopRequireWildcard(_Settings);
 
@@ -5908,7 +5369,447 @@ var WallpaperSwitcher = function (_Component) {
 exports.default = WallpaperSwitcher;
 
 /***/ }),
-/* 46 */
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.UserPanelForm = undefined;
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+var _SessionDropdown = __webpack_require__(38);
+
+var _SessionDropdown2 = _interopRequireDefault(_SessionDropdown);
+
+var _PasswordField = __webpack_require__(37);
+
+var _PasswordField2 = _interopRequireDefault(_PasswordField);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createVNode = _inferno2.default.createVNode; // UserPanelForm -> Required by Components/UserPanel
+// --------------------------------------
+// The form displayed within the User Panel to handle
+// user input for the authentication process.
+
+var UserPanelForm = exports.UserPanelForm = function UserPanelForm(props) {
+  return createVNode(2, 'form', {
+    'className': 'login-form'
+  }, [createVNode(2, 'div', {
+    'className': 'user-username'
+  }, props.activeUser.display_name), createVNode(2, 'div', {
+    'className': 'user-password-container'
+  }, createVNode(16, _PasswordField2.default, {
+    'password': props.password,
+    'passwordFailed': props.passwordFailed,
+    'handlePasswordInput': props.handlePasswordInput
+  })), createVNode(2, 'div', {
+    'className': 'submit-row-container'
+  }, createVNode(2, 'div', {
+    'className': 'submit-row'
+  }, [createVNode(2, 'div', {
+    'className': 'left'
+  }, createVNode(16, _SessionDropdown2.default, {
+    'activeSession': props.activeSession,
+    'dropdownActive': props.dropdownActive,
+    'handleDropdownClick': props.handleDropdownClick,
+    'handleDropdownLeave': props.handleDropdownLeave,
+    'setActiveSession': props.setActiveSession
+  })), createVNode(2, 'div', {
+    'className': 'right'
+  }, createVNode(512, 'input', {
+    'type': 'submit',
+    'value': 'GO',
+    'className': 'submit-button'
+  }))]))], {
+    'onSubmit': props.handleLoginSubmit
+  });
+};
+
+exports.default = UserPanelForm;
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createVNode = _inferno2.default.createVNode; // PasswordField -> Required by Components/UserPanel/Form
+// --------------------------------------
+// Simple password input field.
+
+var PasswordField = function PasswordField(props) {
+  var classes = ['user-password'];
+
+  if (props.passwordFailed === true) {
+    classes.push('error');
+  }
+
+  return createVNode(512, 'input', {
+    'type': 'password',
+    'placeholder': '*******************',
+    'className': classes.join(' '),
+    'value': props.password
+  }, null, {
+    'onInput': props.handlePasswordInput
+  });
+};
+
+exports.default = PasswordField;
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+var _infernoComponent = __webpack_require__(1);
+
+var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
+
+var _SessionRow = __webpack_require__(39);
+
+var _SessionRow2 = _interopRequireDefault(_SessionRow);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // SessionDropdown -> Required by Components/UserPanel/Form
+// --------------------------------------
+// Displays session rows as a dropdown to handle
+// session switching.
+
+var createVNode = _inferno2.default.createVNode;
+
+var SessionDropdown = function (_Component) {
+  _inherits(SessionDropdown, _Component);
+
+  function SessionDropdown(props) {
+    _classCallCheck(this, SessionDropdown);
+
+    var _this = _possibleConstructorReturn(this, (SessionDropdown.__proto__ || Object.getPrototypeOf(SessionDropdown)).call(this, props));
+
+    _this.state = {};
+    return _this;
+  }
+
+  _createClass(SessionDropdown, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      // Sort by active, then alphabetical.
+      // Doing this requires using sort in reverse.
+      var rows = window.lightdm.sessions.sort(function (a, b) {
+        return a.name.toUpperCase() > b.name.toUpperCase();
+      }).sort(function (a, b) {
+        return b.key.toLowerCase() === _this2.props.activeSession.key.toLowerCase() ? 1 : -1;
+      }).map(function (session) {
+        return createVNode(16, _SessionRow2.default, {
+          'activeSession': _this2.props.activeSession,
+          'session': session,
+          'handleDropdownClick': _this2.props.handleDropdownClick,
+          'handleDropdownLeave': _this2.props.handleDropdownLeave,
+          'setActiveSession': _this2.props.setActiveSession
+        });
+      });
+
+      var classes = ['dropdown', 'user-session'];
+
+      if (this.props.dropdownActive === true) {
+        classes.push('active');
+      }
+
+      return createVNode(2, 'div', {
+        'className': classes.join(' ')
+      }, rows, {
+        'onMouseLeave': this.props.handleDropdownLeave
+      });
+    }
+  }]);
+
+  return SessionDropdown;
+}(_infernoComponent2.default);
+
+exports.default = SessionDropdown;
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createVNode = _inferno2.default.createVNode; // SessionRow -> Required by Components/UserPanel/SessionDropdown
+// --------------------------------------
+// Just a row.
+
+var SessionRow = function SessionRow(props) {
+  var classes = ['dropdown-item'];
+  var eventHandler = props.setActiveSession.bind(undefined, props.session.key);
+
+  if (props.session.key === props.activeSession.key) {
+    eventHandler = props.handleDropdownClick;
+    classes.push('active');
+  }
+
+  return createVNode(2, 'div', {
+    'className': classes.join(' ')
+  }, props.session.name, {
+    'onClick': eventHandler
+  }, props.session.key);
+};
+
+exports.default = SessionRow;
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+var _infernoComponent = __webpack_require__(1);
+
+var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // UserSwitcher -> Required by Components/UserPanel
+// --------------------------------------
+// Handles (poorly) the task of switching between
+// multiple users on the same system.
+
+var FADE_DURATION = 200;
+
+var createVNode = _inferno2.default.createVNode;
+
+var UserSwitcher = function (_Component) {
+  _inherits(UserSwitcher, _Component);
+
+  function UserSwitcher(props) {
+    _classCallCheck(this, UserSwitcher);
+
+    var _this = _possibleConstructorReturn(this, (UserSwitcher.__proto__ || Object.getPrototypeOf(UserSwitcher)).call(this, props));
+
+    _this.state = {
+      "fadeOut": false,
+      "selectedUser": _this.props.activeUser,
+      "selectedUserIndex": window.lightdm.users.indexOf(_this.props.activeUser)
+    };
+    return _this;
+  }
+
+  _createClass(UserSwitcher, [{
+    key: 'handleBackButton',
+    value: function handleBackButton(event) {
+      var _this2 = this;
+
+      this.props.setActiveUser(this.state.selectedUser);
+
+      this.setState({
+        "fadeOut": true
+      });
+
+      setTimeout(function () {
+        _this2.setState({
+          "fadeOut": false
+        });
+      }, FADE_DURATION);
+    }
+  }, {
+    key: 'handleUserClick',
+    value: function handleUserClick(index) {
+      this.setState({
+        "selectedUser": window.lightdm.users[index],
+        "selectedUserIndex": index
+      });
+    }
+  }, {
+    key: 'generateUserList',
+    value: function generateUserList() {
+      var _this3 = this;
+
+      var activeIndex = this.state.selectedUserIndex;
+
+      var avatars = window.lightdm.users.map(function (user, index) {
+        var classes = ['avatar-container'];
+
+        if (index === activeIndex) {
+          classes.push('active');
+        }
+
+        if (index === activeIndex - 1) {
+          classes.push('previous');
+        }
+
+        if (index === activeIndex + 1) {
+          classes.push('next');
+        }
+
+        return createVNode(2, 'li', {
+          'className': classes.join(' ')
+        }, [createVNode(2, 'div', {
+          'className': 'avatar-background'
+        }, createVNode(2, 'div', {
+          'className': 'avatar-mask'
+        }, createVNode(2, 'img', {
+          'className': 'user-avatar',
+          'src': user.image
+        }))), createVNode(2, 'div', {
+          'className': 'avatar-name'
+        }, [createVNode(2, 'div', {
+          'className': 'username'
+        }, user.display_name), createVNode(2, 'div', {
+          'className': 'real-name'
+        }, user.real_name)])], {
+          'onClick': _this3.handleUserClick.bind(_this3, index)
+        });
+      });
+
+      // Very hacky. Add an extra copy of the last element to the beginning of the list
+      // if the first element in the list is currently selected.
+      if (activeIndex === 0) {
+        var user = window.lightdm.users[window.lightdm.users.length - 1];
+        avatars.splice(0, 0, createVNode(2, 'li', {
+          'className': 'avatar-container previous'
+        }, [createVNode(2, 'div', {
+          'className': 'avatar-background'
+        }, createVNode(2, 'div', {
+          'className': 'avatar-mask'
+        }, createVNode(2, 'img', {
+          'className': 'user-avatar',
+          'src': user.image
+        }))), createVNode(2, 'div', {
+          'className': 'avatar-name'
+        }, [createVNode(2, 'div', {
+          'className': 'username'
+        }, user.display_name), createVNode(2, 'div', {
+          'className': 'real-name'
+        }, user.real_name)])], {
+          'onClick': this.handleUserClick.bind(this, window.lightdm.users.length - 1)
+        }));
+      }
+
+      // Very hacky. Add an extra copy of the first element to the end of the list
+      // if the last element in the list is currently selected.
+      if (activeIndex === window.lightdm.users.length - 1) {
+        var _user = window.lightdm.users[0];
+        avatars.push(createVNode(2, 'li', {
+          'className': 'avatar-container next'
+        }, [createVNode(2, 'div', {
+          'className': 'avatar-background'
+        }, createVNode(2, 'div', {
+          'className': 'avatar-mask'
+        }, createVNode(2, 'img', {
+          'className': 'user-avatar',
+          'src': _user.image
+        }))), createVNode(2, 'div', {
+          'className': 'avatar-name'
+        }, [createVNode(2, 'div', {
+          'className': 'username'
+        }, _user.display_name), createVNode(2, 'div', {
+          'className': 'real-name'
+        }, _user.real_name)])], {
+          'onClick': this.handleUserClick.bind(this, 0)
+        }));
+      }
+
+      return createVNode(2, 'ul', {
+        'className': 'avatar-slider'
+      }, avatars);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var classes = ['login-panel-switcher'];
+
+      var userList = this.generateUserList();
+      var userCount = window.lightdm.users.length;
+
+      if (this.props.active === true) {
+        classes.push('active');
+      } else if (this.state.fadeOut === true) {
+        classes.push('fadeout');
+      }
+
+      return createVNode(2, 'div', {
+        'className': classes.join(' ')
+      }, [createVNode(2, 'div', {
+        'className': 'header'
+      }, ['User ', createVNode(2, 'em', null, this.state.selectedUserIndex + 1), ' of ', createVNode(2, 'em', null, userCount)]), userList, createVNode(2, 'div', {
+        'className': 'bottom'
+      }, createVNode(2, 'div', {
+        'className': 'left'
+      }, 'BACK'), {
+        'onClick': this.handleBackButton.bind(this)
+      })]);
+    }
+  }]);
+
+  return UserSwitcher;
+}(_infernoComponent2.default);
+
+exports.default = UserSwitcher;
+
+/***/ }),
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5958,21 +5859,7 @@ function getWallpapers(directory) {
 }
 
 /***/ }),
-/* 47 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var padZeroes = exports.padZeroes = function padZeroes(i) {
-  return i < 10 ? "0" + i : i;
-};
-
-/***/ }),
-/* 48 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5987,27 +5874,27 @@ var _inferno = __webpack_require__(0);
 
 var _inferno2 = _interopRequireDefault(_inferno);
 
-var _redux = __webpack_require__(16);
+var _redux = __webpack_require__(12);
 
-var _Notifications = __webpack_require__(21);
+var _Notifications = __webpack_require__(17);
 
 var _Notifications2 = _interopRequireDefault(_Notifications);
 
-var _CommandPanel = __webpack_require__(17);
+var _CommandPanel = __webpack_require__(13);
 
 var _CommandPanel2 = _interopRequireDefault(_CommandPanel);
 
-var _DateDisplay = __webpack_require__(18);
+var _DateDisplay = __webpack_require__(14);
 
 var _DateDisplay2 = _interopRequireDefault(_DateDisplay);
 
-var _UserPanel = __webpack_require__(19);
+var _UserPanel = __webpack_require__(15);
 
 var _UserPanel2 = _interopRequireDefault(_UserPanel);
 
-var _PrimaryReducer = __webpack_require__(20);
+var _PrimaryReducer = __webpack_require__(16);
 
-var _SettingsReducer = __webpack_require__(6);
+var _SettingsReducer = __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6034,6 +5921,121 @@ window.onload = function (e) {
   window.notifications = new _Notifications2.default();
 
   Main();
+};
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+var _infernoComponent = __webpack_require__(1);
+
+var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
+
+var _Utils = __webpack_require__(44);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Clock -> Required by Components/CommandPanel
+// --------------------------------------
+// Just a clock.
+
+var createVNode = _inferno2.default.createVNode;
+
+var Clock = function (_Component) {
+  _inherits(Clock, _Component);
+
+  function Clock(props) {
+    _classCallCheck(this, Clock);
+
+    var _this = _possibleConstructorReturn(this, (Clock.__proto__ || Object.getPrototypeOf(Clock)).call(this, props));
+
+    _this.state = {
+      "currentTime": undefined,
+      "initialized": false
+    };
+    return _this;
+  }
+
+  _createClass(Clock, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      setTimeout(function () {
+        _this2.updateClock();
+        _this2.setState({
+          "initialized": true
+        });
+      }, 1000);
+    }
+  }, {
+    key: 'updateClock',
+    value: function updateClock() {
+      var _this3 = this;
+
+      var now = new Date();
+      var hours = (0, _Utils.padZeroes)(now.getHours());
+      var minutes = (0, _Utils.padZeroes)(now.getMinutes());
+      var formattedTime = hours + ':' + minutes;
+
+      this.setState({
+        "currentTime": formattedTime
+      });
+
+      setTimeout(function () {
+        _this3.updateClock();
+      }, 1000);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var classes = ['right', 'clock'];
+      var currentTime = this.state.currentTime;
+
+      if (this.state.initialized === true) {
+        classes.push('loaded');
+      }
+
+      return createVNode(2, 'div', {
+        'className': classes.join(' ')
+      }, currentTime);
+    }
+  }]);
+
+  return Clock;
+}(_infernoComponent2.default);
+
+exports.default = Clock;
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var padZeroes = exports.padZeroes = function padZeroes(i) {
+  return i < 10 ? "0" + i : i;
 };
 
 /***/ })

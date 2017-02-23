@@ -5,7 +5,7 @@
 import Inferno from 'inferno';
 import Component from 'inferno-component';
 
-import { padZeroes } from '../Utils/Utils';
+import { padZeroes } from '../../Utils/Utils';
 
 export default class Clock extends Component {
   constructor(props) {

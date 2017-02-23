@@ -1,11 +1,15 @@
+// Settings -> Required by Main
+// --------------------------------------
+// Handles greeter configuration.
+
 import Inferno from 'inferno';
 import Component from 'inferno-component';
 
-import { SettingsGeneral } from './SettingsGeneral';
-import { SettingsStyle } from './SettingsStyle';
-import { SettingsThemes } from './SettingsThemes';
-import { SettingsFunction } from './SettingsFunction';
-import { SettingsPresets } from './SettingsPresets';
+import { SettingsGeneral } from './Settings/SettingsGeneral';
+import { SettingsStyle } from './Settings/SettingsStyle';
+import { SettingsThemes } from './Settings/SettingsThemes';
+import { SettingsFunction } from './Settings/SettingsFunction';
+import { SettingsPresets } from './Settings/SettingsPresets';
 
 export default class Settings extends Component {
   constructor(props) {
