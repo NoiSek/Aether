@@ -20,6 +20,7 @@ export default class WallpaperSwitcher extends Component {
 
     this.cyclerBackground = undefined;
     this.cyclerForeground = undefined;
+    this.cyclerPreloader = undefined;
 
     this.state = {
       "directory": wallpaperDirectory,
@@ -39,16 +40,15 @@ export default class WallpaperSwitcher extends Component {
     // Set background wallpaper
     let directory = this.state.directory;
     let image = Settings.requestSetting("wallpaper", "space-1.jpg");
-    let cyclerBackground = document.querySelectorAll('.wallpaper-background')[0];
-    let cyclerForeground = document.querySelectorAll('.wallpaper-foreground')[0];
+    this.cyclerBackground = document.querySelectorAll('.wallpaper-background')[0];
+    this.cyclerForeground = document.querySelectorAll('.wallpaper-foreground')[0];
+    this.cyclerPreloader = document.querySelectorAll('.wallpaper-preload')[0];
 
-    cyclerForeground.style.background = `url('${directory}${image}')`;
-    cyclerForeground.style.backgroundSize = "cover";
+    this.cyclerForeground.style.background = `url('${directory}${image}')`;
+    this.cyclerForeground.style.backgroundSize = "cover";
 
     this.setState({
-      "savedWallpaper": image,
-      "cyclerBackground": cyclerBackground,
-      "cyclerForeground": cyclerForeground
+      "savedWallpaper": image
     });
   }
 
@@ -81,12 +81,18 @@ export default class WallpaperSwitcher extends Component {
 
     let wallpapers = this.state.wallpapers;
     let switcher = this.state.switcher;
-    let index = (switcher.index + wallpapers.length + 1) % wallpapers.length;
-    let newWallpaper = wallpapers[index];
 
-    this.setWallpaper(newWallpaper);
+    const nextIndex = (index) => (index + wallpapers.length + 1) % wallpapers.length;
 
-    switcher.index = index;
+    let newIndex = nextIndex(switcher.index);
+    let newWallpaper = wallpapers[newIndex];
+
+    let preloadedIndex = nextIndex(newIndex);
+    let preloadedWallpaper = wallpapers[preloadedIndex];
+
+    this.setWallpaper(newWallpaper, preloadedWallpaper);
+
+    switcher.index = newIndex;
 
     this.setState({
       "switcher": switcher
@@ -123,7 +129,7 @@ export default class WallpaperSwitcher extends Component {
   }
 
 
-  setWallpaper(newWallpaper) {
+  setWallpaper(newWallpaper, preloadedWallpaper) {
     let switcher = this.state.switcher;
 
     // Fadeout foreground wallpaper to new wallpaper
@@ -134,11 +140,14 @@ export default class WallpaperSwitcher extends Component {
 
     switcher.currentlyFading = true;
 
+    // Preload the next image
+    this.cyclerPreloader.style.background = `url('${directory}${preloadedWallpaper}')`;
+
     setTimeout(() => {
       // Cycle new wallpaper back to the front, make it visible again.
       this.cyclerForeground.style.background = `url('${directory}${newWallpaper}')`;
       this.cyclerForeground.style.backgroundSize = 'cover';
-      this.cyclerForeground.className = this.state.cyclerForeground.className.replace(" fadeout", "");
+      this.cyclerForeground.className = this.cyclerForeground.className.replace(" fadeout", "");
 
       let switcher = this.state.switcher;
       switcher.currentlyFading = false;

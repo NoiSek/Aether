@@ -33,6 +33,7 @@ html
 *, *:before, *:after
   box-sizing: inherit
 
+
 body
   font-family: "Open Sans"
   background: #222
@@ -69,6 +70,7 @@ body
 
   em
     font-weight: bold
+
 
 .notifications-container
   position: absolute
@@ -107,6 +109,7 @@ body
     &.fadeout
       opacity: 0
 
+
 .wallpaper-background, .wallpaper-foreground
   background-size: cover
 
@@ -118,12 +121,16 @@ body
 
   z-index: -1
 
+
 .wallpaper-foreground
   opacity: 1
 
   &.fadeout
     animation: wallpaper-fade-out 600ms forwards
     animation-timing-function: ease-out
+
+.cycler-preloader
+  display: none
 
 /*****************************************************************
   -- #0.3a Login Window
@@ -138,6 +145,17 @@ body
 
   height: 100vh
   width: 100vw
+
+
+.login-window
+  display: flex
+
+  .command-panel
+    width: 30%
+
+  .user-panel
+    width: 70%
+
 
 .login-window
   background: $right-background-plate
@@ -160,33 +178,19 @@ body
   animation-delay: 200ms
   animation-timing-function: ease-out
 
-  .left-col, .right-col
-    float: left
-    display: inline-block
 
-    padding: $panel-padding-y $panel-padding-x
-
-    height: 100%
-
-  .left-col
-    color: #fff
-
-    background: $left-background
-    width: $command-panel-width
-
-    border-top-left-radius: 4px
-    border-bottom-left-radius: 4px
+.command-panel, .user-panel
+  padding: $panel-padding-y $panel-padding-x
 
 
-  .right-col
-    background: $right-background-image
+.command-panel
+  color: #fff
 
-    width: $login-panel-width
+  background: $left-background
 
-    border-top-right-radius: 4px
-    border-bottom-right-radius: 4px
+  border-top-left-radius: 4px
+  border-bottom-left-radius: 4px
 
-.left-col
   & > div
     height: 100%
 
@@ -352,10 +356,16 @@ body
   .bottom .clock.loaded
     opacity: 1
 
-.right-col
+
+.user-panel
   color: #fff
+  background: $right-background-image
+
   border: 1px solid rgba(251, 98, 192, 0.25)
   border-bottom: none
+
+  border-top-right-radius: 4px
+  border-bottom-right-radius: 4px
 
   & > div
     height: 100%

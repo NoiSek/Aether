@@ -92,7 +92,7 @@ table {
   .disabled .disabled:hover {
     cursor: not-allowed !important; }
 
-.noselect, .date, .left-col .command, .left-col .command .icon-wrapper, .left-col .command .text, .left-col .bottom .left, .left-col .bottom .right, .right-col .login-panel-main .login-form .user-username, .right-col .login-panel-main .login-form .user-password::-webkit-input-placeholder, .right-col .login-panel-main .login-form .submit-row .left .dropdown, .right-col .login-panel-main .bottom .left, .right-col .login-panel-switcher .bottom .left {
+.noselect, .date, .command-panel .command, .command-panel .command .icon-wrapper, .command-panel .command .text, .command-panel .bottom .left, .command-panel .bottom .right, .user-panel .login-panel-main .login-form .user-username, .user-panel .login-panel-main .login-form .user-password::-webkit-input-placeholder, .user-panel .login-panel-main .login-form .submit-row .left .dropdown, .user-panel .login-panel-main .bottom .left, .user-panel .login-panel-switcher .bottom .left {
   -webkit-user-select: none; }
 
 @keyframes drop-in-notifications {
@@ -242,6 +242,9 @@ body {
     animation: wallpaper-fade-out 600ms forwards;
     animation-timing-function: ease-out; }
 
+.cycler-preloader {
+  display: none; }
+
 /*****************************************************************
  * -- #0.3a Login Window
  * ===============================================================
@@ -252,6 +255,13 @@ body {
   overflow: hidden;
   height: 100vh;
   width: 100vw; }
+
+.login-window {
+  display: flex; }
+  .login-window .command-panel {
+    width: 30%; }
+  .login-window .user-panel {
+    width: 70%; }
 
 .login-window {
   background: rgba(221, 80, 30, 0.5);
@@ -267,178 +277,173 @@ body {
   animation: window-fade-in 0.5s forwards;
   animation-delay: 200ms;
   animation-timing-function: ease-out; }
-  .login-window .left-col, .login-window .right-col {
-    float: left;
-    display: inline-block;
-    padding: 15px 35px;
-    height: 100%; }
-  .login-window .left-col {
-    color: #fff;
-    background: #393939;
-    width: 255px;
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px; }
-  .login-window .right-col {
-    background: url("../img/background-gradient.png") repeat-x;
-    width: 595px;
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px; }
 
-.left-col > div {
-  height: 100%; }
-.left-col .distro-logo {
-  background: url("../img/arch-logo.png") no-repeat center center;
-  margin: 0px auto;
-  height: 125px;
-  width: 125px;
-  transition: opacity 400ms; }
-  .left-col .distro-logo:hover {
-    cursor: pointer; }
-  .left-col .distro-logo:active {
-    opacity: 0.8; }
-.left-col .distro-wrapper {
-  padding-top: 35px;
-  height: 52%; }
-  .left-col .distro-wrapper .options {
-    position: relative;
-    top: -100px;
-    opacity: 0; }
-    .left-col .distro-wrapper .options.active {
-      animation: drop-in-options 200ms forwards;
-      animation-timing-function: ease-out; }
-    .left-col .distro-wrapper .options .button-accept, .left-col .distro-wrapper .options .button-reject {
-      background: rgba(0, 0, 0, 0.2);
-      position: relative;
-      opacity: 0.4;
-      text-align: center;
-      margin-top: 10px;
-      padding: 7px 8px;
-      height: 30px;
-      width: 30px;
-      border-radius: 100%; }
-      .left-col .distro-wrapper .options .button-accept:hover, .left-col .distro-wrapper .options .button-reject:hover {
-        cursor: pointer;
-        opacity: 1; }
-    .left-col .distro-wrapper .options .button-accept {
-      float: right;
-      left: -15%; }
-      .left-col .distro-wrapper .options .button-accept:hover {
-        background: #6e9200; }
-    .left-col .distro-wrapper .options .button-reject {
-      float: left;
-      left: 15%; }
-      .left-col .distro-wrapper .options .button-reject:hover {
-        background: #b93300; }
-  .left-col .distro-wrapper .options-wrapper {
-    overflow: hidden;
-    height: 45px;
-    width: 100%; }
-.left-col .command {
-  margin-bottom: 25px;
-  transition: all 0.5s; }
-  .left-col .command:hover {
-    cursor: pointer;
-    opacity: 0.6; }
-.left-col .command .icon-wrapper, .left-col .command .text {
-  display: inline-block; }
-.left-col .command .icon-wrapper {
-  margin-right: 10px;
-  width: 30px; }
-.left-col .command.shutdown .icon {
-  background: url("../img/shutdown.png") no-repeat center center;
-  height: 20px;
-  width: 20px; }
-.left-col .command.reboot .icon {
-  background: url("../img/reboot.png") no-repeat center center;
-  height: 20px;
-  width: 20px; }
-.left-col .command.sleep .icon {
-  background: url("../img/sleep.png") no-repeat center center;
-  height: 25px;
-  width: 29px; }
-.left-col .command.hibernate .icon {
-  background: url("../img/hibernate.png") no-repeat center center;
-  height: 13px;
-  width: 25px; }
-.left-col .command .text {
-  font-size: 16pt;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  vertical-align: 2px; }
-.left-col .commands-wrapper {
-  height: 43%; }
-.left-col .bottom {
-  height: 5%;
-  padding-top: 15px; }
-.left-col .bottom .left, .left-col .bottom .right {
-  float: left;
-  font-size: 9pt;
-  font-weight: bold;
-  letter-spacing: 1px; }
-.left-col .bottom .left {
-  color: #c2c2c2;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-transform: uppercase;
-  white-space: nowrap;
-  width: 70%; }
-.left-col .bottom .right {
-  text-align: right;
-  opacity: 0;
-  width: 30%;
-  transition: opacity 1s; }
-.left-col .bottom .clock.loaded {
-  opacity: 1; }
+.command-panel, .user-panel {
+  padding: 15px 35px; }
 
-.right-col {
+.command-panel {
   color: #fff;
-  border: 1px solid rgba(251, 98, 192, 0.25);
-  border-bottom: none; }
-  .right-col > div {
+  background: #393939;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px; }
+  .command-panel > div {
     height: 100%; }
-  .right-col .login-panel-main {
+  .command-panel .distro-logo {
+    background: url("../img/arch-logo.png") no-repeat center center;
+    margin: 0px auto;
+    height: 125px;
+    width: 125px;
+    transition: opacity 400ms; }
+    .command-panel .distro-logo:hover {
+      cursor: pointer; }
+    .command-panel .distro-logo:active {
+      opacity: 0.8; }
+  .command-panel .distro-wrapper {
+    padding-top: 35px;
+    height: 52%; }
+    .command-panel .distro-wrapper .options {
+      position: relative;
+      top: -100px;
+      opacity: 0; }
+      .command-panel .distro-wrapper .options.active {
+        animation: drop-in-options 200ms forwards;
+        animation-timing-function: ease-out; }
+      .command-panel .distro-wrapper .options .button-accept, .command-panel .distro-wrapper .options .button-reject {
+        background: rgba(0, 0, 0, 0.2);
+        position: relative;
+        opacity: 0.4;
+        text-align: center;
+        margin-top: 10px;
+        padding: 7px 8px;
+        height: 30px;
+        width: 30px;
+        border-radius: 100%; }
+        .command-panel .distro-wrapper .options .button-accept:hover, .command-panel .distro-wrapper .options .button-reject:hover {
+          cursor: pointer;
+          opacity: 1; }
+      .command-panel .distro-wrapper .options .button-accept {
+        float: right;
+        left: -15%; }
+        .command-panel .distro-wrapper .options .button-accept:hover {
+          background: #6e9200; }
+      .command-panel .distro-wrapper .options .button-reject {
+        float: left;
+        left: 15%; }
+        .command-panel .distro-wrapper .options .button-reject:hover {
+          background: #b93300; }
+    .command-panel .distro-wrapper .options-wrapper {
+      overflow: hidden;
+      height: 45px;
+      width: 100%; }
+  .command-panel .command {
+    margin-bottom: 25px;
+    transition: all 0.5s; }
+    .command-panel .command:hover {
+      cursor: pointer;
+      opacity: 0.6; }
+  .command-panel .command .icon-wrapper, .command-panel .command .text {
+    display: inline-block; }
+  .command-panel .command .icon-wrapper {
+    margin-right: 10px;
+    width: 30px; }
+  .command-panel .command.shutdown .icon {
+    background: url("../img/shutdown.png") no-repeat center center;
+    height: 20px;
+    width: 20px; }
+  .command-panel .command.reboot .icon {
+    background: url("../img/reboot.png") no-repeat center center;
+    height: 20px;
+    width: 20px; }
+  .command-panel .command.sleep .icon {
+    background: url("../img/sleep.png") no-repeat center center;
+    height: 25px;
+    width: 29px; }
+  .command-panel .command.hibernate .icon {
+    background: url("../img/hibernate.png") no-repeat center center;
+    height: 13px;
+    width: 25px; }
+  .command-panel .command .text {
+    font-size: 16pt;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    vertical-align: 2px; }
+  .command-panel .commands-wrapper {
+    height: 43%; }
+  .command-panel .bottom {
+    height: 5%;
+    padding-top: 15px; }
+  .command-panel .bottom .left, .command-panel .bottom .right {
+    float: left;
+    font-size: 9pt;
+    font-weight: bold;
+    letter-spacing: 1px; }
+  .command-panel .bottom .left {
+    color: #c2c2c2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+    width: 70%; }
+  .command-panel .bottom .right {
+    text-align: right;
+    opacity: 0;
+    width: 30%;
+    transition: opacity 1s; }
+  .command-panel .bottom .clock.loaded {
+    opacity: 1; }
+
+.user-panel {
+  color: #fff;
+  background: url("../img/background-gradient.png") repeat-x;
+  border: 1px solid rgba(251, 98, 192, 0.25);
+  border-bottom: none;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px; }
+  .user-panel > div {
+    height: 100%; }
+  .user-panel .login-panel-main {
     position: relative;
     z-index: 2;
     height: 100%; }
-    .right-col .login-panel-main.fadeout {
+    .user-panel .login-panel-main.fadeout {
       animation: login-fade-out 500ms ease forwards;
       z-index: 1; }
-    .right-col .login-panel-main.fadein {
+    .user-panel .login-panel-main.fadein {
       animation: login-fade-in 200ms ease-out forwards; }
-    .right-col .login-panel-main .avatar-container {
+    .user-panel .login-panel-main .avatar-container {
       height: 50%;
       padding-top: 20px;
       padding-bottom: 75px; }
-      .right-col .login-panel-main .avatar-container .avatar-background {
+      .user-panel .login-panel-main .avatar-container .avatar-background {
         background: url("../img/avatar-background.png") no-repeat center center;
         margin: 0 auto;
         height: 155px;
         width: 154px;
         transform: translateX(-10px);
         transition: all 1s; }
-      .right-col .login-panel-main .avatar-container .avatar-mask {
+      .user-panel .login-panel-main .avatar-container .avatar-mask {
         border-radius: 100%;
         overflow: hidden;
         height: 125px;
         width: 125px;
         transform: translate(20px, 15px); }
-      .right-col .login-panel-main .avatar-container .user-avatar {
+      .user-panel .login-panel-main .avatar-container .user-avatar {
         margin: 0 auto;
         height: 125px;
         width: 125px; }
-    .right-col .login-panel-main .login-form {
+    .user-panel .login-panel-main .login-form {
       height: 45%;
       display: block; }
-      .right-col .login-panel-main .login-form .user-username {
+      .user-panel .login-panel-main .login-form .user-username {
         text-align: center;
         text-transform: capitalize;
         font-size: 32pt;
         font-style: italic;
         font-weight: bold; }
-      .right-col .login-panel-main .login-form .user-password-container {
+      .user-panel .login-panel-main .login-form .user-password-container {
         margin: 15px auto;
         width: 200px; }
-      .right-col .login-panel-main .login-form .user-password {
+      .user-panel .login-panel-main .login-form .user-password {
         color: #fff;
         background: none;
         outline: none;
@@ -449,34 +454,34 @@ body {
         letter-spacing: 2px;
         width: 100%;
         transition: opacity 1s; }
-        .right-col .login-panel-main .login-form .user-password:focus, .right-col .login-panel-main .login-form .user-password:active {
+        .user-panel .login-panel-main .login-form .user-password:focus, .user-panel .login-panel-main .login-form .user-password:active {
           border-bottom: 2px solid rgba(255, 255, 255, 0.8); }
-        .right-col .login-panel-main .login-form .user-password::-webkit-input-placeholder {
+        .user-panel .login-panel-main .login-form .user-password::-webkit-input-placeholder {
           color: rgba(255, 255, 255, 0.4); }
-        .right-col .login-panel-main .login-form .user-password.error {
+        .user-panel .login-panel-main .login-form .user-password.error {
           animation: error-shake 600ms forwards; }
-        .right-col .login-panel-main .login-form .user-password.error, .right-col .login-panel-main .login-form .user-password.error:focus, .right-col .login-panel-main .login-form .user-password.error:active {
+        .user-panel .login-panel-main .login-form .user-password.error, .user-panel .login-panel-main .login-form .user-password.error:focus, .user-panel .login-panel-main .login-form .user-password.error:active {
           border-bottom: 2px solid rgba(175, 3, 3, 0.6); }
-        .right-col .login-panel-main .login-form .user-password.error::-webkit-input-placeholder {
+        .user-panel .login-panel-main .login-form .user-password.error::-webkit-input-placeholder {
           color: #af0303; }
-      .right-col .login-panel-main .login-form .submit-row {
+      .user-panel .login-panel-main .login-form .submit-row {
         margin: 0 auto;
         width: 200px;
         position: absolute;
         left: 162.5px; }
-        .right-col .login-panel-main .login-form .submit-row .left, .right-col .login-panel-main .login-form .submit-row .right {
+        .user-panel .login-panel-main .login-form .submit-row .left, .user-panel .login-panel-main .login-form .submit-row .right {
           display: inline-block;
           float: left; }
-        .right-col .login-panel-main .login-form .submit-row .left {
+        .user-panel .login-panel-main .login-form .submit-row .left {
           width: 80%; }
-        .right-col .login-panel-main .login-form .submit-row .left .dropdown {
+        .user-panel .login-panel-main .login-form .submit-row .left .dropdown {
           font-size: 9pt;
           width: 95%; }
-          .right-col .login-panel-main .login-form .submit-row .left .dropdown:hover {
+          .user-panel .login-panel-main .login-form .submit-row .left .dropdown:hover {
             cursor: pointer; }
-        .right-col .login-panel-main .login-form .submit-row .right {
+        .user-panel .login-panel-main .login-form .submit-row .right {
           width: 20%; }
-        .right-col .login-panel-main .login-form .submit-row .right .submit-button {
+        .user-panel .login-panel-main .login-form .submit-row .right .submit-button {
           color: #fff;
           background: rgba(251, 137, 171, 0.6);
           border: none;
@@ -488,19 +493,19 @@ body {
           font-weight: bold;
           font-size: 8pt;
           padding: 8px; }
-          .right-col .login-panel-main .login-form .submit-row .right .submit-button:hover {
+          .user-panel .login-panel-main .login-form .submit-row .right .submit-button:hover {
             cursor: pointer;
             background: rgba(255, 255, 255, 0.5); }
-      .right-col .login-panel-main .login-form .submit-row-container {
+      .user-panel .login-panel-main .login-form .submit-row-container {
         position: relative; }
-      .right-col .login-panel-main .login-form .left .dropdown .dropdown-item {
+      .user-panel .login-panel-main .login-form .left .dropdown .dropdown-item {
         color: #525252;
         display: none;
         background: rgba(255, 255, 255, 0.9);
         padding: 8px 10px; }
-        .right-col .login-panel-main .login-form .left .dropdown .dropdown-item:hover {
+        .user-panel .login-panel-main .login-form .left .dropdown .dropdown-item:hover {
           background: white; }
-      .right-col .login-panel-main .login-form .left .dropdown .dropdown-item.active {
+      .user-panel .login-panel-main .login-form .left .dropdown .dropdown-item.active {
         color: #fff;
         display: block;
         background: #f83f77 url("../img/dropdown-caret.png") no-repeat 90% 50%;
@@ -514,73 +519,73 @@ body {
         padding-right: 30px;
         border-radius: 2px;
         box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05); }
-      .right-col .login-panel-main .login-form .left .dropdown.active .dropdown-item {
+      .user-panel .login-panel-main .login-form .left .dropdown.active .dropdown-item {
         display: block; }
-  .right-col .login-panel-switcher {
+  .user-panel .login-panel-switcher {
     display: block;
     opacity: 0;
     position: relative;
     top: -100%;
     z-index: 1;
     height: 100%; }
-    .right-col .login-panel-switcher.active {
+    .user-panel .login-panel-switcher.active {
       animation: 200ms switcher-fade-in ease-out forwards;
       animation-delay: 150ms;
       z-index: 2; }
-    .right-col .login-panel-switcher.fadeout {
+    .user-panel .login-panel-switcher.fadeout {
       animation: 200ms switcher-fade-out ease-out forwards; }
-    .right-col .login-panel-switcher ul {
+    .user-panel .login-panel-switcher ul {
       list-style-type: none;
       transform-style: preserve-3d;
       padding-top: 50px;
       height: 95%; }
-    .right-col .login-panel-switcher li {
+    .user-panel .login-panel-switcher li {
       display: inline-block;
       padding-top: 25px;
       width: 33.33%;
       transition: -webkit-filter 200ms, opacity 300ms; }
-      .right-col .login-panel-switcher li .avatar-background {
+      .user-panel .login-panel-switcher li .avatar-background {
         background: url("../img/avatar-background.png") no-repeat center center;
         margin: 0 auto;
         height: 155px;
         width: 154px;
         transform: translateX(-10px);
         transition: all 1s; }
-      .right-col .login-panel-switcher li .avatar-mask {
+      .user-panel .login-panel-switcher li .avatar-mask {
         border-radius: 100%;
         overflow: hidden;
         height: 125px;
         width: 125px;
         transform: translate(20px, 15px); }
-      .right-col .login-panel-switcher li .avatar-name {
+      .user-panel .login-panel-switcher li .avatar-name {
         text-align: center; }
-        .right-col .login-panel-switcher li .avatar-name .username {
+        .user-panel .login-panel-switcher li .avatar-name .username {
           font-size: 16pt;
           font-weight: bold; }
-        .right-col .login-panel-switcher li .avatar-name .real-name {
+        .user-panel .login-panel-switcher li .avatar-name .real-name {
           font-size: 12pt;
           font-style: italic; }
-      .right-col .login-panel-switcher li .user-avatar {
+      .user-panel .login-panel-switcher li .user-avatar {
         margin: 0 auto;
         height: 125px;
         width: 125px; }
-    .right-col .login-panel-switcher li:not(.active) {
+    .user-panel .login-panel-switcher li:not(.active) {
       display: none;
       -webkit-filter: blur(1px); }
-      .right-col .login-panel-switcher li:not(.active):hover {
+      .user-panel .login-panel-switcher li:not(.active):hover {
         cursor: pointer;
         opacity: 0.9;
         -webkit-filter: blur(0.5px); }
-    .right-col .login-panel-switcher li.active {
+    .user-panel .login-panel-switcher li.active {
       transform: translateZ(10px); }
-    .right-col .login-panel-switcher li.previous, .right-col .login-panel-switcher li.next {
+    .user-panel .login-panel-switcher li.previous, .user-panel .login-panel-switcher li.next {
       display: inline-block;
       opacity: 0.8; }
-    .right-col .login-panel-switcher li.previous {
+    .user-panel .login-panel-switcher li.previous {
       transform: translate3d(50px, 0px, -10px) scale(0.9); }
-    .right-col .login-panel-switcher li.next {
+    .user-panel .login-panel-switcher li.next {
       transform: translate3d(-50px, 0px, -10px) scale(0.9); }
-    .right-col .login-panel-switcher .header {
+    .user-panel .login-panel-switcher .header {
       font-size: 11pt;
       font-style: italic;
       text-align: center;
@@ -588,20 +593,20 @@ body {
       position: absolute;
       height: 5%;
       width: 100%; }
-      .right-col .login-panel-switcher .header em {
+      .user-panel .login-panel-switcher .header em {
         font-weight: bold; }
-  .right-col .login-panel-main .bottom, .right-col .login-panel-switcher .bottom {
+  .user-panel .login-panel-main .bottom, .user-panel .login-panel-switcher .bottom {
     padding-top: 15px;
     height: 5%; }
-    .right-col .login-panel-main .bottom .left, .right-col .login-panel-switcher .bottom .left {
+    .user-panel .login-panel-main .bottom .left, .user-panel .login-panel-switcher .bottom .left {
       color: #fff;
       float: left;
       font-size: 9pt;
       letter-spacing: 1px; }
-    .right-col .login-panel-main .bottom .left, .right-col .login-panel-switcher .bottom .left {
+    .user-panel .login-panel-main .bottom .left, .user-panel .login-panel-switcher .bottom .left {
       font-weight: bold;
       width: 30%; }
-      .right-col .login-panel-main .bottom .left:hover, .right-col .login-panel-switcher .bottom .left:hover {
+      .user-panel .login-panel-main .bottom .left:hover, .user-panel .login-panel-switcher .bottom .left:hover {
         cursor: pointer; }
 
 /*****************************************************************
