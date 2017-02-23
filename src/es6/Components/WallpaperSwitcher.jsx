@@ -129,7 +129,7 @@ export default class WallpaperSwitcher extends Component {
   }
 
 
-  setWallpaper(newWallpaper, preloadedWallpaper) {
+  setWallpaper(newWallpaper, preloadedWallpaper=false) {
     let switcher = this.state.switcher;
 
     // Fadeout foreground wallpaper to new wallpaper
@@ -140,8 +140,10 @@ export default class WallpaperSwitcher extends Component {
 
     switcher.currentlyFading = true;
 
-    // Preload the next image
-    this.cyclerPreloader.style.background = `url('${directory}${preloadedWallpaper}')`;
+    if (preloadedWallpaper !== false) {
+      // Preload the next image
+      this.cyclerPreloader.style.background = `url('${directory}${preloadedWallpaper}')`;
+    }
 
     setTimeout(() => {
       // Cycle new wallpaper back to the front, make it visible again.

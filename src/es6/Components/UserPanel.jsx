@@ -21,6 +21,9 @@ export default class LoginPanel extends Component {
 
     this.unsubscribe = this.store.subscribe(() => {
       this.storeState = this.store.getState();
+      this.setState({
+        "_toggleUpdate": !this.state._toggleUpdate
+      });
     });
 
     this.state = {
@@ -28,7 +31,8 @@ export default class LoginPanel extends Component {
       "fadeIn": false,
       "password": "",
       "passwordFailed": false,
-      "switcherActive": false
+      "switcherActive": false,
+      "_toggleUpdate": false
     };
   }
 
@@ -117,7 +121,7 @@ export default class LoginPanel extends Component {
 
   setActiveSession(session) {
     this.store.dispatch({
-      'type': 'SET_ACTIVE_SESSION',
+      'type': 'AUTH_SET_ACTIVE_SESSION',
       'session': session
     });
 
@@ -128,7 +132,7 @@ export default class LoginPanel extends Component {
 
   setActiveUser(user, isBypass) {
     this.store.dispatch({
-      'type': 'SET_ACTIVE_USER',
+      'type': 'AUTH_SET_ACTIVE_USER',
       'user': user
     });
 
