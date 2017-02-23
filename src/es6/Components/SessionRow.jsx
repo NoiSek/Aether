@@ -2,9 +2,6 @@
 // --------------------------------------
 // Just a row.
 
-import Inferno from 'inferno';
-
-
 const SessionRow = (props) => {
   let classes = ['dropdown-item'];
   let eventHandler = props.setActiveSession.bind(this, props.session.key);

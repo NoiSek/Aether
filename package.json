@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/eslint src/es6/**",
-    "build": "npm run test && ./node_modules/.bin/webpack --progress --colors --optimize-dedupe --optimize-minimize --optimize-occurrence-order && ./node_modules/.bin/node-sass src/sass --output src/css",
+    "build-js": "./node_modules/.bin/webpack --progress --colors --optimize-minimize",
+    "build-sass": "./node_modules/.bin/node-sass src/sass --output src/css",
+    "build": "npm run test && npm run build-js && npm run build-sass",
     "watch": "./node_modules/.bin/webpack --progress --colors --watch & ./node_modules/.bin/node-sass --watch src/sass --output src/css"
   },
   "repository": {

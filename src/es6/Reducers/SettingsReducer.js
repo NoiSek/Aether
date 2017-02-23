@@ -3,6 +3,7 @@ import * as Settings from "../Logic/Settings";
 export function addAdditionalSettings(state) {
   // Define our defaults
   let defaults = {
+    "active": false,
     "distro": "archlinux",
 
     "avatar_enabled": true,

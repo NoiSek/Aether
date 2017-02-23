@@ -14,10 +14,11 @@ module.exports = {
       }
     ]
   },
-  "plugins": [
-    new webpack.SourceMapDevToolPlugin()
-  ],
   "resolve": {
+    "alias": {
+      "react": "inferno-compat",
+      "react-dom": "inferno-compat"
+    },
     "extensions": [".js", ".min.js", ".jsx"],
     "modules": ["./src/dist/js", "./node_modules"],
   }
