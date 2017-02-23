@@ -18,8 +18,17 @@ export const PrimaryReducer = (state, action) => {
   }
 
   switch (action.type) {
-    case "CHANGE_WALLPAPER":
-      return state;
+    case "AUTH_SET_ACTIVE_SESSION":
+      var session = action.session;
+
+      if (typeof session === typeof String()) {
+        session = SystemOperations.findSession(session);
+      }
+
+      return { ...state, "session": session };
+
+    case "AUTH_SET_ACTIVE_USER":
+      return { ...state, "user": action.user };
 
     default:
       return state;

@@ -1,3 +1,5 @@
+var webpack = require('webpack');
+
 module.exports = {
   "entry": "./src/es6/Main.jsx",
   "output": {
@@ -12,8 +14,11 @@ module.exports = {
       }
     ]
   },
+  "plugins": [
+    new webpack.SourceMapDevToolPlugin()
+  ],
   "resolve": {
-    "extensions": ["", ".js", ".min.js", ".jsx"],
-    "modulesDirectories": ["./src/dist/js", "./node_modules"],
+    "extensions": [".js", ".min.js", ".jsx"],
+    "modules": ["./src/dist/js", "./node_modules"],
   }
 };

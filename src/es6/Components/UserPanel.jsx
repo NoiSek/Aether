@@ -1,18 +1,29 @@
+// UserPanel -> Required by Main
+// --------------------------------------
+// The login management half of the greeter logic.
+
 import Inferno from 'inferno';
 import Component from 'inferno-component';
 
 import UserSwitcher from './UserSwitcher';
-import LoginPanelForm from './LoginPanelForm';
+import UserPanelForm from './UserPanelForm';
 
 const FADE_IN_DURATION = 200;
 const ERROR_SHAKE_DURATION = 600;
 
+
 export default class LoginPanel extends Component {
   constructor(props) {
     super(props);
+
+    this.store = this.props.store;
+    this.storeState = this.store.getState();
+
+    this.unsubscribe = this.store.subscribe(() => {
+      this.storeState = this.store.getState();
+    });
+
     this.state = {
-      "activeUser": undefined,
-      "activeSession": undefined,
       "dropdownActive": false,
       "fadeIn": false,
       "password": "",
@@ -30,44 +41,22 @@ export default class LoginPanel extends Component {
         window.lightdm.respond(this.state.password);
       }
     };
+
     window.show_message = (text, type) => {
       window.notifications.generate(text, type);
     };
+
     window.authentication_complete = () => {
       if (window.lightdm.is_authenticated) {
-        window.lightdm.start_session_sync(this.state.activeSession.key);
+        window.lightdm.start_session_sync(this.storeState.session.key);
       } else {
         this.rejectPassword();
       }
     };
+
     window.autologin_timer_expired = () => {
       window.notifications.generate("Autologin expired.");
     };
-  }
-
-  findDefaultUser() {
-    if (window.lightdm.lock_hint === true) {
-      return window.lightdm.users.filter((user) => user.logged_in)[0];
-    } else {
-      if(this.state.activeUser !== undefined) {
-        return this.state.activeUser;
-      } else if (window.lightdm.select_user !== undefined && window.lightdm.select_user !== null) {
-        window.lightdm.users.filter((user) => user.name === window.lightdm.select_user)[0];
-      } else {
-        return window.lightdm.users[0];
-      }
-    }
-  }
-
-  findDefaultSession(user) {
-    return this.findSession(user.session) || this.findSession(window.lightdm.default_session) || window.lightdm.sessions[0];
-  }
-
-  findSession(sessionName) {
-    if (sessionName === undefined || sessionName === null) {
-      return false;
-    }
-    return window.lightdm.sessions.filter((session) => session.name.toLowerCase() === sessionName.toLowerCase() || session.key.toLowerCase() === sessionName.toLowerCase())[0];
   }
 
   handleDropdownClick(event) {
@@ -85,17 +74,19 @@ export default class LoginPanel extends Component {
   handleLoginSubmit(event) {
     event.preventDefault();
 
-    if (window.debug === false) {
-      window.lightdm.authenticate(this.state.activeUser.name);
-    } else {
+    if (window.debug === true) {
       if (this.state.password.toLowerCase() !== "password") {
         this.rejectPassword();
       } else {
-        window.notifications.generate(`You are now logged in as ${this.state.activeUser.display_name} to ${this.state.activeSession.name}.`, 'success');
+        window.notifications.generate(`You are now logged in as ${this.storeState.user.display_name} to ${this.storeState.session.name}.`, 'success');
         this.setState({
           "password": ""
         });
       }
+    }
+
+    else {
+      window.lightdm.authenticate(this.storeState.user.username);
     }
   }
 
@@ -106,7 +97,7 @@ export default class LoginPanel extends Component {
     } else if (window.lightdm.users.length === 2) {
       // No point in showing them the switcher if there is only one other user. Switch immediately.
       let otherUser = window.lightdm.users.filter((user) => {
-        return user.name !== this.state.activeUser.name;
+        return user.username !== this.storeState.user.username;
       })[0];
 
       this.setActiveUser(otherUser, true);
@@ -125,25 +116,27 @@ export default class LoginPanel extends Component {
   }
 
   setActiveSession(session) {
-    if (typeof session === typeof String()) {
-      session = this.findSession(session);
-    }
+    this.store.dispatch({
+      'type': 'SET_ACTIVE_SESSION',
+      'session': session
+    });
 
     this.setState({
-      "activeSession": session,
       "dropdownActive": false
     });
   }
 
   setActiveUser(user, isBypass) {
-    this.setState({
-      "activeUser": user,
-      "switcherActive": false
+    this.store.dispatch({
+      'type': 'SET_ACTIVE_USER',
+      'user': user
     });
 
+    // Fade in, except when switching between 1 of 2 users.
     if (isBypass === false || isBypass === undefined) {
       this.setState({
-        "fadeIn": true
+        "fadeIn": true,
+        "switcherActive": false
       });
 
       setTimeout(() => {
@@ -151,24 +144,26 @@ export default class LoginPanel extends Component {
           "fadeIn": false
         });
       }, FADE_IN_DURATION);
+    } else {
+      this.setState({
+        "switcherActive": false
+      });
     }
   }
 
   rejectPassword() {
-    if(this.state.passwordFailed === false) {
-      window.notifications.generate("Password incorrect, please try again.", 'error');
+    window.notifications.generate("Password incorrect, please try again.", 'error');
 
+    this.setState({
+      "password": "",
+      "passwordFailed": true
+    });
+
+    setTimeout(() => {
       this.setState({
-        "password": "",
-        "passwordFailed": true
+        "passwordFailed": false
       });
-
-      setTimeout(() => {
-        this.setState({
-          "passwordFailed": false
-        });
-      }, ERROR_SHAKE_DURATION);
-    }
+    }, ERROR_SHAKE_DURATION);
   }
 
   generateSwitchUserButton() {
@@ -202,13 +197,13 @@ export default class LoginPanel extends Component {
           <div className="avatar-container">
             <div className="avatar-background">
               <div className="avatar-mask">
-                <img className="user-avatar" src={ this.state.activeUser.image } />
+                <img className="user-avatar" src={ this.storeState.user.image } />
               </div>
             </div>
           </div>
-          <LoginPanelForm
-            activeSession={ this.state.activeSession }
-            activeUser={ this.state.activeUser }
+          <UserPanelForm
+            activeSession={ this.storeState.session }
+            activeUser={ this.storeState.user }
             dropdownActive={ this.state.dropdownActive }
             password={ this.state.password }
             passwordFailed={ this.state.passwordFailed }
@@ -224,7 +219,7 @@ export default class LoginPanel extends Component {
         </div>
         <UserSwitcher
           active={ this.state.switcherActive }
-          activeUser={ this.state.activeUser }
+          activeUser={ this.storeState.user }
           setActiveUser={ this.setActiveUser.bind(this) }
         />
       </div>

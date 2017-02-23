@@ -1,5 +1,10 @@
+// DateDisplay -> Required by Main
+// --------------------------------------
+// Displays date below the login window.
+
 import Inferno from 'inferno';
 import Component from 'inferno-component';
+
 
 export default class DateDisplay extends Component {
   constructor(props) {
@@ -15,12 +20,14 @@ export default class DateDisplay extends Component {
     };
   }
 
+
   componentWillMount() {
     // Wait two seconds, so that the clock can render first and they fade in sequentially rather than in parallel.
     setTimeout(() => {
       this.setDate();
     }, 2000);
   }
+
 
   generateDateString() {
     let dateString = (
@@ -31,6 +38,7 @@ export default class DateDisplay extends Component {
 
     return dateString;
   }
+
 
   setDate() {
     let dayNames = [
@@ -90,6 +98,7 @@ export default class DateDisplay extends Component {
       this.setDate();
     }, 30 * 1000);
   }
+
 
   render() {
     let dateClasses = ["date"];

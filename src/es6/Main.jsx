@@ -1,26 +1,29 @@
 import Inferno from 'inferno';
-import Component from 'inferno-component';
-import InfernoDOM from 'inferno-dom';
+import { createStore } from 'redux';
 
 import Notifications from './Utils/Notifications';
 import CommandPanel from './Components/CommandPanel';
 import DateDisplay from './Components/DateDisplay';
-import LoginPanel from './Components/LoginPanel';
+import UserPanel from './Components/UserPanel';
 
-import { getInitialAppState } from "./Reducers/PrimaryReducer";
-import { addAdditionalSettings } from "./Reducers/SettingsReducer";
+import { getDefaultState, PrimaryReducer } from './Reducers/PrimaryReducer';
+import { addAdditionalSettings } from './Reducers/SettingsReducer';
 
 export default function Main() {
-  getInitialAppState().then((initialState) => {
-    initialState = addAdditionalSettings(initialState);
+  let initialState = getDefaultState();
+  initialState = addAdditionalSettings(initialState);
 
-    InfernoDOM.render(<CommandPanel />, document.getElementById("command-panel"));
-    InfernoDOM.render(<LoginPanel />, document.getElementById("login-panel"));
-    InfernoDOM.render(<DateDisplay />, document.getElementById("date-display"));
-  });
+  let store = createStore(PrimaryReducer, initialState);
+
+  Inferno.render(<CommandPanel store={ store } />, document.getElementById("command-panel"));
+  Inferno.render(<UserPanel store={ store } />, document.getElementById("user-panel"));
+  Inferno.render(<DateDisplay store={ store } />, document.getElementById("date-display"));
 }
 
-// Add notifications to the global scope for error handling
-window.notifications = new Notifications();
+window.onload = (e) => {
+  // Add notifications to the global scope for error handling
+  window.notifications = new Notifications();
 
-Main();
+  Main();
+};
+

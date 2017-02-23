@@ -22,7 +22,7 @@
     "arch"
   ],
   "author": "Noi Sek",
-  "license": "GPLv2",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/noisek/Aether/issues"
   },
@@ -36,8 +36,9 @@
     "cxs": "^3.0.4",
     "eslint": "~3.15.0",
     "eslint-plugin-inferno": "~6.9.2",
-    "inferno": "~1.2.2",
-    "inferno-component": "~1.2.2",
+    "inferno": "^1.3.0-rc.3",
+    "inferno-component": "^1.3.0-rc.3",
+    "inferno-dom": "^1.0.7",
     "node-sass": "~4.5.0",
     "redux": "~3.6.0",
     "strftime": "^0.10.0",

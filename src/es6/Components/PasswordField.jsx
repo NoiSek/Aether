@@ -1,27 +1,26 @@
+// PasswordField -> Required by Components/UserPanelForm
+// --------------------------------------
+// Simple password input field.
+
 import Inferno from 'inferno';
-import Component from 'inferno-component';
 
-export default class PasswordField extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
+
+const PasswordField = (props) => {
+  let classes = ['user-password'];
+
+  if (props.passwordFailed === true) {
+    classes.push('error');
   }
 
-  render() {
-    let classes = ['user-password'];
+  return (
+    <input
+      type="password"
+      placeholder="*******************"
+      className={ classes.join(' ') }
+      value={ props.password }
+      onInput={ props.handlePasswordInput }
+    />
+  );
+};
 
-    if (this.props.passwordFailed === true) {
-      classes.push('error');
-    }
-
-    return (
-      <input
-        type="password"
-        placeholder="*******************"
-        className={ classes.join(' ') }
-        value={ this.props.password }
-        onChange={ this.props.handlePasswordInput }
-      />
-    );
-  }
-}
+export default PasswordField;

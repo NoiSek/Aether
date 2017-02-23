@@ -1,8 +1,32 @@
-@import reset
-@import fonts
-@import config
-@import utility
-@import animations
+/* ****************************************************************
+/*         d8888          888    888
+/*        d88888          888    888
+/*       d88P888          888    888
+/*      d88P 888  .d88b.  888888 88888b.   .d88b.  888d888
+/*     d88P  888 d8P  Y8b 888    888 "88b d8P  Y8b 888P"
+/*    d88P   888 88888888 888    888  888 88888888 888
+/*   d8888888888 Y8b.     Y88b.  888  888 Y8b.     888
+/*  d88P     888  "Y8888   "Y888 888  888  "Y8888  888
+/*
+/*  ===================================================
+/*  https://github.com/noisek/aether | Noi Sek
+/*
+/*  TABLE OF CONTENTS:
+/*    -- #0.1a Root Styles (You are here)
+/*    -- #0.2a Page Body
+/*    -- #0.3a Login Window
+/*    -- #0.3b Command Panel
+/*    -- #0.3c User Panel
+/*    -- #0.4a Settings
+/*    -- #0.5a Misc.
+/*
+/****************************************************************/
+
+@import 'reset'
+@import 'fonts'
+@import 'config'
+@import 'utility'
+@import 'animations'
 
 html
   box-sizing: border-box
@@ -13,6 +37,12 @@ body
   font-family: "Open Sans"
   background: #222
 
+/*****************************************************************
+  -- #0.2a Page Body
+  ===============================================================
+  Body elements external to the login window itself.
+/*****************************************************************/
+
 .date
   color: #fff
   opacity: 0
@@ -22,13 +52,13 @@ body
   text-align: right
   letter-spacing: 1px
 
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  position: absolute
+  top: 50%
+  left: 50%
 
-  margin: 265px 0px 0px -425px;
+  margin: 265px 0px 0px -425px
 
-  width: 850px;
+  width: 850px
 
   transition: all 1s
 
@@ -36,9 +66,70 @@ body
 
   &.loaded
     opacity: 1
-  
+
   em
     font-weight: bold
+
+.notifications-container
+  position: absolute
+  top: 10px
+
+  overflow: hidden
+
+  width: 100%
+
+  .notification
+    color: #2f0909
+    background: rgba(252,237,238,0.75)
+    border: 1px solid rgba(255, 255, 255, 0.15)
+
+    position: relative
+    top: -200px
+
+    padding: 15px
+    margin: 0 auto 25px auto
+
+    width: 80vw
+
+    z-index: 3
+
+    animation: drop-in-notifications 0.5s forwards
+    border-radius: 2px
+    transition: opacity 0.5s
+
+    &.error
+      color: #fff
+      background: rgba(180, 30, 30, 0.65)
+
+    &.success
+      background: rgba(120, 255, 64, 0.65)
+
+    &.fadeout
+      opacity: 0
+
+.wallpaper-background, .wallpaper-foreground
+  background-size: cover
+
+  overflow: hidden
+  position: fixed
+
+  height: 100vh
+  width: 100vw
+
+  z-index: -1
+
+.wallpaper-foreground
+  opacity: 1
+
+  &.fadeout
+    animation: wallpaper-fade-out 600ms forwards
+    animation-timing-function: ease-out
+
+/*****************************************************************
+  -- #0.3a Login Window
+  ===============================================================
+  Contains the actual login dialogue.
+/*****************************************************************/
 
 .login-window-container
   position: relative
@@ -57,7 +148,7 @@ body
   top: 50%
   left: 50%
 
-  margin: -250px 0px 0px -425px  
+  margin: -250px 0px 0px -425px
 
   height: 500px
   width: 850px
@@ -138,7 +229,7 @@ body
 
         margin-top: 10px
         padding: 7px 8px
-        
+
         height: 30px
         width: 30px
 
@@ -147,7 +238,7 @@ body
         &:hover
           cursor: pointer
           opacity: 1
-        
+
 
       .button-accept
         float: right
@@ -183,7 +274,7 @@ body
 
   .command .icon-wrapper, .command .text
     display: inline-block
-    
+
     @extend .noselect
 
   .command .icon-wrapper
@@ -192,10 +283,10 @@ body
 
   .command.shutdown .icon
     background: $shutdown-icon no-repeat center center
-    
+
     height: 20px
     width: 20px
-  
+
   .command.reboot .icon
     background: $reboot-icon no-repeat center center
 
@@ -249,9 +340,9 @@ body
 
   .bottom .right
     text-align: right
-    
+
     opacity: 0
-    
+
     width: 30%
 
     transition: opacity 1s
@@ -395,18 +486,18 @@ body
         .right .submit-button
           color: #fff
           background: hsla(342,93%,76%,0.6)
-          
+
           border: none
           border-radius: 4px
           outline: none
-          
+
           position: relative
           top: -1px
           left: 6px
-          
+
           font-weight: bold
           font-size: 8pt
-          
+
           padding: 8px
 
           &:hover
@@ -429,7 +520,7 @@ body
       .left .dropdown .dropdown-item.active
         color: #fff
         display: block
-        
+
         // Lighter f73f89
         // Darker f83f77
         background: #f83f77 $dropdown-caret no-repeat 90% 50%
@@ -442,7 +533,7 @@ body
         text-overflow: ellipsis
         overflow: hidden
         white-space: nowrap
-        
+
         padding-right: 30px
 
         border-radius: 2px
@@ -450,7 +541,7 @@ body
 
       .left .dropdown.active .dropdown-item
         display: block
-  
+
   .login-panel-switcher
     display: block
     opacity: 0
@@ -508,7 +599,7 @@ body
 
       .avatar-name
         text-align: center
-        
+
         .username
           font-size: 16pt
           font-weight: bold
@@ -540,7 +631,7 @@ body
 
     li.previous
       transform: translate3d(50px, 0px, -10px) scale(0.9)
-    
+
     li.next
       transform: translate3d(-50px, 0px, -10px) scale(0.9)
 
@@ -579,57 +670,9 @@ body
         cursor: pointer
 
 
-.notifications-container
-  position: absolute
-  top: 10px
 
-  overflow: hidden
-
-  width: 100%
-
-  .notification
-    color: #2f0909
-    background: rgba(252,237,238,0.75)
-    border: 1px solid rgba(255, 255, 255, 0.15)
-
-    position: relative
-    top: -200px
-    
-    padding: 15px
-    margin: 0 auto 25px auto
-
-    width: 80vw
-
-    z-index: 3
-
-    animation: drop-in-notifications 0.5s forwards
-    border-radius: 2px
-    transition: opacity 0.5s
-
-    &.error
-      color: #fff
-      background: rgba(180, 30, 30, 0.65)
-
-    &.success
-      background: rgba(120, 255, 64, 0.65)
-
-    &.fadeout
-      opacity: 0
-
-.wallpaper-background, .wallpaper-foreground
-  background-size: cover
-
-  overflow: hidden
-  position: fixed
-
-  height: 100vh
-  width: 100vw
-
-  z-index: -1
-
-.wallpaper-foreground
-  opacity: 1
-
-  &.fadeout
-    animation: wallpaper-fade-out 600ms forwards
-    animation-timing-function: ease-out
+/*****************************************************************
+  -- #0.6a Misc. Styles
+  ===============================================================
+  Misc.
+/*****************************************************************/

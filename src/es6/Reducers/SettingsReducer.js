@@ -20,7 +20,7 @@ export function addAdditionalSettings(state) {
 
   let settings = {};
 
-  for (let key of defaults) {
+  for (let key of Object.keys(defaults)) {
     settings[key] = Settings.requestSetting(key, defaults[key]);
   }
 

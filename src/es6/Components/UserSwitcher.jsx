@@ -1,18 +1,25 @@
+// UserSwitcher -> Required by Components/UserPanel
+// --------------------------------------
+// Handles (poorly) the task of switching between
+// multiple users on the same system.
+
 import Inferno from 'inferno';
 import Component from 'inferno-component';
 
-// I hope nobody who uses this actually has to switch users regularly, this is terrible.
 const FADE_DURATION = 200;
+
 
 export default class UserSwitcher extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       "fadeOut": false,
       "selectedUser": this.props.activeUser,
       "selectedUserIndex": window.lightdm.users.indexOf(this.props.activeUser)
     };
   }
+
 
   handleBackButton(event) {
     this.props.setActiveUser(this.state.selectedUser);
@@ -28,12 +35,14 @@ export default class UserSwitcher extends Component {
     }, FADE_DURATION);
   }
 
+
   handleUserClick(index) {
     this.setState({
       "selectedUser": window.lightdm.users[index],
       "selectedUserIndex": index
     });
   }
+
 
   generateUserList() {
     let activeIndex = this.state.selectedUserIndex;
@@ -107,11 +116,12 @@ export default class UserSwitcher extends Component {
     }
 
     return (
-      <ul class="avatar-slider">
+      <ul className="avatar-slider">
         { avatars }
       </ul>
     );
   }
+
 
   render() {
     let classes = ['login-panel-switcher'];

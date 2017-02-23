@@ -1,6 +1,29 @@
+/* **************************************************************** */
+/*         d8888          888    888 */
+/*        d88888          888    888 */
+/*       d88P888          888    888 */
+/*      d88P 888  .d88b.  888888 88888b.   .d88b.  888d888 */
+/*     d88P  888 d8P  Y8b 888    888 "88b d8P  Y8b 888P" */
+/*    d88P   888 88888888 888    888  888 88888888 888 */
+/*   d8888888888 Y8b.     Y88b.  888  888 Y8b.     888 */
+/*  d88P     888  "Y8888   "Y888 888  888  "Y8888  888 */
+/* */
+/*  =================================================== */
+/*  https://github.com/noisek/aether | Noi Sek */
+/* */
+/*  TABLE OF CONTENTS: */
+/*    -- #0.1a Root Styles (You are here) */
+/*    -- #0.2a Page Body */
+/*    -- #0.3a Login Window */
+/*    -- #0.3b Command Panel */
+/*    -- #0.3c User Panel */
+/*    -- #0.4a Settings */
+/*    -- #0.5a Misc. */
+/* */
+/*************************************************************** */
 /* http://meyerweb.com/eric/tools/css/reset/
-   v2.0 | 20110126
-   License: none (public domain) */
+ * v2.0 | 20110126
+ * License: none (public domain) */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -37,7 +60,7 @@ blockquote, q {
 
 blockquote:before, blockquote:after,
 q:before, q:after {
-  content: '';
+  content: "";
   content: none; }
 
 table {
@@ -45,29 +68,25 @@ table {
   border-spacing: 0; }
 
 @font-face {
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   src: url("../font/OpenSans-Regular-webfont.woff") format("woff");
   font-weight: normal;
   font-style: normal; }
-
 @font-face {
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   src: url("../font/OpenSans-Bold-webfont.woff") format("woff");
   font-weight: bold;
   font-style: normal; }
-
 @font-face {
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   src: url("../font/OpenSans-Italic-webfont.woff") format("woff");
   font-weight: normal;
   font-style: italic; }
-
 @font-face {
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   src: url("../font/OpenSans-BoldItalic-webfont.woff") format("woff");
   font-weight: bold;
   font-style: italic; }
-
 .disabled {
   opacity: 0.4; }
   .disabled .disabled:hover {
@@ -81,7 +100,6 @@ table {
     top: -200px; }
   100% {
     top: 0px; } }
-
 @keyframes drop-in-options {
   0% {
     top: -100px;
@@ -89,7 +107,6 @@ table {
   100% {
     top: 0px;
     opacity: 1; } }
-
 @keyframes error-shake {
   0% {
     transform: translateX(0px) scale(1); }
@@ -111,7 +128,6 @@ table {
     transform: translateX(10px) scale(1); }
   100% {
     transform: translateX(0px); } }
-
 @keyframes login-fade-out {
   0% {
     opacity: 1;
@@ -120,7 +136,6 @@ table {
     transform: translateY(10px); }
   100% {
     opacity: 0; } }
-
 @keyframes login-fade-in {
   0% {
     opacity: 0;
@@ -128,7 +143,6 @@ table {
   100% {
     opacity: 1;
     transform: translateY(0px); } }
-
 @keyframes switcher-fade-in {
   0% {
     opacity: 0;
@@ -136,7 +150,6 @@ table {
   100% {
     opacity: 1;
     transform: translateY(0px) scale(1); } }
-
 @keyframes switcher-fade-out {
   0% {
     opacity: 1;
@@ -144,13 +157,11 @@ table {
   100% {
     opacity: 0;
     transform: translateY(-10px) scale(0.95); } }
-
 @keyframes wallpaper-fade-out {
   0% {
     opacity: 1; }
   100% {
     opacity: 0; } }
-
 @keyframes window-fade-in {
   0% {
     opacity: 0;
@@ -158,7 +169,6 @@ table {
   100% {
     opacity: 1;
     transform: scale(1); } }
-
 html {
   box-sizing: border-box; }
 
@@ -169,6 +179,11 @@ body {
   font-family: "Open Sans";
   background: #222; }
 
+/*****************************************************************
+ * -- #0.2a Page Body
+ * ===============================================================
+ * Body elements external to the login window itself. */
+/**************************************************************** */
 .date {
   color: #fff;
   opacity: 0;
@@ -187,6 +202,51 @@ body {
   .date em {
     font-weight: bold; }
 
+.notifications-container {
+  position: absolute;
+  top: 10px;
+  overflow: hidden;
+  width: 100%; }
+  .notifications-container .notification {
+    color: #2f0909;
+    background: rgba(252, 237, 238, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    position: relative;
+    top: -200px;
+    padding: 15px;
+    margin: 0 auto 25px auto;
+    width: 80vw;
+    z-index: 3;
+    animation: drop-in-notifications 0.5s forwards;
+    border-radius: 2px;
+    transition: opacity 0.5s; }
+    .notifications-container .notification.error {
+      color: #fff;
+      background: rgba(180, 30, 30, 0.65); }
+    .notifications-container .notification.success {
+      background: rgba(120, 255, 64, 0.65); }
+    .notifications-container .notification.fadeout {
+      opacity: 0; }
+
+.wallpaper-background, .wallpaper-foreground {
+  background-size: cover;
+  overflow: hidden;
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  z-index: -1; }
+
+.wallpaper-foreground {
+  opacity: 1; }
+  .wallpaper-foreground.fadeout {
+    animation: wallpaper-fade-out 600ms forwards;
+    animation-timing-function: ease-out; }
+
+/*****************************************************************
+ * -- #0.3a Login Window
+ * ===============================================================
+ * Contains the actual login dialogue. */
+/**************************************************************** */
 .login-window-container {
   position: relative;
   overflow: hidden;
@@ -226,7 +286,6 @@ body {
 
 .left-col > div {
   height: 100%; }
-
 .left-col .distro-logo {
   background: url("../img/arch-logo.png") no-repeat center center;
   margin: 0px auto;
@@ -237,7 +296,6 @@ body {
     cursor: pointer; }
   .left-col .distro-logo:active {
     opacity: 0.8; }
-
 .left-col .distro-wrapper {
   padding-top: 35px;
   height: 52%; }
@@ -275,60 +333,48 @@ body {
     overflow: hidden;
     height: 45px;
     width: 100%; }
-
 .left-col .command {
   margin-bottom: 25px;
   transition: all 0.5s; }
   .left-col .command:hover {
     cursor: pointer;
     opacity: 0.6; }
-
 .left-col .command .icon-wrapper, .left-col .command .text {
   display: inline-block; }
-
 .left-col .command .icon-wrapper {
   margin-right: 10px;
   width: 30px; }
-
 .left-col .command.shutdown .icon {
   background: url("../img/shutdown.png") no-repeat center center;
   height: 20px;
   width: 20px; }
-
 .left-col .command.reboot .icon {
   background: url("../img/reboot.png") no-repeat center center;
   height: 20px;
   width: 20px; }
-
 .left-col .command.sleep .icon {
   background: url("../img/sleep.png") no-repeat center center;
   height: 25px;
   width: 29px; }
-
 .left-col .command.hibernate .icon {
   background: url("../img/hibernate.png") no-repeat center center;
   height: 13px;
   width: 25px; }
-
 .left-col .command .text {
   font-size: 16pt;
   letter-spacing: 2px;
   text-transform: uppercase;
   vertical-align: 2px; }
-
 .left-col .commands-wrapper {
   height: 43%; }
-
 .left-col .bottom {
   height: 5%;
   padding-top: 15px; }
-
 .left-col .bottom .left, .left-col .bottom .right {
   float: left;
   font-size: 9pt;
   font-weight: bold;
   letter-spacing: 1px; }
-
 .left-col .bottom .left {
   color: #c2c2c2;
   overflow: hidden;
@@ -336,13 +382,11 @@ body {
   text-transform: uppercase;
   white-space: nowrap;
   width: 70%; }
-
 .left-col .bottom .right {
   text-align: right;
   opacity: 0;
   width: 30%;
   transition: opacity 1s; }
-
 .left-col .bottom .clock.loaded {
   opacity: 1; }
 
@@ -560,42 +604,10 @@ body {
       .right-col .login-panel-main .bottom .left:hover, .right-col .login-panel-switcher .bottom .left:hover {
         cursor: pointer; }
 
-.notifications-container {
-  position: absolute;
-  top: 10px;
-  overflow: hidden;
-  width: 100%; }
-  .notifications-container .notification {
-    color: #2f0909;
-    background: rgba(252, 237, 238, 0.75);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    position: relative;
-    top: -200px;
-    padding: 15px;
-    margin: 0 auto 25px auto;
-    width: 80vw;
-    z-index: 3;
-    animation: drop-in-notifications 0.5s forwards;
-    border-radius: 2px;
-    transition: opacity 0.5s; }
-    .notifications-container .notification.error {
-      color: #fff;
-      background: rgba(180, 30, 30, 0.65); }
-    .notifications-container .notification.success {
-      background: rgba(120, 255, 64, 0.65); }
-    .notifications-container .notification.fadeout {
-      opacity: 0; }
+/*****************************************************************
+ * -- #0.6a Misc. Styles
+ * ===============================================================
+ * Misc. */
+/**************************************************************** */
 
-.wallpaper-background, .wallpaper-foreground {
-  background-size: cover;
-  overflow: hidden;
-  position: fixed;
-  height: 100vh;
-  width: 100vw;
-  z-index: -1; }
-
-.wallpaper-foreground {
-  opacity: 1; }
-  .wallpaper-foreground.fadeout {
-    animation: wallpaper-fade-out 600ms forwards;
-    animation-timing-function: ease-out; }
+/*# sourceMappingURL=style.css.map */

@@ -1,22 +1,32 @@
-export function handleCommand(command, disabled, event) {
-  if (disabled !== false) {
-    window.notifications.generate(`${command} is disabled on this system.`, "error");
-    return false;
+// SystemOperations -> Required by Reducers/PrimaryReducer
+// --------------------------------------
+// Wraps LightDM system operations, and handles the heavy
+// lifting of the more complex LightDM requests.
+
+function executeCommand(message, boundFunction) {
+  window.notifications.generate(message);
+
+  setTimeout(() => {
+    boundFunction();
+  }, 1000);
+
+  return true;
+}
+
+export function handleCommand(command) {
+  // What the hell is this, right?
+  if (command === "shutdown" && window.lightdm.can_shutdown) {
+    return executeCommand("Shutting down", window.lightdm.shutdown);
+  } else if (command === "hibernate" && window.lightdm.can_hibernate) {
+    return executeCommand("Hibernating system.", window.lightdm.hibernate);
+  } else if (command === "reboot" && window.lightdm.can_restart) {
+    return executeCommand("Rebooting system.", window.lightdm.restart);
+  } else if (command === "sleep" && window.lightdm.can_suspend) {
+    return executeCommand("Suspending system.", window.lightdm.suspend);
   }
 
-  if (command === "shutdown") {
-    window.notifications.generate("Shutting down.");
-    window.lightdm.shutdown();
-  } else if (command === "hibernate") {
-    window.notifications.generate("Hibernating system.");
-    window.lightdm.hibernate();
-  } else if (command === "reboot") {
-    window.notifications.generate("Rebooting system.");
-    window.lightdm.restart();
-  } else if (command === "sleep") {
-    window.notifications.generate("Suspending system.");
-    window.lightdm.suspend();
-  }
+  // If we have gotten this far, it's because the command is disabled or doesn't exist.
+  window.notifications.generate(`${command} is disabled on this system.`, "error");
 }
 
 export function findInitialUser() {
@@ -28,7 +38,7 @@ export function findInitialUser() {
 
   else {
     if (window.lightdm.select_user_hint !== undefined && window.lightdm.select_user_hint !== null) {
-      window.lightdm.users.filter((user) => user.username === window.lightdm.select_user_hint)[0];
+      return window.lightdm.users.filter((user) => user.username === window.lightdm.select_user_hint)[0];
     } else {
       return window.lightdm.users[0];
     }
@@ -36,8 +46,10 @@ export function findInitialUser() {
 }
 
 export function findInitialSession(user) {
+  let userSession = (user === undefined) ? undefined : user.session;
+
   return (
-    this.findSession(user.session) ||
+    this.findSession(userSession) ||
     this.findSession(window.lightdm.default_session) ||
     window.lightdm.sessions[0]
   );

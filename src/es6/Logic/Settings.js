@@ -1,3 +1,8 @@
+// Settings -> Required by Reducers/PrimaryReducer
+// --------------------------------------
+// Handles manipulation of greeter settings, and
+// provides wrapper functions around localstorage.
+
 export const LOCALSTORAGE_ENABLED = (typeof(Storage) !== "undefined");
 
 if (!LOCALSTORAGE_ENABLED) {
@@ -5,10 +10,16 @@ if (!LOCALSTORAGE_ENABLED) {
   throw("localStorage not supported. Theme unable to function.");
 }
 
-export function requestSetting(setting, default=undefined) {
-  if (localStorage.getItem(setting) === null) {
-    return default;
+export function requestSetting(setting, defaultSetting=undefined) {
+  let result = localStorage.getItem(setting);
+
+  if (result === null || result === undefined) {
+    return defaultSetting;
   } else {
-    return localStorage.getItem(setting);
+    return result;
   }
+}
+
+export function saveSetting(setting, value=undefined) {
+  localStorage.setItem(setting, value);
 }

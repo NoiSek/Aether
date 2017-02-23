@@ -1,37 +1,34 @@
+// CommandPanel -> Required by Main
+// --------------------------------------
+// The system management half of the greeter logic.
+// Displays system info and handles Sleep, Shutdown, etc.
+
 import Inferno from 'inferno';
 import Component from 'inferno-component';
 
+import * as SystemOperations from "../Logic/SystemOperations";
 import WallpaperSwitcher from "./WallpaperSwitcher";
 import Clock from './Clock';
+
 
 export default class CommandPanel extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      "expandedCommands": false
-    };
+
+    this.state = {};
   }
 
   handleCommand(command, disabled, event) {
+    event.preventDefault();
+
     if (disabled !== false) {
       window.notifications.generate(`${command} is disabled on this system.`, "error");
       return false;
     }
 
-    if (command === "shutdown") {
-      window.notifications.generate("Shutting down.");
-      window.lightdm.shutdown();
-    } else if (command === "hibernate") {
-      window.notifications.generate("Hibernating system.");
-      window.lightdm.hibernate();
-    } else if (command === "reboot") {
-      window.notifications.generate("Rebooting system.");
-      window.lightdm.restart();
-    } else if (command === "sleep") {
-      window.notifications.generate("Suspending system.");
-      window.lightdm.suspend();
-    }
+    SystemOperations.handleCommand(command);
   }
+
 
   generateCommands() {
     let commands = {
@@ -42,9 +39,11 @@ export default class CommandPanel extends Component {
     };
 
     // Filter out commands we can't execute.
-    let enabledCommands = Object.keys(commands)
-    .map((key) => commands[key] ? key : false)
-    .filter((command) => command !== false);
+    let enabledCommands = (
+      Object.keys(commands)
+      .map((key) => commands[key] ? key : false)
+      .filter((command) => command !== false)
+    );
 
     // Are both hibernation and suspend disabled?
     // Add the row back and disable it so that the user is aware of what's happening.
@@ -69,10 +68,10 @@ export default class CommandPanel extends Component {
 
       return (
         <div className={ classes.join(' ') } onClick={ this.handleCommand.bind(this, command, disabled) }>
-          <div class="icon-wrapper">
-            <div class="icon"></div>
+          <div className="icon-wrapper">
+            <div className="icon"></div>
           </div>
-          <div class="text">{ command }</div>
+          <div className="text">{ command }</div>
         </div>
       );
     });
@@ -85,6 +84,7 @@ export default class CommandPanel extends Component {
       </div>
     );
   }
+
 
   render() {
     let hostname = window.lightdm.hostname;
