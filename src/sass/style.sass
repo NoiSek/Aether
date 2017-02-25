@@ -38,6 +38,12 @@ body
   font-family: "Open Sans"
   background: #222
 
+  overflow: hidden
+
+  height: 100vh
+  width: 100vw
+
+
 /*****************************************************************
   -- #0.2a Page Body
   ===============================================================
@@ -689,16 +695,13 @@ body
   display: flex
 
   position: absolute
-  top: 50%
-  left: 50%
-
-  margin: -150px 0px 0px -300px
 
   height: 300px
   width: 600px
 
   & > div
     display: flex
+    flex-wrap: wrap
 
     width: 100%
 
@@ -742,8 +745,24 @@ body
     background: hsla(0, 0%, 98%, 1)
 
 
+.settings .settings-handle
+  background: #222
+  height: 25px
+  width: 100%
+
+  &:hover
+    cursor: -webkit-grab
+
+  &:active
+    cursor: -webkit-grabbing !important
+
+  &:active:hover
+    cursor: -webkit-grabbing !important
+
+
 .settings .settings-section
   background: hsla(0, 0%, 98%, 1)
+
 
 .settings-section .save-dialogue
   background: #f3f3f3

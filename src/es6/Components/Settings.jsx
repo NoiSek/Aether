@@ -3,6 +3,7 @@
 // Handles greeter configuration.
 
 import Inferno from 'inferno';
+import Draggable from "draggable";
 import Component from 'inferno-component';
 
 import { SettingsGeneral } from './Settings/SettingsGeneral';
@@ -11,6 +12,10 @@ import { SettingsThemes } from './Settings/SettingsThemes';
 import { SettingsFunction } from './Settings/SettingsFunction';
 import { SettingsPresets } from './Settings/SettingsPresets';
 import { SaveDialogue } from './Settings/SaveDialogue';
+
+
+const SETTINGS_HEIGHT = 300;
+const SETTINGS_WIDTH = 600;
 
 export default class Settings extends Component {
   constructor(props) {
@@ -30,6 +35,17 @@ export default class Settings extends Component {
       "active": false,
       "selectedCategory": 'general'
     };
+  }
+
+  componentDidMount() {
+    let draggable = new Draggable(document.getElementById("settings"), {
+      "handle": this.refs.handle
+    });
+
+    let centerX = ((window.innerWidth - SETTINGS_WIDTH) / 2);
+    let centerY = ((window.innerHeight - SETTINGS_HEIGHT) / 2);
+
+    draggable.set(centerX, centerY);
   }
 
 
@@ -94,6 +110,8 @@ export default class Settings extends Component {
 
     return (
       <div>
+        <div className="settings-handle" ref={ (node) => this.refs.handle = node }>
+        </div>
         <div className="settings-categories">
           { categories }
         </div>

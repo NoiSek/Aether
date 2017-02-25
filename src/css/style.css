@@ -177,7 +177,10 @@ html {
 
 body {
   font-family: "Open Sans";
-  background: #222; }
+  background: #222;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw; }
 
 /*****************************************************************
  * -- #0.2a Page Body
@@ -617,13 +620,11 @@ body {
 .settings {
   display: flex;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  margin: -150px 0px 0px -300px;
   height: 300px;
   width: 600px; }
   .settings > div {
     display: flex;
+    flex-wrap: wrap;
     width: 100%; }
   .settings .settings-categories {
     width: 17%; }
@@ -651,6 +652,17 @@ body {
 .settings .settings-categories ul li.active, .settings .settings-categories ul li.active:hover {
   color: #4d4d4d;
   background: #fafafa; }
+
+.settings .settings-handle {
+  background: #222;
+  height: 25px;
+  width: 100%; }
+  .settings .settings-handle:hover {
+    cursor: -webkit-grab; }
+  .settings .settings-handle:active {
+    cursor: -webkit-grabbing !important; }
+  .settings .settings-handle:active:hover {
+    cursor: -webkit-grabbing !important; }
 
 .settings .settings-section {
   background: #fafafa; }
