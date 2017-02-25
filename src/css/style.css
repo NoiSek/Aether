@@ -622,12 +622,12 @@ body {
   position: absolute;
   height: 300px;
   width: 600px; }
+  .settings.hidden {
+    display: none !important; }
   .settings > div {
     display: flex;
     flex-wrap: wrap;
     width: 100%; }
-  .settings > div.hidden {
-    display: none; }
   .settings .settings-categories {
     width: 17%; }
   .settings .settings-section {

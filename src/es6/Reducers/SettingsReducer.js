@@ -59,6 +59,15 @@ export const SettingsReducer = (state, action) => {
     case 'SETTINGS_TOGGLE_ACTIVE':
       var newSettings = { ...state.settings, "active": !state.settings.active };
 
+      // This shouldn't be here. It is, though.
+      var el = document.getElementById("settings");
+
+      if (newSettings.active === true) {
+        el.className = el.className.replace(" hidden", "");
+      } else {
+        el.className += " hidden";
+      }
+
       return { ...state, "settings": newSettings };
 
     default:

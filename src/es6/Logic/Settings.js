@@ -11,6 +11,12 @@ if (!LOCALSTORAGE_ENABLED) {
 }
 
 export function requestSetting(setting, defaultSetting=undefined) {
+  // Always return 'active' as false when initializing.
+  if (setting === 'active') {
+    return false;
+  }
+
+  // Continue as usual
   let result = localStorage.getItem(setting);
 
   if (result === null || result === undefined) {

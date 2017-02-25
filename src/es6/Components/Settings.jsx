@@ -108,15 +108,8 @@ export default class Settings extends Component {
     let categories = this.generateCategories();
     let section = this.generateSection(this.state.selectedCategory);
 
-    let containerClasses = [];
-
-    // Determine whether or not the settings dialogue is actually active.
-    if (this.state.active === false) {
-      containerClasses.push('hidden');
-    }
-
     return (
-      <div className={ containerClasses.join(' ') } >
+      <div>
         <div className="settings-handle" ref={ (node) => this.refs.handle = node }>
         </div>
         <div className="settings-categories">

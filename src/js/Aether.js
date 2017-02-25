@@ -397,6 +397,15 @@ var SettingsReducer = exports.SettingsReducer = function SettingsReducer(state, 
     case 'SETTINGS_TOGGLE_ACTIVE':
       var newSettings = _extends({}, state.settings, { "active": !state.settings.active });
 
+      // This shouldn't be here. It is, though.
+      var el = document.getElementById("settings");
+
+      if (newSettings.active === true) {
+        el.className = el.className.replace(" hidden", "");
+      } else {
+        el.className += " hidden";
+      }
+
       return _extends({}, state, { "settings": newSettings });
 
     default:
@@ -983,6 +992,12 @@ if (!LOCALSTORAGE_ENABLED) {
 function requestSetting(setting) {
   var defaultSetting = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
 
+  // Always return 'active' as false when initializing.
+  if (setting === 'active') {
+    return false;
+  }
+
+  // Continue as usual
   var result = localStorage.getItem(setting);
 
   if (result === null || result === undefined) {
@@ -1577,16 +1592,7 @@ var Settings = function (_Component) {
       var categories = this.generateCategories();
       var section = this.generateSection(this.state.selectedCategory);
 
-      var containerClasses = [];
-
-      // Determine whether or not the settings dialogue is actually active.
-      if (this.state.active === false) {
-        containerClasses.push('hidden');
-      }
-
-      return createVNode(2, 'div', {
-        'className': containerClasses.join(' ')
-      }, [createVNode(2, 'div', {
+      return createVNode(2, 'div', null, [createVNode(2, 'div', {
         'className': 'settings-handle'
       }, null, null, null, function (node) {
         return _this3.refs.handle = node;
