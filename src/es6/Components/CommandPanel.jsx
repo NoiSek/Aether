@@ -92,7 +92,7 @@ export default class CommandPanel extends Component {
 
     return (
       <div>
-        <WallpaperSwitcher />
+        <WallpaperSwitcher store={ this.props.store } />
         { commands }
         <div className="bottom">
           <div className="left hostname">{ hostname }</div>

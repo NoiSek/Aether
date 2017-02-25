@@ -692,10 +692,10 @@ body
   top: 50%
   left: 50%
 
-  margin: -22.5vh 0px 0px -40vw
+  margin: -150px 0px 0px -300px
 
-  height: 55vh
-  width: 80vw
+  height: 300px
+  width: 600px
 
   & > div
     display: flex
@@ -706,7 +706,17 @@ body
     width: 17%
 
   .settings-section
+    display: flex
+    flex-direction: column
+
     width: 83%
+
+  .settings-section > div:not(.save-dialogue)
+    height: 100%
+
+  .settings-section .save-dialogue
+    display: flex
+    justify-content: flex-end
 
 
 .settings .settings-categories
@@ -735,8 +745,53 @@ body
 .settings .settings-section
   background: hsla(0, 0%, 98%, 1)
 
+.settings-section .save-dialogue
+  background: #f3f3f3
+  border-top: 1px solid #eee
+
+  padding: 10px 15px
+
+  button
+    outline: none
+    border: none
+
+    padding: 5px 8px 8px 8px
+    margin-left: 10px
+
+    border-radius: 2px
+
+  button:hover
+    cursor: pointer
+
+  button.settings-reject
+    color: #581212
+    background: #f35e5e
+
+  button.settings-save
+    color: #145a07
+    background: #84ff93
+
+/*****************************************************************
+  -- #0.4b Settings General
+  ===============================================================
+  General Settings section.
+/*****************************************************************/
+
+.settings-general
+  display: flex
+
   padding: 25px
 
+  .left
+    padding: 15px
+    width: 40%
+
+  .right
+    padding: 15px
+    width: 60%
+
+.settings-general .left
+  border-right: 2px solid #eee
 
 /*****************************************************************
   -- #0.5a Misc. Styles

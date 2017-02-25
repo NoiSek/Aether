@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 42);
+/******/ 	return __webpack_require__(__webpack_require__.s = 51);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -73,7 +73,7 @@
 "use strict";
 
 
-module.exports = __webpack_require__(19);
+module.exports = __webpack_require__(21);
 module.exports.default = module.exports;
 
 /***/ }),
@@ -83,7 +83,7 @@ module.exports.default = module.exports;
 "use strict";
 
 
-module.exports = __webpack_require__(18);
+module.exports = __webpack_require__(20);
 module.exports.default = module.exports;
 
 /***/ }),
@@ -283,12 +283,14 @@ process.umask = function () {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.SettingsReducer = undefined;
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; /* eslint { no-redeclare: 0 } */
+
 
 exports.addAdditionalSettings = addAdditionalSettings;
 
-var _Settings = __webpack_require__(10);
+var _Settings = __webpack_require__(11);
 
 var Settings = _interopRequireWildcard(_Settings);
 
@@ -296,9 +298,12 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function addAdditionalSettings(state) {
   // Define our defaults
+
+  var distroDefault = window.debug === true ? "src/test/logos/archlinux.png" : "/usr/share/lightdm-webkit/themes/lightdm-webkit-theme-aether/src/img/logos/archlinux.png";
+
   var defaults = {
     "active": false,
-    "distro": "archlinux",
+    "distro": distroDefault,
 
     "avatar_enabled": true,
     "avatar_size": "200px",
@@ -340,8 +345,59 @@ function addAdditionalSettings(state) {
     }
   }
 
-  return _extends({}, state, { "settings": settings });
+  return _extends({}, state, { "settings": settings, "cachedSettings": settings });
 }
+
+var SettingsReducer = exports.SettingsReducer = function SettingsReducer(state, action) {
+  switch (action.type) {
+    case "SETTINGS_LOGO_CHANGE":
+      var newSettings = _extends({}, state.settings, { "distro": action.path });
+
+      return _extends({}, state, { "settings": newSettings });
+
+    case "SETTINGS_REJECT":
+      // Restore settings from the 'default' state.
+      var newSettings = _extends({}, state.cachedSettings);
+
+      return _extends({}, state, { "settings": newSettings });
+
+    case "SETTINGS_SAVE":
+      // Cycle to localStorage for persistence.
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
+
+      try {
+        for (var _iterator2 = Object.keys(state.settings)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var key = _step2.value;
+
+          Settings.saveSetting(key, state.settings[key]);
+        }
+
+        // Save our new settings as the 'default' state.
+      } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+            _iterator2.return();
+          }
+        } finally {
+          if (_didIteratorError2) {
+            throw _iteratorError2;
+          }
+        }
+      }
+
+      var newCache = _extends({}, state.settings);
+
+      return _extends({}, state, { "cachedSettings": newCache });
+
+    default:
+      return state;
+  }
+};
 
 /***/ }),
 /* 4 */
@@ -354,7 +410,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _root = __webpack_require__(26);
+var _root = __webpack_require__(28);
 
 var _root2 = _interopRequireDefault(_root);
 
@@ -376,15 +432,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _baseGetTag = __webpack_require__(20);
+var _baseGetTag = __webpack_require__(22);
 
 var _baseGetTag2 = _interopRequireDefault(_baseGetTag);
 
-var _getPrototype = __webpack_require__(22);
+var _getPrototype = __webpack_require__(24);
 
 var _getPrototype2 = _interopRequireDefault(_getPrototype);
 
-var _isObjectLike = __webpack_require__(27);
+var _isObjectLike = __webpack_require__(29);
 
 var _isObjectLike2 = _interopRequireDefault(_isObjectLike);
 
@@ -514,7 +570,7 @@ var _isPlainObject = __webpack_require__(5);
 
 var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-var _symbolObservable = __webpack_require__(31);
+var _symbolObservable = __webpack_require__(33);
 
 var _symbolObservable2 = _interopRequireDefault(_symbolObservable);
 
@@ -839,6 +895,72 @@ module.exports = g;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.getWallpaperDirectory = getWallpaperDirectory;
+exports.getWallpapers = getWallpapers;
+exports.getLogos = getLogos;
+// FileOperations -> Required by Components/WallpaperSwitcher
+// --------------------------------------
+// LightDM related file / config fetching.
+
+function getWallpaperDirectory() {
+  // Return the test folder when debugging.
+  if (window.debug === true) {
+    return "src/test/wallpapers/";
+  }
+
+  var wallpapersDirectory = window.config.get_str("branding", "background_images");
+
+  // Do NOT allow the default wallpaper directory to set, as this will prevent the default provided backgrounds from
+  // being used 100% of the time in a stock install.
+  if (wallpapersDirectory == "/usr/share/backgrounds" || wallpapersDirectory == "/usr/share/backgrounds/") {
+    wallpapersDirectory = "/usr/share/lightdm-webkit/themes/lightdm-webkit-theme-aether/src/img/wallpapers/";
+  }
+
+  return wallpapersDirectory;
+}
+
+function getWallpapers(directory) {
+  // If we're in test mode, we stick to a static rotation of three default wallpapers.
+  // In production, it is possible that a user will change what wallpapers are available.
+  if (window.debug === true) {
+    return ['boko.jpg', 'mountains-2.png', 'space-1.jpg'];
+  }
+
+  var wallpapers = void 0;
+
+  wallpapers = window.greeterutil.dirlist(directory);
+  wallpapers = wallpapers.map(function (e) {
+    return e.split("/").pop();
+  });
+
+  return wallpapers;
+}
+
+function getLogos() {
+  // If we're in test mode, just return the default three.
+  if (window.debug === true) {
+    return [["src/test/logos/archlinux.png", "archlinux.png"], ["src/test/logos/antergos.png", "antergos.png"], ["src/test/logos/ubuntu.png", "ubuntu.png"]];
+  }
+
+  // Return a tuple of the path and filename for usage in the Settings dialogue.
+  var userLogo = window.config.get_str("branding", "logo");
+  var themeLogos = window.greeterutil.dirlist("/usr/share/lightdm-webkit/themes/lightdm-webkit-theme-aether/src/img/logos/");
+
+  return [themeLogos, userLogo].map(function (e) {
+    return [e, e.split("/").pop()];
+  });
+}
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.requestSetting = requestSetting;
 exports.saveSetting = saveSetting;
 // Settings -> Required by Reducers/PrimaryReducer
@@ -872,7 +994,7 @@ function saveSetting(setting) {
 }
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -951,7 +1073,7 @@ function findSession(sessionName) {
 }
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -966,15 +1088,15 @@ var _createStore = __webpack_require__(7);
 
 var _createStore2 = _interopRequireDefault(_createStore);
 
-var _combineReducers = __webpack_require__(30);
+var _combineReducers = __webpack_require__(32);
 
 var _combineReducers2 = _interopRequireDefault(_combineReducers);
 
-var _bindActionCreators = __webpack_require__(29);
+var _bindActionCreators = __webpack_require__(31);
 
 var _bindActionCreators2 = _interopRequireDefault(_bindActionCreators);
 
-var _applyMiddleware = __webpack_require__(28);
+var _applyMiddleware = __webpack_require__(30);
 
 var _applyMiddleware2 = _interopRequireDefault(_applyMiddleware);
 
@@ -1006,7 +1128,7 @@ exports.compose = _compose2.default;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1026,15 +1148,15 @@ var _infernoComponent = __webpack_require__(1);
 
 var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
 
-var _SystemOperations = __webpack_require__(11);
+var _SystemOperations = __webpack_require__(12);
 
 var SystemOperations = _interopRequireWildcard(_SystemOperations);
 
-var _WallpaperSwitcher = __webpack_require__(35);
+var _WallpaperSwitcher = __webpack_require__(38);
 
 var _WallpaperSwitcher2 = _interopRequireDefault(_WallpaperSwitcher);
 
-var _Clock = __webpack_require__(43);
+var _Clock = __webpack_require__(37);
 
 var _Clock2 = _interopRequireDefault(_Clock);
 
@@ -1144,7 +1266,9 @@ var CommandPanel = function (_Component) {
       var hostname = window.lightdm.hostname;
       var commands = this.generateCommands();
 
-      return createVNode(2, 'div', null, [createVNode(16, _WallpaperSwitcher2.default), commands, createVNode(2, 'div', {
+      return createVNode(2, 'div', null, [createVNode(16, _WallpaperSwitcher2.default, {
+        'store': this.props.store
+      }), commands, createVNode(2, 'div', {
         'className': 'bottom'
       }, [createVNode(2, 'div', {
         'className': 'left hostname'
@@ -1158,7 +1282,7 @@ var CommandPanel = function (_Component) {
 exports.default = CommandPanel;
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1290,7 +1414,7 @@ var DateDisplay = function (_Component) {
 exports.default = DateDisplay;
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1310,11 +1434,159 @@ var _infernoComponent = __webpack_require__(1);
 
 var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
 
-var _UserSwitcher = __webpack_require__(40);
+var _SettingsGeneral = __webpack_require__(41);
+
+var _SettingsStyle = __webpack_require__(43);
+
+var _SettingsThemes = __webpack_require__(44);
+
+var _SettingsFunction = __webpack_require__(40);
+
+var _SettingsPresets = __webpack_require__(42);
+
+var _SaveDialogue = __webpack_require__(39);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Settings -> Required by Main
+// --------------------------------------
+// Handles greeter configuration.
+
+var createVNode = _inferno2.default.createVNode;
+
+var Settings = function (_Component) {
+  _inherits(Settings, _Component);
+
+  function Settings(props) {
+    _classCallCheck(this, Settings);
+
+    var _this = _possibleConstructorReturn(this, (Settings.__proto__ || Object.getPrototypeOf(Settings)).call(this, props));
+
+    _this.store = _this.props.store;
+    _this.storeState = _this.store.getState();
+
+    _this.unsubscribe = _this.store.subscribe(function () {
+      _this.storeState = _this.store.getState();
+      _this.setState({
+        "active": _this.storeState.active
+      });
+    });
+
+    _this.state = {
+      "active": false,
+      "selectedCategory": 'general'
+    };
+    return _this;
+  }
+
+  _createClass(Settings, [{
+    key: 'handleCategoryClick',
+    value: function handleCategoryClick(category, e) {
+      this.setState({
+        "selectedCategory": category.toLowerCase()
+      });
+    }
+  }, {
+    key: 'generateCategories',
+    value: function generateCategories() {
+      var _this2 = this;
+
+      var categories = ['General', 'Style', 'Themes', 'Function', 'Presets'];
+
+      var listItems = categories.map(function (category) {
+        var classes = [];
+
+        if (category.toLowerCase() === _this2.state.selectedCategory) {
+          classes.push('active');
+        }
+
+        return createVNode(2, 'li', {
+          'className': classes.join(' ')
+        }, category, {
+          'onClick': _this2.handleCategoryClick.bind(_this2, category)
+        }, category);
+      });
+
+      return createVNode(2, 'ul', null, listItems);
+    }
+  }, {
+    key: 'generateSection',
+    value: function generateSection(_category) {
+      var category = _category.toLowerCase();
+
+      if (category === "general") {
+        return createVNode(16, _SettingsGeneral.SettingsGeneral, {
+          'store': this.props.store
+        });
+      } else if (category === "style") {
+        return createVNode(16, _SettingsStyle.SettingsStyle, {
+          'store': this.props.store
+        });
+      } else if (category === "themes") {
+        return createVNode(16, _SettingsThemes.SettingsThemes, {
+          'store': this.props.store
+        });
+      } else if (category === "function") {
+        return createVNode(16, _SettingsFunction.SettingsFunction, {
+          'store': this.props.store
+        });
+      } else if (category === "presets") {
+        return createVNode(16, _SettingsPresets.SettingsPresets, {
+          'store': this.props.store
+        });
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var categories = this.generateCategories();
+      var section = this.generateSection(this.state.selectedCategory);
+
+      return createVNode(2, 'div', null, [createVNode(2, 'div', {
+        'className': 'settings-categories'
+      }, categories), createVNode(2, 'div', {
+        'className': 'settings-section'
+      }, [section, createVNode(16, _SaveDialogue.SaveDialogue, {
+        'store': this.props.store
+      })])]);
+    }
+  }]);
+
+  return Settings;
+}(_infernoComponent2.default);
+
+exports.default = Settings;
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+var _infernoComponent = __webpack_require__(1);
+
+var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
+
+var _UserSwitcher = __webpack_require__(49);
 
 var _UserSwitcher2 = _interopRequireDefault(_UserSwitcher);
 
-var _Form = __webpack_require__(36);
+var _Form = __webpack_require__(45);
 
 var _Form2 = _interopRequireDefault(_Form);
 
@@ -1581,7 +1853,7 @@ var LoginPanel = function (_Component) {
 exports.default = LoginPanel;
 
 /***/ }),
-/* 16 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1600,7 +1872,7 @@ exports.getDefaultState = getDefaultState;
 
 var _SettingsReducer = __webpack_require__(3);
 
-var _SystemOperations = __webpack_require__(11);
+var _SystemOperations = __webpack_require__(12);
 
 var SystemOperations = _interopRequireWildcard(_SystemOperations);
 
@@ -1641,7 +1913,7 @@ var PrimaryReducer = exports.PrimaryReducer = function PrimaryReducer(state, act
 };
 
 /***/ }),
-/* 17 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1691,7 +1963,7 @@ var Notifications = function () {
 exports.default = Notifications;
 
 /***/ }),
-/* 18 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1993,7 +2265,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 19 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4449,7 +4721,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 20 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4463,11 +4735,11 @@ var _Symbol2 = __webpack_require__(4);
 
 var _Symbol3 = _interopRequireDefault(_Symbol2);
 
-var _getRawTag = __webpack_require__(23);
+var _getRawTag = __webpack_require__(25);
 
 var _getRawTag2 = _interopRequireDefault(_getRawTag);
 
-var _objectToString = __webpack_require__(24);
+var _objectToString = __webpack_require__(26);
 
 var _objectToString2 = _interopRequireDefault(_objectToString);
 
@@ -4497,7 +4769,7 @@ function baseGetTag(value) {
 exports.default = baseGetTag;
 
 /***/ }),
-/* 21 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4516,7 +4788,7 @@ exports.default = freeGlobal;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ }),
-/* 22 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4526,7 +4798,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _overArg = __webpack_require__(25);
+var _overArg = __webpack_require__(27);
 
 var _overArg2 = _interopRequireDefault(_overArg);
 
@@ -4538,7 +4810,7 @@ var getPrototype = (0, _overArg2.default)(Object.getPrototypeOf, Object);
 exports.default = getPrototype;
 
 /***/ }),
-/* 23 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4600,7 +4872,7 @@ function getRawTag(value) {
 exports.default = getRawTag;
 
 /***/ }),
-/* 24 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4633,7 +4905,7 @@ function objectToString(value) {
 exports.default = objectToString;
 
 /***/ }),
-/* 25 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4659,7 +4931,7 @@ function overArg(func, transform) {
 exports.default = overArg;
 
 /***/ }),
-/* 26 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4671,7 +4943,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _freeGlobal = __webpack_require__(21);
+var _freeGlobal = __webpack_require__(23);
 
 var _freeGlobal2 = _interopRequireDefault(_freeGlobal);
 
@@ -4686,7 +4958,7 @@ var root = _freeGlobal2.default || freeSelf || Function('return this')();
 exports.default = root;
 
 /***/ }),
-/* 27 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4729,7 +5001,7 @@ function isObjectLike(value) {
 exports.default = isObjectLike;
 
 /***/ }),
-/* 28 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4802,7 +5074,7 @@ function applyMiddleware() {
 }
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4864,7 +5136,7 @@ function bindActionCreators(actionCreators, dispatch) {
 }
 
 /***/ }),
-/* 30 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5015,16 +5287,16 @@ function combineReducers(reducers) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 31 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(32);
+module.exports = __webpack_require__(34);
 
 /***/ }),
-/* 32 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5034,7 +5306,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _ponyfill = __webpack_require__(33);
+var _ponyfill = __webpack_require__(35);
 
 var _ponyfill2 = _interopRequireDefault(_ponyfill);
 
@@ -5058,10 +5330,10 @@ if (typeof self !== 'undefined') {
 
 var result = (0, _ponyfill2['default'])(root);
 exports['default'] = result;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(34)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(36)(module)))
 
 /***/ }),
-/* 33 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5090,7 +5362,7 @@ function symbolObservablePonyfill(root) {
 };
 
 /***/ }),
-/* 34 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5120,7 +5392,7 @@ module.exports = function (module) {
 };
 
 /***/ }),
-/* 35 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5140,11 +5412,116 @@ var _infernoComponent = __webpack_require__(1);
 
 var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
 
-var _WallpaperOperations = __webpack_require__(41);
+var _Utils = __webpack_require__(50);
 
-var WallpaperOperations = _interopRequireWildcard(_WallpaperOperations);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _Settings = __webpack_require__(10);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Clock -> Required by Components/CommandPanel
+// --------------------------------------
+// Just a clock.
+
+var createVNode = _inferno2.default.createVNode;
+
+var Clock = function (_Component) {
+  _inherits(Clock, _Component);
+
+  function Clock(props) {
+    _classCallCheck(this, Clock);
+
+    var _this = _possibleConstructorReturn(this, (Clock.__proto__ || Object.getPrototypeOf(Clock)).call(this, props));
+
+    _this.state = {
+      "currentTime": undefined,
+      "initialized": false
+    };
+    return _this;
+  }
+
+  _createClass(Clock, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      setTimeout(function () {
+        _this2.updateClock();
+        _this2.setState({
+          "initialized": true
+        });
+      }, 1000);
+    }
+  }, {
+    key: 'updateClock',
+    value: function updateClock() {
+      var _this3 = this;
+
+      var now = new Date();
+      var hours = (0, _Utils.padZeroes)(now.getHours());
+      var minutes = (0, _Utils.padZeroes)(now.getMinutes());
+      var formattedTime = hours + ':' + minutes;
+
+      this.setState({
+        "currentTime": formattedTime
+      });
+
+      setTimeout(function () {
+        _this3.updateClock();
+      }, 1000);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var classes = ['right', 'clock'];
+      var currentTime = this.state.currentTime;
+
+      if (this.state.initialized === true) {
+        classes.push('loaded');
+      }
+
+      return createVNode(2, 'div', {
+        'className': classes.join(' ')
+      }, currentTime);
+    }
+  }]);
+
+  return Clock;
+}(_infernoComponent2.default);
+
+exports.default = Clock;
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _lite = __webpack_require__(58);
+
+var _lite2 = _interopRequireDefault(_lite);
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+var _infernoComponent = __webpack_require__(1);
+
+var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
+
+var _FileOperations = __webpack_require__(10);
+
+var FileOperations = _interopRequireWildcard(_FileOperations);
+
+var _Settings = __webpack_require__(11);
 
 var Settings = _interopRequireWildcard(_Settings);
 
@@ -5172,8 +5549,19 @@ var WallpaperSwitcher = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (WallpaperSwitcher.__proto__ || Object.getPrototypeOf(WallpaperSwitcher)).call(this, props));
 
-    var wallpaperDirectory = WallpaperOperations.getWallpaperDirectory();
-    var wallpapers = WallpaperOperations.getWallpapers(wallpaperDirectory);
+    _this.store = _this.props.store;
+    _this.storeState = _this.store.getState();
+
+    _this.unsubscribe = _this.store.subscribe(function () {
+      _this.storeState = _this.store.getState();
+      _this.setState({
+        "_storeToggle": !_this.state._storeToggle
+      });
+      console.log("store update");
+    });
+
+    var wallpaperDirectory = FileOperations.getWallpaperDirectory();
+    var wallpapers = FileOperations.getWallpapers(wallpaperDirectory);
 
     _this.cyclerBackground = undefined;
     _this.cyclerForeground = undefined;
@@ -5188,7 +5576,8 @@ var WallpaperSwitcher = function (_Component) {
         "active": false,
         "currentlyFading": false,
         "index": 0
-      }
+      },
+      "_storeToggle": false
     };
     return _this;
   }
@@ -5353,10 +5742,14 @@ var WallpaperSwitcher = function (_Component) {
     value: function render() {
       var options = this.generateOptions();
 
+      var style = (0, _lite2.default)({
+        "background-image": 'url(' + this.storeState.settings.distro + ') !important'
+      });
+
       return createVNode(2, 'div', {
         'className': 'distro-wrapper'
       }, [createVNode(2, 'div', {
-        'className': 'distro-logo'
+        'className': 'distro-logo ' + style
       }, null, {
         'onClick': this.handleSwitcherActivation.bind(this)
       }), options]);
@@ -5369,7 +5762,231 @@ var WallpaperSwitcher = function (_Component) {
 exports.default = WallpaperSwitcher;
 
 /***/ }),
-/* 36 */
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SaveDialogue = undefined;
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var rejectSettings = function rejectSettings(props) {
+  props.store.dispatch({
+    'type': "SETTINGS_REJECT"
+  });
+};
+
+var saveSettings = function saveSettings(props) {
+  props.store.dispatch({
+    'type': "SETTINGS_SAVE"
+  });
+};
+
+var createVNode = _inferno2.default.createVNode;
+var SaveDialogue = exports.SaveDialogue = function SaveDialogue(props) {
+  return createVNode(2, "div", {
+    "className": "save-dialogue"
+  }, [createVNode(2, "button", {
+    "className": "settings-reject"
+  }, "revert", {
+    "onClick": rejectSettings.bind(undefined, props)
+  }), createVNode(2, "button", {
+    "className": "settings-save"
+  }, "save", {
+    "onClick": saveSettings.bind(undefined, props)
+  })]);
+};
+
+exports.default = SaveDialogue;
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SettingsFunction = undefined;
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createVNode = _inferno2.default.createVNode;
+var SettingsFunction = exports.SettingsFunction = function SettingsFunction() {
+  return createVNode(2, 'span', null, 'Function!');
+};
+
+exports.default = SettingsFunction;
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SettingsGeneral = undefined;
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+var _FileOperations = __webpack_require__(10);
+
+var FileOperations = _interopRequireWildcard(_FileOperations);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var onLogoChange = function onLogoChange(store, e) {
+  store.dispatch({
+    "type": 'SETTINGS_LOGO_CHANGE',
+    "path": e.target.value
+  });
+};
+
+var createVNode = _inferno2.default.createVNode;
+var LogoChooser = function LogoChooser(props) {
+  var logos = FileOperations.getLogos();
+  var activeLogo = props.store.getState().settings.distro;
+
+  var items = logos.map(function (e) {
+    var _e = _slicedToArray(e, 2),
+        path = _e[0],
+        fileName = _e[1];
+
+    var selected = activeLogo === path;
+
+    return createVNode(2, "option", {
+      "value": path,
+      "selected": selected
+    }, fileName.split(".")[0]);
+  });
+
+  var selectedItem = logos.filter(function (e) {
+    return e[0] === activeLogo;
+  });
+  selectedItem = selectedItem[0] || [""];
+
+  return createVNode(2, "div", null, [createVNode(2, "div", {
+    "className": "preview-logo"
+  }, createVNode(2, "img", {
+    "src": selectedItem[0]
+  })), createVNode(2048, "select", null, items, {
+    "onChange": onLogoChange.bind(undefined, props.store)
+  })]);
+};
+
+var SettingsGeneral = exports.SettingsGeneral = function SettingsGeneral(props) {
+  return createVNode(2, "div", {
+    "className": "settings-general"
+  }, [createVNode(2, "div", {
+    "className": "left"
+  }, LogoChooser(props)), createVNode(2, "div", {
+    "className": "right"
+  })]);
+};
+
+exports.default = SettingsGeneral;
+
+/***/ }),
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SettingsPresets = undefined;
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createVNode = _inferno2.default.createVNode;
+var SettingsPresets = exports.SettingsPresets = function SettingsPresets() {
+  return createVNode(2, 'span', null, 'Presets!');
+};
+
+exports.default = SettingsPresets;
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SettingsStyle = undefined;
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createVNode = _inferno2.default.createVNode;
+var SettingsStyle = exports.SettingsStyle = function SettingsStyle() {
+  return createVNode(2, 'span', null, 'Style!');
+};
+
+exports.default = SettingsStyle;
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SettingsThemes = undefined;
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createVNode = _inferno2.default.createVNode;
+var SettingsThemes = exports.SettingsThemes = function SettingsThemes() {
+  return createVNode(2, 'span', null, 'Themes!');
+};
+
+exports.default = SettingsThemes;
+
+/***/ }),
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5384,11 +6001,11 @@ var _inferno = __webpack_require__(0);
 
 var _inferno2 = _interopRequireDefault(_inferno);
 
-var _SessionDropdown = __webpack_require__(38);
+var _SessionDropdown = __webpack_require__(47);
 
 var _SessionDropdown2 = _interopRequireDefault(_SessionDropdown);
 
-var _PasswordField = __webpack_require__(37);
+var _PasswordField = __webpack_require__(46);
 
 var _PasswordField2 = _interopRequireDefault(_PasswordField);
 
@@ -5436,7 +6053,7 @@ var UserPanelForm = exports.UserPanelForm = function UserPanelForm(props) {
 exports.default = UserPanelForm;
 
 /***/ }),
-/* 37 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5476,7 +6093,7 @@ var PasswordField = function PasswordField(props) {
 exports.default = PasswordField;
 
 /***/ }),
-/* 38 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5496,7 +6113,7 @@ var _infernoComponent = __webpack_require__(1);
 
 var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
 
-var _SessionRow = __webpack_require__(39);
+var _SessionRow = __webpack_require__(48);
 
 var _SessionRow2 = _interopRequireDefault(_SessionRow);
 
@@ -5566,7 +6183,7 @@ var SessionDropdown = function (_Component) {
 exports.default = SessionDropdown;
 
 /***/ }),
-/* 39 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5605,7 +6222,7 @@ var SessionRow = function SessionRow(props) {
 exports.default = SessionRow;
 
 /***/ }),
-/* 40 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5809,7 +6426,7 @@ var UserSwitcher = function (_Component) {
 exports.default = UserSwitcher;
 
 /***/ }),
-/* 41 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5818,48 +6435,12 @@ exports.default = UserSwitcher;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getWallpaperDirectory = getWallpaperDirectory;
-exports.getWallpapers = getWallpapers;
-// WallpaperOperations -> Required by Components/WallpaperSwitcher
-// --------------------------------------
-// LightDM related Wallpaper config / fetching.
-
-function getWallpaperDirectory() {
-  // Return the test folder when debugging.
-  if (window.debug === true) {
-    return "src/test/wallpapers/";
-  }
-
-  var wallpapersDirectory = window.config.get_str("branding", "background_images");
-
-  // Do NOT allow the default wallpaper directory to set, as this will prevent the default provided backgrounds from
-  // being used 100% of the time in a stock install.
-  if (wallpapersDirectory == "/usr/share/backgrounds" || wallpapersDirectory == "/usr/share/backgrounds/") {
-    wallpapersDirectory = "/usr/share/lightdm-webkit/themes/lightdm-webkit-theme-aether/src/img/wallpapers/";
-  }
-
-  return wallpapersDirectory;
-}
-
-function getWallpapers(directory) {
-  // If we're in test mode, we stick to a static rotation of three default wallpapers.
-  // In production, it is possible that a user will change what wallpapers are available.
-  if (window.debug === true) {
-    return ['boko.jpg', 'mountains-2.png', 'space-1.jpg'];
-  }
-
-  var wallpapers = void 0;
-
-  wallpapers = window.greeterutil.dirlist(directory);
-  wallpapers = wallpapers.map(function (e, i, a) {
-    return e.split("/").pop();
-  });
-
-  return wallpapers;
-}
+var padZeroes = exports.padZeroes = function padZeroes(i) {
+  return i < 10 ? "0" + i : i;
+};
 
 /***/ }),
-/* 42 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5874,29 +6455,29 @@ var _inferno = __webpack_require__(0);
 
 var _inferno2 = _interopRequireDefault(_inferno);
 
-var _redux = __webpack_require__(12);
+var _redux = __webpack_require__(13);
 
-var _Notifications = __webpack_require__(17);
+var _Notifications = __webpack_require__(19);
 
 var _Notifications2 = _interopRequireDefault(_Notifications);
 
-var _CommandPanel = __webpack_require__(13);
+var _CommandPanel = __webpack_require__(14);
 
 var _CommandPanel2 = _interopRequireDefault(_CommandPanel);
 
-var _DateDisplay = __webpack_require__(14);
+var _DateDisplay = __webpack_require__(15);
 
 var _DateDisplay2 = _interopRequireDefault(_DateDisplay);
 
-var _UserPanel = __webpack_require__(15);
+var _UserPanel = __webpack_require__(17);
 
 var _UserPanel2 = _interopRequireDefault(_UserPanel);
 
-var _Settings = __webpack_require__(45);
+var _Settings = __webpack_require__(16);
 
 var _Settings2 = _interopRequireDefault(_Settings);
 
-var _PrimaryReducer = __webpack_require__(16);
+var _PrimaryReducer = __webpack_require__(18);
 
 var _SettingsReducer = __webpack_require__(3);
 
@@ -5931,388 +6512,570 @@ window.onload = function (e) {
 };
 
 /***/ }),
-/* 43 */
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(process) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.StyleSheet = StyleSheet;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _objectAssign = __webpack_require__(56);
 
-var _inferno = __webpack_require__(0);
+var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
-var _inferno2 = _interopRequireDefault(_inferno);
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
-var _infernoComponent = __webpack_require__(1);
+function _toConsumableArray(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }return arr2;
+  } else {
+    return Array.from(arr);
+  }
+}
 
-var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
+/* 
 
-var _Utils = __webpack_require__(44);
+high performance StyleSheet for css-in-js systems 
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+- uses multiple style tags behind the scenes for millions of rules 
+- uses `insertRule` for appending in production for *much* faster performance
+- 'polyfills' on server side 
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+// usage
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Clock -> Required by Components/CommandPanel
-// --------------------------------------
-// Just a clock.
+import StyleSheet from 'glamor/lib/sheet'
+let styleSheet = new StyleSheet()
 
-var createVNode = _inferno2.default.createVNode;
+styleSheet.inject() 
+- 'injects' the stylesheet into the page (or into memory if on server)
 
-var Clock = function (_Component) {
-  _inherits(Clock, _Component);
+styleSheet.insert('#box { border: 1px solid red; }') 
+- appends a css rule into the stylesheet 
 
-  function Clock(props) {
-    _classCallCheck(this, Clock);
+styleSheet.flush() 
+- empties the stylesheet of all its contents
 
-    var _this = _possibleConstructorReturn(this, (Clock.__proto__ || Object.getPrototypeOf(Clock)).call(this, props));
 
-    _this.state = {
-      "currentTime": undefined,
-      "initialized": false
-    };
-    return _this;
+*/
+
+function last(arr) {
+  return arr[arr.length - 1];
+}
+
+function sheetForTag(tag) {
+  if (tag.sheet) {
+    return tag.sheet;
   }
 
-  _createClass(Clock, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      setTimeout(function () {
-        _this2.updateClock();
-        _this2.setState({
-          "initialized": true
-        });
-      }, 1000);
+  // this weirdness brought to you by firefox 
+  for (var i = 0; i < document.styleSheets.length; i++) {
+    if (document.styleSheets[i].ownerNode === tag) {
+      return document.styleSheets[i];
     }
-  }, {
-    key: 'updateClock',
-    value: function updateClock() {
-      var _this3 = this;
-
-      var now = new Date();
-      var hours = (0, _Utils.padZeroes)(now.getHours());
-      var minutes = (0, _Utils.padZeroes)(now.getMinutes());
-      var formattedTime = hours + ':' + minutes;
-
-      this.setState({
-        "currentTime": formattedTime
-      });
-
-      setTimeout(function () {
-        _this3.updateClock();
-      }, 1000);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var classes = ['right', 'clock'];
-      var currentTime = this.state.currentTime;
-
-      if (this.state.initialized === true) {
-        classes.push('loaded');
-      }
-
-      return createVNode(2, 'div', {
-        'className': classes.join(' ')
-      }, currentTime);
-    }
-  }]);
-
-  return Clock;
-}(_infernoComponent2.default);
-
-exports.default = Clock;
-
-/***/ }),
-/* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var padZeroes = exports.padZeroes = function padZeroes(i) {
-  return i < 10 ? "0" + i : i;
-};
-
-/***/ }),
-/* 45 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _inferno = __webpack_require__(0);
-
-var _inferno2 = _interopRequireDefault(_inferno);
-
-var _infernoComponent = __webpack_require__(1);
-
-var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
-
-var _SettingsGeneral = __webpack_require__(47);
-
-var _SettingsStyle = __webpack_require__(49);
-
-var _SettingsThemes = __webpack_require__(50);
-
-var _SettingsFunction = __webpack_require__(46);
-
-var _SettingsPresets = __webpack_require__(48);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Settings -> Required by Main
-// --------------------------------------
-// Handles greeter configuration.
-
-var createVNode = _inferno2.default.createVNode;
-
-var Settings = function (_Component) {
-  _inherits(Settings, _Component);
-
-  function Settings(props) {
-    _classCallCheck(this, Settings);
-
-    var _this = _possibleConstructorReturn(this, (Settings.__proto__ || Object.getPrototypeOf(Settings)).call(this, props));
-
-    _this.store = _this.props.store;
-    _this.storeState = _this.store.getState();
-
-    _this.unsubscribe = _this.store.subscribe(function () {
-      _this.storeState = _this.store.getState();
-      _this.setState({
-        "active": _this.storeState.active
-      });
-    });
-
-    _this.state = {
-      "active": false,
-      "selectedCategory": 'general'
-    };
-    return _this;
   }
+}
 
-  _createClass(Settings, [{
-    key: 'handleCategoryClick',
-    value: function handleCategoryClick(category, e) {
-      this.setState({
-        "selectedCategory": category.toLowerCase()
-      });
+var isBrowser = typeof window !== 'undefined';
+var isDev = process.env.NODE_ENV === 'development' || !process.env.NODE_ENV; //(x => (x === 'development') || !x)(process.env.NODE_ENV)
+var isTest = process.env.NODE_ENV === 'test';
+
+var oldIE = function () {
+  if (isBrowser) {
+    var div = document.createElement('div');
+    div.innerHTML = '<!--[if lt IE 10]><i></i><![endif]-->';
+    return div.getElementsByTagName('i').length === 1;
+  }
+}();
+
+function makeStyleTag() {
+  var tag = document.createElement('style');
+  tag.type = 'text/css';
+  tag.setAttribute('data-glamor', '');
+  tag.appendChild(document.createTextNode(''));
+  (document.head || document.getElementsByTagName('head')[0]).appendChild(tag);
+  return tag;
+}
+
+function StyleSheet() {
+  var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      _ref$speedy = _ref.speedy,
+      speedy = _ref$speedy === undefined ? !isDev && !isTest : _ref$speedy,
+      _ref$maxLength = _ref.maxLength,
+      maxLength = _ref$maxLength === undefined ? isBrowser && oldIE ? 4000 : 65000 : _ref$maxLength;
+
+  this.isSpeedy = speedy; // the big drawback here is that the css won't be editable in devtools
+  this.sheet = undefined;
+  this.tags = [];
+  this.maxLength = maxLength;
+  this.ctr = 0;
+}
+
+(0, _objectAssign2.default)(StyleSheet.prototype, {
+  getSheet: function getSheet() {
+    return sheetForTag(last(this.tags));
+  },
+  inject: function inject() {
+    var _this = this;
+
+    if (this.injected) {
+      throw new Error('already injected stylesheet!');
     }
-  }, {
-    key: 'generateCategories',
-    value: function generateCategories() {
-      var _this2 = this;
-
-      var categories = ['General', 'Style', 'Themes', 'Function', 'Presets'];
-
-      var listItems = categories.map(function (category) {
-        var classes = [];
-
-        if (category.toLowerCase() === _this2.state.selectedCategory) {
-          classes.push('active');
+    if (isBrowser) {
+      this.tags[0] = makeStyleTag();
+    } else {
+      // server side 'polyfill'. just enough behavior to be useful.
+      this.sheet = {
+        cssRules: [],
+        insertRule: function insertRule(rule) {
+          // enough 'spec compliance' to be able to extract the rules later  
+          // in other words, just the cssText field 
+          _this.sheet.cssRules.push({ cssText: rule });
         }
-
-        return createVNode(2, 'li', {
-          'className': classes.join(' ')
-        }, category, {
-          'onClick': _this2.handleCategoryClick.bind(_this2, category)
-        }, category);
-      });
-
-      return createVNode(2, 'ul', null, listItems);
+      };
     }
-  }, {
-    key: 'generateSection',
-    value: function generateSection(_category) {
-      var category = _category.toLowerCase();
-
-      if (category === "general") {
-        return createVNode(16, _SettingsGeneral.SettingsGeneral, {
-          'store': this.props.store
-        });
-      } else if (category === "style") {
-        return createVNode(16, _SettingsStyle.SettingsStyle, {
-          'store': this.props.store
-        });
-      } else if (category === "themes") {
-        return createVNode(16, _SettingsThemes.SettingsThemes, {
-          'store': this.props.store
-        });
-      } else if (category === "function") {
-        return createVNode(16, _SettingsFunction.SettingsFunction, {
-          'store': this.props.store
-        });
-      } else if (category === "presets") {
-        return createVNode(16, _SettingsPresets.SettingsPresets, {
-          'store': this.props.store
-        });
+    this.injected = true;
+  },
+  speedy: function speedy(bool) {
+    if (this.ctr !== 0) {
+      throw new Error('cannot change speedy mode after inserting any rule to sheet. Either call speedy(' + bool + ') earlier in your app, or call flush() before speedy(' + bool + ')');
+    }
+    this.isSpeedy = !!bool;
+  },
+  _insert: function _insert(rule) {
+    // this weirdness for perf, and chrome's weird bug 
+    // https://stackoverflow.com/questions/20007992/chrome-suddenly-stopped-accepting-insertrule
+    try {
+      var sheet = this.getSheet();
+      sheet.insertRule(rule, rule.indexOf('@import') !== -1 ? 0 : sheet.cssRules.length);
+    } catch (e) {
+      if (isDev) {
+        // might need beter dx for this 
+        console.warn('whoops, illegal rule inserted', rule); //eslint-disable-line no-console
       }
     }
-  }, {
-    key: 'render',
-    value: function render() {
-      var categories = this.generateCategories();
-      var section = this.generateSection(this.state.selectedCategory);
+  },
+  insert: function insert(rule) {
 
-      return createVNode(2, 'div', null, [createVNode(2, 'div', {
-        'className': 'settings-categories'
-      }, categories), createVNode(2, 'div', {
-        'className': 'settings-section'
-      }, section)]);
+    if (isBrowser) {
+      // this is the ultrafast version, works across browsers 
+      if (this.isSpeedy && this.getSheet().insertRule) {
+        this._insert(rule);
+      }
+      // more browser weirdness. I don't even know    
+      // else if(this.tags.length > 0 && this.tags::last().styleSheet) {      
+      //   this.tags::last().styleSheet.cssText+= rule
+      // }
+      else {
+          if (rule.indexOf('@import') !== -1) {
+            var tag = last(this.tags);
+            tag.insertBefore(document.createTextNode(rule), tag.firstChild);
+          } else {
+            last(this.tags).appendChild(document.createTextNode(rule));
+          }
+        }
+    } else {
+      // server side is pretty simple         
+      this.sheet.insertRule(rule, rule.indexOf('@import') !== -1 ? 0 : this.sheet.cssRules.length);
     }
-  }]);
 
-  return Settings;
-}(_infernoComponent2.default);
+    this.ctr++;
+    if (isBrowser && this.ctr % this.maxLength === 0) {
+      this.tags.push(makeStyleTag());
+    }
+    return this.ctr - 1;
+  },
 
-exports.default = Settings;
+  // commenting this out till we decide on v3's decision 
+  // _replace(index, rule) {
+  //   // this weirdness for perf, and chrome's weird bug 
+  //   // https://stackoverflow.com/questions/20007992/chrome-suddenly-stopped-accepting-insertrule
+  //   try {  
+  //     let sheet = this.getSheet()        
+  //     sheet.deleteRule(index) // todo - correct index here     
+  //     sheet.insertRule(rule, index)
+  //   }
+  //   catch(e) {
+  //     if(isDev) {
+  //       // might need beter dx for this 
+  //       console.warn('whoops, problem replacing rule', rule) //eslint-disable-line no-console
+  //     }          
+  //   }          
+
+  // }
+  // replace(index, rule) {
+  //   if(isBrowser) {
+  //     if(this.isSpeedy && this.getSheet().insertRule) {
+  //       this._replace(index, rule)
+  //     }
+  //     else {
+  //       let _slot = Math.floor((index  + this.maxLength) / this.maxLength) - 1        
+  //       let _index = (index % this.maxLength) + 1
+  //       let tag = this.tags[_slot]
+  //       tag.replaceChild(document.createTextNode(rule), tag.childNodes[_index])
+  //     }
+  //   }
+  //   else {
+  //     let rules = this.sheet.cssRules
+  //     this.sheet.cssRules = [ ...rules.slice(0, index), { cssText: rule }, ...rules.slice(index + 1) ]
+  //   }
+  // }
+  delete: function _delete(index) {
+    // we insert a blank rule when 'deleting' so previously returned indexes remain stable
+    return this.replace(index, '');
+  },
+  flush: function flush() {
+    if (isBrowser) {
+      this.tags.forEach(function (tag) {
+        return tag.parentNode.removeChild(tag);
+      });
+      this.tags = [];
+      this.sheet = null;
+      this.ctr = 0;
+      // todo - look for remnants in document.styleSheets
+    } else {
+      // simpler on server 
+      this.sheet.cssRules = [];
+    }
+    this.injected = false;
+  },
+  rules: function rules() {
+    if (!isBrowser) {
+      return this.sheet.cssRules;
+    }
+    var arr = [];
+    this.tags.forEach(function (tag) {
+      return arr.splice.apply(arr, [arr.length, 0].concat(_toConsumableArray(Array.from(sheetForTag(tag).cssRules))));
+    });
+    return arr;
+  }
+});
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 46 */
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+
+
+/* eslint-disable no-unused-vars */
+
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+function toObject(val) {
+	if (val === null || val === undefined) {
+		throw new TypeError('Object.assign cannot be called with null or undefined');
+	}
+
+	return Object(val);
+}
+
+function shouldUseNative() {
+	try {
+		if (!Object.assign) {
+			return false;
+		}
+
+		// Detect buggy property enumeration order in older V8 versions.
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
+		var test1 = new String('abc'); // eslint-disable-line no-new-wrappers
+		test1[5] = 'de';
+		if (Object.getOwnPropertyNames(test1)[0] === '5') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test2 = {};
+		for (var i = 0; i < 10; i++) {
+			test2['_' + String.fromCharCode(i)] = i;
+		}
+		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+			return test2[n];
+		});
+		if (order2.join('') !== '0123456789') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test3 = {};
+		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+			test3[letter] = letter;
+		});
+		if (Object.keys(Object.assign({}, test3)).join('') !== 'abcdefghijklmnopqrst') {
+			return false;
+		}
+
+		return true;
+	} catch (err) {
+		// We don't expect any of the above to throw, but better to be safe.
+		return false;
+	}
+}
+
+module.exports = shouldUseNative() ? Object.assign : function (target, source) {
+	var from;
+	var to = toObject(target);
+	var symbols;
+
+	for (var s = 1; s < arguments.length; s++) {
+		from = Object(arguments[s]);
+
+		for (var key in from) {
+			if (hasOwnProperty.call(from, key)) {
+				to[key] = from[key];
+			}
+		}
+
+		if (getOwnPropertySymbols) {
+			symbols = getOwnPropertySymbols(from);
+			for (var i = 0; i < symbols.length; i++) {
+				if (propIsEnumerable.call(from, symbols[i])) {
+					to[symbols[i]] = from[symbols[i]];
+				}
+			}
+		}
+	}
+
+	return to;
+};
+
+/***/ }),
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.SettingsFunction = undefined;
+exports.rehydrate = exports.addPx = exports.hyphenate = exports.alphaHash = exports.cxs = exports.reset = exports.setOptions = exports.getCss = exports.sheet = undefined;
 
-var _inferno = __webpack_require__(0);
-
-var _inferno2 = _interopRequireDefault(_inferno);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var createVNode = _inferno2.default.createVNode;
-var SettingsFunction = exports.SettingsFunction = function SettingsFunction() {
-  return createVNode(2, 'span', null, 'Function!');
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
 };
 
-exports.default = SettingsFunction;
+var _sheet = __webpack_require__(55);
+
+var sheet = exports.sheet = new _sheet.StyleSheet();
+
+sheet.inject();
+
+var getCss = exports.getCss = function getCss() {
+  var css = '';
+  var rules = sheet.rules();
+  for (var i = 0; i < rules.length; i++) {
+    css += rules[i].cssText;
+  }
+  return css;
+};
+
+var count = 0;
+
+var options = {
+  prefix: ''
+};
+
+var setOptions = exports.setOptions = function setOptions(opts) {
+  for (var key in opts) {
+    options[key] = opts[key];
+  }
+};
+
+var reset = exports.reset = function reset() {
+  cxs.cache = {};
+  sheet.flush();
+  count = 0;
+};
+
+var cxs = exports.cxs = function cxs(obj) {
+  return parse(obj);
+};
+
+cxs.cache = {};
+
+var parse = function parse(obj, media) {
+  var pseudo = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+
+  var className = '';
+
+  for (var key in obj) {
+    var value = obj[key];
+    var type = typeof value === 'undefined' ? 'undefined' : _typeof(value);
+
+    if (type === 'string' || type === 'number') {
+      className += ' ' + createStyle(key, value, media, pseudo);
+      continue;
+    }
+
+    if (key.charAt(0) === ':') {
+      className += ' ' + parse(value, media, pseudo + key);
+      continue;
+    }
+
+    if (key.charAt(0) === '@') {
+      className += ' ' + parse(value, key, pseudo);
+      continue;
+    }
+
+    if (Array.isArray(value)) {
+      for (var i = 0; i < value.length; i++) {
+        className += ' ' + createStyle(key, value[i], media, pseudo);
+      }
+      continue;
+    }
+  }
+
+  return className.trim();
+};
+
+var createStyle = function createStyle(key, value, media) {
+  var pseudo = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
+
+  var id = key + value + (media || '') + pseudo;
+  var dupe = cxs.cache[id];
+
+  if (dupe) return dupe;
+
+  var className = options.prefix + alphaHash(count);
+  count++;
+  var selector = '.' + className + pseudo;
+  var prop = hyphenate(key);
+  var val = addPx(key, value);
+
+  var rule = selector + '{' + prop + ':' + val + '}';
+  var css = media ? media + '{' + rule + '}' : rule;
+
+  sheet.insert(css);
+  cxs.cache[id] = className;
+
+  return className;
+};
+
+var alphaHash = exports.alphaHash = function alphaHash(n) {
+  if (alpha[n]) return alpha[n];
+
+  var residual = Math.floor(n);
+  var result = '';
+  var length = alpha.length;
+
+  while (residual !== 0) {
+    var i = residual % length;
+    result = alpha[i] + result;
+    residual = Math.floor(residual / length);
+  }
+
+  return result;
+};
+
+var alpha = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+var hyphenate = exports.hyphenate = function hyphenate(str) {
+  return ('' + str).replace(/[A-Z]|^ms/g, '-$&').toLowerCase();
+};
+
+var addPx = exports.addPx = function addPx(prop, value) {
+  if (typeof value !== 'number' || unitlessProps[prop]) return value;
+  return value + 'px';
+};
+
+var rehydrate = exports.rehydrate = function rehydrate(css) {
+  var dec = void 0;
+
+  while (dec = RULE_REG.exec(css)) {
+    var media = dec[2] || '';
+    var className = dec[3];
+    var pseudo = dec[4] || '';
+    var key = camel(dec[5]);
+    var val = removePx(dec[6]);
+    var id = key + val + media + pseudo;
+
+    cxs.cache[id] = className;
+  }
+};
+
+var RULE_REG = /((@media[^{]+){)?.([^:{]+)(:[^{]+)?{([^:]+):([^}]+)}}?/g;
+
+var camel = function camel(str) {
+  return str.replace(/-[a-z]/g, function (g) {
+    return g[1].toUpperCase();
+  });
+};
+
+var removePx = function removePx(str) {
+  return str.replace(/px$/, '');
+};
+
+var unitlessProps = {
+  animationIterationCount: 1,
+  boxFlex: 1,
+  boxFlexGroup: 1,
+  boxOrdinalGroup: 1,
+  columnCount: 1,
+  flex: 1,
+  flexGrow: 1,
+  flexPositive: 1,
+  flexShrink: 1,
+  flexNegative: 1,
+  flexOrder: 1,
+  gridRow: 1,
+  gridColumn: 1,
+  fontWeight: 1,
+  lineClamp: 1,
+  lineHeight: 1,
+  opacity: 1,
+  order: 1,
+  orphans: 1,
+  tabSize: 1,
+  widows: 1,
+  zIndex: 1,
+  zoom: 1,
+  fillOpacity: 1,
+  stopOpacity: 1,
+  strokeDashoffset: 1,
+  strokeOpacity: 1,
+  strokeWidth: 1
+};
+
+cxs.getCss = getCss;
+cxs.reset = reset;
+cxs.rehydrate = rehydrate;
+cxs.setOptions = setOptions;
+
+exports.default = cxs;
 
 /***/ }),
-/* 47 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.SettingsGeneral = undefined;
-
-var _inferno = __webpack_require__(0);
-
-var _inferno2 = _interopRequireDefault(_inferno);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var createVNode = _inferno2.default.createVNode;
-var SettingsGeneral = exports.SettingsGeneral = function SettingsGeneral() {
-  return createVNode(2, 'span', null, 'General!');
-};
-
-exports.default = SettingsGeneral;
-
-/***/ }),
-/* 48 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.SettingsPresets = undefined;
-
-var _inferno = __webpack_require__(0);
-
-var _inferno2 = _interopRequireDefault(_inferno);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var createVNode = _inferno2.default.createVNode;
-var SettingsPresets = exports.SettingsPresets = function SettingsPresets() {
-  return createVNode(2, 'span', null, 'Presets!');
-};
-
-exports.default = SettingsPresets;
-
-/***/ }),
-/* 49 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.SettingsStyle = undefined;
-
-var _inferno = __webpack_require__(0);
-
-var _inferno2 = _interopRequireDefault(_inferno);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var createVNode = _inferno2.default.createVNode;
-var SettingsStyle = exports.SettingsStyle = function SettingsStyle() {
-  return createVNode(2, 'span', null, 'Style!');
-};
-
-exports.default = SettingsStyle;
-
-/***/ }),
-/* 50 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.SettingsThemes = undefined;
-
-var _inferno = __webpack_require__(0);
-
-var _inferno2 = _interopRequireDefault(_inferno);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var createVNode = _inferno2.default.createVNode;
-var SettingsThemes = exports.SettingsThemes = function SettingsThemes() {
-  return createVNode(2, 'span', null, 'Themes!');
-};
-
-exports.default = SettingsThemes;
+module.exports = __webpack_require__(57);
 
 /***/ })
 /******/ ]);

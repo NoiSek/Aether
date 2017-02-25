@@ -10,6 +10,7 @@ import { SettingsStyle } from './Settings/SettingsStyle';
 import { SettingsThemes } from './Settings/SettingsThemes';
 import { SettingsFunction } from './Settings/SettingsFunction';
 import { SettingsPresets } from './Settings/SettingsPresets';
+import { SaveDialogue } from './Settings/SaveDialogue';
 
 export default class Settings extends Component {
   constructor(props) {
@@ -98,6 +99,7 @@ export default class Settings extends Component {
         </div>
         <div className="settings-section">
           { section }
+          <SaveDialogue store={ this.props.store } />
         </div>
       </div>
     );

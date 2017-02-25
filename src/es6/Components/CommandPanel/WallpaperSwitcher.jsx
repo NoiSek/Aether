@@ -2,10 +2,11 @@
 // --------------------------------------
 // Serves to handle wallpaper switching through DOM manipulation.
 
+import cxs from "cxs/lite";
 import Inferno from 'inferno';
 import Component from 'inferno-component';
 
-import * as WallpaperOperations from '../../Logic/WallpaperOperations';
+import * as FileOperations from '../../Logic/FileOperations';
 import * as Settings from '../../Logic/Settings';
 
 const FADEOUT_TIME = 600;
@@ -15,8 +16,19 @@ export default class WallpaperSwitcher extends Component {
   constructor(props) {
     super(props);
 
-    let wallpaperDirectory = WallpaperOperations.getWallpaperDirectory();
-    let wallpapers = WallpaperOperations.getWallpapers(wallpaperDirectory);
+    this.store = this.props.store;
+    this.storeState = this.store.getState();
+
+    this.unsubscribe = this.store.subscribe(() => {
+      this.storeState = this.store.getState();
+      this.setState({
+        "_storeToggle": !this.state._storeToggle
+      });
+      console.log("store update");
+    });
+
+    let wallpaperDirectory = FileOperations.getWallpaperDirectory();
+    let wallpapers = FileOperations.getWallpapers(wallpaperDirectory);
 
     this.cyclerBackground = undefined;
     this.cyclerForeground = undefined;
@@ -31,7 +43,8 @@ export default class WallpaperSwitcher extends Component {
         "active": false,
         "currentlyFading": false,
         "index": 0
-      }
+      },
+      "_storeToggle": false
     };
   }
 
@@ -183,9 +196,13 @@ export default class WallpaperSwitcher extends Component {
   render() {
     let options = this.generateOptions();
 
+    let style = cxs({
+      "background-image": `url(${ this.storeState.settings.distro }) !important`
+    });
+
     return (
       <div className="distro-wrapper">
-        <div className="distro-logo" onClick={ this.handleSwitcherActivation.bind(this) }></div>
+        <div className={ `distro-logo ${ style }` } onClick={ this.handleSwitcherActivation.bind(this) }></div>
         { options }
       </div>
     );

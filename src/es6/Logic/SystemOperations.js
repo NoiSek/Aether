@@ -13,6 +13,7 @@ function executeCommand(message, boundFunction) {
   return true;
 }
 
+
 export function handleCommand(command) {
   // What the hell is this, right?
   if (command === "shutdown" && window.lightdm.can_shutdown) {
@@ -28,6 +29,7 @@ export function handleCommand(command) {
   // If we have gotten this far, it's because the command is disabled or doesn't exist.
   window.notifications.generate(`${command} is disabled on this system.`, "error");
 }
+
 
 export function findInitialUser() {
   // Are we currently in a lock screen?
@@ -45,6 +47,7 @@ export function findInitialUser() {
   }
 }
 
+
 export function findInitialSession(user) {
   let userSession = (user === undefined) ? undefined : user.session;
 
@@ -54,6 +57,7 @@ export function findInitialSession(user) {
     window.lightdm.sessions[0]
   );
 }
+
 
 export function findSession(sessionName) {
   if (sessionName === undefined || sessionName === null) {
