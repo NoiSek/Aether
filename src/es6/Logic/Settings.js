@@ -16,6 +16,11 @@ export function requestSetting(setting, defaultSetting=undefined) {
   if (result === null || result === undefined) {
     return defaultSetting;
   } else {
+    // Cast string values to booleans if necessary.
+    if (result === "true" || result === "false") {
+      return (result === "true") ? true : false;
+    }
+
     return result;
   }
 }

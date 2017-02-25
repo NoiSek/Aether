@@ -34,18 +34,18 @@ export function addAdditionalSettings(state) {
 
 export const SettingsReducer = (state, action) => {
   switch(action.type) {
-    case "SETTINGS_LOGO_CHANGE":
+    case 'SETTINGS_LOGO_CHANGE':
       var newSettings = { ...state.settings, "distro": action.path };
 
       return { ...state, "settings": newSettings };
 
-    case "SETTINGS_REJECT":
+    case 'SETTINGS_REJECT':
       // Restore settings from the 'default' state.
       var newSettings = { ...state.cachedSettings };
 
       return { ...state, "settings": newSettings };
 
-    case "SETTINGS_SAVE":
+    case 'SETTINGS_SAVE':
       // Cycle to localStorage for persistence.
       for (let key of Object.keys(state.settings)) {
         Settings.saveSetting(key, state.settings[key]);
@@ -55,6 +55,11 @@ export const SettingsReducer = (state, action) => {
       var newCache = { ...state.settings };
 
       return { ...state, "cachedSettings": newCache };
+
+    case 'SETTINGS_TOGGLE_ACTIVE':
+      var newSettings = { ...state.settings, "active": !state.settings.active };
+
+      return { ...state, "settings": newSettings };
 
     default:
       return state;

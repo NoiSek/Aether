@@ -626,6 +626,8 @@ body {
     display: flex;
     flex-wrap: wrap;
     width: 100%; }
+  .settings > div.hidden {
+    display: none; }
   .settings .settings-categories {
     width: 17%; }
   .settings .settings-section {
@@ -685,6 +687,26 @@ body {
   .settings-section .save-dialogue button.settings-save {
     color: #145a07;
     background: #84ff93; }
+
+.settings-toggler {
+  color: #222;
+  background: #fff;
+  opacity: 0;
+  font-weight: bold;
+  font-size: 4em;
+  text-align: center;
+  position: fixed;
+  bottom: 25px;
+  left: 25px;
+  padding-top: 8px;
+  height: 85px;
+  width: 85px;
+  border-radius: 100px;
+  user-select: none;
+  transition: opacity 300ms ease; }
+  .settings-toggler:hover {
+    cursor: pointer;
+    opacity: 1; }
 
 /*****************************************************************
  * -- #0.4b Settings General

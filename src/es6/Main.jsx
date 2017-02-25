@@ -2,6 +2,7 @@ import Inferno from 'inferno';
 import { createStore } from 'redux';
 
 import Notifications from './Utils/Notifications';
+import SettingsToggler from './Components/SettingsToggler';
 import CommandPanel from './Components/CommandPanel';
 import DateDisplay from './Components/DateDisplay';
 import UserPanel from './Components/UserPanel';
@@ -20,6 +21,7 @@ export default function Main() {
   Inferno.render(<UserPanel store={ store } />, document.getElementById("user-panel"));
   Inferno.render(<DateDisplay store={ store } />, document.getElementById("date-display"));
   Inferno.render(<Settings store={ store } />, document.getElementById("settings"));
+  Inferno.render(<SettingsToggler store={ store } />, document.getElementById("settings-toggler-mount"));
 }
 
 window.onload = (e) => {

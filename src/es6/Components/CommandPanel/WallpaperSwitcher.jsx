@@ -24,7 +24,6 @@ export default class WallpaperSwitcher extends Component {
       this.setState({
         "_storeToggle": !this.state._storeToggle
       });
-      console.log("store update");
     });
 
     let wallpaperDirectory = FileOperations.getWallpaperDirectory();
