@@ -27,8 +27,15 @@ export default class Settings extends Component {
 
     this.state = {
       "active": false,
-      "selectedCategory": 'General'
+      "selectedCategory": 'general'
     };
+  }
+
+
+  handleCategoryClick(category, e) {
+    this.setState({
+      "selectedCategory": category.toLowerCase()
+    });
   }
 
 
@@ -41,11 +48,19 @@ export default class Settings extends Component {
       'Presets'
     ];
 
-    let listItems = categories.map((category) =>
-      <li key={ category } data-key={ category } onClick={ this.handleCategoryClick.bind(this) }>
-        { category }
-      </li>
-    );
+    let listItems = categories.map((category) => {
+      let classes = [];
+
+      if (category.toLowerCase() === this.state.selectedCategory) {
+        classes.push('active');
+      }
+
+      return (
+        <li key={ category } className={ classes.join(' ') } onClick={ this.handleCategoryClick.bind(this, category) }>
+          { category }
+        </li>
+      );
+    });
 
     return (
       <ul>
@@ -77,7 +92,7 @@ export default class Settings extends Component {
     let section = this.generateSection(this.state.selectedCategory);
 
     return (
-      <div className="settings">
+      <div>
         <div className="settings-categories">
           { categories }
         </div>

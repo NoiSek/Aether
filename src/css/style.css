@@ -610,7 +610,47 @@ body {
         cursor: pointer; }
 
 /*****************************************************************
- * -- #0.6a Misc. Styles
+ * -- #0.4a Settings
+ * ===============================================================
+ * Settings dialogue. */
+/**************************************************************** */
+.settings {
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -22.5vh 0px 0px -40vw;
+  height: 55vh;
+  width: 80vw; }
+  .settings > div {
+    display: flex;
+    width: 100%; }
+  .settings .settings-categories {
+    width: 17%; }
+  .settings .settings-section {
+    width: 83%; }
+
+.settings .settings-categories ul li {
+  color: #9c9c9c;
+  background: #e0e0e0;
+  font-weight: bold;
+  font-variant: small-caps;
+  padding: 15px 25px;
+  transition: color 300ms ease, background-color 300ms ease; }
+.settings .settings-categories ul li:hover {
+  cursor: pointer;
+  color: #4d4d4d;
+  background: #e8e8e8; }
+.settings .settings-categories ul li.active, .settings .settings-categories ul li.active:hover {
+  color: #4d4d4d;
+  background: #fafafa; }
+
+.settings .settings-section {
+  background: #fafafa;
+  padding: 25px; }
+
+/*****************************************************************
+ * -- #0.5a Misc. Styles
  * ===============================================================
  * Misc. */
 /**************************************************************** */

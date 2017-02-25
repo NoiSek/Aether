@@ -5,6 +5,7 @@ import Notifications from './Utils/Notifications';
 import CommandPanel from './Components/CommandPanel';
 import DateDisplay from './Components/DateDisplay';
 import UserPanel from './Components/UserPanel';
+import Settings from './Components/Settings';
 
 import { getDefaultState, PrimaryReducer } from './Reducers/PrimaryReducer';
 import { addAdditionalSettings } from './Reducers/SettingsReducer';
@@ -18,6 +19,7 @@ export default function Main() {
   Inferno.render(<CommandPanel store={ store } />, document.getElementById("command-panel"));
   Inferno.render(<UserPanel store={ store } />, document.getElementById("user-panel"));
   Inferno.render(<DateDisplay store={ store } />, document.getElementById("date-display"));
+  Inferno.render(<Settings store={ store } />, document.getElementById("settings"));
 }
 
 window.onload = (e) => {

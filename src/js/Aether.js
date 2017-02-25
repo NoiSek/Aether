@@ -5892,6 +5892,10 @@ var _UserPanel = __webpack_require__(15);
 
 var _UserPanel2 = _interopRequireDefault(_UserPanel);
 
+var _Settings = __webpack_require__(45);
+
+var _Settings2 = _interopRequireDefault(_Settings);
+
 var _PrimaryReducer = __webpack_require__(16);
 
 var _SettingsReducer = __webpack_require__(3);
@@ -5914,6 +5918,9 @@ function Main() {
   _inferno2.default.render(createVNode(16, _DateDisplay2.default, {
     'store': store
   }), document.getElementById("date-display"));
+  _inferno2.default.render(createVNode(16, _Settings2.default, {
+    'store': store
+  }), document.getElementById("settings"));
 }
 
 window.onload = function (e) {
@@ -6037,6 +6044,275 @@ Object.defineProperty(exports, "__esModule", {
 var padZeroes = exports.padZeroes = function padZeroes(i) {
   return i < 10 ? "0" + i : i;
 };
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+var _infernoComponent = __webpack_require__(1);
+
+var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
+
+var _SettingsGeneral = __webpack_require__(47);
+
+var _SettingsStyle = __webpack_require__(49);
+
+var _SettingsThemes = __webpack_require__(50);
+
+var _SettingsFunction = __webpack_require__(46);
+
+var _SettingsPresets = __webpack_require__(48);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Settings -> Required by Main
+// --------------------------------------
+// Handles greeter configuration.
+
+var createVNode = _inferno2.default.createVNode;
+
+var Settings = function (_Component) {
+  _inherits(Settings, _Component);
+
+  function Settings(props) {
+    _classCallCheck(this, Settings);
+
+    var _this = _possibleConstructorReturn(this, (Settings.__proto__ || Object.getPrototypeOf(Settings)).call(this, props));
+
+    _this.store = _this.props.store;
+    _this.storeState = _this.store.getState();
+
+    _this.unsubscribe = _this.store.subscribe(function () {
+      _this.storeState = _this.store.getState();
+      _this.setState({
+        "active": _this.storeState.active
+      });
+    });
+
+    _this.state = {
+      "active": false,
+      "selectedCategory": 'general'
+    };
+    return _this;
+  }
+
+  _createClass(Settings, [{
+    key: 'handleCategoryClick',
+    value: function handleCategoryClick(category, e) {
+      this.setState({
+        "selectedCategory": category.toLowerCase()
+      });
+    }
+  }, {
+    key: 'generateCategories',
+    value: function generateCategories() {
+      var _this2 = this;
+
+      var categories = ['General', 'Style', 'Themes', 'Function', 'Presets'];
+
+      var listItems = categories.map(function (category) {
+        var classes = [];
+
+        if (category.toLowerCase() === _this2.state.selectedCategory) {
+          classes.push('active');
+        }
+
+        return createVNode(2, 'li', {
+          'className': classes.join(' ')
+        }, category, {
+          'onClick': _this2.handleCategoryClick.bind(_this2, category)
+        }, category);
+      });
+
+      return createVNode(2, 'ul', null, listItems);
+    }
+  }, {
+    key: 'generateSection',
+    value: function generateSection(_category) {
+      var category = _category.toLowerCase();
+
+      if (category === "general") {
+        return createVNode(16, _SettingsGeneral.SettingsGeneral, {
+          'store': this.props.store
+        });
+      } else if (category === "style") {
+        return createVNode(16, _SettingsStyle.SettingsStyle, {
+          'store': this.props.store
+        });
+      } else if (category === "themes") {
+        return createVNode(16, _SettingsThemes.SettingsThemes, {
+          'store': this.props.store
+        });
+      } else if (category === "function") {
+        return createVNode(16, _SettingsFunction.SettingsFunction, {
+          'store': this.props.store
+        });
+      } else if (category === "presets") {
+        return createVNode(16, _SettingsPresets.SettingsPresets, {
+          'store': this.props.store
+        });
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var categories = this.generateCategories();
+      var section = this.generateSection(this.state.selectedCategory);
+
+      return createVNode(2, 'div', null, [createVNode(2, 'div', {
+        'className': 'settings-categories'
+      }, categories), createVNode(2, 'div', {
+        'className': 'settings-section'
+      }, section)]);
+    }
+  }]);
+
+  return Settings;
+}(_infernoComponent2.default);
+
+exports.default = Settings;
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SettingsFunction = undefined;
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createVNode = _inferno2.default.createVNode;
+var SettingsFunction = exports.SettingsFunction = function SettingsFunction() {
+  return createVNode(2, 'span', null, 'Function!');
+};
+
+exports.default = SettingsFunction;
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SettingsGeneral = undefined;
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createVNode = _inferno2.default.createVNode;
+var SettingsGeneral = exports.SettingsGeneral = function SettingsGeneral() {
+  return createVNode(2, 'span', null, 'General!');
+};
+
+exports.default = SettingsGeneral;
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SettingsPresets = undefined;
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createVNode = _inferno2.default.createVNode;
+var SettingsPresets = exports.SettingsPresets = function SettingsPresets() {
+  return createVNode(2, 'span', null, 'Presets!');
+};
+
+exports.default = SettingsPresets;
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SettingsStyle = undefined;
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createVNode = _inferno2.default.createVNode;
+var SettingsStyle = exports.SettingsStyle = function SettingsStyle() {
+  return createVNode(2, 'span', null, 'Style!');
+};
+
+exports.default = SettingsStyle;
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SettingsThemes = undefined;
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createVNode = _inferno2.default.createVNode;
+var SettingsThemes = exports.SettingsThemes = function SettingsThemes() {
+  return createVNode(2, 'span', null, 'Themes!');
+};
+
+exports.default = SettingsThemes;
 
 /***/ })
 /******/ ]);

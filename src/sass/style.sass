@@ -679,10 +679,67 @@ body
       &:hover
         cursor: pointer
 
+/*****************************************************************
+  -- #0.4a Settings
+  ===============================================================
+  Settings dialogue.
+/*****************************************************************/
+
+.settings
+  display: flex
+
+  position: absolute
+  top: 50%
+  left: 50%
+
+  margin: -22.5vh 0px 0px -40vw
+
+  height: 55vh
+  width: 80vw
+
+  & > div
+    display: flex
+
+    width: 100%
+
+  .settings-categories
+    width: 17%
+
+  .settings-section
+    width: 83%
+
+
+.settings .settings-categories
+  ul li
+    color: hsl(0, 0%, 61%)
+    background: hsl(0, 0%, 88%)
+
+    font-weight: bold
+    font-variant: small-caps
+
+    padding: 15px 25px
+
+    transition: color 300ms ease, background-color 300ms ease
+
+  ul li:hover
+    cursor: pointer
+
+    color: hsl(0, 0%, 30%)
+    background: hsl(0, 0%, 91%)
+
+  ul li.active, ul li.active:hover
+    color: hsl(0, 0%, 30%)
+    background: hsla(0, 0%, 98%, 1)
+
+
+.settings .settings-section
+  background: hsla(0, 0%, 98%, 1)
+
+  padding: 25px
 
 
 /*****************************************************************
-  -- #0.6a Misc. Styles
+  -- #0.5a Misc. Styles
   ===============================================================
   Misc.
 /*****************************************************************/
