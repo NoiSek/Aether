@@ -690,15 +690,19 @@ body {
   .settings .settings-handle ul {
     display: flex;
     justify-content: flex-end;
+    overflow: hidden;
+    height: 100%;
     width: 100%; }
     .settings .settings-handle ul li {
       color: #000;
       font-weight: bold;
-      padding: 5px 15px; }
+      padding: 5px 15px;
+      height: 100%; }
     .settings .settings-handle ul li:hover {
       cursor: pointer; }
     .settings .settings-handle ul li.settings-minimize {
-      background: #868686; }
+      color: #fff;
+      background: #424242; }
     .settings .settings-handle ul li.settings-close {
       background: #de3838; }
 
