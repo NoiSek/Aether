@@ -26,6 +26,8 @@ export function addAdditionalSettings(state) {
     "time_enabled": true,
     "time_format": "%H:%M",
 
+    "hostname_enabled": true,
+
     "command_shutdown_enabled": true,
     "command_reboot_enabled": true,
     "command_hibernate_enabled": true,

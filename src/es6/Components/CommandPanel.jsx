@@ -78,14 +78,20 @@ export default class CommandPanel extends Component {
 
   render() {
     let hostname = window.lightdm.hostname;
+    let hostnameClasses = ['left', 'hostname'];
+
     let commands = this.getEnabledCommands();
+
+    if (this.storeState.settings.hostname_enabled === false) {
+      hostnameClasses.push('invisible');
+    }
 
     return (
       <div>
         <WallpaperSwitcher store={ this.props.store } />
         <CommandList enabledCommands={ commands } handleCommand={ this.handleCommand.bind(this) } />
         <div className="bottom">
-          <div className="left hostname">{ hostname }</div>
+          <div className={ hostnameClasses.join(' ') }>{ hostname }</div>
           <Clock store={ this.props.store } />
         </div>
       </div>

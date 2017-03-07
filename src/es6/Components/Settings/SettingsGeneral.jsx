@@ -110,6 +110,14 @@ export const SettingsGeneral = (props) => {
             value={ storeState.settings.avatar_enabled }
             boundFunction={ props.settingsToggleBinary.bind(this, "avatar_enabled") }
           />
+
+          <h4>Hostname Visibility</h4>
+          <hr />
+          <FormCheckbox
+            name={ "Hostname Enabled" }
+            value={ storeState.settings.hostname_enabled }
+            boundFunction={ props.settingsToggleBinary.bind(this, "hostname_enabled") }
+          />
         </ul>
       </div>
     </div>

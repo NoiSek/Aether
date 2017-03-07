@@ -321,6 +321,8 @@ function addAdditionalSettings(state) {
     "time_enabled": true,
     "time_format": "%H:%M",
 
+    "hostname_enabled": true,
+
     "command_shutdown_enabled": true,
     "command_reboot_enabled": true,
     "command_hibernate_enabled": true,
@@ -1321,7 +1323,13 @@ var CommandPanel = function (_Component) {
     key: 'render',
     value: function render() {
       var hostname = window.lightdm.hostname;
+      var hostnameClasses = ['left', 'hostname'];
+
       var commands = this.getEnabledCommands();
+
+      if (this.storeState.settings.hostname_enabled === false) {
+        hostnameClasses.push('invisible');
+      }
 
       return createVNode(2, 'div', null, [createVNode(16, _WallpaperSwitcher2.default, {
         'store': this.props.store
@@ -1331,7 +1339,7 @@ var CommandPanel = function (_Component) {
       }), createVNode(2, 'div', {
         'className': 'bottom'
       }, [createVNode(2, 'div', {
-        'className': 'left hostname'
+        'className': hostnameClasses.join(' ')
       }, hostname), createVNode(16, _Clock2.default, {
         'store': this.props.store
       })])]);
@@ -6831,6 +6839,10 @@ var SettingsGeneral = exports.SettingsGeneral = function SettingsGeneral(props) 
     "name": "Avatar Enabled",
     "value": storeState.settings.avatar_enabled,
     "boundFunction": props.settingsToggleBinary.bind(undefined, "avatar_enabled")
+  }), createVNode(2, "h4", null, "Hostname Visibility"), createVNode(2, "hr"), createVNode(16, _FormCheckbox.FormCheckbox, {
+    "name": "Hostname Enabled",
+    "value": storeState.settings.hostname_enabled,
+    "boundFunction": props.settingsToggleBinary.bind(undefined, "hostname_enabled")
   })]))]);
 };
 
