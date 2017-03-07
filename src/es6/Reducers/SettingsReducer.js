@@ -53,7 +53,7 @@ export const SettingsReducer = (state, action) => {
       var newSettings = { ...state.cachedSettings };
 
       // Create a notification
-      window.notifications.generate("Reverting to previous settings.", "success");
+      window.notifications.generate("Reverted to previous settings, no changes saved.", "success");
 
       return { ...state, "settings": newSettings };
 
@@ -73,7 +73,6 @@ export const SettingsReducer = (state, action) => {
 
     case 'SETTINGS_SET_VALUE':
       var newSettings = { ...state.settings };
-      console.log(action.name);console.log(action.value);
 
       newSettings[action.name] = action.value;
 

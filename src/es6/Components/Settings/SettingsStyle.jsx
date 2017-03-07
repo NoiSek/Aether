@@ -3,7 +3,7 @@ import Inferno from 'inferno';
 
 export const SettingsStyle = () => {
   return (
-    <span>Style!</span>
+    <div>Style!</div>
   );
 };
 

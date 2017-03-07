@@ -3,7 +3,7 @@ import Inferno from 'inferno';
 
 export const SettingsPresets = () => {
   return (
-    <span>Presets!</span>
+    <div>Presets!</div>
   );
 };
 

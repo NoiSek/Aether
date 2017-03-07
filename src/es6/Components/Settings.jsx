@@ -17,6 +17,7 @@ import { SaveDialogue } from './Settings/SaveDialogue';
 const SETTINGS_HEIGHT = 300;
 const SETTINGS_WIDTH = 600;
 
+
 export default class Settings extends Component {
   constructor(props) {
     super(props);

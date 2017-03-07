@@ -369,7 +369,7 @@ var SettingsReducer = exports.SettingsReducer = function SettingsReducer(state, 
       var newSettings = _extends({}, state.cachedSettings);
 
       // Create a notification
-      window.notifications.generate("Reverting to previous settings.", "success");
+      window.notifications.generate("Reverted to previous settings, no changes saved.", "success");
 
       return _extends({}, state, { "settings": newSettings });
 
@@ -411,7 +411,6 @@ var SettingsReducer = exports.SettingsReducer = function SettingsReducer(state, 
 
     case 'SETTINGS_SET_VALUE':
       var newSettings = _extends({}, state.settings);
-      console.log(action.name);console.log(action.value);
 
       newSettings[action.name] = action.value;
 
@@ -1227,6 +1226,10 @@ var _WallpaperSwitcher = __webpack_require__(44);
 
 var _WallpaperSwitcher2 = _interopRequireDefault(_WallpaperSwitcher);
 
+var _CommandList = __webpack_require__(61);
+
+var _CommandList2 = _interopRequireDefault(_CommandList);
+
 var _Clock = __webpack_require__(43);
 
 var _Clock2 = _interopRequireDefault(_Clock);
@@ -1290,10 +1293,8 @@ var CommandPanel = function (_Component) {
       SystemOperations.handleCommand(command);
     }
   }, {
-    key: 'generateCommands',
-    value: function generateCommands() {
-      var _this2 = this;
-
+    key: 'getEnabledCommands',
+    value: function getEnabledCommands() {
       var commands = {
         "Shutdown": window.lightdm.can_shutdown && this.state.command_shutdown_enabled,
         "Reboot": window.lightdm.can_restart && this.state.command_reboot_enabled,
@@ -1314,42 +1315,20 @@ var CommandPanel = function (_Component) {
         enabledCommands.push("Sleep.disabled");
       }
 
-      var rows = enabledCommands.map(function (command) {
-        var disabled = command.toLowerCase().split('.')[1] || false;
-        command = command.toLowerCase().split('.')[0];
-
-        var classes = ['command', command, disabled].filter(function (e) {
-          return e;
-        });
-
-        return createVNode(2, 'div', {
-          'className': classes.join(' ')
-        }, [createVNode(2, 'div', {
-          'className': 'icon-wrapper'
-        }, createVNode(2, 'div', {
-          'className': 'icon'
-        })), createVNode(2, 'div', {
-          'className': 'text'
-        }, command)], {
-          'onClick': _this2.handleCommand.bind(_this2, command, disabled)
-        });
-      });
-
-      var classes = ['commands-wrapper'];
-
-      return createVNode(2, 'div', {
-        'className': classes.join(' ')
-      }, rows);
+      return enabledCommands;
     }
   }, {
     key: 'render',
     value: function render() {
       var hostname = window.lightdm.hostname;
-      var commands = this.generateCommands();
+      var commands = this.getEnabledCommands();
 
       return createVNode(2, 'div', null, [createVNode(16, _WallpaperSwitcher2.default, {
         'store': this.props.store
-      }), commands, createVNode(2, 'div', {
+      }), createVNode(16, _CommandList2.default, {
+        'enabledCommands': commands,
+        'handleCommand': this.handleCommand.bind(this)
+      }), createVNode(2, 'div', {
         'className': 'bottom'
       }, [createVNode(2, 'div', {
         'className': 'left hostname'
@@ -1749,6 +1728,10 @@ var _infernoComponent = __webpack_require__(1);
 
 var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
 
+var _UserSwitchButton = __webpack_require__(63);
+
+var _UserSwitchButton2 = _interopRequireDefault(_UserSwitchButton);
+
 var _UserSwitcher = __webpack_require__(55);
 
 var _UserSwitcher2 = _interopRequireDefault(_UserSwitcher);
@@ -1951,21 +1934,6 @@ var LoginPanel = function (_Component) {
       }, ERROR_SHAKE_DURATION);
     }
   }, {
-    key: 'generateSwitchUserButton',
-    value: function generateSwitchUserButton() {
-      var classes = ['left'];
-
-      if (window.lightdm.users.length < 2) {
-        classes.push('disabled');
-      }
-
-      return createVNode(2, 'div', {
-        'className': classes.join(' ')
-      }, 'SWITCH USER', {
-        'onClick': this.handleSwitcherClick.bind(this)
-      });
-    }
-  }, {
     key: 'render',
     value: function render() {
       var loginPanelClasses = ['login-panel-main'];
@@ -1977,8 +1945,6 @@ var LoginPanel = function (_Component) {
       if (this.state.switcherActive === true) {
         loginPanelClasses.push('fadeout');
       }
-
-      var switchUserButton = this.generateSwitchUserButton();
 
       return createVNode(2, 'div', {
         'className': 'login-panel-contents'
@@ -2006,7 +1972,9 @@ var LoginPanel = function (_Component) {
         'setActiveSession': this.setActiveSession.bind(this)
       }), createVNode(2, 'div', {
         'className': 'bottom'
-      }, switchUserButton)]), createVNode(16, _UserSwitcher2.default, {
+      }, createVNode(16, _UserSwitchButton2.default, {
+        'handleSwitcherClick': this.handleSwitcherClick.bind(this)
+      }))]), createVNode(16, _UserSwitcher2.default, {
         'active': this.state.switcherActive,
         'activeUser': this.storeState.user,
         'setActiveUser': this.setActiveUser.bind(this)
@@ -2096,29 +2064,43 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Notifications = function () {
   function Notifications() {
+    var _this = this;
+
     _classCallCheck(this, Notifications);
 
     this.container = document.querySelectorAll('.notifications-container')[0];
+
+    if (window.debug === true) {
+      this.generate("Hey there!", "success");
+
+      setTimeout(function () {
+        _this.generate("TIP: Click the logo to switch wallpapers.");
+      }, 2000);
+
+      setTimeout(function () {
+        _this.generate("TIP: Access settings by hovering over the bottom left of your screen!");
+      }, 5 * 1000);
+    }
   }
 
   _createClass(Notifications, [{
-    key: 'generate',
+    key: "generate",
     value: function generate(message, type) {
-      var _this = this;
+      var _this2 = this;
 
       if (type === undefined) {
         type = "";
       }
 
       var notification = document.createElement('div');
-      notification.className = 'notification ' + type;
+      notification.className = "notification " + type;
       notification.innerText = message;
       this.container.appendChild(notification);
 
       setTimeout(function () {
         notification.className += " fadeout";
         setTimeout(function () {
-          _this.container.removeChild(notification);
+          _this2.container.removeChild(notification);
         }, 500);
       }, 5000);
     }
@@ -6723,7 +6705,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var createVNode = _inferno2.default.createVNode;
 var SettingsFunction = exports.SettingsFunction = function SettingsFunction() {
-  return createVNode(2, 'span', null, 'Function!');
+  return createVNode(2, 'div', null, 'Function!');
 };
 
 exports.default = SettingsFunction;
@@ -6865,7 +6847,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var createVNode = _inferno2.default.createVNode;
 var SettingsPresets = exports.SettingsPresets = function SettingsPresets() {
-  return createVNode(2, 'span', null, 'Presets!');
+  return createVNode(2, 'div', null, 'Presets!');
 };
 
 exports.default = SettingsPresets;
@@ -6890,7 +6872,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var createVNode = _inferno2.default.createVNode;
 var SettingsStyle = exports.SettingsStyle = function SettingsStyle() {
-  return createVNode(2, 'span', null, 'Style!');
+  return createVNode(2, 'div', null, 'Style!');
 };
 
 exports.default = SettingsStyle;
@@ -6915,7 +6897,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var createVNode = _inferno2.default.createVNode;
 var SettingsThemes = exports.SettingsThemes = function SettingsThemes() {
-  return createVNode(2, 'span', null, 'Themes!');
+  return createVNode(2, 'div', null, 'Themes!');
 };
 
 exports.default = SettingsThemes;
@@ -8342,6 +8324,137 @@ var FormTextField = exports.FormTextField = function FormTextField(_ref) {
 };
 
 exports.default = FormTextField;
+
+/***/ }),
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CommandList = undefined;
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+var _CommandItem = __webpack_require__(62);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// CommandList -> Required by CommandPanel
+// --------------------------------------
+// Displays system commands.
+
+var createVNode = _inferno2.default.createVNode;
+var CommandList = exports.CommandList = function CommandList(_ref) {
+  var enabledCommands = _ref.enabledCommands,
+      handleCommand = _ref.handleCommand;
+
+  var items = enabledCommands.map(function (command) {
+    return createVNode(16, _CommandItem.CommandItem, {
+      'command': command,
+      'handleCommand': handleCommand
+    });
+  });
+
+  return createVNode(2, 'div', {
+    'className': 'commands-wrapper'
+  }, items);
+};
+
+exports.default = CommandList;
+
+/***/ }),
+/* 62 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CommandItem = undefined;
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createVNode = _inferno2.default.createVNode; // CommandItem -> Required by Components/CommandPanel/CommandList
+// --------------------------------------
+// CommandList item.
+
+var CommandItem = exports.CommandItem = function CommandItem(_ref) {
+  var command = _ref.command,
+      handleCommand = _ref.handleCommand;
+
+  var disabled = command.toLowerCase().split('.')[1] || false;
+  command = command.toLowerCase().split('.')[0];
+
+  var classes = ['command', command, disabled].filter(function (e) {
+    return e;
+  });
+
+  return createVNode(2, 'div', {
+    'className': classes.join(' ')
+  }, [createVNode(2, 'div', {
+    'className': 'icon-wrapper'
+  }, createVNode(2, 'div', {
+    'className': 'icon'
+  })), createVNode(2, 'div', {
+    'className': 'text'
+  }, command)], {
+    'onClick': handleCommand.bind(undefined, command, disabled)
+  });
+};
+
+exports.default = CommandItem;
+
+/***/ }),
+/* 63 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.UserSwitchButton = undefined;
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createVNode = _inferno2.default.createVNode; // UserSwitchButton -> Required by Components/UserPanel
+// --------------------------------------
+// Toggles the UserSwitcher.
+
+var UserSwitchButton = exports.UserSwitchButton = function UserSwitchButton(_ref) {
+  var handleSwitcherClick = _ref.handleSwitcherClick;
+
+  var classes = ['left'];
+
+  if (window.lightdm.users.length < 2) {
+    classes.push('disabled');
+  }
+
+  return createVNode(2, 'div', {
+    'className': classes.join(' ')
+  }, 'SWITCH USER', {
+    'onClick': handleSwitcherClick
+  });
+};
+
+exports.default = UserSwitchButton;
 
 /***/ })
 /******/ ]);

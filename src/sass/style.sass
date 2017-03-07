@@ -697,8 +697,9 @@ body
 
   position: absolute
 
-  height: 300px
   width: 600px
+
+  opacity: 1
 
   &.hidden
     display: none !important
@@ -863,8 +864,22 @@ body
     padding: 15px
     width: 60%
 
+
 .settings-general .left
   border-right: 2px solid #eee
+
+  select
+    margin-top: 15px
+    padding: 5px
+
+    width: 100%
+
+  select:hover
+    cursor: pointer
+
+  select option:hover
+    cursor: pointer
+
 
 .settings-general .right
   height: 250px

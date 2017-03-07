@@ -642,8 +642,8 @@ body {
 .settings {
   display: flex;
   position: absolute;
-  height: 300px;
-  width: 600px; }
+  width: 600px;
+  opacity: 1; }
   .settings.hidden {
     display: none !important; }
   .settings > div {
@@ -761,6 +761,14 @@ body {
 
 .settings-general .left {
   border-right: 2px solid #eee; }
+  .settings-general .left select {
+    margin-top: 15px;
+    padding: 5px;
+    width: 100%; }
+  .settings-general .left select:hover {
+    cursor: pointer; }
+  .settings-general .left select option:hover {
+    cursor: pointer; }
 
 .settings-general .right {
   height: 250px;

@@ -5,6 +5,7 @@
 import Inferno from 'inferno';
 import Component from 'inferno-component';
 
+import UserSwitchButton from './UserPanel/UserSwitchButton';
 import UserSwitcher from './UserPanel/UserSwitcher';
 import UserPanelForm from './UserPanel/Form';
 
@@ -36,6 +37,7 @@ export default class LoginPanel extends Component {
     };
   }
 
+
   componentWillMount() {
     // Define functions required in the global scope by LightDM.
     window.show_prompt = (text, type) => {
@@ -63,17 +65,20 @@ export default class LoginPanel extends Component {
     };
   }
 
+
   handleDropdownClick(event) {
     this.setState({
       "dropdownActive": true
     });
   }
 
+
   handleDropdownLeave(event) {
     this.setState({
       "dropdownActive": false
     });
   }
+
 
   handleLoginSubmit(event) {
     event.preventDefault();
@@ -93,6 +98,7 @@ export default class LoginPanel extends Component {
       window.lightdm.authenticate(this.storeState.user.username);
     }
   }
+
 
   handleSwitcherClick(event) {
     if (window.lightdm.users.length < 2) {
@@ -119,6 +125,7 @@ export default class LoginPanel extends Component {
     });
   }
 
+
   setActiveSession(session) {
     this.store.dispatch({
       'type': 'AUTH_SET_ACTIVE_SESSION',
@@ -129,6 +136,7 @@ export default class LoginPanel extends Component {
       "dropdownActive": false
     });
   }
+
 
   setActiveUser(user, isBypass) {
     this.store.dispatch({
@@ -155,6 +163,7 @@ export default class LoginPanel extends Component {
     }
   }
 
+
   rejectPassword() {
     window.notifications.generate("Password incorrect, please try again.", 'error');
 
@@ -170,17 +179,6 @@ export default class LoginPanel extends Component {
     }, ERROR_SHAKE_DURATION);
   }
 
-  generateSwitchUserButton() {
-    let classes = ['left'];
-
-    if (window.lightdm.users.length < 2) {
-      classes.push('disabled');
-    }
-
-    return (
-      <div className={ classes.join(' ') } onClick={ this.handleSwitcherClick.bind(this) }>SWITCH USER</div>
-    );
-  }
 
   render() {
     let loginPanelClasses = ['login-panel-main'];
@@ -192,8 +190,6 @@ export default class LoginPanel extends Component {
     if (this.state.switcherActive === true) {
       loginPanelClasses.push('fadeout');
     }
-
-    let switchUserButton = this.generateSwitchUserButton();
 
     return (
       <div className="login-panel-contents">
@@ -218,7 +214,7 @@ export default class LoginPanel extends Component {
             setActiveSession={ this.setActiveSession.bind(this) }
           />
           <div className="bottom">
-            { switchUserButton }
+            <UserSwitchButton handleSwitcherClick={ this.handleSwitcherClick.bind(this) } />
           </div>
         </div>
         <UserSwitcher

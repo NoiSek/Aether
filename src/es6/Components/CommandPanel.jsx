@@ -8,6 +8,7 @@ import Component from 'inferno-component';
 
 import * as SystemOperations from '../Logic/SystemOperations';
 import WallpaperSwitcher from './CommandPanel/WallpaperSwitcher';
+import CommandList from './CommandPanel/CommandList';
 import Clock from './CommandPanel/Clock';
 
 
@@ -37,6 +38,7 @@ export default class CommandPanel extends Component {
     };
   }
 
+
   handleCommand(command, disabled, event) {
     event.preventDefault();
 
@@ -49,7 +51,7 @@ export default class CommandPanel extends Component {
   }
 
 
-  generateCommands() {
+  getEnabledCommands() {
     let commands = {
       "Shutdown": (window.lightdm.can_shutdown && this.state.command_shutdown_enabled),
       "Reboot": (window.lightdm.can_restart && this.state.command_reboot_enabled),
@@ -70,40 +72,18 @@ export default class CommandPanel extends Component {
       enabledCommands.push("Sleep.disabled");
     }
 
-    let rows = enabledCommands.map((command) => {
-      let disabled = command.toLowerCase().split('.')[1] || false;
-      command = command.toLowerCase().split('.')[0];
-
-      let classes = ['command', command, disabled].filter((e) => e);
-
-      return (
-        <div className={ classes.join(' ') } onClick={ this.handleCommand.bind(this, command, disabled) }>
-          <div className="icon-wrapper">
-            <div className="icon"></div>
-          </div>
-          <div className="text">{ command }</div>
-        </div>
-      );
-    });
-
-    let classes = ['commands-wrapper'];
-
-    return (
-      <div className={ classes.join(' ') }>
-        { rows }
-      </div>
-    );
+    return enabledCommands;
   }
 
 
   render() {
     let hostname = window.lightdm.hostname;
-    let commands = this.generateCommands();
+    let commands = this.getEnabledCommands();
 
     return (
       <div>
         <WallpaperSwitcher store={ this.props.store } />
-        { commands }
+        <CommandList enabledCommands={ commands } handleCommand={ this.handleCommand.bind(this) } />
         <div className="bottom">
           <div className="left hostname">{ hostname }</div>
           <Clock store={ this.props.store } />
