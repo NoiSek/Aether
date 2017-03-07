@@ -2,7 +2,7 @@
 // --------------------------------------
 // Serves to handle wallpaper switching through DOM manipulation.
 
-import cxs from "cxs/lite";
+import cxs from 'cxs/lite';
 import Inferno from 'inferno';
 import Component from 'inferno-component';
 

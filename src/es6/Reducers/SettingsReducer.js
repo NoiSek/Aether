@@ -31,7 +31,10 @@ export function addAdditionalSettings(state) {
     "command_shutdown_enabled": true,
     "command_reboot_enabled": true,
     "command_hibernate_enabled": true,
-    "command_sleep_enabled": true
+    "command_sleep_enabled": true,
+
+    "window_border_radius": "4px",
+    "window_font_size": "1em"
   };
 
   let settings = {};

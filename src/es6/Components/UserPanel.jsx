@@ -197,7 +197,7 @@ export default class LoginPanel extends Component {
     }
 
     return (
-      <div className="login-panel-contents">
+      <div className="user-panel">
         <div className={ loginPanelClasses.join(' ') }>
           <div className={ avatarClasses.join(' ') }>
             <div className="avatar-background">

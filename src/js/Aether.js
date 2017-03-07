@@ -326,7 +326,10 @@ function addAdditionalSettings(state) {
     "command_shutdown_enabled": true,
     "command_reboot_enabled": true,
     "command_hibernate_enabled": true,
-    "command_sleep_enabled": true
+    "command_sleep_enabled": true,
+
+    "window_border_radius": "4px",
+    "window_font_size": "1em"
   };
 
   var settings = {};
@@ -1331,7 +1334,9 @@ var CommandPanel = function (_Component) {
         hostnameClasses.push('invisible');
       }
 
-      return createVNode(2, 'div', null, [createVNode(16, _WallpaperSwitcher2.default, {
+      return createVNode(2, 'div', {
+        'className': 'command-panel'
+      }, [createVNode(16, _WallpaperSwitcher2.default, {
         'store': this.props.store
       }), createVNode(16, _CommandList2.default, {
         'enabledCommands': commands,
@@ -1960,7 +1965,7 @@ var LoginPanel = function (_Component) {
       }
 
       return createVNode(2, 'div', {
-        'className': 'login-panel-contents'
+        'className': 'user-panel'
       }, [createVNode(2, 'div', {
         'className': loginPanelClasses.join(' ')
       }, [createVNode(2, 'div', {
@@ -6806,43 +6811,43 @@ var SettingsGeneral = exports.SettingsGeneral = function SettingsGeneral(props) 
   }, createVNode(2, "ul", null, [createVNode(2, "h4", null, "Date & Time"), createVNode(2, "hr"), createVNode(16, _FormCheckbox.FormCheckbox, {
     "name": "Date Enabled",
     "value": storeState.settings.date_enabled,
-    "boundFunction": props.settingsToggleBinary.bind(undefined, "date_enabled")
+    "boundFunction": props.settingsToggleBinary.bind(undefined, 'date_enabled')
   }), createVNode(16, _FormTextField.FormTextField, {
     "name": "Date Format",
     "value": storeState.settings.date_format,
-    "boundFunction": props.settingsSetValue.bind(undefined, "date_format")
+    "boundFunction": props.settingsSetValue.bind(undefined, 'date_format')
   }), createVNode(16, _FormCheckbox.FormCheckbox, {
     "name": "Time Enabled",
     "value": storeState.settings.time_enabled,
-    "boundFunction": props.settingsToggleBinary.bind(undefined, "time_enabled")
+    "boundFunction": props.settingsToggleBinary.bind(undefined, 'time_enabled')
   }), createVNode(16, _FormTextField.FormTextField, {
     "name": "Time Format",
     "value": storeState.settings.time_format,
-    "boundFunction": props.settingsSetValue.bind(undefined, "time_format")
+    "boundFunction": props.settingsSetValue.bind(undefined, 'time_format')
   }), createVNode(2, "h4", null, "Command Visibility"), createVNode(2, "hr"), createVNode(16, _FormCheckbox.FormCheckbox, {
     "name": "Shutdown Enabled",
     "value": storeState.settings.command_shutdown_enabled,
-    "boundFunction": props.settingsToggleBinary.bind(undefined, "command_shutdown_enabled")
+    "boundFunction": props.settingsToggleBinary.bind(undefined, 'command_shutdown_enabled')
   }), createVNode(16, _FormCheckbox.FormCheckbox, {
     "name": "Reboot Enabled",
     "value": storeState.settings.command_reboot_enabled,
-    "boundFunction": props.settingsToggleBinary.bind(undefined, "command_reboot_enabled")
+    "boundFunction": props.settingsToggleBinary.bind(undefined, 'command_reboot_enabled')
   }), createVNode(16, _FormCheckbox.FormCheckbox, {
     "name": "Hibernate Enabled",
     "value": storeState.settings.command_hibernate_enabled,
-    "boundFunction": props.settingsToggleBinary.bind(undefined, "command_hibernate_enabled")
+    "boundFunction": props.settingsToggleBinary.bind(undefined, 'command_hibernate_enabled')
   }), createVNode(16, _FormCheckbox.FormCheckbox, {
     "name": "Sleep Enabled",
     "value": storeState.settings.command_sleep_enabled,
-    "boundFunction": props.settingsToggleBinary.bind(undefined, "command_sleep_enabled")
+    "boundFunction": props.settingsToggleBinary.bind(undefined, 'command_sleep_enabled')
   }), createVNode(2, "h4", null, "Avatar Visibility"), createVNode(2, "hr"), createVNode(16, _FormCheckbox.FormCheckbox, {
     "name": "Avatar Enabled",
     "value": storeState.settings.avatar_enabled,
-    "boundFunction": props.settingsToggleBinary.bind(undefined, "avatar_enabled")
+    "boundFunction": props.settingsToggleBinary.bind(undefined, 'avatar_enabled')
   }), createVNode(2, "h4", null, "Hostname Visibility"), createVNode(2, "hr"), createVNode(16, _FormCheckbox.FormCheckbox, {
     "name": "Hostname Enabled",
     "value": storeState.settings.hostname_enabled,
-    "boundFunction": props.settingsToggleBinary.bind(undefined, "hostname_enabled")
+    "boundFunction": props.settingsToggleBinary.bind(undefined, 'hostname_enabled')
   })]))]);
 };
 
@@ -6889,11 +6894,25 @@ var _inferno = __webpack_require__(0);
 
 var _inferno2 = _interopRequireDefault(_inferno);
 
+var _FormTextField = __webpack_require__(60);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var createVNode = _inferno2.default.createVNode;
-var SettingsStyle = exports.SettingsStyle = function SettingsStyle() {
-  return createVNode(2, 'div', null, 'Style!');
+var SettingsStyle = exports.SettingsStyle = function SettingsStyle(props) {
+  var storeState = props.store.getState();
+
+  return createVNode(2, "div", {
+    "className": "settings-style"
+  }, createVNode(2, "ul", null, [createVNode(2, "h4", null, "Window Appearance"), createVNode(2, "hr"), createVNode(16, _FormTextField.FormTextField, {
+    "name": "Border Radius",
+    "value": storeState.settings.window_border_radius,
+    "boundFunction": props.settingsSetValue.bind(undefined, 'window_border_radius')
+  }), createVNode(16, _FormTextField.FormTextField, {
+    "name": "Font-Size",
+    "value": storeState.settings.window_font_size,
+    "boundFunction": props.settingsSetValue.bind(undefined, 'window_font_size')
+  })]));
 };
 
 exports.default = SettingsStyle;
@@ -7394,6 +7413,10 @@ var _CommandPanel = __webpack_require__(14);
 
 var _CommandPanel2 = _interopRequireDefault(_CommandPanel);
 
+var _LoginWindow = __webpack_require__(64);
+
+var _LoginWindow2 = _interopRequireDefault(_LoginWindow);
+
 var _DateDisplay = __webpack_require__(15);
 
 var _DateDisplay2 = _interopRequireDefault(_DateDisplay);
@@ -7419,12 +7442,15 @@ function Main() {
 
   var store = (0, _redux.createStore)(_PrimaryReducer.PrimaryReducer, initialState);
 
-  _inferno2.default.render(createVNode(16, _CommandPanel2.default, {
-    'store': store
-  }), document.getElementById("command-panel"));
-  _inferno2.default.render(createVNode(16, _UserPanel2.default, {
-    'store': store
-  }), document.getElementById("user-panel"));
+  _inferno2.default.render(createVNode(16, _LoginWindow2.default, {
+    'store': store,
+    children: [createVNode(16, _CommandPanel2.default, {
+      'store': store
+    }), createVNode(16, _UserPanel2.default, {
+      'store': store
+    })]
+  }), document.getElementById('login-window-mount'));
+
   _inferno2.default.render(createVNode(16, _DateDisplay2.default, {
     'store': store
   }), document.getElementById("date-display"));
@@ -8476,6 +8502,91 @@ var UserSwitchButton = exports.UserSwitchButton = function UserSwitchButton(_ref
 };
 
 exports.default = UserSwitchButton;
+
+/***/ }),
+/* 64 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _lite = __webpack_require__(22);
+
+var _lite2 = _interopRequireDefault(_lite);
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+var _infernoComponent = __webpack_require__(1);
+
+var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // LoginWindow -> Required by Main
+// --------------------------------------
+// Style / Composition wrapper.
+
+// We don't really need or desire to hold state, here, but it is
+// necessary for this to be a component in order to force updates
+// from the settings dialogue.
+
+var createVNode = _inferno2.default.createVNode;
+
+var LoginWindow = function (_Component) {
+  _inherits(LoginWindow, _Component);
+
+  function LoginWindow(props) {
+    _classCallCheck(this, LoginWindow);
+
+    var _this = _possibleConstructorReturn(this, (LoginWindow.__proto__ || Object.getPrototypeOf(LoginWindow)).call(this, props));
+
+    _this.store = _this.props.store;
+    _this.storeState = _this.store.getState();
+
+    _this.unsubscribe = _this.store.subscribe(function () {
+      _this.storeState = _this.store.getState();
+      _this.setState({
+        "_toggleUpdate": !_this.state._toggleUpdate
+      });
+    });
+
+    _this.state = {
+      "_toggleUpdate": false
+    };
+    return _this;
+  }
+
+  _createClass(LoginWindow, [{
+    key: 'render',
+    value: function render() {
+      var settings = this.storeState.settings;
+      var style = (0, _lite2.default)({
+        "border-radius": settings.window_border_radius,
+        "font-size": settings.window_font_size
+      });
+
+      return createVNode(2, 'div', {
+        'className': 'login-window ' + style
+      }, this.props.children);
+    }
+  }]);
+
+  return LoginWindow;
+}(_infernoComponent2.default);
+
+exports.default = LoginWindow;
 
 /***/ })
 /******/ ]);

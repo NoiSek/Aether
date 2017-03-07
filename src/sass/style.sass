@@ -55,7 +55,7 @@ body
   color: #fff
   opacity: 0
 
-  font-size: 9pt
+  font-size: 0.75em
   font-style: italic
   text-align: right
   letter-spacing: 1px
@@ -166,6 +166,8 @@ body
 
 .login-window
   background: $right-background-plate
+  overflow: hidden
+
   opacity: 0
 
   // Vertical Center
@@ -194,9 +196,6 @@ body
   color: #fff
 
   background: $left-background
-
-  border-top-left-radius: 4px
-  border-bottom-left-radius: 4px
 
   & > div
     height: 100%
@@ -317,7 +316,7 @@ body
     width: 25px
 
   .command .text
-    font-size: 16pt
+    font-size: 1.33em
     letter-spacing: 2px
     text-transform: uppercase
     vertical-align: 2px
@@ -332,7 +331,7 @@ body
   .bottom .left, .bottom .right
     float: left
 
-    font-size: 9pt
+    font-size: 0.75em
     font-weight: bold
     letter-spacing: 1px
 
@@ -383,9 +382,6 @@ body
 
   border: 1px solid rgba(251, 98, 192, 0.25)
   border-bottom: none
-
-  border-top-right-radius: 4px
-  border-bottom-right-radius: 4px
 
   & > div
     height: 100%
@@ -442,7 +438,7 @@ body
         text-align: center
         text-transform: capitalize
 
-        font-size: 32pt
+        font-size: 2.66em
         font-style: italic
         font-weight: bold
 
@@ -501,7 +497,7 @@ body
           width: 80%
 
         .left .dropdown
-          font-size: 9pt
+          font-size: 0.75em
 
           width: 95%
 
@@ -687,7 +683,7 @@ body
       color: #fff
       float: left
 
-      font-size: 9pt
+      font-size: 0.75em
       letter-spacing: 1px
 
     .left
@@ -807,6 +803,87 @@ body
 .settings .settings-section
   background: hsla(0, 0%, 98%, 1)
 
+  ul h4
+    font-weight: bold
+
+  ul hr
+    background: #ececec
+    color: #ececec
+    border: 1px solid #ececec
+
+  ul li
+    list-style-type: none
+    margin-bottom: 10px
+
+  ul li + h4
+    margin-top: 35px
+
+  ul li input[type='checkbox']
+    position: absolute
+    left: -9999px
+
+  ul li input[type='text']
+    display: inline-block
+
+    padding: 5px
+
+    margin-top: 15px
+    margin-left: 15px
+
+    width: 50%
+
+    border: 1px solid #e0e0e0
+
+  ul li label:hover
+    cursor: pointer
+
+  ul li input[type='checkbox'] + label .fake-checkbox
+    color: hsl(0, 45%, 21%)
+
+    display: inline-block
+    background: hsl(0, 49%, 90%)
+
+    font-weight: bold
+
+    padding: 10px
+    margin-left: 10px
+
+    position: relative
+    top: 5px
+
+    height: 15px
+    width: 15px
+
+    border: 1px solid #e8e8e8
+    border-radius: 4px
+
+    &:hover
+      cursor: pointer
+
+  ul li input[type='checkbox']:checked + label .fake-checkbox
+    color: hsl(101, 45%, 21%)
+    background: hsl(100, 50%, 90%)
+
+  ul li input[type='checkbox'] + label .fake-checkbox:after
+    display: inline-block
+    content: "×"
+
+    font-size: 1.4em
+
+    position: absolute
+    top: -0.05rem
+    left: 0.25rem
+
+  ul li input[type='checkbox']:checked + label .fake-checkbox:after
+    display: inline-block
+    content: "✔"
+
+    font-size: 1em
+
+    position: absolute
+    top: 0.1rem
+    left: 0.2rem
+
 
 .settings-section .save-dialogue
   background: #f3f3f3
@@ -903,86 +980,15 @@ body
   height: 250px
   overflow-y: scroll
 
-  ul h4
-    font-weight: bold
+/*****************************************************************
+  -- #0.4c Settings Style
+  ===============================================================
+  Style Settings section.
+/*****************************************************************/
 
-  ul hr
-    background: #ececec
-    color: #ececec
-    border: 1px solid #ececec
+.settings-style
+  padding: 25px
 
-  ul li
-    list-style-type: none
-    margin-bottom: 10px
-
-  ul li + h4
-    margin-top: 35px
-
-  ul li input[type='checkbox']
-    position: absolute
-    left: -9999px
-
-  ul li input[type='text']
-    display: inline-block
-
-    padding: 5px
-
-    margin-top: 15px
-    margin-left: 15px
-
-    width: 50%
-
-    border: 1px solid #e0e0e0
-
-  ul li label:hover
-    cursor: pointer
-
-  ul li input[type='checkbox'] + label .fake-checkbox
-    color: hsl(0, 45%, 21%)
-
-    display: inline-block
-    background: hsl(0, 49%, 90%)
-
-    font-weight: bold
-
-    padding: 10px
-    margin-left: 10px
-
-    position: relative
-    top: 5px
-
-    height: 15px
-    width: 15px
-
-    border: 1px solid #e8e8e8
-    border-radius: 4px
-
-    &:hover
-      cursor: pointer
-
-  ul li input[type='checkbox']:checked + label .fake-checkbox
-    color: hsl(101, 45%, 21%)
-    background: hsl(100, 50%, 90%)
-
-  ul li input[type='checkbox'] + label .fake-checkbox:after
-    display: inline-block
-    content: "×"
-
-    font-size: 1.4em
-
-    position: absolute
-    top: -0.05rem
-    left: 0.25rem
-
-  ul li input[type='checkbox']:checked + label .fake-checkbox:after
-    display: inline-block
-    content: "✔"
-
-    font-size: 1em
-
-    position: absolute
-    top: 0.1rem
-    left: 0.2rem
 
 /*****************************************************************
   -- #0.5a Misc. Styles

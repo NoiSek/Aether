@@ -87,7 +87,7 @@ export default class CommandPanel extends Component {
     }
 
     return (
-      <div>
+      <div className="command-panel">
         <WallpaperSwitcher store={ this.props.store } />
         <CommandList enabledCommands={ commands } handleCommand={ this.handleCommand.bind(this) } />
         <div className="bottom">
