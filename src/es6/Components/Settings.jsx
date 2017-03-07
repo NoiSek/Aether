@@ -62,9 +62,14 @@ export default class Settings extends Component {
     });
   }
 
-  handleSettingsText(name, value) {
+  handleSettingsText(name, event) {
+    let value = event.target.value;
+    console.log(name);
+    console.log(value);
+
     this.store.dispatch({
       "type": 'SETTINGS_SET_VALUE',
+      "name": name,
       "value": value
     });
   }

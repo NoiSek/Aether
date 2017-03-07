@@ -48,7 +48,7 @@ export default class DateDisplay extends Component {
 
     setTimeout(() => {
       this.setDate();
-    }, 30 * 1000);
+    }, 1000);
   }
 
 
@@ -56,11 +56,9 @@ export default class DateDisplay extends Component {
     let dateClasses = ['date'];
     let dateString = this.state.formattedDate;
 
-    if (this.state.initialized === true) {
+    if (this.state.initialized === true && this.state.date_enabled === true) {
       dateClasses.push('loaded');
-    }
-
-    if (this.state.date_enabled === false) {
+    } else if (this.state.date_enabled === false) {
       dateClasses.push('invisible');
     }
 

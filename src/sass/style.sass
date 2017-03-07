@@ -25,6 +25,7 @@
 @import 'reset'
 @import 'fonts'
 @import 'config'
+@import 'scroll'
 @import 'utility'
 @import 'animations'
 
@@ -845,6 +846,9 @@ body
   border-right: 2px solid #eee
 
 .settings-general .right
+  height: 250px
+  overflow-y: scroll
+
   ul h4
     font-weight: bold
 
@@ -855,10 +859,26 @@ body
 
   ul li
     list-style-type: none
+    margin-bottom: 10px
+
+  ul li + h4
+    margin-top: 35px
 
   ul li input[type='checkbox']
     position: absolute
     left: -9999px
+
+  ul li input[type='text']
+    display: inline-block
+
+    padding: 5px
+
+    margin-top: 15px
+    margin-left: 15px
+
+    width: 50%
+
+    border: 1px solid #e0e0e0
 
   ul li label:hover
     cursor: pointer

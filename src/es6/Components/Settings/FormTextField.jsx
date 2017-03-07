@@ -5,7 +5,7 @@
 import Inferno from "inferno";
 
 
-const FormTextField = ({ name, value, boundFunction }) => {
+export const FormTextField = ({ name, value, boundFunction }) => {
   let elementID = `option-${ name.replace(" ", "-")}`;
 
   return (
@@ -14,7 +14,7 @@ const FormTextField = ({ name, value, boundFunction }) => {
       <input
         id={ elementID }
         type="text"
-        onChange={ boundFunction }
+        onInput={ boundFunction }
         value={ value }
       />
     </li>

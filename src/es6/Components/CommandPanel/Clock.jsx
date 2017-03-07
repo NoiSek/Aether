@@ -57,11 +57,9 @@ export default class Clock extends Component {
     let classes = ['right', 'clock'];
     let currentTime = this.state.formattedTime;
 
-    if (this.state.initialized === true) {
+    if (this.state.initialized === true && this.state.time_enabled === true) {
       classes.push('loaded');
-    }
-
-    if (this.state.time_enabled === false) {
+    } else if (this.state.time_enabled === false) {
       classes.push('invisible');
     }
 

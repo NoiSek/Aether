@@ -408,6 +408,14 @@ var SettingsReducer = exports.SettingsReducer = function SettingsReducer(state, 
 
       return _extends({}, state, { "cachedSettings": newCache });
 
+    case 'SETTINGS_SET_VALUE':
+      var newSettings = _extends({}, state.settings);
+      console.log(action.name);console.log(action.value);
+
+      newSettings[action.name] = action.value;
+
+      return _extends({}, state, { "settings": newSettings });
+
     case 'SETTINGS_TOGGLE_ACTIVE':
       var newSettings = _extends({}, state.settings, { "active": !state.settings.active });
 
@@ -1229,7 +1237,26 @@ var CommandPanel = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (CommandPanel.__proto__ || Object.getPrototypeOf(CommandPanel)).call(this, props));
 
-    _this.state = {};
+    _this.store = _this.props.store;
+    _this.storeState = _this.store.getState();
+
+    _this.unsubscribe = _this.store.subscribe(function () {
+      _this.storeState = _this.store.getState();
+
+      _this.setState({
+        "command_shutdown_enabled": _this.storeState.settings.command_shutdown_enabled,
+        "command_reboot_enabled": _this.storeState.settings.command_reboot_enabled,
+        "command_hibernate_enabled": _this.storeState.settings.command_hibernate_enabled,
+        "command_sleep_enabled": _this.storeState.settings.command_sleep_enabled
+      });
+    });
+
+    _this.state = {
+      "command_shutdown_enabled": _this.storeState.settings.command_shutdown_enabled,
+      "command_reboot_enabled": _this.storeState.settings.command_reboot_enabled,
+      "command_hibernate_enabled": _this.storeState.settings.command_hibernate_enabled,
+      "command_sleep_enabled": _this.storeState.settings.command_sleep_enabled
+    };
     return _this;
   }
 
@@ -1251,10 +1278,10 @@ var CommandPanel = function (_Component) {
       var _this2 = this;
 
       var commands = {
-        "Shutdown": window.lightdm.can_shutdown,
-        "Reboot": window.lightdm.can_restart,
-        "Hibernate": window.lightdm.can_hibernate,
-        "Sleep": window.lightdm.can_suspend
+        "Shutdown": window.lightdm.can_shutdown && this.state.command_shutdown_enabled,
+        "Reboot": window.lightdm.can_restart && this.state.command_reboot_enabled,
+        "Hibernate": window.lightdm.can_hibernate && this.state.command_hibernate_enabled,
+        "Sleep": window.lightdm.can_suspend && this.state.command_sleep_enabled
       };
 
       // Filter out commands we can't execute.
@@ -1268,15 +1295,6 @@ var CommandPanel = function (_Component) {
       // Add the row back and disable it so that the user is aware of what's happening.
       if (window.lightdm.can_suspend === false && window.lightdm.can_hibernate === false) {
         enabledCommands.push("Sleep.disabled");
-      }
-
-      // Save ourselves some work, when all four commands are enabled
-      // rendering should be halted, and the logo should be moved up.
-      var expanded = enabledCommands.length > 3;
-      if (expanded === true) {
-        this.setState({
-          "expandedCommands": true
-        });
       }
 
       var rows = enabledCommands.map(function (command) {
@@ -1417,7 +1435,7 @@ var DateDisplay = function (_Component) {
 
       setTimeout(function () {
         _this3.setDate();
-      }, 30 * 1000);
+      }, 1000);
     }
   }, {
     key: 'render',
@@ -1425,11 +1443,9 @@ var DateDisplay = function (_Component) {
       var dateClasses = ['date'];
       var dateString = this.state.formattedDate;
 
-      if (this.state.initialized === true) {
+      if (this.state.initialized === true && this.state.date_enabled === true) {
         dateClasses.push('loaded');
-      }
-
-      if (this.state.date_enabled === false) {
+      } else if (this.state.date_enabled === false) {
         dateClasses.push('invisible');
       }
 
@@ -1553,9 +1569,14 @@ var Settings = function (_Component) {
     }
   }, {
     key: 'handleSettingsText',
-    value: function handleSettingsText(name, value) {
+    value: function handleSettingsText(name, event) {
+      var value = event.target.value;
+      console.log(name);
+      console.log(value);
+
       this.store.dispatch({
         "type": 'SETTINGS_SET_VALUE',
+        "name": name,
         "value": value
       });
     }
@@ -6313,11 +6334,9 @@ var Clock = function (_Component) {
       var classes = ['right', 'clock'];
       var currentTime = this.state.formattedTime;
 
-      if (this.state.initialized === true) {
+      if (this.state.initialized === true && this.state.time_enabled === true) {
         classes.push('loaded');
-      }
-
-      if (this.state.time_enabled === false) {
+      } else if (this.state.time_enabled === false) {
         classes.push('invisible');
       }
 
@@ -6696,6 +6715,8 @@ var _FileOperations = __webpack_require__(10);
 
 var FileOperations = _interopRequireWildcard(_FileOperations);
 
+var _FormTextField = __webpack_require__(60);
+
 var _FormCheckbox = __webpack_require__(58);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -6754,10 +6775,34 @@ var SettingsGeneral = exports.SettingsGeneral = function SettingsGeneral(props) 
     "name": "Date Enabled",
     "value": storeState.settings.date_enabled,
     "boundFunction": props.settingsToggleBinary.bind(undefined, "date_enabled")
+  }), createVNode(16, _FormTextField.FormTextField, {
+    "name": "Date Format",
+    "value": storeState.settings.date_format,
+    "boundFunction": props.settingsSetValue.bind(undefined, "date_format")
   }), createVNode(16, _FormCheckbox.FormCheckbox, {
     "name": "Time Enabled",
     "value": storeState.settings.time_enabled,
     "boundFunction": props.settingsToggleBinary.bind(undefined, "time_enabled")
+  }), createVNode(16, _FormTextField.FormTextField, {
+    "name": "Time Format",
+    "value": storeState.settings.time_format,
+    "boundFunction": props.settingsSetValue.bind(undefined, "time_format")
+  }), createVNode(2, "h4", null, "Command Visibility"), createVNode(2, "hr"), createVNode(16, _FormCheckbox.FormCheckbox, {
+    "name": "Shutdown Enabled",
+    "value": storeState.settings.command_shutdown_enabled,
+    "boundFunction": props.settingsToggleBinary.bind(undefined, "command_shutdown_enabled")
+  }), createVNode(16, _FormCheckbox.FormCheckbox, {
+    "name": "Reboot Enabled",
+    "value": storeState.settings.command_reboot_enabled,
+    "boundFunction": props.settingsToggleBinary.bind(undefined, "command_reboot_enabled")
+  }), createVNode(16, _FormCheckbox.FormCheckbox, {
+    "name": "Hibernate Enabled",
+    "value": storeState.settings.command_hibernate_enabled,
+    "boundFunction": props.settingsToggleBinary.bind(undefined, "command_hibernate_enabled")
+  }), createVNode(16, _FormCheckbox.FormCheckbox, {
+    "name": "Sleep Enabled",
+    "value": storeState.settings.command_sleep_enabled,
+    "boundFunction": props.settingsToggleBinary.bind(undefined, "command_sleep_enabled")
   })]))]);
 };
 
@@ -8216,6 +8261,50 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     }
 })();
+
+/***/ }),
+/* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.FormTextField = undefined;
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createVNode = _inferno2.default.createVNode; // FormTextField -> Required by Settings/Settings*
+// --------------------------------------
+// Provides a basic binary form checkbox.
+
+var FormTextField = exports.FormTextField = function FormTextField(_ref) {
+  var name = _ref.name,
+      value = _ref.value,
+      boundFunction = _ref.boundFunction;
+
+  var elementID = "option-" + name.replace(" ", "-");
+
+  return createVNode(2, "li", {
+    "className": "settings-item"
+  }, [createVNode(2, "label", {
+    "for": elementID
+  }, name), createVNode(512, "input", {
+    "id": elementID,
+    "type": "text",
+    "value": value
+  }, null, {
+    "onInput": boundFunction
+  })]);
+};
+
+exports.default = FormTextField;
 
 /***/ })
 /******/ ]);

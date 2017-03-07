@@ -70,6 +70,14 @@ export const SettingsReducer = (state, action) => {
 
       return { ...state, "cachedSettings": newCache };
 
+    case 'SETTINGS_SET_VALUE':
+      var newSettings = { ...state.settings };
+      console.log(action.name);console.log(action.value);
+
+      newSettings[action.name] = action.value;
+
+      return { ...state, "settings": newSettings };
+
     case 'SETTINGS_TOGGLE_ACTIVE':
       var newSettings = { ...state.settings, "active": !state.settings.active };
 
