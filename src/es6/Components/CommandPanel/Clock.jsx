@@ -3,17 +3,31 @@
 // Just a clock.
 
 import Inferno from 'inferno';
+import Strftime from "strftime";
 import Component from 'inferno-component';
 
-import { padZeroes } from '../../Utils/Utils';
 
 export default class Clock extends Component {
   constructor(props) {
     super(props);
 
+    this.store = this.props.store;
+    this.storeState = this.store.getState();
+
+    this.unsubscribe = this.store.subscribe(() => {
+      this.storeState = this.store.getState();
+
+      this.setState({
+        "time_enabled": this.storeState.settings.time_enabled,
+        "time_format": this.storeState.settings.time_format
+      });
+    });
+
     this.state = {
-      "currentTime": undefined,
-      "initialized": false
+      "initialized": false,
+      "time_enabled": this.storeState.settings.time_enabled,
+      "time_format": this.storeState.settings.time_format,
+      "formattedTime": ""
     };
   }
 
@@ -29,13 +43,8 @@ export default class Clock extends Component {
 
 
   updateClock() {
-    let now = new Date();
-    let hours = padZeroes(now.getHours());
-    let minutes = padZeroes(now.getMinutes());
-    let formattedTime = `${hours}:${minutes}`;
-
     this.setState({
-      "currentTime": formattedTime
+      "formattedTime": Strftime(this.state.time_format)
     });
 
     setTimeout(() => {
@@ -46,10 +55,14 @@ export default class Clock extends Component {
 
   render() {
     let classes = ['right', 'clock'];
-    let currentTime = this.state.currentTime;
+    let currentTime = this.state.formattedTime;
 
     if (this.state.initialized === true) {
       classes.push('loaded');
+    }
+
+    if (this.state.time_enabled === false) {
+      classes.push('invisible');
     }
 
     return (

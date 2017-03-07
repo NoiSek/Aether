@@ -8,7 +8,9 @@
     "build-js": "./node_modules/.bin/webpack --progress --colors --optimize-minimize",
     "build-sass": "./node_modules/.bin/node-sass src/sass --output src/css",
     "build": "npm run test && npm run build-js && npm run build-sass",
-    "watch": "./node_modules/.bin/webpack --progress --colors --watch & ./node_modules/.bin/node-sass --watch src/sass --output src/css"
+    "watch-js": "./node_modules/.bin/webpack --progress --colors --watch",
+    "watch-sass": "./node_modules/.bin/node-sass --watch src/sass --output src/css -E utf-8",
+    "watch": "npm run watch-sass & npm run watch-js"
   },
   "repository": {
     "type": "git",

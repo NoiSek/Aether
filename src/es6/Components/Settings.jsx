@@ -55,6 +55,20 @@ export default class Settings extends Component {
     });
   }
 
+  handleSettingsBinary(name) {
+    this.store.dispatch({
+      "type": 'SETTINGS_TOGGLE_VALUE',
+      "name": name
+    });
+  }
+
+  handleSettingsText(name, value) {
+    this.store.dispatch({
+      "type": 'SETTINGS_SET_VALUE',
+      "value": value
+    });
+  }
+
 
   generateCategories() {
     let categories = [
@@ -89,17 +103,22 @@ export default class Settings extends Component {
 
   generateSection(_category) {
     let category = _category.toLowerCase();
+    let componentProps = {
+      "store": this.props.store,
+      "settingsToggleBinary": this.handleSettingsBinary.bind(this),
+      "settingsSetValue": this.handleSettingsText.bind(this)
+    };
 
     if (category === "general") {
-      return (<SettingsGeneral store={ this.props.store } />);
+      return (<SettingsGeneral { ...componentProps } />);
     } else if (category === "style") {
-      return (<SettingsStyle store={ this.props.store } />);
+      return (<SettingsStyle { ...componentProps } />);
     } else if (category === "themes") {
-      return (<SettingsThemes store={ this.props.store } />);
+      return (<SettingsThemes { ...componentProps } />);
     } else if (category === "function") {
-      return (<SettingsFunction store={ this.props.store } />);
+      return (<SettingsFunction { ...componentProps } />);
     } else if (category === "presets") {
-      return (<SettingsPresets store={ this.props.store } />);
+      return (<SettingsPresets { ...componentProps } />);
     }
   }
 

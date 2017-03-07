@@ -96,7 +96,7 @@ export default class CommandPanel extends Component {
         { commands }
         <div className="bottom">
           <div className="left hostname">{ hostname }</div>
-          <Clock />
+          <Clock store={ this.props.store } />
         </div>
       </div>
     );

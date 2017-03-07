@@ -1,7 +1,11 @@
+// SettingsGeneral -> Required by Components/Settings
+// --------------------------------------
+// Basic distro / visibility / date & time formatting settings.
+
 import Inferno from 'inferno';
 
 import * as FileOperations from "../../Logic/FileOperations";
-
+import { FormCheckbox } from "./FormCheckbox";
 
 const onLogoChange = (store, e) => {
   store.dispatch({
@@ -42,12 +46,28 @@ const LogoChooser = (props) => {
 
 
 export const SettingsGeneral = (props) => {
+  let storeState = props.store.getState();
+
   return (
     <div className="settings-general">
       <div className="left">
         { LogoChooser(props) }
       </div>
       <div className="right">
+        <ul>
+          <h4>Date & Time</h4>
+          <hr />
+          <FormCheckbox
+            name={ "Date Enabled" }
+            value={ storeState.settings.date_enabled }
+            boundFunction={ props.settingsToggleBinary.bind(this, "date_enabled") }
+          />
+          <FormCheckbox
+            name={ "Time Enabled" }
+            value={ storeState.settings.time_enabled }
+            boundFunction={ props.settingsToggleBinary.bind(this, "time_enabled") }
+          />
+        </ul>
       </div>
     </div>
   );

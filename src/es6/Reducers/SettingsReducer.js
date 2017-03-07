@@ -20,7 +20,15 @@ export function addAdditionalSettings(state) {
     "font_scale": 1.0,
 
     "date_enabled": true,
-    "date_format": "%A, the %o of %B"
+    "date_format": "<em>%A</em>, the <em>%o</em> of <em>%B</em>",
+
+    "time_enabled": true,
+    "time_format": "%H:%M",
+
+    "command_shutdown_enabled": true,
+    "command_reboot_enabled": true,
+    "command_hibernate_enabled": true,
+    "command_sleep_enabled": true
   };
 
   let settings = {};
@@ -43,6 +51,9 @@ export const SettingsReducer = (state, action) => {
       // Restore settings from the 'default' state.
       var newSettings = { ...state.cachedSettings };
 
+      // Create a notification
+      window.notifications.generate("Reverting to previous settings.", "success");
+
       return { ...state, "settings": newSettings };
 
     case 'SETTINGS_SAVE':
@@ -53,6 +64,9 @@ export const SettingsReducer = (state, action) => {
 
       // Save our new settings as the 'default' state.
       var newCache = { ...state.settings };
+
+      // Create a notification
+      window.notifications.generate("Settings saved.", "success");
 
       return { ...state, "cachedSettings": newCache };
 
@@ -67,6 +81,13 @@ export const SettingsReducer = (state, action) => {
       } else {
         el.className += " hidden";
       }
+
+      return { ...state, "settings": newSettings };
+
+    case 'SETTINGS_TOGGLE_VALUE':
+      var newSettings = { ...state.settings };
+
+      newSettings[action.name] = !newSettings[action.name];
 
       return { ...state, "settings": newSettings };
 

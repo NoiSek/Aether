@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 56);
+/******/ 	return __webpack_require__(__webpack_require__.s = 57);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -73,7 +73,7 @@
 "use strict";
 
 
-module.exports = __webpack_require__(24);
+module.exports = __webpack_require__(25);
 module.exports.default = module.exports;
 
 /***/ }),
@@ -83,7 +83,7 @@ module.exports.default = module.exports;
 "use strict";
 
 
-module.exports = __webpack_require__(23);
+module.exports = __webpack_require__(24);
 module.exports.default = module.exports;
 
 /***/ }),
@@ -315,7 +315,15 @@ function addAdditionalSettings(state) {
     "font_scale": 1.0,
 
     "date_enabled": true,
-    "date_format": "%A, the %o of %B"
+    "date_format": "<em>%A</em>, the <em>%o</em> of <em>%B</em>",
+
+    "time_enabled": true,
+    "time_format": "%H:%M",
+
+    "command_shutdown_enabled": true,
+    "command_reboot_enabled": true,
+    "command_hibernate_enabled": true,
+    "command_sleep_enabled": true
   };
 
   var settings = {};
@@ -359,6 +367,9 @@ var SettingsReducer = exports.SettingsReducer = function SettingsReducer(state, 
       // Restore settings from the 'default' state.
       var newSettings = _extends({}, state.cachedSettings);
 
+      // Create a notification
+      window.notifications.generate("Reverting to previous settings.", "success");
+
       return _extends({}, state, { "settings": newSettings });
 
     case 'SETTINGS_SAVE':
@@ -392,6 +403,9 @@ var SettingsReducer = exports.SettingsReducer = function SettingsReducer(state, 
 
       var newCache = _extends({}, state.settings);
 
+      // Create a notification
+      window.notifications.generate("Settings saved.", "success");
+
       return _extends({}, state, { "cachedSettings": newCache });
 
     case 'SETTINGS_TOGGLE_ACTIVE':
@@ -405,6 +419,13 @@ var SettingsReducer = exports.SettingsReducer = function SettingsReducer(state, 
       } else {
         el.className += " hidden";
       }
+
+      return _extends({}, state, { "settings": newSettings });
+
+    case 'SETTINGS_TOGGLE_VALUE':
+      var newSettings = _extends({}, state.settings);
+
+      newSettings[action.name] = !newSettings[action.name];
 
       return _extends({}, state, { "settings": newSettings });
 
@@ -424,7 +445,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _root = __webpack_require__(31);
+var _root = __webpack_require__(32);
 
 var _root2 = _interopRequireDefault(_root);
 
@@ -446,15 +467,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _baseGetTag = __webpack_require__(25);
+var _baseGetTag = __webpack_require__(26);
 
 var _baseGetTag2 = _interopRequireDefault(_baseGetTag);
 
-var _getPrototype = __webpack_require__(27);
+var _getPrototype = __webpack_require__(28);
 
 var _getPrototype2 = _interopRequireDefault(_getPrototype);
 
-var _isObjectLike = __webpack_require__(32);
+var _isObjectLike = __webpack_require__(33);
 
 var _isObjectLike2 = _interopRequireDefault(_isObjectLike);
 
@@ -584,7 +605,7 @@ var _isPlainObject = __webpack_require__(5);
 
 var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-var _symbolObservable = __webpack_require__(37);
+var _symbolObservable = __webpack_require__(38);
 
 var _symbolObservable2 = _interopRequireDefault(_symbolObservable);
 
@@ -1113,15 +1134,15 @@ var _createStore = __webpack_require__(7);
 
 var _createStore2 = _interopRequireDefault(_createStore);
 
-var _combineReducers = __webpack_require__(36);
+var _combineReducers = __webpack_require__(37);
 
 var _combineReducers2 = _interopRequireDefault(_combineReducers);
 
-var _bindActionCreators = __webpack_require__(35);
+var _bindActionCreators = __webpack_require__(36);
 
 var _bindActionCreators2 = _interopRequireDefault(_bindActionCreators);
 
-var _applyMiddleware = __webpack_require__(34);
+var _applyMiddleware = __webpack_require__(35);
 
 var _applyMiddleware2 = _interopRequireDefault(_applyMiddleware);
 
@@ -1177,11 +1198,11 @@ var _SystemOperations = __webpack_require__(12);
 
 var SystemOperations = _interopRequireWildcard(_SystemOperations);
 
-var _WallpaperSwitcher = __webpack_require__(43);
+var _WallpaperSwitcher = __webpack_require__(44);
 
 var _WallpaperSwitcher2 = _interopRequireDefault(_WallpaperSwitcher);
 
-var _Clock = __webpack_require__(42);
+var _Clock = __webpack_require__(43);
 
 var _Clock2 = _interopRequireDefault(_Clock);
 
@@ -1297,7 +1318,9 @@ var CommandPanel = function (_Component) {
         'className': 'bottom'
       }, [createVNode(2, 'div', {
         'className': 'left hostname'
-      }, hostname), createVNode(16, _Clock2.default)])]);
+      }, hostname), createVNode(16, _Clock2.default, {
+        'store': this.props.store
+      })])]);
     }
   }]);
 
@@ -1323,6 +1346,10 @@ var _inferno = __webpack_require__(0);
 
 var _inferno2 = _interopRequireDefault(_inferno);
 
+var _strftime = __webpack_require__(59);
+
+var _strftime2 = _interopRequireDefault(_strftime);
+
 var _infernoComponent = __webpack_require__(1);
 
 var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
@@ -1347,14 +1374,23 @@ var DateDisplay = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (DateDisplay.__proto__ || Object.getPrototypeOf(DateDisplay)).call(this, props));
 
+    _this.store = _this.props.store;
+    _this.storeState = _this.store.getState();
+
+    _this.unsubscribe = _this.store.subscribe(function () {
+      _this.storeState = _this.store.getState();
+
+      _this.setState({
+        "date_enabled": _this.storeState.settings.date_enabled,
+        "date_format": _this.storeState.settings.date_format
+      });
+    });
+
     _this.state = {
-      "formattedString": undefined,
       "initialized": false,
-      "dayName": undefined,
-      "dayValue": undefined,
-      "formattedDayValue": undefined,
-      "monthName": undefined,
-      "monthValue": undefined
+      "date_enabled": _this.storeState.settings.date_enabled,
+      "date_format": _this.storeState.settings.date_format,
+      "formattedDate": ""
     };
     return _this;
   }
@@ -1370,47 +1406,13 @@ var DateDisplay = function (_Component) {
       }, 2000);
     }
   }, {
-    key: 'generateDateString',
-    value: function generateDateString() {
-      var dateString = createVNode(2, 'span', null, [createVNode(2, 'em', null, this.state.dayName), ', the ', createVNode(2, 'em', null, this.state.formattedDayValue), ' of ', createVNode(2, 'em', null, this.state.monthName)]);
-
-      return dateString;
-    }
-  }, {
     key: 'setDate',
     value: function setDate() {
       var _this3 = this;
 
-      var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-      var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-      var now = new Date();
-
-      var dayValue = now.getDate();
-      var dayName = dayNames[now.getUTCDay()];
-      var monthValue = now.getMonth();
-      var monthName = monthNames[monthValue];
-
-      var formattedDayValue = void 0;
-
-      // Because Javascript is terrible, (x <= y <= z) becomes ((x <= y) && (y <= z))
-      if (4 <= dayValue && dayValue <= 20 || 24 <= dayValue && dayValue <= 30) {
-        formattedDayValue = dayValue + 'th';
-      } else {
-        formattedDayValue = dayValue + ['st', 'nd', 'rd'][dayValue % 10 - 1];
-      }
-
-      var formattedDateString = '<em>' + dayName + '</em>, the <em>' + formattedDayValue + '</em> of <em>' + monthName + '</em>';
-
       this.setState({
-        "formattedString": formattedDateString,
         "initialized": true,
-        "dayName": dayName,
-        "dayValue": dayValue,
-        "formattedDayValue": formattedDayValue,
-        "monthName": monthName,
-        "monthValue": monthValue
+        "formattedDate": (0, _strftime2.default)(this.state.date_format)
       });
 
       setTimeout(function () {
@@ -1421,15 +1423,20 @@ var DateDisplay = function (_Component) {
     key: 'render',
     value: function render() {
       var dateClasses = ['date'];
-      var dateString = this.generateDateString();
+      var dateString = this.state.formattedDate;
 
       if (this.state.initialized === true) {
         dateClasses.push('loaded');
       }
 
+      if (this.state.date_enabled === false) {
+        dateClasses.push('invisible');
+      }
+
       return createVNode(2, 'div', {
-        'className': dateClasses.join(' ')
-      }, dateString);
+        'className': dateClasses.join(' '),
+        'dangerouslySetInnerHTML': { "__html": dateString }
+      });
     }
   }]);
 
@@ -1449,13 +1456,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _inferno = __webpack_require__(0);
 
 var _inferno2 = _interopRequireDefault(_inferno);
 
-var _draggable = __webpack_require__(41);
+var _draggable = __webpack_require__(42);
 
 var _draggable2 = _interopRequireDefault(_draggable);
 
@@ -1463,17 +1472,17 @@ var _infernoComponent = __webpack_require__(1);
 
 var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
 
-var _SettingsGeneral = __webpack_require__(46);
+var _SettingsGeneral = __webpack_require__(47);
 
-var _SettingsStyle = __webpack_require__(48);
+var _SettingsStyle = __webpack_require__(49);
 
-var _SettingsThemes = __webpack_require__(49);
+var _SettingsThemes = __webpack_require__(50);
 
-var _SettingsFunction = __webpack_require__(45);
+var _SettingsFunction = __webpack_require__(46);
 
-var _SettingsPresets = __webpack_require__(47);
+var _SettingsPresets = __webpack_require__(48);
 
-var _SaveDialogue = __webpack_require__(44);
+var _SaveDialogue = __webpack_require__(45);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1535,6 +1544,22 @@ var Settings = function (_Component) {
       });
     }
   }, {
+    key: 'handleSettingsBinary',
+    value: function handleSettingsBinary(name) {
+      this.store.dispatch({
+        "type": 'SETTINGS_TOGGLE_VALUE',
+        "name": name
+      });
+    }
+  }, {
+    key: 'handleSettingsText',
+    value: function handleSettingsText(name, value) {
+      this.store.dispatch({
+        "type": 'SETTINGS_SET_VALUE',
+        "value": value
+      });
+    }
+  }, {
     key: 'generateCategories',
     value: function generateCategories() {
       var _this2 = this;
@@ -1561,27 +1586,22 @@ var Settings = function (_Component) {
     key: 'generateSection',
     value: function generateSection(_category) {
       var category = _category.toLowerCase();
+      var componentProps = {
+        "store": this.props.store,
+        "settingsToggleBinary": this.handleSettingsBinary.bind(this),
+        "settingsSetValue": this.handleSettingsText.bind(this)
+      };
 
       if (category === "general") {
-        return createVNode(16, _SettingsGeneral.SettingsGeneral, {
-          'store': this.props.store
-        });
+        return createVNode(16, _SettingsGeneral.SettingsGeneral, _extends({}, componentProps));
       } else if (category === "style") {
-        return createVNode(16, _SettingsStyle.SettingsStyle, {
-          'store': this.props.store
-        });
+        return createVNode(16, _SettingsStyle.SettingsStyle, _extends({}, componentProps));
       } else if (category === "themes") {
-        return createVNode(16, _SettingsThemes.SettingsThemes, {
-          'store': this.props.store
-        });
+        return createVNode(16, _SettingsThemes.SettingsThemes, _extends({}, componentProps));
       } else if (category === "function") {
-        return createVNode(16, _SettingsFunction.SettingsFunction, {
-          'store': this.props.store
-        });
+        return createVNode(16, _SettingsFunction.SettingsFunction, _extends({}, componentProps));
       } else if (category === "presets") {
-        return createVNode(16, _SettingsPresets.SettingsPresets, {
-          'store': this.props.store
-        });
+        return createVNode(16, _SettingsPresets.SettingsPresets, _extends({}, componentProps));
       }
     }
   }, {
@@ -1621,6 +1641,45 @@ exports.default = Settings;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.SettingsToggler = undefined;
+
+var _inferno = __webpack_require__(0);
+
+var _inferno2 = _interopRequireDefault(_inferno);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var toggleSettings = function toggleSettings(props) {
+  props.store.dispatch({
+    'type': "SETTINGS_TOGGLE_ACTIVE"
+  });
+}; // SettingsToggler -> Required by Main
+// --------------------------------------
+// Handles Settings toggling. Straightforward stuff.
+
+var createVNode = _inferno2.default.createVNode;
+var SettingsToggler = exports.SettingsToggler = function SettingsToggler(props) {
+  var classes = ['settings-toggler'];
+
+  return createVNode(2, "div", {
+    "className": classes.join(' ')
+  }, "\u2261", {
+    "onClick": toggleSettings.bind(undefined, props)
+  });
+};
+
+exports.default = SettingsToggler;
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -1632,11 +1691,11 @@ var _infernoComponent = __webpack_require__(1);
 
 var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
 
-var _UserSwitcher = __webpack_require__(54);
+var _UserSwitcher = __webpack_require__(55);
 
 var _UserSwitcher2 = _interopRequireDefault(_UserSwitcher);
 
-var _Form = __webpack_require__(50);
+var _Form = __webpack_require__(51);
 
 var _Form2 = _interopRequireDefault(_Form);
 
@@ -1903,7 +1962,7 @@ var LoginPanel = function (_Component) {
 exports.default = LoginPanel;
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1963,7 +2022,7 @@ var PrimaryReducer = exports.PrimaryReducer = function PrimaryReducer(state, act
 };
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2013,7 +2072,7 @@ var Notifications = function () {
 exports.default = Notifications;
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2032,7 +2091,7 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
   return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
 };
 
-var _sheet = __webpack_require__(22);
+var _sheet = __webpack_require__(23);
 
 var sheet = exports.sheet = new _sheet.StyleSheet();
 
@@ -2222,16 +2281,16 @@ cxs.setOptions = setOptions;
 exports.default = cxs;
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(20);
+module.exports = __webpack_require__(21);
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2242,7 +2301,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.StyleSheet = StyleSheet;
 
-var _objectAssign = __webpack_require__(33);
+var _objectAssign = __webpack_require__(34);
 
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
@@ -2480,7 +2539,7 @@ function StyleSheet() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2782,7 +2841,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5238,7 +5297,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5252,11 +5311,11 @@ var _Symbol2 = __webpack_require__(4);
 
 var _Symbol3 = _interopRequireDefault(_Symbol2);
 
-var _getRawTag = __webpack_require__(28);
+var _getRawTag = __webpack_require__(29);
 
 var _getRawTag2 = _interopRequireDefault(_getRawTag);
 
-var _objectToString = __webpack_require__(29);
+var _objectToString = __webpack_require__(30);
 
 var _objectToString2 = _interopRequireDefault(_objectToString);
 
@@ -5286,7 +5345,7 @@ function baseGetTag(value) {
 exports.default = baseGetTag;
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5305,7 +5364,7 @@ exports.default = freeGlobal;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5315,7 +5374,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _overArg = __webpack_require__(30);
+var _overArg = __webpack_require__(31);
 
 var _overArg2 = _interopRequireDefault(_overArg);
 
@@ -5327,7 +5386,7 @@ var getPrototype = (0, _overArg2.default)(Object.getPrototypeOf, Object);
 exports.default = getPrototype;
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5389,7 +5448,7 @@ function getRawTag(value) {
 exports.default = getRawTag;
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5422,7 +5481,7 @@ function objectToString(value) {
 exports.default = objectToString;
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5448,7 +5507,7 @@ function overArg(func, transform) {
 exports.default = overArg;
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5460,7 +5519,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _freeGlobal = __webpack_require__(26);
+var _freeGlobal = __webpack_require__(27);
 
 var _freeGlobal2 = _interopRequireDefault(_freeGlobal);
 
@@ -5475,7 +5534,7 @@ var root = _freeGlobal2.default || freeSelf || Function('return this')();
 exports.default = root;
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5518,7 +5577,7 @@ function isObjectLike(value) {
 exports.default = isObjectLike;
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5614,7 +5673,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 };
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5687,7 +5746,7 @@ function applyMiddleware() {
 }
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5749,7 +5808,7 @@ function bindActionCreators(actionCreators, dispatch) {
 }
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5900,16 +5959,16 @@ function combineReducers(reducers) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-module.exports = __webpack_require__(38);
+module.exports = __webpack_require__(39);
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5919,7 +5978,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _ponyfill = __webpack_require__(39);
+var _ponyfill = __webpack_require__(40);
 
 var _ponyfill2 = _interopRequireDefault(_ponyfill);
 
@@ -5943,10 +6002,10 @@ if (typeof self !== 'undefined') {
 
 var result = (0, _ponyfill2['default'])(root);
 exports['default'] = result;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(40)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(41)(module)))
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5975,7 +6034,7 @@ function symbolObservablePonyfill(root) {
 };
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6005,7 +6064,7 @@ module.exports = function (module) {
 };
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6158,7 +6217,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 });
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6174,11 +6233,13 @@ var _inferno = __webpack_require__(0);
 
 var _inferno2 = _interopRequireDefault(_inferno);
 
+var _strftime = __webpack_require__(59);
+
+var _strftime2 = _interopRequireDefault(_strftime);
+
 var _infernoComponent = __webpack_require__(1);
 
 var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
-
-var _Utils = __webpack_require__(55);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6200,9 +6261,23 @@ var Clock = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (Clock.__proto__ || Object.getPrototypeOf(Clock)).call(this, props));
 
+    _this.store = _this.props.store;
+    _this.storeState = _this.store.getState();
+
+    _this.unsubscribe = _this.store.subscribe(function () {
+      _this.storeState = _this.store.getState();
+
+      _this.setState({
+        "time_enabled": _this.storeState.settings.time_enabled,
+        "time_format": _this.storeState.settings.time_format
+      });
+    });
+
     _this.state = {
-      "currentTime": undefined,
-      "initialized": false
+      "initialized": false,
+      "time_enabled": _this.storeState.settings.time_enabled,
+      "time_format": _this.storeState.settings.time_format,
+      "formattedTime": ""
     };
     return _this;
   }
@@ -6224,13 +6299,8 @@ var Clock = function (_Component) {
     value: function updateClock() {
       var _this3 = this;
 
-      var now = new Date();
-      var hours = (0, _Utils.padZeroes)(now.getHours());
-      var minutes = (0, _Utils.padZeroes)(now.getMinutes());
-      var formattedTime = hours + ':' + minutes;
-
       this.setState({
-        "currentTime": formattedTime
+        "formattedTime": (0, _strftime2.default)(this.state.time_format)
       });
 
       setTimeout(function () {
@@ -6241,10 +6311,14 @@ var Clock = function (_Component) {
     key: 'render',
     value: function render() {
       var classes = ['right', 'clock'];
-      var currentTime = this.state.currentTime;
+      var currentTime = this.state.formattedTime;
 
       if (this.state.initialized === true) {
         classes.push('loaded');
+      }
+
+      if (this.state.time_enabled === false) {
+        classes.push('invisible');
       }
 
       return createVNode(2, 'div', {
@@ -6259,7 +6333,7 @@ var Clock = function (_Component) {
 exports.default = Clock;
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6271,7 +6345,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _lite = __webpack_require__(21);
+var _lite = __webpack_require__(22);
 
 var _lite2 = _interopRequireDefault(_lite);
 
@@ -6527,7 +6601,7 @@ var WallpaperSwitcher = function (_Component) {
 exports.default = WallpaperSwitcher;
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6574,7 +6648,7 @@ var SaveDialogue = exports.SaveDialogue = function SaveDialogue(props) {
 exports.default = SaveDialogue;
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6599,7 +6673,7 @@ var SettingsFunction = exports.SettingsFunction = function SettingsFunction() {
 exports.default = SettingsFunction;
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6610,7 +6684,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.SettingsGeneral = undefined;
 
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }(); // SettingsGeneral -> Required by Components/Settings
+// --------------------------------------
+// Basic distro / visibility / date & time formatting settings.
 
 var _inferno = __webpack_require__(0);
 
@@ -6619,6 +6695,8 @@ var _inferno2 = _interopRequireDefault(_inferno);
 var _FileOperations = __webpack_require__(10);
 
 var FileOperations = _interopRequireWildcard(_FileOperations);
+
+var _FormCheckbox = __webpack_require__(58);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -6664,19 +6742,29 @@ var LogoChooser = function LogoChooser(props) {
 };
 
 var SettingsGeneral = exports.SettingsGeneral = function SettingsGeneral(props) {
+  var storeState = props.store.getState();
+
   return createVNode(2, "div", {
     "className": "settings-general"
   }, [createVNode(2, "div", {
     "className": "left"
   }, LogoChooser(props)), createVNode(2, "div", {
     "className": "right"
-  })]);
+  }, createVNode(2, "ul", null, [createVNode(2, "h4", null, "Date & Time"), createVNode(2, "hr"), createVNode(16, _FormCheckbox.FormCheckbox, {
+    "name": "Date Enabled",
+    "value": storeState.settings.date_enabled,
+    "boundFunction": props.settingsToggleBinary.bind(undefined, "date_enabled")
+  }), createVNode(16, _FormCheckbox.FormCheckbox, {
+    "name": "Time Enabled",
+    "value": storeState.settings.time_enabled,
+    "boundFunction": props.settingsToggleBinary.bind(undefined, "time_enabled")
+  })]))]);
 };
 
 exports.default = SettingsGeneral;
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6701,7 +6789,7 @@ var SettingsPresets = exports.SettingsPresets = function SettingsPresets() {
 exports.default = SettingsPresets;
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6726,7 +6814,7 @@ var SettingsStyle = exports.SettingsStyle = function SettingsStyle() {
 exports.default = SettingsStyle;
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6751,7 +6839,7 @@ var SettingsThemes = exports.SettingsThemes = function SettingsThemes() {
 exports.default = SettingsThemes;
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6766,11 +6854,11 @@ var _inferno = __webpack_require__(0);
 
 var _inferno2 = _interopRequireDefault(_inferno);
 
-var _SessionDropdown = __webpack_require__(52);
+var _SessionDropdown = __webpack_require__(53);
 
 var _SessionDropdown2 = _interopRequireDefault(_SessionDropdown);
 
-var _PasswordField = __webpack_require__(51);
+var _PasswordField = __webpack_require__(52);
 
 var _PasswordField2 = _interopRequireDefault(_PasswordField);
 
@@ -6818,7 +6906,7 @@ var UserPanelForm = exports.UserPanelForm = function UserPanelForm(props) {
 exports.default = UserPanelForm;
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6858,7 +6946,7 @@ var PasswordField = function PasswordField(props) {
 exports.default = PasswordField;
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6878,7 +6966,7 @@ var _infernoComponent = __webpack_require__(1);
 
 var _infernoComponent2 = _interopRequireDefault(_infernoComponent);
 
-var _SessionRow = __webpack_require__(53);
+var _SessionRow = __webpack_require__(54);
 
 var _SessionRow2 = _interopRequireDefault(_SessionRow);
 
@@ -6948,7 +7036,7 @@ var SessionDropdown = function (_Component) {
 exports.default = SessionDropdown;
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6987,7 +7075,7 @@ var SessionRow = function SessionRow(props) {
 exports.default = SessionRow;
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7191,21 +7279,8 @@ var UserSwitcher = function (_Component) {
 exports.default = UserSwitcher;
 
 /***/ }),
-/* 55 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var padZeroes = exports.padZeroes = function padZeroes(i) {
-  return i < 10 ? "0" + i : i;
-};
-
-/***/ }),
-/* 56 */
+/* 56 */,
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7222,11 +7297,11 @@ var _inferno2 = _interopRequireDefault(_inferno);
 
 var _redux = __webpack_require__(13);
 
-var _Notifications = __webpack_require__(19);
+var _Notifications = __webpack_require__(20);
 
 var _Notifications2 = _interopRequireDefault(_Notifications);
 
-var _SettingsToggler = __webpack_require__(57);
+var _SettingsToggler = __webpack_require__(17);
 
 var _SettingsToggler2 = _interopRequireDefault(_SettingsToggler);
 
@@ -7238,7 +7313,7 @@ var _DateDisplay = __webpack_require__(15);
 
 var _DateDisplay2 = _interopRequireDefault(_DateDisplay);
 
-var _UserPanel = __webpack_require__(17);
+var _UserPanel = __webpack_require__(18);
 
 var _UserPanel2 = _interopRequireDefault(_UserPanel);
 
@@ -7246,7 +7321,7 @@ var _Settings = __webpack_require__(16);
 
 var _Settings2 = _interopRequireDefault(_Settings);
 
-var _PrimaryReducer = __webpack_require__(18);
+var _PrimaryReducer = __webpack_require__(19);
 
 var _SettingsReducer = __webpack_require__(3);
 
@@ -7284,7 +7359,7 @@ window.onload = function (e) {
 };
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7293,7 +7368,7 @@ window.onload = function (e) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.SettingsToggler = undefined;
+exports.FormCheckbox = undefined;
 
 var _inferno = __webpack_require__(0);
 
@@ -7301,26 +7376,846 @@ var _inferno2 = _interopRequireDefault(_inferno);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var toggleSettings = function toggleSettings(props) {
-  props.store.dispatch({
-    'type': "SETTINGS_TOGGLE_ACTIVE"
-  });
-}; // SettingsToggler -> Required by Main
+var createVNode = _inferno2.default.createVNode; // FormCheckbox -> Required by Settings/Settings*
 // --------------------------------------
-// Handles Settings toggling. Straightforward stuff.
+// Provides a basic binary form checkbox.
 
-var createVNode = _inferno2.default.createVNode;
-var SettingsToggler = exports.SettingsToggler = function SettingsToggler(props) {
-  var classes = ['settings-toggler'];
+var FormCheckbox = exports.FormCheckbox = function FormCheckbox(_ref) {
+  var name = _ref.name,
+      value = _ref.value,
+      boundFunction = _ref.boundFunction;
 
-  return createVNode(2, "div", {
-    "className": classes.join(' ')
-  }, "\u2261", {
-    "onClick": toggleSettings.bind(undefined, props)
-  });
+  var elementID = "option-" + name.replace(" ", "-");
+
+  return createVNode(2, "li", {
+    "className": "settings-item"
+  }, [createVNode(512, "input", {
+    "id": elementID,
+    "type": "checkbox",
+    "checked": value
+  }), createVNode(2, "label", {
+    "for": elementID
+  }, [name, createVNode(2, "div", {
+    "className": "fake-checkbox"
+  })], {
+    "onClick": boundFunction
+  })]);
 };
 
-exports.default = SettingsToggler;
+exports.default = FormCheckbox;
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+//
+// strftime
+// github.com/samsonjs/strftime
+// @_sjs
+//
+// Copyright 2010 - 2016 Sami Samhuri <sami@samhuri.net>
+//
+// MIT License
+// http://sjs.mit-license.org
+//
+
+;(function () {
+
+    var Locales = {
+        de_DE: {
+            days: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
+            shortDays: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
+            months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+            shortMonths: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
+            AM: 'AM',
+            PM: 'PM',
+            am: 'am',
+            pm: 'pm',
+            formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d.%m.%Y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%T',
+                x: '%D'
+            }
+        },
+
+        en_CA: {
+            days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+            shortDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            shortMonths: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            ordinalSuffixes: ['st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'st'],
+            AM: 'AM',
+            PM: 'PM',
+            am: 'am',
+            pm: 'pm',
+            formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d/%m/%y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%r',
+                x: '%D'
+            }
+        },
+
+        en_US: {
+            days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+            shortDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            shortMonths: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            ordinalSuffixes: ['st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th', 'th', 'st'],
+            AM: 'AM',
+            PM: 'PM',
+            am: 'am',
+            pm: 'pm',
+            formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%m/%d/%y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%r',
+                x: '%D'
+            }
+        },
+
+        es_MX: {
+            days: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+            shortDays: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+            months: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', ' diciembre'],
+            shortMonths: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+            AM: 'AM',
+            PM: 'PM',
+            am: 'am',
+            pm: 'pm',
+            formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d/%m/%Y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%T',
+                x: '%D'
+            }
+        },
+
+        fr_FR: {
+            days: ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'],
+            shortDays: ['dim.', 'lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.'],
+            months: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
+            shortMonths: ['janv.', 'févr.', 'mars', 'avril', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'],
+            AM: 'AM',
+            PM: 'PM',
+            am: 'am',
+            pm: 'pm',
+            formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d/%m/%Y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%T',
+                x: '%D'
+            }
+        },
+
+        it_IT: {
+            days: ['domenica', 'lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato'],
+            shortDays: ['dom', 'lun', 'mar', 'mer', 'gio', 'ven', 'sab'],
+            months: ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'],
+            shortMonths: ['pr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'],
+            AM: 'AM',
+            PM: 'PM',
+            am: 'am',
+            pm: 'pm',
+            formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d/%m/%Y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%T',
+                x: '%D'
+            }
+        },
+
+        nl_NL: {
+            days: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
+            shortDays: ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'],
+            months: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
+            shortMonths: ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'],
+            AM: 'AM',
+            PM: 'PM',
+            am: 'am',
+            pm: 'pm',
+            formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d-%m-%y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%T',
+                x: '%D'
+            }
+        },
+
+        pt_BR: {
+            days: ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'],
+            shortDays: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+            months: ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'],
+            shortMonths: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+            AM: 'AM',
+            PM: 'PM',
+            am: 'am',
+            pm: 'pm',
+            formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d-%m-%Y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%T',
+                x: '%D'
+            }
+        },
+
+        ru_RU: {
+            days: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+            shortDays: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+            months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+            shortMonths: ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'],
+            AM: 'AM',
+            PM: 'PM',
+            am: 'am',
+            pm: 'pm',
+            formats: {
+                c: '%a %d %b %Y %X',
+                D: '%d.%m.%y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%T',
+                x: '%D'
+            }
+        },
+
+        tr_TR: {
+            days: ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'],
+            shortDays: ['Paz', 'Pzt', 'Sal', 'Çrş', 'Prş', 'Cum', 'Cts'],
+            months: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+            shortMonths: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'],
+            AM: 'ÖÖ',
+            PM: 'ÖS',
+            am: 'ÖÖ',
+            pm: 'ÖS',
+            formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d-%m-%Y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%T',
+                x: '%D'
+            }
+        },
+
+        // By michaeljayt<michaeljayt@gmail.com>
+        // https://github.com/michaeljayt/strftime/commit/bcb4c12743811d51e568175aa7bff3fd2a77cef3
+        zh_CN: {
+            days: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+            shortDays: ['日', '一', '二', '三', '四', '五', '六'],
+            months: ['一月份', '二月份', '三月份', '四月份', '五月份', '六月份', '七月份', '八月份', '九月份', '十月份', '十一月份', '十二月份'],
+            shortMonths: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+            AM: '上午',
+            PM: '下午',
+            am: '上午',
+            pm: '下午',
+            formats: {
+                c: '%a %d %b %Y %X %Z',
+                D: '%d/%m/%y',
+                F: '%Y-%m-%d',
+                R: '%H:%M',
+                r: '%I:%M:%S %p',
+                T: '%H:%M:%S',
+                v: '%e-%b-%Y',
+                X: '%r',
+                x: '%D'
+            }
+        }
+    };
+
+    var DefaultLocale = Locales['en_US'],
+        defaultStrftime = new Strftime(DefaultLocale, 0, false),
+        isCommonJS = typeof module !== 'undefined',
+        namespace;
+
+    // CommonJS / Node module
+    if (isCommonJS) {
+        namespace = module.exports = defaultStrftime;
+    }
+    // Browsers and other environments
+    else {
+            // Get the global object. Works in ES3, ES5, and ES5 strict mode.
+            namespace = function () {
+                return this || (1, eval)('this');
+            }();
+            namespace.strftime = defaultStrftime;
+        }
+
+    // Polyfill Date.now for old browsers.
+    if (typeof Date.now !== 'function') {
+        Date.now = function () {
+            return +new Date();
+        };
+    }
+
+    function Strftime(locale, customTimezoneOffset, useUtcTimezone) {
+        var _locale = locale || DefaultLocale,
+            _customTimezoneOffset = customTimezoneOffset || 0,
+            _useUtcBasedDate = useUtcTimezone || false,
+
+
+        // we store unix timestamp value here to not create new Date() each iteration (each millisecond)
+        // Date.now() is 2 times faster than new Date()
+        // while millisecond precise is enough here
+        // this could be very helpful when strftime triggered a lot of times one by one
+        _cachedDateTimestamp = 0,
+            _cachedDate;
+
+        function _strftime(format, date) {
+            var timestamp;
+
+            if (!date) {
+                var currentTimestamp = Date.now();
+                if (currentTimestamp > _cachedDateTimestamp) {
+                    _cachedDateTimestamp = currentTimestamp;
+                    _cachedDate = new Date(_cachedDateTimestamp);
+
+                    timestamp = _cachedDateTimestamp;
+
+                    if (_useUtcBasedDate) {
+                        // how to avoid duplication of date instantiation for utc here?
+                        // we tied to getTimezoneOffset of the current date
+                        _cachedDate = new Date(_cachedDateTimestamp + getTimestampToUtcOffsetFor(_cachedDate) + _customTimezoneOffset);
+                    }
+                } else {
+                    timestamp = _cachedDateTimestamp;
+                }
+                date = _cachedDate;
+            } else {
+                timestamp = date.getTime();
+
+                if (_useUtcBasedDate) {
+                    var utcOffset = getTimestampToUtcOffsetFor(date);
+                    date = new Date(timestamp + utcOffset + _customTimezoneOffset);
+                    // If we've crossed a DST boundary with this calculation we need to
+                    // adjust the new date accordingly or it will be off by an hour in UTC.
+                    if (getTimestampToUtcOffsetFor(date) !== utcOffset) {
+                        var newUTCOffset = getTimestampToUtcOffsetFor(date);
+                        date = new Date(timestamp + newUTCOffset + _customTimezoneOffset);
+                    }
+                }
+            }
+
+            return _processFormat(format, date, _locale, timestamp);
+        }
+
+        function _processFormat(format, date, locale, timestamp) {
+            var resultString = '',
+                padding = null,
+                isInScope = false,
+                length = format.length,
+                extendedTZ = false;
+
+            for (var i = 0; i < length; i++) {
+
+                var currentCharCode = format.charCodeAt(i);
+
+                if (isInScope === true) {
+                    // '-'
+                    if (currentCharCode === 45) {
+                        padding = '';
+                        continue;
+                    }
+                    // '_'
+                    else if (currentCharCode === 95) {
+                            padding = ' ';
+                            continue;
+                        }
+                        // '0'
+                        else if (currentCharCode === 48) {
+                                padding = '0';
+                                continue;
+                            }
+                            // ':'
+                            else if (currentCharCode === 58) {
+                                    if (extendedTZ) {
+                                        warn("[WARNING] detected use of unsupported %:: or %::: modifiers to strftime");
+                                    }
+                                    extendedTZ = true;
+                                    continue;
+                                }
+
+                    switch (currentCharCode) {
+
+                        // Examples for new Date(0) in GMT
+
+                        // '%'
+                        // case '%':
+                        case 37:
+                            resultString += '%';
+                            break;
+
+                        // 'Thursday'
+                        // case 'A':
+                        case 65:
+                            resultString += locale.days[date.getDay()];
+                            break;
+
+                        // 'January'
+                        // case 'B':
+                        case 66:
+                            resultString += locale.months[date.getMonth()];
+                            break;
+
+                        // '19'
+                        // case 'C':
+                        case 67:
+                            resultString += padTill2(Math.floor(date.getFullYear() / 100), padding);
+                            break;
+
+                        // '01/01/70'
+                        // case 'D':
+                        case 68:
+                            resultString += _processFormat(locale.formats.D, date, locale, timestamp);
+                            break;
+
+                        // '1970-01-01'
+                        // case 'F':
+                        case 70:
+                            resultString += _processFormat(locale.formats.F, date, locale, timestamp);
+                            break;
+
+                        // '00'
+                        // case 'H':
+                        case 72:
+                            resultString += padTill2(date.getHours(), padding);
+                            break;
+
+                        // '12'
+                        // case 'I':
+                        case 73:
+                            resultString += padTill2(hours12(date.getHours()), padding);
+                            break;
+
+                        // '000'
+                        // case 'L':
+                        case 76:
+                            resultString += padTill3(Math.floor(timestamp % 1000));
+                            break;
+
+                        // '00'
+                        // case 'M':
+                        case 77:
+                            resultString += padTill2(date.getMinutes(), padding);
+                            break;
+
+                        // 'am'
+                        // case 'P':
+                        case 80:
+                            resultString += date.getHours() < 12 ? locale.am : locale.pm;
+                            break;
+
+                        // '00:00'
+                        // case 'R':
+                        case 82:
+                            resultString += _processFormat(locale.formats.R, date, locale, timestamp);
+                            break;
+
+                        // '00'
+                        // case 'S':
+                        case 83:
+                            resultString += padTill2(date.getSeconds(), padding);
+                            break;
+
+                        // '00:00:00'
+                        // case 'T':
+                        case 84:
+                            resultString += _processFormat(locale.formats.T, date, locale, timestamp);
+                            break;
+
+                        // '00'
+                        // case 'U':
+                        case 85:
+                            resultString += padTill2(weekNumber(date, 'sunday'), padding);
+                            break;
+
+                        // '00'
+                        // case 'W':
+                        case 87:
+                            resultString += padTill2(weekNumber(date, 'monday'), padding);
+                            break;
+
+                        // '16:00:00'
+                        // case 'X':
+                        case 88:
+                            resultString += _processFormat(locale.formats.X, date, locale, timestamp);
+                            break;
+
+                        // '1970'
+                        // case 'Y':
+                        case 89:
+                            resultString += date.getFullYear();
+                            break;
+
+                        // 'GMT'
+                        // case 'Z':
+                        case 90:
+                            if (_useUtcBasedDate && _customTimezoneOffset === 0) {
+                                resultString += "GMT";
+                            } else {
+                                // fixme optimize
+                                var tzString = date.toString().match(/\(([\w\s]+)\)/);
+                                resultString += tzString && tzString[1] || '';
+                            }
+                            break;
+
+                        // 'Thu'
+                        // case 'a':
+                        case 97:
+                            resultString += locale.shortDays[date.getDay()];
+                            break;
+
+                        // 'Jan'
+                        // case 'b':
+                        case 98:
+                            resultString += locale.shortMonths[date.getMonth()];
+                            break;
+
+                        // ''
+                        // case 'c':
+                        case 99:
+                            resultString += _processFormat(locale.formats.c, date, locale, timestamp);
+                            break;
+
+                        // '01'
+                        // case 'd':
+                        case 100:
+                            resultString += padTill2(date.getDate(), padding);
+                            break;
+
+                        // ' 1'
+                        // case 'e':
+                        case 101:
+                            resultString += padTill2(date.getDate(), padding == null ? ' ' : padding);
+                            break;
+
+                        // 'Jan'
+                        // case 'h':
+                        case 104:
+                            resultString += locale.shortMonths[date.getMonth()];
+                            break;
+
+                        // '000'
+                        // case 'j':
+                        case 106:
+                            var y = new Date(date.getFullYear(), 0, 1);
+                            var day = Math.ceil((date.getTime() - y.getTime()) / (1000 * 60 * 60 * 24));
+                            resultString += padTill3(day);
+                            break;
+
+                        // ' 0'
+                        // case 'k':
+                        case 107:
+                            resultString += padTill2(date.getHours(), padding == null ? ' ' : padding);
+                            break;
+
+                        // '12'
+                        // case 'l':
+                        case 108:
+                            resultString += padTill2(hours12(date.getHours()), padding == null ? ' ' : padding);
+                            break;
+
+                        // '01'
+                        // case 'm':
+                        case 109:
+                            resultString += padTill2(date.getMonth() + 1, padding);
+                            break;
+
+                        // '\n'
+                        // case 'n':
+                        case 110:
+                            resultString += '\n';
+                            break;
+
+                        // '1st'
+                        // case 'o':
+                        case 111:
+                            // Try to use an ordinal suffix from the locale, but fall back to using the old
+                            // function for compatibility with old locales that lack them.
+                            var day = date.getDate();
+                            if (locale.ordinalSuffixes) {
+                                resultString += String(day) + (locale.ordinalSuffixes[day - 1] || ordinal(day));
+                            } else {
+                                resultString += String(day) + ordinal(day);
+                            }
+                            break;
+
+                        // 'AM'
+                        // case 'p':
+                        case 112:
+                            resultString += date.getHours() < 12 ? locale.AM : locale.PM;
+                            break;
+
+                        // '12:00:00 AM'
+                        // case 'r':
+                        case 114:
+                            resultString += _processFormat(locale.formats.r, date, locale, timestamp);
+                            break;
+
+                        // '0'
+                        // case 's':
+                        case 115:
+                            resultString += Math.floor(timestamp / 1000);
+                            break;
+
+                        // '\t'
+                        // case 't':
+                        case 116:
+                            resultString += '\t';
+                            break;
+
+                        // '4'
+                        // case 'u':
+                        case 117:
+                            var day = date.getDay();
+                            resultString += day === 0 ? 7 : day;
+                            break; // 1 - 7, Monday is first day of the week
+
+                        // ' 1-Jan-1970'
+                        // case 'v':
+                        case 118:
+                            resultString += _processFormat(locale.formats.v, date, locale, timestamp);
+                            break;
+
+                        // '4'
+                        // case 'w':
+                        case 119:
+                            resultString += date.getDay();
+                            break; // 0 - 6, Sunday is first day of the week
+
+                        // '12/31/69'
+                        // case 'x':
+                        case 120:
+                            resultString += _processFormat(locale.formats.x, date, locale, timestamp);
+                            break;
+
+                        // '70'
+                        // case 'y':
+                        case 121:
+                            resultString += ('' + date.getFullYear()).slice(2);
+                            break;
+
+                        // '+0000'
+                        // case 'z':
+                        case 122:
+                            if (_useUtcBasedDate && _customTimezoneOffset === 0) {
+                                resultString += extendedTZ ? "+00:00" : "+0000";
+                            } else {
+                                var off;
+                                if (_customTimezoneOffset !== 0) {
+                                    off = _customTimezoneOffset / (60 * 1000);
+                                } else {
+                                    off = -date.getTimezoneOffset();
+                                }
+                                var sign = off < 0 ? '-' : '+';
+                                var sep = extendedTZ ? ':' : '';
+                                var hours = Math.floor(Math.abs(off / 60));
+                                var mins = Math.abs(off % 60);
+                                resultString += sign + padTill2(hours) + sep + padTill2(mins);
+                            }
+                            break;
+
+                        default:
+                            if (isInScope) {
+                                resultString += '%';
+                            }
+                            resultString += format[i];
+                            break;
+                    }
+
+                    padding = null;
+                    isInScope = false;
+                    continue;
+                }
+
+                // '%'
+                if (currentCharCode === 37) {
+                    isInScope = true;
+                    continue;
+                }
+
+                resultString += format[i];
+            }
+
+            return resultString;
+        }
+
+        var strftime = _strftime;
+
+        strftime.localize = function (locale) {
+            return new Strftime(locale || _locale, _customTimezoneOffset, _useUtcBasedDate);
+        };
+
+        strftime.localizeByIdentifier = function (localeIdentifier) {
+            var locale = Locales[localeIdentifier];
+            if (!locale) {
+                warn('[WARNING] No locale found with identifier "' + localeIdentifier + '".');
+                return strftime;
+            }
+            return strftime.localize(locale);
+        };
+
+        strftime.timezone = function (timezone) {
+            var customTimezoneOffset = _customTimezoneOffset;
+            var useUtcBasedDate = _useUtcBasedDate;
+
+            var timezoneType = typeof timezone === 'undefined' ? 'undefined' : _typeof(timezone);
+            if (timezoneType === 'number' || timezoneType === 'string') {
+                useUtcBasedDate = true;
+
+                // ISO 8601 format timezone string, [-+]HHMM
+                if (timezoneType === 'string') {
+                    var sign = timezone[0] === '-' ? -1 : 1,
+                        hours = parseInt(timezone.slice(1, 3), 10),
+                        minutes = parseInt(timezone.slice(3, 5), 10);
+
+                    customTimezoneOffset = sign * (60 * hours + minutes) * 60 * 1000;
+                    // in minutes: 420
+                } else if (timezoneType === 'number') {
+                    customTimezoneOffset = timezone * 60 * 1000;
+                }
+            }
+
+            return new Strftime(_locale, customTimezoneOffset, useUtcBasedDate);
+        };
+
+        strftime.utc = function () {
+            return new Strftime(_locale, _customTimezoneOffset, true);
+        };
+
+        return strftime;
+    }
+
+    function padTill2(numberToPad, paddingChar) {
+        if (paddingChar === '' || numberToPad > 9) {
+            return numberToPad;
+        }
+        if (paddingChar == null) {
+            paddingChar = '0';
+        }
+        return paddingChar + numberToPad;
+    }
+
+    function padTill3(numberToPad) {
+        if (numberToPad > 99) {
+            return numberToPad;
+        }
+        if (numberToPad > 9) {
+            return '0' + numberToPad;
+        }
+        return '00' + numberToPad;
+    }
+
+    function hours12(hour) {
+        if (hour === 0) {
+            return 12;
+        } else if (hour > 12) {
+            return hour - 12;
+        }
+        return hour;
+    }
+
+    // firstWeekday: 'sunday' or 'monday', default is 'sunday'
+    //
+    // Pilfered & ported from Ruby's strftime implementation.
+    function weekNumber(date, firstWeekday) {
+        firstWeekday = firstWeekday || 'sunday';
+
+        // This works by shifting the weekday back by one day if we
+        // are treating Monday as the first day of the week.
+        var weekday = date.getDay();
+        if (firstWeekday === 'monday') {
+            if (weekday === 0) // Sunday
+                weekday = 6;else weekday--;
+        }
+
+        var firstDayOfYearUtc = Date.UTC(date.getFullYear(), 0, 1),
+            dateUtc = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+            yday = Math.floor((dateUtc - firstDayOfYearUtc) / 86400000),
+            weekNum = (yday + 7 - weekday) / 7;
+
+        return Math.floor(weekNum);
+    }
+
+    // Get the ordinal suffix for a number: st, nd, rd, or th
+    function ordinal(number) {
+        var i = number % 10;
+        var ii = number % 100;
+
+        if (ii >= 11 && ii <= 13 || i === 0 || i >= 4) {
+            return 'th';
+        }
+        switch (i) {
+            case 1:
+                return 'st';
+            case 2:
+                return 'nd';
+            case 3:
+                return 'rd';
+        }
+    }
+
+    function getTimestampToUtcOffsetFor(date) {
+        return (date.getTimezoneOffset() || 0) * 60000;
+    }
+
+    function warn(message) {
+        if (typeof console !== 'undefined' && typeof console.warn == 'function') {
+            console.warn(message);
+        }
+    }
+})();
 
 /***/ })
 /******/ ]);

@@ -844,8 +844,80 @@ body
 .settings-general .left
   border-right: 2px solid #eee
 
+.settings-general .right
+  ul h4
+    font-weight: bold
+
+  ul hr
+    background: #ececec
+    color: #ececec
+    border: 1px solid #ececec
+
+  ul li
+    list-style-type: none
+
+  ul li input[type='checkbox']
+    position: absolute
+    left: -9999px
+
+  ul li label:hover
+    cursor: pointer
+
+  ul li input[type='checkbox'] + label .fake-checkbox
+    color: hsl(0, 45%, 21%)
+
+    display: inline-block
+    background: hsl(0, 49%, 90%)
+
+    font-weight: bold
+
+    padding: 10px
+    margin-left: 10px
+
+    position: relative
+    top: 5px
+
+    height: 15px
+    width: 15px
+
+    border: 1px solid #e8e8e8
+    border-radius: 4px
+
+    &:hover
+      cursor: pointer
+
+  ul li input[type='checkbox']:checked + label .fake-checkbox
+    color: hsl(101, 45%, 21%)
+    background: hsl(100, 50%, 90%)
+
+  ul li input[type='checkbox'] + label .fake-checkbox:after
+    display: inline-block
+    content: "×"
+
+    font-size: 1.4em
+
+    position: absolute
+    top: -0.05rem
+    left: 0.25rem
+
+  ul li input[type='checkbox']:checked + label .fake-checkbox:after
+    display: inline-block
+    content: "✔"
+
+    font-size: 1em
+
+    position: absolute
+    top: 0.1rem
+    left: 0.2rem
+
 /*****************************************************************
   -- #0.5a Misc. Styles
   ===============================================================
   Misc.
 /*****************************************************************/
+
+.hidden
+  display: none
+
+.invisible
+  visibility: hidden
