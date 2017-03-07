@@ -364,6 +364,19 @@ body
     opacity: 1
 
 
+.user-panel .login-panel-main
+  display: flex
+  flex-direction: column
+
+  // Vertically center when the avatar is hidden.
+  .avatar-container.hidden + .login-form
+    display: flex
+    flex-direction: column
+    justify-content: center
+
+    height: 100%
+
+
 .user-panel
   color: #fff
   background: $right-background-image

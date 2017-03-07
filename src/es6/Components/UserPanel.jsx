@@ -182,6 +182,7 @@ export default class LoginPanel extends Component {
 
   render() {
     let loginPanelClasses = ['login-panel-main'];
+    let avatarClasses = ['avatar-container'];
 
     if (this.state.fadeIn === true) {
       loginPanelClasses.push('fadein');
@@ -191,10 +192,14 @@ export default class LoginPanel extends Component {
       loginPanelClasses.push('fadeout');
     }
 
+    if (this.storeState.settings.avatar_enabled === false) {
+      avatarClasses.push('hidden');
+    }
+
     return (
       <div className="login-panel-contents">
         <div className={ loginPanelClasses.join(' ') }>
-          <div className="avatar-container">
+          <div className={ avatarClasses.join(' ') }>
             <div className="avatar-background">
               <div className="avatar-mask">
                 <img className="user-avatar" src={ this.storeState.user.image } />

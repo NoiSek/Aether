@@ -102,6 +102,14 @@ export const SettingsGeneral = (props) => {
             value={ storeState.settings.command_sleep_enabled }
             boundFunction={ props.settingsToggleBinary.bind(this, "command_sleep_enabled") }
           />
+
+          <h4>Avatar Visibility</h4>
+          <hr />
+          <FormCheckbox
+            name={ "Avatar Enabled" }
+            value={ storeState.settings.avatar_enabled }
+            boundFunction={ props.settingsToggleBinary.bind(this, "avatar_enabled") }
+          />
         </ul>
       </div>
     </div>

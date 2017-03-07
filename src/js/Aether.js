@@ -1937,6 +1937,7 @@ var LoginPanel = function (_Component) {
     key: 'render',
     value: function render() {
       var loginPanelClasses = ['login-panel-main'];
+      var avatarClasses = ['avatar-container'];
 
       if (this.state.fadeIn === true) {
         loginPanelClasses.push('fadein');
@@ -1946,12 +1947,16 @@ var LoginPanel = function (_Component) {
         loginPanelClasses.push('fadeout');
       }
 
+      if (this.storeState.settings.avatar_enabled === false) {
+        avatarClasses.push('hidden');
+      }
+
       return createVNode(2, 'div', {
         'className': 'login-panel-contents'
       }, [createVNode(2, 'div', {
         'className': loginPanelClasses.join(' ')
       }, [createVNode(2, 'div', {
-        'className': 'avatar-container'
+        'className': avatarClasses.join(' ')
       }, createVNode(2, 'div', {
         'className': 'avatar-background'
       }, createVNode(2, 'div', {
@@ -6822,6 +6827,10 @@ var SettingsGeneral = exports.SettingsGeneral = function SettingsGeneral(props) 
     "name": "Sleep Enabled",
     "value": storeState.settings.command_sleep_enabled,
     "boundFunction": props.settingsToggleBinary.bind(undefined, "command_sleep_enabled")
+  }), createVNode(2, "h4", null, "Avatar Visibility"), createVNode(2, "hr"), createVNode(16, _FormCheckbox.FormCheckbox, {
+    "name": "Avatar Enabled",
+    "value": storeState.settings.avatar_enabled,
+    "boundFunction": props.settingsToggleBinary.bind(undefined, "avatar_enabled")
   })]))]);
 };
 

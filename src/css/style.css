@@ -417,6 +417,15 @@ body {
   .command-panel .bottom .clock.loaded {
     opacity: 1; }
 
+.user-panel .login-panel-main {
+  display: flex;
+  flex-direction: column; }
+  .user-panel .login-panel-main .avatar-container.hidden + .login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%; }
+
 .user-panel {
   color: #fff;
   background: url("../img/background-gradient.png") repeat-x;
