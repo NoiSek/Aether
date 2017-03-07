@@ -303,6 +303,7 @@ function addAdditionalSettings(state) {
 
   var defaults = {
     "active": false,
+    "minimized": false,
     "distro": distroDefault,
 
     "avatar_enabled": true,
@@ -436,6 +437,22 @@ var SettingsReducer = exports.SettingsReducer = function SettingsReducer(state, 
       newSettings[action.name] = !newSettings[action.name];
 
       return _extends({}, state, { "settings": newSettings });
+
+    case 'SETTINGS_WINDOW_MINIMIZE':
+      // This shouldn't be here. It is, though.
+      var categories = document.querySelectorAll(".settings-categories")[0];
+      var section = document.querySelectorAll(".settings-section")[0];
+
+      // Check if the window is already minimized.
+      if (categories.className.indexOf('minimize') !== -1) {
+        categories.className = categories.className.replace('minimize', '');
+        section.className = section.className.replace('minimize', '');
+      } else {
+        categories.className = categories.className + ' minimize';
+        section.className = section.className + ' minimize';
+      }
+
+      return state;
 
     default:
       return state;
@@ -1568,11 +1585,23 @@ var Settings = function (_Component) {
       });
     }
   }, {
+    key: 'handleSettingsClose',
+    value: function handleSettingsClose() {
+      this.store.dispatch({
+        "type": 'SETTINGS_TOGGLE_ACTIVE'
+      });
+    }
+  }, {
+    key: 'handleSettingsMinimize',
+    value: function handleSettingsMinimize() {
+      this.store.dispatch({
+        "type": 'SETTINGS_WINDOW_MINIMIZE'
+      });
+    }
+  }, {
     key: 'handleSettingsText',
     value: function handleSettingsText(name, event) {
       var value = event.target.value;
-      console.log(name);
-      console.log(value);
 
       this.store.dispatch({
         "type": 'SETTINGS_SET_VALUE',
@@ -1635,7 +1664,15 @@ var Settings = function (_Component) {
 
       return createVNode(2, 'div', null, [createVNode(2, 'div', {
         'className': 'settings-handle'
-      }, null, null, null, function (node) {
+      }, createVNode(2, 'ul', null, [createVNode(2, 'li', {
+        'className': 'settings-minimize'
+      }, '\u2212', {
+        'onClick': this.handleSettingsMinimize.bind(this)
+      }), createVNode(2, 'li', {
+        'className': 'settings-close'
+      }, '\xD7', {
+        'onClick': this.handleSettingsClose.bind(this)
+      })]), null, null, function (node) {
         return _this3.refs.handle = node;
       }), createVNode(2, 'div', {
         'className': 'settings-categories'

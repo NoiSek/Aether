@@ -687,6 +687,20 @@ body {
     cursor: -webkit-grabbing !important; }
   .settings .settings-handle:active:hover {
     cursor: -webkit-grabbing !important; }
+  .settings .settings-handle ul {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%; }
+    .settings .settings-handle ul li {
+      color: #000;
+      font-weight: bold;
+      padding: 5px 15px; }
+    .settings .settings-handle ul li:hover {
+      cursor: pointer; }
+    .settings .settings-handle ul li.settings-minimize {
+      background: #868686; }
+    .settings .settings-handle ul li.settings-close {
+      background: #de3838; }
 
 .settings .settings-section {
   background: #fafafa; }
@@ -817,5 +831,9 @@ body {
 
 .invisible {
   visibility: hidden; }
+
+.minimize {
+  height: 0px !important;
+  overflow: hidden !important; }
 
 /*# sourceMappingURL=style.css.map */

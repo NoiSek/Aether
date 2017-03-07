@@ -37,6 +37,7 @@ export default class Settings extends Component {
     };
   }
 
+
   componentDidMount() {
     let draggable = new Draggable(document.getElementById("settings"), {
       "handle": this.refs.handle
@@ -55,6 +56,7 @@ export default class Settings extends Component {
     });
   }
 
+
   handleSettingsBinary(name) {
     this.store.dispatch({
       "type": 'SETTINGS_TOGGLE_VALUE',
@@ -62,10 +64,23 @@ export default class Settings extends Component {
     });
   }
 
+
+  handleSettingsClose() {
+    this.store.dispatch({
+      "type": 'SETTINGS_TOGGLE_ACTIVE'
+    });
+  }
+
+
+  handleSettingsMinimize() {
+    this.store.dispatch({
+      "type": 'SETTINGS_WINDOW_MINIMIZE'
+    });
+  }
+
+
   handleSettingsText(name, event) {
     let value = event.target.value;
-    console.log(name);
-    console.log(value);
 
     this.store.dispatch({
       "type": 'SETTINGS_SET_VALUE',
@@ -135,6 +150,10 @@ export default class Settings extends Component {
     return (
       <div>
         <div className="settings-handle" ref={ (node) => this.refs.handle = node }>
+          <ul>
+            <li className="settings-minimize" onClick={ this.handleSettingsMinimize.bind(this) }>&#8722;</li>
+            <li className="settings-close" onClick={ this.handleSettingsClose.bind(this) }>&#215;</li>
+          </ul>
         </div>
         <div className="settings-categories">
           { categories }

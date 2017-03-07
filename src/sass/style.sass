@@ -763,6 +763,27 @@ body
   &:active:hover
     cursor: -webkit-grabbing !important
 
+  ul
+    display: flex
+    justify-content: flex-end
+
+    width: 100%
+
+    li
+      color: #000
+      font-weight: bold
+
+      padding: 5px 15px
+
+    li:hover
+      cursor: pointer
+
+    li.settings-minimize
+      background: #868686
+
+    li.settings-close
+      background: #de3838
+
 
 .settings .settings-section
   background: hsla(0, 0%, 98%, 1)
@@ -941,3 +962,7 @@ body
 
 .invisible
   visibility: hidden
+
+.minimize
+  height: 0px !important
+  overflow: hidden !important
