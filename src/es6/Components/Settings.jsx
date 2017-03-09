@@ -3,7 +3,7 @@
 // Handles greeter configuration.
 
 import Inferno from 'inferno';
-import Draggable from "draggable";
+import Draggable from 'draggable';
 import Component from 'inferno-component';
 
 import { SettingsGeneral } from './Settings/SettingsGeneral';

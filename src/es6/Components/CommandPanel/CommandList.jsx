@@ -7,9 +7,14 @@ import Inferno from 'inferno';
 import { CommandItem } from './CommandItem';
 
 
-export const CommandList = ({ enabledCommands, handleCommand }) => {
+export const CommandList = ({ enabledCommands, handleCommand, iconsEnabled, textAlign }) => {
   let items = enabledCommands.map((command) =>
-    <CommandItem command={ command } handleCommand={ handleCommand } />
+    <CommandItem
+      command={ command }
+      handleCommand={ handleCommand }
+      iconsEnabled={ iconsEnabled }
+      textAlign={ textAlign }
+    />
   );
 
   return (

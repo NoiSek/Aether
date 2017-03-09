@@ -56,7 +56,7 @@ export default class WallpaperSwitcher extends Component {
     this.cyclerForeground = document.querySelectorAll('.wallpaper-foreground')[0];
     this.cyclerPreloader = document.querySelectorAll('.wallpaper-preload')[0];
 
-    this.cyclerForeground.style.background = `url('${directory}${image}')`;
+    this.cyclerForeground.style.background = `url('${ directory }${ image }')`;
     this.cyclerForeground.style.backgroundSize = "cover";
 
     this.setState({
@@ -146,7 +146,7 @@ export default class WallpaperSwitcher extends Component {
 
     // Fadeout foreground wallpaper to new wallpaper
     let directory = this.state.directory;
-    this.cyclerBackground.style.background = `url('${directory}${newWallpaper}')`;
+    this.cyclerBackground.style.background = `url('${ directory }${ newWallpaper }')`;
     this.cyclerBackground.style.backgroundSize = 'cover';
     this.cyclerForeground.className += " fadeout";
 
@@ -154,12 +154,12 @@ export default class WallpaperSwitcher extends Component {
 
     if (preloadedWallpaper !== false) {
       // Preload the next image
-      this.cyclerPreloader.style.background = `url('${directory}${preloadedWallpaper}')`;
+      this.cyclerPreloader.style.background = `url('${ directory }${ preloadedWallpaper }')`;
     }
 
     setTimeout(() => {
       // Cycle new wallpaper back to the front, make it visible again.
-      this.cyclerForeground.style.background = `url('${directory}${newWallpaper}')`;
+      this.cyclerForeground.style.background = `url('${ directory }${ newWallpaper }')`;
       this.cyclerForeground.style.backgroundSize = 'cover';
       this.cyclerForeground.className = this.cyclerForeground.className.replace(" fadeout", "");
 

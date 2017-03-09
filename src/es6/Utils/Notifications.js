@@ -21,7 +21,7 @@ export default class Notifications {
     }
 
     let notification = document.createElement('div');
-    notification.className = `notification ${type}`;
+    notification.className = `notification ${ type }`;
     notification.innerText = message;
     this.container.appendChild(notification);
 

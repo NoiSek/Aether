@@ -2,8 +2,7 @@
 // --------------------------------------
 // Provides a basic binary form checkbox.
 
-import Inferno from "inferno";
-
+import Inferno from 'inferno';
 
 export const FormTextField = ({ name, value, boundFunction }) => {
   let elementID = `option-${ name.replace(" ", "-")}`;

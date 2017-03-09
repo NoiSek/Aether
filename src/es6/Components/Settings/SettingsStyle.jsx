@@ -1,6 +1,8 @@
 import Inferno from 'inferno';
 
-import { FormTextField } from "./FormTextField";
+import { FormTextField } from './FormTextField';
+import { FormCheckbox } from './FormCheckbox';
+import { FormDropdown } from './FormDropdown';
 
 
 export const SettingsStyle = (props) => {
@@ -8,20 +10,39 @@ export const SettingsStyle = (props) => {
 
   return (
     <div className="settings-style">
-      <ul>
-        <h4>Window Appearance</h4>
-        <hr />
-        <FormTextField
-          name={ "Border Radius" }
-          value={ storeState.settings.window_border_radius }
-          boundFunction={ props.settingsSetValue.bind(this, 'window_border_radius') }
-        />
-        <FormTextField
-          name={ "Font-Size" }
-          value={ storeState.settings.window_font_size }
-          boundFunction={ props.settingsSetValue.bind(this, 'window_font_size') }
-        />
-      </ul>
+      <div className="left">
+        <ul>
+          <h4>Window Appearance</h4>
+          <hr />
+          <FormTextField
+            name={ "Border Radius" }
+            value={ storeState.settings.window_border_radius }
+            boundFunction={ props.settingsSetValue.bind(this, 'window_border_radius') }
+          />
+          <FormTextField
+            name={ "Font-Size" }
+            value={ storeState.settings.window_font_size }
+            boundFunction={ props.settingsSetValue.bind(this, 'window_font_size') }
+          />
+        </ul>
+      </div>
+      <div className="right">
+        <ul>
+          <h4>Command Panel</h4>
+          <hr />
+          <FormCheckbox
+            name={ "Icons Enabled" }
+            value={ storeState.settings.command_icons_enabled }
+            boundFunction={ props.settingsToggleBinary.bind(this, 'command_icons_enabled') }
+          />
+          <FormDropdown
+            name={ "Text Align" }
+            value={ storeState.settings.command_text_align }
+            options={ ['left', 'center', 'right'] }
+            boundFunction={ props.settingsSetValue.bind(this, 'command_text_align') }
+          />
+        </ul>
+      </div>
     </div>
   );
 };

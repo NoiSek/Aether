@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/eslint src/es6/**",
-    "build-js": "./node_modules/.bin/webpack --progress --colors --optimize-minimize",
+    "build-js": "./node_modules/.bin/webpack --progress --colors --optimize-minimize --env.production",
     "build-sass": "./node_modules/.bin/node-sass src/sass --output src/css",
     "build": "npm run test && npm run build-js && npm run build-sass",
-    "watch-js": "./node_modules/.bin/webpack --progress --colors --watch",
+    "watch-js": "./node_modules/.bin/webpack --progress --colors --watch --env.development",
     "watch-sass": "./node_modules/.bin/node-sass --watch src/sass --output src/css -E utf-8",
     "watch": "npm run watch-sass & npm run watch-js"
   },

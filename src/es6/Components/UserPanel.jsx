@@ -87,7 +87,7 @@ export default class LoginPanel extends Component {
       if (this.state.password.toLowerCase() !== 'password') {
         this.rejectPassword();
       } else {
-        window.notifications.generate(`You are now logged in as ${this.storeState.user.display_name} to ${this.storeState.session.name}.`, 'success');
+        window.notifications.generate(`You are now logged in as ${ this.storeState.user.display_name } to ${ this.storeState.session.name }.`, 'success');
         this.setState({
           "password": ""
         });

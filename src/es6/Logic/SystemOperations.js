@@ -27,7 +27,7 @@ export function handleCommand(command) {
   }
 
   // If we have gotten this far, it's because the command is disabled or doesn't exist.
-  window.notifications.generate(`${command} is disabled on this system.`, "error");
+  window.notifications.generate(`${ command } is disabled on this system.`, "error");
 }
 
 

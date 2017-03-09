@@ -1,5 +1,5 @@
 /* eslint { no-redeclare: 0 } */
-import * as Settings from "../Logic/Settings";
+import * as Settings from '../Logic/Settings';
 
 export function addAdditionalSettings(state) {
   // Define our defaults
@@ -32,6 +32,8 @@ export function addAdditionalSettings(state) {
     "command_reboot_enabled": true,
     "command_hibernate_enabled": true,
     "command_sleep_enabled": true,
+    "command_icons_enabled": true,
+    "command_text_align": "left",
 
     "window_border_radius": "4px",
     "window_font_size": "1em"

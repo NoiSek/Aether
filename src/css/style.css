@@ -360,6 +360,7 @@ body {
       height: 45px;
       width: 100%; }
   .command-panel .command {
+    display: flex;
     margin-bottom: 25px;
     transition: all 0.5s; }
     .command-panel .command:hover {
@@ -390,7 +391,8 @@ body {
     font-size: 1.33em;
     letter-spacing: 2px;
     text-transform: uppercase;
-    vertical-align: 2px; }
+    vertical-align: 2px;
+    width: 100%; }
   .command-panel .commands-wrapper {
     height: 43%; }
   .command-panel .bottom {
@@ -769,6 +771,10 @@ body {
     position: absolute;
     top: 0.1rem;
     left: 0.2rem; }
+  .settings .settings-section select {
+    margin-left: 10px;
+    padding: 5px;
+    width: 50%; }
 
 .settings-section .save-dialogue {
   background: #f3f3f3;
@@ -828,12 +834,16 @@ body {
   border-right: 2px solid #eee; }
   .settings-general .left select {
     margin-top: 15px;
+    margin-left: 0px;
     padding: 5px;
     width: 100%; }
   .settings-general .left select:hover {
     cursor: pointer; }
   .settings-general .left select option:hover {
     cursor: pointer; }
+  .settings-general .left .preview-logo img {
+    display: block;
+    margin: 0 auto; }
 
 .settings-general .right {
   height: 250px;
@@ -845,7 +855,26 @@ body {
  * Style Settings section. */
 /**************************************************************** */
 .settings-style {
+  display: flex;
   padding: 25px; }
+  .settings-style .left {
+    padding: 25px;
+    width: 100%; }
+  .settings-style .right {
+    padding: 25px;
+    width: 100%; }
+
+.settings-style .left {
+  border-right: 2px solid #eee; }
+.settings-style .left li {
+  display: flex;
+  align-items: center; }
+.settings-style .left li label {
+  flex-grow: 2;
+  width: 100%; }
+.settings-style .left ul li input[type='text'] {
+  flex-shrink: 2;
+  margin-top: 0px; }
 
 /*****************************************************************
  * -- #0.5a Misc. Styles
@@ -853,7 +882,7 @@ body {
  * Misc. */
 /**************************************************************** */
 .hidden {
-  display: none; }
+  display: none !important; }
 
 .invisible {
   visibility: hidden; }

@@ -272,6 +272,7 @@ body
 
 
   .command
+    display: flex
     margin-bottom: 25px
 
     transition: all 0.5s
@@ -320,6 +321,8 @@ body
     letter-spacing: 2px
     text-transform: uppercase
     vertical-align: 2px
+
+    width: 100%
 
   .commands-wrapper
     height: 43%
@@ -884,6 +887,12 @@ body
     top: 0.1rem
     left: 0.2rem
 
+  select
+    margin-left: 10px
+    padding: 5px
+
+    width: 50%
+
 
 .settings-section .save-dialogue
   background: #f3f3f3
@@ -965,6 +974,7 @@ body
 
   select
     margin-top: 15px
+    margin-left: 0px
     padding: 5px
 
     width: 100%
@@ -974,6 +984,10 @@ body
 
   select option:hover
     cursor: pointer
+
+  .preview-logo img
+    display: block
+    margin: 0 auto
 
 
 .settings-general .right
@@ -987,7 +1001,33 @@ body
 /*****************************************************************/
 
 .settings-style
+  display: flex
+
   padding: 25px
+
+  .left
+    padding: 25px
+    width: 100%
+
+  .right
+    padding: 25px
+    width: 100%
+
+.settings-style
+  .left
+    border-right: 2px solid #eee
+
+  .left li
+    display: flex
+    align-items: center
+
+  .left li label
+    flex-grow: 2
+    width: 100%
+
+  .left ul li input[type='text']
+    flex-shrink: 2
+    margin-top: 0px
 
 
 /*****************************************************************
@@ -997,7 +1037,7 @@ body
 /*****************************************************************/
 
 .hidden
-  display: none
+  display: none !important
 
 .invisible
   visibility: hidden

@@ -21,21 +21,9 @@ export default class CommandPanel extends Component {
 
     this.unsubscribe = this.store.subscribe(() => {
       this.storeState = this.store.getState();
-
-      this.setState({
-        "command_shutdown_enabled": this.storeState.settings.command_shutdown_enabled,
-        "command_reboot_enabled": this.storeState.settings.command_reboot_enabled,
-        "command_hibernate_enabled": this.storeState.settings.command_hibernate_enabled,
-        "command_sleep_enabled": this.storeState.settings.command_sleep_enabled
-      });
     });
 
-    this.state = {
-      "command_shutdown_enabled": this.storeState.settings.command_shutdown_enabled,
-      "command_reboot_enabled": this.storeState.settings.command_reboot_enabled,
-      "command_hibernate_enabled": this.storeState.settings.command_hibernate_enabled,
-      "command_sleep_enabled": this.storeState.settings.command_sleep_enabled
-    };
+    this.state = {};
   }
 
 
@@ -43,7 +31,7 @@ export default class CommandPanel extends Component {
     event.preventDefault();
 
     if (disabled !== false) {
-      window.notifications.generate(`${command} is disabled on this system.`, "error");
+      window.notifications.generate(`${ command } is disabled on this system.`, "error");
       return false;
     }
 
@@ -53,10 +41,10 @@ export default class CommandPanel extends Component {
 
   getEnabledCommands() {
     let commands = {
-      "Shutdown": (window.lightdm.can_shutdown && this.state.command_shutdown_enabled),
-      "Reboot": (window.lightdm.can_restart && this.state.command_reboot_enabled),
-      "Hibernate": (window.lightdm.can_hibernate && this.state.command_hibernate_enabled),
-      "Sleep": (window.lightdm.can_suspend && this.state.command_sleep_enabled)
+      "Shutdown": (window.lightdm.can_shutdown && this.storeState.settings.command_shutdown_enabled),
+      "Reboot": (window.lightdm.can_restart && this.storeState.settings.command_reboot_enabled),
+      "Hibernate": (window.lightdm.can_hibernate && this.storeState.settings.command_hibernate_enabled),
+      "Sleep": (window.lightdm.can_suspend && this.storeState.settings.command_sleep_enabled)
     };
 
     // Filter out commands we can't execute.
@@ -80,16 +68,25 @@ export default class CommandPanel extends Component {
     let hostname = window.lightdm.hostname;
     let hostnameClasses = ['left', 'hostname'];
 
+    let hostNameDisabled = (this.storeState.settings.hostname_enabled === false);
+    let iconsEnabled = (this.storeState.settings.command_icons_enabled === true);
+    let textAlign = this.storeState.settings.command_text_align;
+
     let commands = this.getEnabledCommands();
 
-    if (this.storeState.settings.hostname_enabled === false) {
+    if (hostNameDisabled) {
       hostnameClasses.push('invisible');
     }
 
     return (
       <div className="command-panel">
         <WallpaperSwitcher store={ this.props.store } />
-        <CommandList enabledCommands={ commands } handleCommand={ this.handleCommand.bind(this) } />
+        <CommandList
+          enabledCommands={ commands }
+          handleCommand={ this.handleCommand.bind(this) }
+          iconsEnabled={ iconsEnabled }
+          textAlign={ textAlign }
+        />
         <div className="bottom">
           <div className={ hostnameClasses.join(' ') }>{ hostname }</div>
           <Clock store={ this.props.store } />
