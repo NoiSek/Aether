@@ -50,5 +50,7 @@ export function getLogos() {
   let userLogo = window.config.get_str("branding", "logo");
   let themeLogos = window.greeterutil.dirlist("/usr/share/lightdm-webkit/themes/lightdm-webkit-theme-aether/src/img/logos/");
 
-  return [themeLogos, userLogo].map((e) => [e, e.split("/").pop()]);
+  themeLogos.push(userLogo);
+
+  return themeLogos.map((e) => [e, e.split("/").pop()]);
 }
