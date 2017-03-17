@@ -14,7 +14,7 @@ export const FormTextField = ({ name, value, boundFunction }) => {
         id={ elementID }
         type="text"
         onInput={ boundFunction }
-        value={ value }
+        defaultValue={ value }
       />
     </li>
   );
