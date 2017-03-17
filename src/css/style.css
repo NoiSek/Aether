@@ -114,7 +114,7 @@ table {
   .disabled .disabled:hover {
     cursor: not-allowed !important; }
 
-.noselect, .date, .command-panel .command, .command-panel .command .icon-wrapper, .command-panel .command .text, .command-panel .bottom .left, .command-panel .bottom .right, .user-panel .login-panel-main .login-form .user-username, .user-panel .login-panel-main .login-form .user-password::-webkit-input-placeholder, .user-panel .login-panel-main .login-form .submit-row .left .dropdown, .user-panel .login-panel-main .bottom .left, .user-panel .login-panel-switcher .bottom .left {
+.noselect, .date, .user-panel .login-panel-main .login-form .user-username, .user-panel .login-panel-main .login-form .user-password::-webkit-input-placeholder, .user-panel .login-panel-main .login-form .submit-row .left .dropdown, .user-panel .login-panel-main .bottom .left, .user-panel .login-panel-switcher .bottom .left, .command-panel .command, .command-panel .command .icon-wrapper, .command-panel .command .text, .command-panel .bottom .left, .command-panel .bottom .right {
   -webkit-user-select: none; }
 
 @keyframes drop-in-notifications {
@@ -284,8 +284,11 @@ body {
 .login-window {
   display: flex; }
   .login-window .command-panel {
+    display: flex;
+    flex-direction: column;
     width: 30%; }
   .login-window .user-panel {
+    height: 100%;
     width: 70%; }
 
 .login-window {
@@ -307,117 +310,6 @@ body {
 .command-panel, .user-panel {
   padding: 15px 35px; }
 
-.command-panel {
-  color: #fff;
-  background: #393939; }
-  .command-panel > div {
-    height: 100%; }
-  .command-panel .distro-logo {
-    background: url("../img/logos/archlinux.png") no-repeat center center;
-    margin: 0px auto;
-    height: 125px;
-    width: 125px;
-    transition: opacity 400ms; }
-    .command-panel .distro-logo:hover {
-      cursor: pointer; }
-    .command-panel .distro-logo:active {
-      opacity: 0.8; }
-  .command-panel .distro-wrapper {
-    padding-top: 35px;
-    height: 52%; }
-    .command-panel .distro-wrapper .options {
-      position: relative;
-      top: -100px;
-      opacity: 0; }
-      .command-panel .distro-wrapper .options.active {
-        animation: drop-in-options 200ms forwards;
-        animation-timing-function: ease-out; }
-      .command-panel .distro-wrapper .options .button-accept, .command-panel .distro-wrapper .options .button-reject {
-        background: rgba(0, 0, 0, 0.2);
-        position: relative;
-        opacity: 0.4;
-        text-align: center;
-        margin-top: 10px;
-        padding: 7px 8px;
-        height: 30px;
-        width: 30px;
-        border-radius: 100%; }
-        .command-panel .distro-wrapper .options .button-accept:hover, .command-panel .distro-wrapper .options .button-reject:hover {
-          cursor: pointer;
-          opacity: 1; }
-      .command-panel .distro-wrapper .options .button-accept {
-        float: right;
-        left: -15%; }
-        .command-panel .distro-wrapper .options .button-accept:hover {
-          background: #6e9200; }
-      .command-panel .distro-wrapper .options .button-reject {
-        float: left;
-        left: 15%; }
-        .command-panel .distro-wrapper .options .button-reject:hover {
-          background: #b93300; }
-    .command-panel .distro-wrapper .options-wrapper {
-      overflow: hidden;
-      height: 45px;
-      width: 100%; }
-  .command-panel .command {
-    display: flex;
-    margin-bottom: 25px;
-    transition: all 0.5s; }
-    .command-panel .command:hover {
-      cursor: pointer;
-      opacity: 0.6; }
-  .command-panel .command .icon-wrapper, .command-panel .command .text {
-    display: inline-block; }
-  .command-panel .command .icon-wrapper {
-    margin-right: 10px;
-    width: 30px; }
-  .command-panel .command.shutdown .icon {
-    background: url("../img/shutdown.png") no-repeat center center;
-    height: 20px;
-    width: 20px; }
-  .command-panel .command.reboot .icon {
-    background: url("../img/reboot.png") no-repeat center center;
-    height: 20px;
-    width: 20px; }
-  .command-panel .command.sleep .icon {
-    background: url("../img/sleep.png") no-repeat center center;
-    height: 25px;
-    width: 29px; }
-  .command-panel .command.hibernate .icon {
-    background: url("../img/hibernate.png") no-repeat center center;
-    height: 13px;
-    width: 25px; }
-  .command-panel .command .text {
-    font-size: 1.33em;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    vertical-align: 2px;
-    width: 100%; }
-  .command-panel .commands-wrapper {
-    height: 43%; }
-  .command-panel .bottom {
-    height: 5%;
-    padding-top: 15px; }
-  .command-panel .bottom .left, .command-panel .bottom .right {
-    float: left;
-    font-size: 0.75em;
-    font-weight: bold;
-    letter-spacing: 1px; }
-  .command-panel .bottom .left {
-    color: #c2c2c2;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-transform: uppercase;
-    white-space: nowrap;
-    width: 70%; }
-  .command-panel .bottom .right {
-    text-align: right;
-    opacity: 0;
-    width: 30%;
-    transition: opacity 1s; }
-  .command-panel .bottom .clock.loaded {
-    opacity: 1; }
-
 .user-panel .login-panel-main {
   display: flex;
   flex-direction: column; }
@@ -425,7 +317,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 100%; }
+    height: 95%; }
 
 .user-panel {
   color: #fff;
@@ -643,6 +535,121 @@ body {
         cursor: pointer; }
 
 /*****************************************************************
+ * -- #0.3b Command Panel
+ * ===============================================================
+ * Contains the system 'commands'. */
+/**************************************************************** */
+.command-panel {
+  color: #fff;
+  background: #393939;
+  height: 100%; }
+  .command-panel .distro-logo {
+    background: url("../img/logos/archlinux.png") no-repeat center center;
+    margin: 0px auto;
+    height: 125px;
+    width: 125px;
+    transition: opacity 400ms; }
+    .command-panel .distro-logo:hover {
+      cursor: pointer; }
+    .command-panel .distro-logo:active {
+      opacity: 0.8; }
+  .command-panel .distro-wrapper {
+    padding-top: 35px;
+    height: 52%; }
+    .command-panel .distro-wrapper .options {
+      position: relative;
+      top: -100px;
+      opacity: 0; }
+      .command-panel .distro-wrapper .options.active {
+        animation: drop-in-options 200ms forwards;
+        animation-timing-function: ease-out; }
+      .command-panel .distro-wrapper .options .button-accept, .command-panel .distro-wrapper .options .button-reject {
+        background: rgba(0, 0, 0, 0.2);
+        position: relative;
+        opacity: 0.4;
+        text-align: center;
+        margin-top: 10px;
+        padding: 7px 8px;
+        height: 30px;
+        width: 30px;
+        border-radius: 100%; }
+        .command-panel .distro-wrapper .options .button-accept:hover, .command-panel .distro-wrapper .options .button-reject:hover {
+          cursor: pointer;
+          opacity: 1; }
+      .command-panel .distro-wrapper .options .button-accept {
+        float: right;
+        left: -15%; }
+        .command-panel .distro-wrapper .options .button-accept:hover {
+          background: #6e9200; }
+      .command-panel .distro-wrapper .options .button-reject {
+        float: left;
+        left: 15%; }
+        .command-panel .distro-wrapper .options .button-reject:hover {
+          background: #b93300; }
+    .command-panel .distro-wrapper .options-wrapper {
+      overflow: hidden;
+      height: 45px;
+      width: 100%; }
+  .command-panel .command {
+    display: flex;
+    margin-bottom: 25px;
+    transition: all 0.5s; }
+    .command-panel .command:hover {
+      cursor: pointer;
+      opacity: 0.6; }
+  .command-panel .commands-wrapper {
+    height: 43%; }
+  .command-panel .command .icon-wrapper, .command-panel .command .text {
+    display: inline-block; }
+  .command-panel .command .icon-wrapper {
+    margin-right: 10px;
+    width: 30px; }
+  .command-panel .command.shutdown .icon {
+    background: url("../img/shutdown.png") no-repeat center center;
+    height: 20px;
+    width: 20px; }
+  .command-panel .command.reboot .icon {
+    background: url("../img/reboot.png") no-repeat center center;
+    height: 20px;
+    width: 20px; }
+  .command-panel .command.sleep .icon {
+    background: url("../img/sleep.png") no-repeat center center;
+    height: 25px;
+    width: 29px; }
+  .command-panel .command.hibernate .icon {
+    background: url("../img/hibernate.png") no-repeat center center;
+    height: 13px;
+    width: 25px; }
+  .command-panel .command .text {
+    font-size: 1.33em;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    vertical-align: 2px;
+    width: 100%; }
+  .command-panel .bottom {
+    height: 5%;
+    padding-top: 15px; }
+  .command-panel .bottom .left, .command-panel .bottom .right {
+    float: left;
+    font-size: 0.75em;
+    font-weight: bold;
+    letter-spacing: 1px; }
+  .command-panel .bottom .left {
+    color: #c2c2c2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+    width: 70%; }
+  .command-panel .bottom .right {
+    text-align: right;
+    opacity: 0;
+    width: 30%;
+    transition: opacity 1s; }
+  .command-panel .bottom .clock.loaded {
+    opacity: 1; }
+
+/*****************************************************************
  * -- #0.4a Settings
  * ===============================================================
  * Settings dialogue. */
@@ -664,8 +671,6 @@ body {
     display: flex;
     flex-direction: column;
     width: 83%; }
-  .settings .settings-section > div:not(.save-dialogue) {
-    height: 100%; }
   .settings .settings-section .save-dialogue {
     display: flex;
     justify-content: flex-end; }
