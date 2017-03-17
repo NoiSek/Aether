@@ -3,25 +3,26 @@
   <head>
     <meta charset="utf-8">
     <title>Amazing Content</title>
-    <link rel="stylesheet" href="src/css/main.css">
+    <link rel="stylesheet" href="src/css/style.css">
   </head>
   <body>
     <div class="wallpaper-background">
-      <div class="wallpaper-foreground">
-      </div>
+      <div class="wallpaper-foreground"></div>
+      <div class="wallpaper-preload"></div>
     </div>
+
     <div class="notifications-container">
     </div>
+
     <div class="login-window-container">
-      <div class="login-window">
-        <div id="command-panel" class="left-col">
-        </div>
-        <div id="login-panel" class="right-col">
-        </div>
-      </div>
-      <div id="date-display">
-      </div>
+      <div id="login-window-mount"></div>
+      <div id="date-display" class="date-display"></div>
     </div>
+
+    <div id="settings" class="settings hidden"></div>
+
+    <div id="settings-toggler-mount"></div>
+
     <script type="text/javascript">
       window.debug = false;
 

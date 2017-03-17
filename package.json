@@ -5,8 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/eslint src/es6/**",
-    "build": "npm run test && ./node_modules/.bin/webpack --progress --colors --optimize-dedupe --optimize-minimize --optimize-occurrence-order && ./node_modules/.bin/node-sass src/sass --output src/css",
-    "watch": "./node_modules/.bin/webpack --progress --colors --watch & ./node_modules/.bin/node-sass --watch src/sass --output src/css"
+    "build-js": "./node_modules/.bin/webpack --progress --colors --optimize-minimize --env.production",
+    "build-sass": "./node_modules/.bin/node-sass src/sass --output src/css",
+    "build": "npm run test && npm run build-js && npm run build-sass",
+    "watch-js": "./node_modules/.bin/webpack --progress --colors --watch --env.development",
+    "watch-sass": "./node_modules/.bin/node-sass --watch src/sass --output src/css -E utf-8",
+    "watch": "npm run watch-sass & npm run watch-js"
   },
   "repository": {
     "type": "git",
@@ -22,18 +26,26 @@
     "arch"
   ],
   "author": "Noi Sek",
-  "license": "GPLv2",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/noisek/Aether/issues"
   },
   "homepage": "https://github.com/noisek/Aether#readme",
-  "devDependencies": {
-    "babel-loader": "^6.2.5",
-    "babel-plugin-inferno": "^0.7.7",
-    "babel-preset-es2015": "^6.14.0",
-    "eslint": "^3.0.1",
-    "eslint-plugin-react": "^5.2.2",
-    "node-sass": "^3.8.0",
-    "webpack": "^1.13.2"
+  "dependencies": {
+    "babel-core": "~6.23.1",
+    "babel-loader": "~6.3.2",
+    "babel-plugin-inferno": "~1.9.0",
+    "babel-plugin-transform-object-rest-spread": "~6.23.0",
+    "babel-preset-es2015": "~6.22.0",
+    "cxs": "^3.0.4",
+    "eslint": "~3.15.0",
+    "eslint-plugin-inferno": "~6.9.2",
+    "inferno": "^1.3.0-rc.3",
+    "inferno-component": "^1.3.0-rc.3",
+    "inferno-dom": "^1.0.7",
+    "node-sass": "~4.5.0",
+    "redux": "~3.6.0",
+    "strftime": "^0.10.0",
+    "webpack": "~2.2.1"
   }
 }

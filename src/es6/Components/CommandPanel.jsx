@@ -1,50 +1,58 @@
-import Inferno from 'inferno.min';
-import Component from 'inferno-component.min';
+// CommandPanel -> Required by Main
+// --------------------------------------
+// The system management half of the greeter logic.
+// Displays system info and handles Sleep, Shutdown, etc.
 
-import WallpaperSwitcher from "./WallpaperSwitcher";
-import Clock from './Clock';
+import Inferno from 'inferno';
+import Component from 'inferno-component';
+
+import * as SystemOperations from '../Logic/SystemOperations';
+import WallpaperSwitcher from './CommandPanel/WallpaperSwitcher';
+import CommandList from './CommandPanel/CommandList';
+import Clock from './CommandPanel/Clock';
+
 
 export default class CommandPanel extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      "expandedCommands": false
-    };
+
+    this.store = this.props.store;
+    this.storeState = this.store.getState();
+
+    this.unsubscribe = this.store.subscribe(() => {
+      this.storeState = this.store.getState();
+    });
+
+    this.state = {};
   }
 
+
   handleCommand(command, disabled, event) {
+    event.preventDefault();
+
     if (disabled !== false) {
-      window.notifications.generate(`${command} is disabled on this system.`, "error");
+      window.notifications.generate(`${ command } is disabled on this system.`, "error");
       return false;
     }
 
-    if (command === "shutdown") {
-      window.notifications.generate("Shutting down.");
-      window.lightdm.shutdown();
-    } else if (command === "hibernate") {
-      window.notifications.generate("Hibernating system.");
-      window.lightdm.hibernate();
-    } else if (command === "reboot") {
-      window.notifications.generate("Rebooting system.");
-      window.lightdm.restart();
-    } else if (command === "sleep") {
-      window.notifications.generate("Suspending system.");
-      window.lightdm.suspend();
-    }
+    SystemOperations.handleCommand(command);
   }
 
-  generateCommands() {
+
+  getEnabledCommands() {
     let commands = {
-      "Shutdown": window.lightdm.can_shutdown,
-      "Reboot": window.lightdm.can_restart, 
-      "Hibernate": window.lightdm.can_hibernate, 
-      "Sleep": window.lightdm.can_suspend
+      "Shutdown": (window.lightdm.can_shutdown && this.storeState.settings.command_shutdown_enabled),
+      "Reboot": (window.lightdm.can_restart && this.storeState.settings.command_reboot_enabled),
+      "Hibernate": (window.lightdm.can_hibernate && this.storeState.settings.command_hibernate_enabled),
+      "Sleep": (window.lightdm.can_suspend && this.storeState.settings.command_sleep_enabled)
     };
 
     // Filter out commands we can't execute.
-    let enabledCommands = Object.keys(commands)
-    .map((key) => commands[key] ? key : false)
-    .filter((command) => command !== false);
+    let enabledCommands = (
+      Object.keys(commands)
+      .map((key) => commands[key] ? key : false)
+      .filter((command) => command !== false)
+    );
 
     // Are both hibernation and suspend disabled?
     // Add the row back and disable it so that the user is aware of what's happening.
@@ -52,51 +60,36 @@ export default class CommandPanel extends Component {
       enabledCommands.push("Sleep.disabled");
     }
 
-    // Save ourselves some work, when all four commands are enabled
-    // rendering should be halted, and the logo should be moved up.
-    let expanded = (enabledCommands.length > 3);
-    if (expanded === true) {
-      this.setState({
-        'expandedCommands': true
-      });
-    }
-
-    let rows = enabledCommands.map((command) => {
-      let disabled = command.toLowerCase().split('.')[1] || false;
-      command = command.toLowerCase().split('.')[0];
-      
-      let classes = ['command', command, disabled].filter((e) => e);
-
-      return (
-        <div className={ classes.join(' ') } onClick={ this.handleCommand.bind(this, command, disabled) }>
-          <div class="icon-wrapper">
-            <div class="icon"></div>
-          </div>
-          <div class="text">{ command }</div>
-        </div>
-      );
-    });
-
-    let classes = ['commands-wrapper'];
-
-    return (
-      <div className={ classes.join(' ') }>
-        { rows }
-      </div>
-    );
+    return enabledCommands;
   }
+
 
   render() {
     let hostname = window.lightdm.hostname;
-    let commands = this.generateCommands();
+    let hostnameClasses = ['left', 'hostname'];
+
+    let hostNameDisabled = (this.storeState.settings.hostname_enabled === false);
+    let iconsEnabled = (this.storeState.settings.command_icons_enabled === true);
+    let textAlign = this.storeState.settings.command_text_align;
+
+    let commands = this.getEnabledCommands();
+
+    if (hostNameDisabled) {
+      hostnameClasses.push('invisible');
+    }
 
     return (
-      <div>
-        <WallpaperSwitcher />
-        { commands }
+      <div className="command-panel">
+        <WallpaperSwitcher store={ this.props.store } />
+        <CommandList
+          enabledCommands={ commands }
+          handleCommand={ this.handleCommand.bind(this) }
+          iconsEnabled={ iconsEnabled }
+          textAlign={ textAlign }
+        />
         <div className="bottom">
-          <div className="left hostname">{ hostname }</div>
-          <Clock />
+          <div className={ hostnameClasses.join(' ') }>{ hostname }</div>
+          <Clock store={ this.props.store } />
         </div>
       </div>
     );

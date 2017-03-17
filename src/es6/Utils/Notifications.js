@@ -1,6 +1,18 @@
 export default class Notifications {
   constructor() {
     this.container = document.querySelectorAll('.notifications-container')[0];
+
+    if (window.debug === true) {
+      this.generate("Hey there!", "success");
+
+      setTimeout(() => {
+        this.generate("TIP: Click the logo to switch wallpapers.");
+      }, 2000);
+
+      setTimeout(() => {
+        this.generate("TIP: Access settings by hovering over the bottom left of your screen!");
+      }, 5 * 1000);
+    }
   }
 
   generate(message, type) {
@@ -9,7 +21,7 @@ export default class Notifications {
     }
 
     let notification = document.createElement('div');
-    notification.className = `notification ${type}`;
+    notification.className = `notification ${ type }`;
     notification.innerText = message;
     this.container.appendChild(notification);
 

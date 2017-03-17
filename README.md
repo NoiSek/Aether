@@ -21,6 +21,7 @@ A Sleek, straightforward Archlinux themed login screen written on lightdm and th
   - [Troubleshooting](#troubleshooting)
     - [My login screen hasn't changed!](#my-login-screen-hasnt-changed)
     - [My screen is black!](#my-screen-is-black)
+    - [My system hangs at the boot screen!](#my-system-hangs-at-the-boot-screen)
     - [The lock screen isn't using my lightdm theme!](#the-lock-screen-isnt-using-my-lightdm-theme)
   - [Development](#development)
     - [Running Tests](#running-tests)
@@ -119,7 +120,6 @@ If you see something similar to:
 
 Then you should try re-installing and / or reconfiguring your graphics drivers, especially if this occurred after a kernel update.
 
-
 ### The lock screen isn't using my lightdm theme!
 
 If you are using cinnamon, gnome, or any gnome derivative; Good Luck. The solution involves [light-locker (community/light-locker)](https://github.com/the-cavalry/light-locker), but conflicts with the existing lock / screensaver applications. There is no known way to resolve this.
@@ -155,13 +155,6 @@ npm run build
 # Automatically detects and re-compiles changes.
 npm run watch
 ```
-
-##### Todo
-- [x] Separate dates from their parent components
-- [x] Implement wallpaper customization
-- [ ] Add switchable CSS themes
-- [ ] Rewrite using Redux for testing reasons.
-
 
 ##### Credit
 - *Bear by Yu luck from the Noun Project*

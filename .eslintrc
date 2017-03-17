@@ -3,28 +3,52 @@
     "browser": true,
     "es6": true
   },
-  "extends": "eslint:recommended",
+  "globals": {},
+  "extends": [
+    "eslint:recommended",
+    "plugin:inferno/recommended"
+  ],
   "parserOptions": {
     "ecmaFeatures": {
-    " experimentalObjectRestSpread": true,
+      "experimentalObjectRestSpread": true,
       "jsx": true
     },
     "sourceType": "module"
   },
   "plugins": [
-    "react"
+    "inferno"
   ],
   "rules": {
     "indent": [
       "error",
-      2
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "inferno/prop-types": [
+      "off"
     ],
     "linebreak-style": [
       "error",
       "unix"
     ],
     "no-unused-vars" : [
-      "warn"
+      "warn",
+      {
+        "varsIgnorePattern": "Inferno*",
+        "argsIgnorePattern": "_*"
+      }
+    ],
+    "no-warning-comments" : [
+      "warn",
+      {
+        "terms": [
+          "todo",
+          "fixme",
+          "hack"
+        ]
+      }
     ],
     "semi": [
       "error",
