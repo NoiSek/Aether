@@ -94,10 +94,10 @@ export default class Settings extends Component {
   generateCategories() {
     let categories = [
       'General',
-      'Style',
+      'Style'/*,
       'Themes',
       'Function',
-      'Presets'
+      'Presets'*/
     ];
 
     let listItems = categories.map((category) => {
