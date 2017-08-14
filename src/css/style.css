@@ -21,10 +21,10 @@
 /*    -- #0.4a Settings */
 /*    -- #0.5a Misc. */
 /* */
-/*************************************************************** */
+/****************************************************************/
 /* http://meyerweb.com/eric/tools/css/reset/
- * v2.0 | 20110126
- * License: none (public domain) */
+   v2.0 | 20110126
+   License: none (public domain) */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -61,7 +61,7 @@ blockquote, q {
 
 blockquote:before, blockquote:after,
 q:before, q:after {
-  content: "";
+  content: '';
   content: none; }
 
 table {
@@ -69,25 +69,29 @@ table {
   border-spacing: 0; }
 
 @font-face {
-  font-family: "Open Sans";
+  font-family: 'Open Sans';
   src: url("../font/OpenSans-Regular-webfont.woff") format("woff");
   font-weight: normal;
   font-style: normal; }
+
 @font-face {
-  font-family: "Open Sans";
+  font-family: 'Open Sans';
   src: url("../font/OpenSans-Bold-webfont.woff") format("woff");
   font-weight: bold;
   font-style: normal; }
+
 @font-face {
-  font-family: "Open Sans";
+  font-family: 'Open Sans';
   src: url("../font/OpenSans-Italic-webfont.woff") format("woff");
   font-weight: normal;
   font-style: italic; }
+
 @font-face {
-  font-family: "Open Sans";
+  font-family: 'Open Sans';
   src: url("../font/OpenSans-BoldItalic-webfont.woff") format("woff");
   font-weight: bold;
   font-style: italic; }
+
 ::-webkit-scrollbar {
   width: 6px;
   background-color: transparent;
@@ -122,6 +126,7 @@ table {
     top: -200px; }
   100% {
     top: 0px; } }
+
 @keyframes drop-in-options {
   0% {
     top: -100px;
@@ -129,6 +134,7 @@ table {
   100% {
     top: 0px;
     opacity: 1; } }
+
 @keyframes error-shake {
   0% {
     transform: translateX(0px) scale(1); }
@@ -150,6 +156,7 @@ table {
     transform: translateX(10px) scale(1); }
   100% {
     transform: translateX(0px); } }
+
 @keyframes login-fade-out {
   0% {
     opacity: 1;
@@ -158,6 +165,7 @@ table {
     transform: translateY(10px); }
   100% {
     opacity: 0; } }
+
 @keyframes login-fade-in {
   0% {
     opacity: 0;
@@ -165,6 +173,7 @@ table {
   100% {
     opacity: 1;
     transform: translateY(0px); } }
+
 @keyframes switcher-fade-in {
   0% {
     opacity: 0;
@@ -172,6 +181,7 @@ table {
   100% {
     opacity: 1;
     transform: translateY(0px) scale(1); } }
+
 @keyframes switcher-fade-out {
   0% {
     opacity: 1;
@@ -179,11 +189,13 @@ table {
   100% {
     opacity: 0;
     transform: translateY(-10px) scale(0.95); } }
+
 @keyframes wallpaper-fade-out {
   0% {
     opacity: 1; }
   100% {
     opacity: 0; } }
+
 @keyframes window-fade-in {
   0% {
     opacity: 0;
@@ -191,6 +203,7 @@ table {
   100% {
     opacity: 1;
     transform: scale(1); } }
+
 html {
   box-sizing: border-box; }
 
@@ -205,10 +218,10 @@ body {
   width: 100vw; }
 
 /*****************************************************************
- * -- #0.2a Page Body
- * ===============================================================
- * Body elements external to the login window itself. */
-/**************************************************************** */
+  -- #0.2a Page Body
+  @mixin ==============================================================
+  Body elements external to the login window itself. */
+/*****************************************************************/
 .date {
   color: #fff;
   opacity: 0;
@@ -271,10 +284,10 @@ body {
   display: none; }
 
 /*****************************************************************
- * -- #0.3a Login Window
- * ===============================================================
- * Contains the actual login dialogue. */
-/**************************************************************** */
+  -- #0.3a Login Window
+  @mixin ==============================================================
+  Contains the actual login dialogue. */
+/*****************************************************************/
 .login-window-container {
   position: relative;
   overflow: hidden;
@@ -377,6 +390,8 @@ body {
         font-size: 14pt;
         font-weight: bold;
         letter-spacing: 2px;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
         width: 100%;
         transition: opacity 1s; }
         .user-panel .login-panel-main .login-form .user-password:focus, .user-panel .login-panel-main .login-form .user-password:active {
@@ -535,10 +550,10 @@ body {
         cursor: pointer; }
 
 /*****************************************************************
- * -- #0.3b Command Panel
- * ===============================================================
- * Contains the system 'commands'. */
-/**************************************************************** */
+  -- #0.3b Command Panel
+  @mixin ==============================================================
+  Contains the system 'commands'. */
+/*****************************************************************/
 .command-panel {
   color: #fff;
   background: #393939;
@@ -650,10 +665,10 @@ body {
     opacity: 1; }
 
 /*****************************************************************
- * -- #0.4a Settings
- * ===============================================================
- * Settings dialogue. */
-/**************************************************************** */
+  -- #0.4a Settings
+  @mixin ==============================================================
+  Settings dialogue. */
+/*****************************************************************/
 .settings {
   display: flex;
   position: absolute;
@@ -682,10 +697,12 @@ body {
   font-variant: small-caps;
   padding: 15px 25px;
   transition: color 300ms ease, background-color 300ms ease; }
+
 .settings .settings-categories ul li:hover {
   cursor: pointer;
   color: #4d4d4d;
   background: #e8e8e8; }
+
 .settings .settings-categories ul li.active, .settings .settings-categories ul li.active:hover {
   color: #4d4d4d;
   background: #fafafa; }
@@ -821,10 +838,10 @@ body {
     opacity: 1; }
 
 /*****************************************************************
- * -- #0.4b Settings General
- * ===============================================================
- * General Settings section. */
-/**************************************************************** */
+  -- #0.4b Settings General
+  @mixin ==============================================================
+  General Settings section. */
+/*****************************************************************/
 .settings-general {
   display: flex;
   padding: 25px; }
@@ -855,10 +872,10 @@ body {
   overflow-y: scroll; }
 
 /*****************************************************************
- * -- #0.4c Settings Style
- * ===============================================================
- * Style Settings section. */
-/**************************************************************** */
+  -- #0.4c Settings Style
+  @mixin ==============================================================
+  Style Settings section. */
+/*****************************************************************/
 .settings-style {
   display: flex;
   padding: 25px; }
@@ -871,21 +888,24 @@ body {
 
 .settings-style .left {
   border-right: 2px solid #eee; }
+
 .settings-style .left li {
   display: flex;
   align-items: center; }
+
 .settings-style .left li label {
   flex-grow: 2;
   width: 100%; }
+
 .settings-style .left ul li input[type='text'] {
   flex-shrink: 2;
   margin-top: 0px; }
 
 /*****************************************************************
- * -- #0.5a Misc. Styles
- * ===============================================================
- * Misc. */
-/**************************************************************** */
+  -- #0.5a Misc. Styles
+  @mixin ==============================================================
+  Misc. */
+/*****************************************************************/
 .hidden {
   display: none !important; }
 
@@ -895,5 +915,3 @@ body {
 .minimize {
   height: 0px !important;
   overflow: hidden !important; }
-
-/*# sourceMappingURL=style.css.map */
