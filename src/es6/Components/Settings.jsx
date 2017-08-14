@@ -48,6 +48,10 @@ export default class Settings extends Component {
     let centerY = ((window.innerHeight - SETTINGS_HEIGHT) / 2);
 
     draggable.set(centerX, centerY);
+
+    // Set default zoom
+    let defaultZoom = this.storeState.settings.dpi_zoom;
+    document.getElementById("root").style.zoom = defaultZoom;
   }
 
 

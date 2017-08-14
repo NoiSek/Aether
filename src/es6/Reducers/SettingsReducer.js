@@ -1,5 +1,6 @@
 /* eslint { no-redeclare: 0 } */
 import * as Settings from '../Logic/Settings';
+import { setPageZoom } from '../Utils/Utils';
 
 export function addAdditionalSettings(state) {
   // Define our defaults
@@ -10,14 +11,12 @@ export function addAdditionalSettings(state) {
     "active": false,
     "minimized": false,
     "distro": distroDefault,
+    "page_zoom": 1.0,
 
     "avatar_enabled": true,
     "avatar_size": "200px",
     "avatar_shape": "circle",
 
-    "font_dpi": 1.0,
-    "font_color": "#222222",
-    "font_family": "Open Sans",
     "font_scale": 1.0,
 
     "date_enabled": true,
@@ -48,6 +47,7 @@ export function addAdditionalSettings(state) {
   return { ...state, "settings": settings, "cachedSettings": settings };
 }
 
+
 export const SettingsReducer = (state, action) => {
   switch(action.type) {
     case 'SETTINGS_LOGO_CHANGE':
@@ -61,6 +61,9 @@ export const SettingsReducer = (state, action) => {
 
       // Create a notification
       window.notifications.generate("Reverted to previous settings, no changes saved.", "success");
+
+      // This shouldn't be here. It is, though.
+      setPageZoom(newSettings.page_zoom);
 
       return { ...state, "settings": newSettings };
 
@@ -82,6 +85,9 @@ export const SettingsReducer = (state, action) => {
       var newSettings = { ...state.settings };
 
       newSettings[action.name] = action.value;
+
+      // This shouldn't be here. It is, though.
+      setPageZoom(newSettings.page_zoom);
 
       return { ...state, "settings": newSettings };
 

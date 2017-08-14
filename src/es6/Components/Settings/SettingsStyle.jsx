@@ -24,6 +24,11 @@ export const SettingsStyle = (props) => {
             value={ storeState.settings.window_font_size }
             boundFunction={ props.settingsSetValue.bind(this, 'window_font_size') }
           />
+          <FormTextField
+            name={ "DPI Zoom" }
+            value={ storeState.settings.page_zoom }
+            boundFunction={ props.settingsSetValue.bind(this, 'page_zoom') }
+          />
         </ul>
       </div>
       <div className="right">
