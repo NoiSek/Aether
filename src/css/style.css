@@ -121,6 +121,12 @@ table {
 .noselect, .date, .user-panel .login-panel-main .login-form .user-username, .user-panel .login-panel-main .login-form .user-password::-webkit-input-placeholder, .user-panel .login-panel-main .login-form .submit-row .left .dropdown, .user-panel .login-panel-main .bottom .left, .user-panel .login-panel-switcher .bottom .left, .command-panel .command, .command-panel .command .icon-wrapper, .command-panel .command .text, .command-panel .bottom .left, .command-panel .bottom .right {
   -webkit-user-select: none; }
 
+.hidden {
+  display: none !important; }
+
+.invisible {
+  visibility: hidden !important; }
+
 @keyframes drop-in-notifications {
   0% {
     top: -200px; }
@@ -674,8 +680,6 @@ body {
   position: absolute;
   width: 600px;
   opacity: 1; }
-  .settings.hidden {
-    display: none !important; }
   .settings > div {
     display: flex;
     flex-wrap: wrap;
@@ -793,10 +797,11 @@ body {
     position: absolute;
     top: 0.1rem;
     left: 0.2rem; }
-  .settings .settings-section select {
+  .settings .settings-section label + select {
     margin-left: 10px;
-    padding: 5px;
     width: 50%; }
+  .settings .settings-section select {
+    padding: 5px; }
 
 .settings-section .save-dialogue {
   background: #f3f3f3;
@@ -854,9 +859,14 @@ body {
 
 .settings-general .left {
   border-right: 2px solid #eee; }
+  .settings-general .left h6 {
+    font-size: 0.8em;
+    font-weight: bold;
+    margin-top: 30px; }
+  .settings-general .left li {
+    list-style-type: none; }
   .settings-general .left select {
-    margin-top: 15px;
-    margin-left: 0px;
+    margin: 15px 0px 0px 0px;
     padding: 5px;
     width: 100%; }
   .settings-general .left select:hover {
@@ -906,12 +916,6 @@ body {
   @mixin ==============================================================
   Misc. */
 /*****************************************************************/
-.hidden {
-  display: none !important; }
-
-.invisible {
-  visibility: hidden; }
-
 .minimize {
   height: 0px !important;
   overflow: hidden !important; }
