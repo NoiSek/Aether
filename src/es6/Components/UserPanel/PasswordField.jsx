@@ -14,6 +14,7 @@ const PasswordField = (props) => {
 
   return (
     <input
+      id="password-field"
       type="password"
       placeholder="*******************"
       className={ classes.join(' ') }

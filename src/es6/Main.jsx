@@ -35,5 +35,6 @@ window.onload = (e) => {
   window.notifications = new Notifications();
 
   Main();
+  document.getElementById("password-field").focus();
 };
 
