@@ -54,3 +54,12 @@ export function getLogos() {
 
   return themeLogos.map((e) => [e, e.split("/").pop()]);
 }
+
+export function getEnvironments() {
+  return window.lightdm.sessions.map((session) => {
+    return {
+      'name': session.name,
+      'value': session.key
+    };
+  });
+}
