@@ -4,7 +4,8 @@
     "es6": true
   },
   "globals": {
-    "jsColorPicker": true
+    "jsColorPicker": true,
+    "require": true
   },
   "extends": [
     "eslint:recommended",

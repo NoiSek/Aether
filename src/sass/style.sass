@@ -639,6 +639,13 @@ body
     margin-right: 10px
     width: 30px
 
+  .command .icon-wrapper svg
+    height: 20px
+    width: 30px
+
+  .command .icon-wrapper svg > *
+    fill: currentColor
+
   .command .text
     font-size: 1.33em
     letter-spacing: 2px
@@ -659,7 +666,7 @@ body
     letter-spacing: 1px
 
   .bottom .left
-    color: $hostname-color
+    color: rgba(255, 255, 255, 0.65)
 
     overflow: hidden
 
@@ -1001,7 +1008,10 @@ body
     width: 100%
 
   .right
+    overflow-y: scroll
     padding: 25px
+
+    height: 500px
     width: 100%
 
   .right .swatch-container

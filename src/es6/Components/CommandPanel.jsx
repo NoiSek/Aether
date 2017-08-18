@@ -3,6 +3,7 @@
 // The system management half of the greeter logic.
 // Displays system info and handles Sleep, Shutdown, etc.
 
+import cxs from 'cxs';
 import Inferno from 'inferno';
 import Component from 'inferno-component';
 
@@ -20,6 +21,7 @@ export default class CommandPanel extends Component {
     this.storeState = this.store.getState();
 
     this.unsubscribe = this.store.subscribe(() => {
+      console.log("Update!");
       this.storeState = this.store.getState();
     });
 
@@ -65,12 +67,11 @@ export default class CommandPanel extends Component {
 
 
   render() {
+    let settings = this.store.getState().settings;
+
     let hostname = window.lightdm.hostname;
     let hostnameClasses = ['left', 'hostname'];
-
-    let hostNameDisabled = (this.storeState.settings.hostname_enabled === false);
-    let iconsEnabled = (this.storeState.settings.command_icons_enabled === true);
-    let textAlign = this.storeState.settings.command_text_align;
+    let hostNameDisabled = (settings.hostname_enabled === false);
 
     let commands = this.getEnabledCommands();
 
@@ -78,14 +79,17 @@ export default class CommandPanel extends Component {
       hostnameClasses.push('invisible');
     }
 
+    let styles = cxs({
+      'background': settings.style_command_background_color
+    });
+
     return (
-      <div className="command-panel">
+      <div className={ `command-panel ${ styles }` }>
         <WallpaperSwitcher store={ this.props.store } />
         <CommandList
           enabledCommands={ commands }
           handleCommand={ this.handleCommand.bind(this) }
-          iconsEnabled={ iconsEnabled }
-          textAlign={ textAlign }
+          store={ this.store }
         />
         <div className="bottom">
           <div className={ hostnameClasses.join(' ') }>{ hostname }</div>

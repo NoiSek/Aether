@@ -2,7 +2,7 @@
 // --------------------------------------
 // Style / Composition wrapper.
 
-import cxs from 'cxs/lite';
+import cxs from 'cxs';
 import Inferno from 'inferno';
 import Component from 'inferno-component';
 

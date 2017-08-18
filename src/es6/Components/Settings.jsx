@@ -41,7 +41,7 @@ export default class Settings extends Component {
 
   componentDidMount() {
     let draggable = new Draggable(document.getElementById("settings"), {
-      "handle": this.refs.handle
+      "handle": this.handle
     });
 
     let centerX = ((window.innerWidth - SETTINGS_WIDTH) / 2);
@@ -184,7 +184,7 @@ export default class Settings extends Component {
 
     return (
       <div>
-        <div className="settings-handle" ref={ (node) => this.refs.handle = node }>
+        <div className="settings-handle" ref={ (node) => this.handle = node }>
           <ul>
             <li className="settings-minimize" onClick={ this.handleSettingsMinimize.bind(this) }>&#8722;</li>
             <li className="settings-close" onClick={ this.handleSettingsClose.bind(this) }>&#215;</li>

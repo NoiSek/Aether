@@ -2,7 +2,7 @@
 // --------------------------------------
 // The login management half of the greeter logic.
 
-import cxs from 'cxs/lite';
+import cxs from 'cxs';
 import Inferno from 'inferno';
 import Component from 'inferno-component';
 
