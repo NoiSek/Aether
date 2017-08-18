@@ -46,6 +46,7 @@
     "node-sass": "~4.5.0",
     "redux": "~3.6.0",
     "strftime": "^0.10.0",
+    "svg-inline-loader": "^0.8.0",
     "webpack": "~2.2.1"
   }
 }
