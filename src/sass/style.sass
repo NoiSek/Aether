@@ -169,7 +169,6 @@ body
 
 
 .login-window
-  background: $right-background-plate
   overflow: hidden
 
   opacity: 0
@@ -213,7 +212,7 @@ body
   color: #fff
   background: $right-background-image
 
-  border: 1px solid rgba(251, 98, 192, 0.25)
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-bottom: none
 
   & > div
@@ -287,7 +286,7 @@ body
         background: none
         outline: none
         border: none
-        border-bottom: 2px solid rgba(255, 255, 255, 0.6)
+        border-bottom: 2px solid rgba(0, 0, 0, 0.17)
 
         font-size: 14pt
         font-weight: bold
@@ -347,20 +346,23 @@ body
 
         .right .submit-button
           color: #fff
-          background: hsla(342,93%,76%,0.6)
+          background: rgba(255, 255, 255, 0.22)
 
           border: none
           border-radius: 4px
           outline: none
 
           position: relative
-          top: -1px
           left: 6px
 
           font-weight: bold
           font-size: 8pt
 
           padding: 8px
+
+          height: 30px
+
+          box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05)
 
           &:hover
             cursor: pointer
@@ -383,9 +385,7 @@ body
         color: #fff
         display: block
 
-        // Lighter f73f89
-        // Darker f83f77
-        background: #f83f77 $dropdown-caret no-repeat 90% 50%
+        background: rgba(255, 255, 255, 0.22) $dropdown-caret no-repeat 90% 50%
         position: relative
 
         font-style: italic
@@ -638,30 +638,6 @@ body
   .command .icon-wrapper
     margin-right: 10px
     width: 30px
-
-  .command.shutdown .icon
-    background: $shutdown-icon no-repeat center center
-
-    height: 20px
-    width: 20px
-
-  .command.reboot .icon
-    background: $reboot-icon no-repeat center center
-
-    height: 20px
-    width: 20px
-
-  .command.sleep .icon
-    background: $sleep-icon no-repeat center center
-
-    height: 25px
-    width: 29px
-
-  .command.hibernate .icon
-    background: $hibernate-icon no-repeat center center
-
-    height: 13px
-    width: 25px
 
   .command .text
     font-size: 1.33em
@@ -1028,6 +1004,19 @@ body
     padding: 25px
     width: 100%
 
+  .right .swatch-container
+    display: flex
+    justify-content: space-between
+    width: 100%
+
+  .right .swatch-container .swatch
+    display: flex
+    flex-wrap: wrap
+
+  .right .swatch-container .swatch .swatch-bg
+    flex-grow: 1
+
+
 .settings-style
   .left
     border-right: 2px solid #eee
@@ -1043,6 +1032,60 @@ body
   .left ul li input[type='text']
     flex-shrink: 2
     margin-top: 0px
+
+  .right .settings-item.settings-color label
+    display: block
+
+    margin-top: 25px
+
+    font-style: italic
+    font-size: 0.8em
+    text-transform: uppercase
+
+    width: 100%
+
+  .right .settings-item.settings-color .swatch-container
+    margin-top: 10px
+
+    input[type='text']
+      display: inline-block
+
+      margin-left: 0
+      margin-top: 0
+
+      width: 46%
+
+    .swatch
+      border: 1px dashed #bdbdbd
+
+      height: 25px
+      width: 46%
+
+      .swatch-bg
+        flex-grow: 1
+
+        position: relative
+        top: -12.5px
+
+        height: 12.5px
+        width: 1%
+
+        z-index: 1
+
+      .swatch-bg-black
+        background: #000
+
+      .swatch-bg-white
+        background: #fff
+
+      .swatch-bg-gray
+        background: #808080
+
+      .swatch-fg
+        height: 25px
+        width: 100%
+
+        z-index: 2
 
 
 /*****************************************************************

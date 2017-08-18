@@ -3,7 +3,9 @@
     "browser": true,
     "es6": true
   },
-  "globals": {},
+  "globals": {
+    "jsColorPicker": true
+  },
   "extends": [
     "eslint:recommended",
     "plugin:inferno/recommended"

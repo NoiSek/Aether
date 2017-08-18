@@ -2,6 +2,7 @@
 // --------------------------------------
 // The login management half of the greeter logic.
 
+import cxs from 'cxs/lite';
 import Inferno from 'inferno';
 import Component from 'inferno-component';
 
@@ -183,6 +184,7 @@ export default class LoginPanel extends Component {
   render() {
     let loginPanelClasses = ['login-panel-main'];
     let avatarClasses = ['avatar-container'];
+    let settings = this.storeState.settings;
 
     if (this.state.fadeIn === true) {
       loginPanelClasses.push('fadein');
@@ -192,12 +194,16 @@ export default class LoginPanel extends Component {
       loginPanelClasses.push('fadeout');
     }
 
-    if (this.storeState.settings.avatar_enabled === false) {
+    if (settings.avatar_enabled === false) {
       avatarClasses.push('hidden');
     }
 
+    let style = cxs({
+      "background": `linear-gradient(to bottom, ${ settings.style_login_gradient_top_color } 0%, ${ settings.style_login_gradient_bottom_color } 100%);`
+    });
+
     return (
-      <div className="user-panel">
+      <div className={ `user-panel ${ style }` }>
         <div className={ loginPanelClasses.join(' ') }>
           <div className={ avatarClasses.join(' ') }>
             <div className="avatar-background">

@@ -34,6 +34,11 @@ export function addAdditionalSettings(state) {
     "command_icons_enabled": true,
     "command_text_align": "left",
 
+    "style_command_background_color": "hsla(0, 0%, 22%, 1)",
+    "style_command_icon_color": "hsla(349, 98%, 65%, 1)",
+    "style_login_gradient_top_color": "hsla(18, 100%, 61%, 0.66)",
+    "style_login_gradient_bottom_color": "hsla(339, 94%, 64%, 1)",
+
     "window_border_radius": "4px",
     "window_font_size": "1em"
   };

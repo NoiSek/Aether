@@ -1,5 +1,6 @@
 import Inferno from 'inferno';
 
+import { FormColorPicker } from './FormColorPicker';
 import { FormTextField } from './FormTextField';
 import { FormCheckbox } from './FormCheckbox';
 import { FormDropdown } from './FormDropdown';
@@ -45,6 +46,29 @@ export const SettingsStyle = (props) => {
             value={ storeState.settings.command_text_align }
             options={ ['left', 'center', 'right'] }
             boundFunction={ props.settingsSetValue.bind(this, 'command_text_align') }
+          />
+          <FormColorPicker
+            name={ "Background" }
+            value={ storeState.settings.style_command_background_color }
+            mappedSetting={ "style_command_background_color" }
+          />
+          <FormColorPicker
+            name={ "Icon Color" }
+            value={ storeState.settings.style_command_icon_color }
+            mappedSetting={ "style_command_icon_color" }
+          />
+
+          <h4>Login Panel</h4>
+          <hr />
+          <FormColorPicker
+            name={ "Gradient-Top" }
+            value={ storeState.settings.style_login_gradient_top_color }
+            mappedSetting={ "style_login_gradient_top_color" }
+          />
+          <FormColorPicker
+            name={ "Gradient-Bottom" }
+            value={ storeState.settings.style_login_gradient_bottom_color }
+            mappedSetting={ "style_login_gradient_bottom_color" }
           />
         </ul>
       </div>
