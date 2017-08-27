@@ -217,11 +217,14 @@ html {
   box-sizing: inherit; }
 
 body {
-  font-family: "Open Sans";
   background: #222;
+  font-family: "Open Sans";
   overflow: hidden;
   height: 100vh;
-  width: 100vw; }
+  width: 100vw;
+  text-rendering: optimizeLegibility !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important; }
 
 /*****************************************************************
   -- #0.2a Page Body
@@ -307,6 +310,9 @@ body {
     flex-direction: column;
     width: 30%; }
   .login-window .user-panel {
+    border-style: solid;
+    border-bottom: none;
+    border-width: 1px;
     height: 100%;
     width: 70%; }
 
@@ -339,8 +345,6 @@ body {
 
 .user-panel {
   color: #fff;
-  background: url("../img/background-gradient.png") repeat-x;
-  border: 1px solid rgba(255, 255, 255, 0.1);
   border-bottom: none; }
   .user-panel > div {
     height: 100%; }
@@ -427,46 +431,62 @@ body {
         .user-panel .login-panel-main .login-form .submit-row .right {
           width: 20%; }
         .user-panel .login-panel-main .login-form .submit-row .right .submit-button {
-          color: #fff;
-          background: rgba(255, 255, 255, 0.22);
-          border: none;
-          border-radius: 4px;
-          outline: none;
-          position: relative;
-          left: 6px;
-          font-weight: bold;
-          font-size: 8pt;
-          padding: 8px;
-          height: 30px;
           box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05); }
           .user-panel .login-panel-main .login-form .submit-row .right .submit-button:hover {
-            cursor: pointer;
-            background: rgba(255, 255, 255, 0.5); }
+            cursor: pointer; }
+            .user-panel .login-panel-main .login-form .submit-row .right .submit-button:hover polygon {
+              transform: scale(1.1) translateX(2px); }
+          .user-panel .login-panel-main .login-form .submit-row .right .submit-button > div {
+            position: relative;
+            left: 8px; }
+          .user-panel .login-panel-main .login-form .submit-row .right .submit-button input[type=submit] {
+            display: none; }
+          .user-panel .login-panel-main .login-form .submit-row .right .submit-button svg {
+            background-color: currentColor;
+            height: 30px;
+            filter: drop-shadow(0px 2px 1px rgba(0, 0, 0, 0.1));
+            border-radius: 4px; }
+            .user-panel .login-panel-main .login-form .submit-row .right .submit-button svg circle {
+              r: 0; }
+            .user-panel .login-panel-main .login-form .submit-row .right .submit-button svg polygon {
+              stroke: rgba(42, 19, 15, 0.05);
+              stroke-width: 1px;
+              transform: scale(1) translateX(0px);
+              transform-origin: center;
+              transition: all 200ms cubic-bezier(0.64, 0.15, 0.18, 0.52); }
       .user-panel .login-panel-main .login-form .submit-row-container {
         position: relative; }
       .user-panel .login-panel-main .login-form .left .dropdown .dropdown-item {
         color: #525252;
         display: none;
-        background: rgba(255, 255, 255, 0.9);
-        padding: 8px 10px; }
-        .user-panel .login-panel-main .login-form .left .dropdown .dropdown-item:hover {
+        padding: 8px 10px;
+        transition: background-position-y 200ms ease; }
+        .user-panel .login-panel-main .login-form .left .dropdown .dropdown-item:not(.active):hover {
           background: white; }
+        .user-panel .login-panel-main .login-form .left .dropdown .dropdown-item:not(.active) {
+          background: rgba(255, 255, 255, 0.9); }
       .user-panel .login-panel-main .login-form .left .dropdown .dropdown-item.active {
         color: #fff;
         display: block;
-        background: rgba(255, 255, 255, 0.22) url("../img/dropdown-caret.png") no-repeat 90% 50%;
+        background-image: url("../img/dropdown-caret.png");
+        background-repeat: no-repeat;
+        background-position: 90% 50%;
         position: relative;
-        font-style: italic;
+        font-family: "Open Sans";
         font-weight: bold;
+        font-style: italic;
         line-height: 1.2em;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
         padding-right: 30px;
         border-radius: 2px;
-        box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05); }
+        box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05);
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.12); }
       .user-panel .login-panel-main .login-form .left .dropdown.active .dropdown-item {
         display: block; }
+      .user-panel .login-panel-main .login-form .left .dropdown.active .dropdown-item.active {
+        background-position: 90% 65%; }
   .user-panel .login-panel-switcher {
     display: block;
     opacity: 0;
@@ -562,7 +582,6 @@ body {
 /*****************************************************************/
 .command-panel {
   color: #fff;
-  background: #393939;
   height: 100%; }
   .command-panel .distro-logo {
     background: url("../img/logos/archlinux.png") no-repeat center center;
@@ -645,7 +664,7 @@ body {
     font-weight: bold;
     letter-spacing: 1px; }
   .command-panel .bottom .left {
-    color: #c2c2c2;
+    color: rgba(255, 255, 255, 0.65);
     overflow: hidden;
     text-overflow: ellipsis;
     text-transform: uppercase;
@@ -882,10 +901,12 @@ body {
     padding: 25px;
     width: 100%; }
   .settings-style .right {
-    overflow-y: scroll;
     padding: 25px;
-    height: 500px;
     width: 100%; }
+  .settings-style .right .color-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; }
   .settings-style .right .swatch-container {
     display: flex;
     justify-content: space-between;
@@ -911,15 +932,24 @@ body {
   flex-shrink: 2;
   margin-top: 0px; }
 
+.settings-style .right .color-group .settings-color:last-of-type {
+  margin-bottom: 35px; }
+
+.settings-style .right .settings-item.settings-color {
+  margin-top: 15px;
+  width: 48%; }
+
 .settings-style .right .settings-item.settings-color label {
   display: block;
-  margin-top: 25px;
-  font-style: italic;
+  overflow: hidden;
   font-size: 0.8em;
   text-transform: uppercase;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   width: 100%; }
 
 .settings-style .right .settings-item.settings-color .swatch-container {
+  position: relative;
   margin-top: 10px; }
   .settings-style .right .settings-item.settings-color .swatch-container input[type='text'] {
     display: inline-block;
@@ -927,9 +957,14 @@ body {
     margin-top: 0;
     width: 46%; }
   .settings-style .right .settings-item.settings-color .swatch-container .swatch {
-    border: 1px dashed #bdbdbd;
-    height: 25px;
-    width: 46%; }
+    border: 5px solid #ffffff;
+    height: 35px;
+    width: 100%;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 1000ms ease; }
+    .settings-style .right .settings-item.settings-color .swatch-container .swatch:hover {
+      cursor: pointer;
+      box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.35); }
     .settings-style .right .settings-item.settings-color .swatch-container .swatch .swatch-bg {
       flex-grow: 1;
       position: relative;
@@ -947,6 +982,21 @@ body {
       height: 25px;
       width: 100%;
       z-index: 2; }
+
+.settings-style .right .settings-item.settings-color .swatch-container.active .chrome-picker {
+  position: absolute;
+  left: 90px;
+  z-index: 4; }
+
+.settings-style .right .settings-item.settings-color .swatch-container.active .colorpicker-background {
+  position: fixed;
+  top: 25px;
+  right: 0;
+  bottom: 0;
+  left: 100px;
+  height: 100vh;
+  width: 100vw;
+  z-index: 3; }
 
 /*****************************************************************
   -- #0.5a Misc. Styles

@@ -63,7 +63,7 @@ export default class UserSwitcher extends Component {
       }
 
       return (
-        <li className={ classes.join(' ') } onClick={ this.handleUserClick.bind(this, index) }>
+        <li className={ classes.join(' ') } onClick={ this.handleUserClick.bind(this, index) } key={ user.display_name }>
           <div className="avatar-background">
             <div className="avatar-mask">
               <img className="user-avatar" src={ user.image } />
