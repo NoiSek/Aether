@@ -1008,11 +1008,14 @@ body
     width: 100%
 
   .right
-    overflow-y: scroll
     padding: 25px
 
-    height: 500px
     width: 100%
+
+  .right .color-group
+    display: flex
+    flex-wrap: wrap
+    justify-content: space-between
 
   .right .swatch-container
     display: flex
@@ -1043,18 +1046,26 @@ body
     flex-shrink: 2
     margin-top: 0px
 
+  .right .color-group .settings-color:last-of-type
+    margin-bottom: 35px
+
+  .right .settings-item.settings-color
+    margin-top: 15px
+    width: 48%
+
   .right .settings-item.settings-color label
     display: block
+    overflow: hidden
 
-    margin-top: 25px
-
-    font-style: italic
     font-size: 0.8em
     text-transform: uppercase
+    text-overflow: ellipsis
+    white-space: nowrap
 
     width: 100%
 
   .right .settings-item.settings-color .swatch-container
+    position: relative
     margin-top: 10px
 
     input[type='text']
@@ -1066,10 +1077,17 @@ body
       width: 46%
 
     .swatch
-      border: 1px dashed #bdbdbd
+      border: 5px solid #ffffff
 
-      height: 25px
-      width: 46%
+      height: 35px
+      width: 100%
+
+      box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15)
+      transition: box-shadow 1000ms ease
+
+      &:hover
+        cursor: pointer
+        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.35)
 
       .swatch-bg
         flex-grow: 1
@@ -1096,6 +1114,26 @@ body
         width: 100%
 
         z-index: 2
+
+  .right .settings-item.settings-color .swatch-container.active
+    .chrome-picker
+      position: absolute
+      left: 90px
+      z-index: 4
+
+    .colorpicker-background
+      position: fixed
+
+      top: 25px
+      right: 0
+      bottom: 0
+      left: 100px
+
+      height: 100vh
+      width: 100vw
+
+      z-index: 3
+
 
 
 /*****************************************************************

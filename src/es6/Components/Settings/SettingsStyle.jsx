@@ -47,29 +47,43 @@ export const SettingsStyle = (props) => {
             options={ ['left', 'center', 'right'] }
             boundFunction={ props.settingsSetValue.bind(this, 'command_text_align') }
           />
-          <FormColorPicker
-            name={ "Background" }
-            value={ storeState.settings.style_command_background_color }
-            mappedSetting={ "style_command_background_color" }
-          />
-          <FormColorPicker
-            name={ "Icon Color" }
-            value={ storeState.settings.style_command_icon_color }
-            mappedSetting={ "style_command_icon_color" }
-          />
+          <div className="color-group">
+            <FormColorPicker
+              name={ "Background" }
+              value={ storeState.settings.style_command_background_color }
+              boundFunction={ props.settingsSetValue.bind(this, 'style_command_background_color') }
+            />
+            <FormColorPicker
+              name={ "Icon Color" }
+              value={ storeState.settings.style_command_icon_color }
+              boundFunction={ props.settingsSetValue.bind(this, 'style_command_icon_color') }
+            />
+            <FormColorPicker
+              name={ "Text Color" }
+              value={ storeState.settings.style_command_text_color }
+              boundFunction={ props.settingsSetValue.bind(this, 'style_command_text_color') }
+            />
+          </div>
 
           <h4>Login Panel</h4>
           <hr />
-          <FormColorPicker
-            name={ "Gradient-Top" }
-            value={ storeState.settings.style_login_gradient_top_color }
-            mappedSetting={ "style_login_gradient_top_color" }
-          />
-          <FormColorPicker
-            name={ "Gradient-Bottom" }
-            value={ storeState.settings.style_login_gradient_bottom_color }
-            mappedSetting={ "style_login_gradient_bottom_color" }
-          />
+          <div className="color-group">
+            <FormColorPicker
+              name={ "Gradient-Top" }
+              value={ storeState.settings.style_login_gradient_top_color }
+              boundFunction={ props.settingsSetValue.bind(this, 'style_login_gradient_top_color') }
+            />
+            <FormColorPicker
+              name={ "Gradient-Bottom" }
+              value={ storeState.settings.style_login_gradient_bottom_color }
+              boundFunction={ props.settingsSetValue.bind(this, 'style_login_gradient_bottom_color') }
+            />
+            <FormColorPicker
+              name={ "Username" }
+              value={ storeState.settings.style_login_username_color }
+              boundFunction={ props.settingsSetValue.bind(this, 'style_login_username_color') }
+            />
+          </div>
         </ul>
       </div>
     </div>

@@ -36,8 +36,11 @@ export function addAdditionalSettings(state) {
 
     "style_command_background_color": "hsla(0, 0%, 22%, 1)",
     "style_command_icon_color": "hsla(349, 98%, 65%, 1)",
+    "style_command_text_color": "hsla(0, 100%, 100%, 1)",
+    "style_login_button_color": "hsla(0, 100%, 100%, 0.22)",
     "style_login_gradient_top_color": "hsla(18, 100%, 61%, 0.66)",
     "style_login_gradient_bottom_color": "hsla(339, 94%, 64%, 1)",
+    "style_login_username_color": "hsla(0, 100%, 100%, 1)",
 
     "window_border_radius": "4px",
     "window_font_size": "1em"

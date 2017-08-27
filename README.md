@@ -159,5 +159,6 @@ npm run watch
 ##### Credit
 - *Bear by Yu luck from the Noun Project*
 - *Power by Nikita Kozin from the Noun Project*
+- *Arrow by Landan Lloyd from the Noun Project*
 - Implements [Draggable](https://github.com/bcherny/draggable) by [bcherny](https://github.com/bcherny)
-- Implements [colorPicker](https://github.com/PitPik/colorPicker) by [PitPik](https://github.com/PitPik)
+- Implements [React-Color](https://github.com/casesandberg/react-color) by [bcherny](https://github.com/casesandberg)

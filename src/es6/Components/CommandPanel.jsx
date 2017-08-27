@@ -21,7 +21,6 @@ export default class CommandPanel extends Component {
     this.storeState = this.store.getState();
 
     this.unsubscribe = this.store.subscribe(() => {
-      console.log("Update!");
       this.storeState = this.store.getState();
     });
 

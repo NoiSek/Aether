@@ -27,7 +27,7 @@ const LogoChooser = (props) => {
     let selected = (activeLogo === path);
 
     return (
-      <option value={ path } selected={ selected }>{ fileName.split(".")[0] }</option>
+      <option key={ fileName } value={ path } selected={ selected }>{ fileName.split(".")[0] }</option>
     );
   });
 

@@ -223,6 +223,8 @@ export default class LoginPanel extends Component {
             handleDropdownLeave={ this.handleDropdownLeave.bind(this) }
             handlePasswordInput={ this.handlePasswordInput.bind(this) }
             setActiveSession={ this.setActiveSession.bind(this) }
+            usernameColor={ settings.style_login_username_color }
+            buttonColor={ settings.style_login_button_color }
           />
           <div className="bottom">
             <UserSwitchButton handleSwitcherClick={ this.handleSwitcherClick.bind(this) } />

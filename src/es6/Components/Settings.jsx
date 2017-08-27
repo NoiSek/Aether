@@ -62,12 +62,6 @@ export default class Settings extends Component {
   }
 
 
-  handleColorBlur(e) {
-    let mappedSetting = e.target.dataset.mappedsetting;
-    this.handleSettingsText(mappedSetting, e);
-  }
-
-
   handleSettingsBinary(name) {
     this.store.dispatch({
       "type": 'SETTINGS_TOGGLE_VALUE',
@@ -91,7 +85,13 @@ export default class Settings extends Component {
 
 
   handleSettingsText(name, event) {
-    let value = event.target.value;
+    let value;
+
+    try {
+      value = event.target.value;
+    } catch (err) {
+      value = event;
+    }
 
     this.store.dispatch({
       "type": 'SETTINGS_SET_VALUE',
@@ -143,37 +143,13 @@ export default class Settings extends Component {
     if (category === "general") {
       return (<SettingsGeneral { ...componentProps } />);
     } else if (category === "style") {
-      return (<SettingsStyle { ...componentProps } onComponentDidMount={ this.initColorPicker.bind(this) } />);
-      // return (<SettingsStyle
-      //   store={this.props.store}
-      //   settingsToggleBinary={this.handleSettingsBinary.bind(this)}
-      //   settingsSetValue={this.handleSettingsText.bind(this)}
-      //   onComponentDidMount={this.initColorPicker.bind(this)}
-      //   />
-      //);
+      return (<SettingsStyle { ...componentProps } />);
     } else if (category === "themes") {
       return (<SettingsThemes { ...componentProps } />);
     } else if (category === "function") {
       return (<SettingsFunction { ...componentProps } />);
     } else if (category === "presets") {
       return (<SettingsPresets { ...componentProps } />);
-    }
-  }
-
-  initColorPicker() {
-    this.colorPicker = jsColorPicker('input.color', {});
-    this.colorPickerInputs = document.querySelectorAll('input.color');
-
-    for (let input of this.colorPickerInputs) {
-      input.addEventListener('blur', this.handleColorBlur.bind(this));
-    }
-  }
-
-  destroyColorPicker() {
-    this.colorPicker.destroyAll();
-
-    for (let input of this.colorPickerInputs) {
-      input.removeEventListener('blur', this.handleColorBlur.bind(this));
     }
   }
 
