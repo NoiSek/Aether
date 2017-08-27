@@ -34,13 +34,23 @@ export class EditableInput extends Component {
   }
 
   handleChange = (e) => {
-    if (!!this.props.label) {
-      this.props.onChange && this.props.onChange({ [this.props.label]: e.target.value }, e)
-    } else {
-      this.props.onChange && this.props.onChange(e.target.value, e)
-    }
+    const stringValue = String(e.target.value)
+    const isPercentage = stringValue.indexOf('%') > -1
+    const number = Number(stringValue.replace(/%/g, ''))
 
-    this.setState({ value: e.target.value })
+    if (!isNaN(number)) {
+      if (this.props.label !== null) {
+        this.props.onChange && this.props.onChange({ [this.props.label]: number }, e)
+      } else {
+        this.props.onChange && this.props.onChange(number, e)
+      }
+
+      if (isPercentage) {
+        this.setState({ value: `${ number }%` })
+      } else {
+        this.setState({ value: number })
+      }
+    }
   }
 
   handleKeyDown = (e) => {
@@ -138,9 +148,9 @@ export class EditableInput extends Component {
         <input
           style={ styles.input }
           ref={input => this.input = input}
-          value={ this.state.value }
+          defaultValue={ this.state.value }
           onKeyDown={ this.handleKeyDown }
-          onChange={ this.handleChange }
+          onInput={ this.handleChange }
           onBlur={ this.handleBlur }
           placeholder={ this.props.placeholder }
           spellCheck="false"
