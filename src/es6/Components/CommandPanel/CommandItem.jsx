@@ -33,13 +33,13 @@ export const CommandItem = ({ command, handleCommand, store }) => {
   iconWrapperClasses.push(iconStyle);
 
   let textStyle = cxs({
+    "color": settings.style_command_text_color,
     "text-align": settings.command_text_align
   });
 
   return (
     <div className={ classes.join(' ') } onClick={ handleCommand.bind(this, command, disabled) }>
-      <div className={ iconWrapperClasses.join(' ') } dangerouslySetInnerHTML={{ "__html": SVGMap[command] }}>
-      </div>
+      <div className={ iconWrapperClasses.join(' ') } dangerouslySetInnerHTML={{ "__html": SVGMap[command] }} />
       <div className={ `text ${ textStyle }` }>{ command }</div>
     </div>
   );

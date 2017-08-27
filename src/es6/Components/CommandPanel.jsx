@@ -51,8 +51,8 @@ export default class CommandPanel extends Component {
     // Filter out commands we can't execute.
     let enabledCommands = (
       Object.keys(commands)
-      .map((key) => commands[key] ? key : false)
-      .filter((command) => command !== false)
+        .map((key) => commands[key] ? key : false)
+        .filter((command) => command !== false)
     );
 
     // Are both hibernation and suspend disabled?

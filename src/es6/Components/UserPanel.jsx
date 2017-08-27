@@ -69,7 +69,7 @@ export default class LoginPanel extends Component {
 
   handleDropdownClick(event) {
     this.setState({
-      "dropdownActive": true
+      "dropdownActive": !this.state.dropdownActive
     });
   }
 
@@ -198,9 +198,16 @@ export default class LoginPanel extends Component {
       avatarClasses.push('hidden');
     }
 
-    let style = cxs({
-      "background": `linear-gradient(to bottom, ${ settings.style_login_gradient_top_color } 0%, ${ settings.style_login_gradient_bottom_color } 100%);`
-    });
+    let _styles = {
+      "background": `linear-gradient(to bottom, ${ settings.style_login_gradient_top_color } 0%, ${ settings.style_login_gradient_bottom_color } 100%)`,
+      "border-color": settings.style_login_border_color
+    };
+
+    if (settings.style_login_border_enabled === false) {
+      _styles['border'] = 'none !important';
+    }
+
+    let style = cxs(_styles);
 
     return (
       <div className={ `user-panel ${ style }` }>

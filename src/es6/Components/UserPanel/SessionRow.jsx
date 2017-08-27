@@ -3,6 +3,8 @@
 // Just a row.
 
 import Inferno from "inferno";
+import cxs from "cxs";
+
 
 const SessionRow = (props) => {
   let classes = ['dropdown-item'];
@@ -11,6 +13,10 @@ const SessionRow = (props) => {
   if (props.session.key === props.activeSession.key) {
     eventHandler = props.handleDropdownClick;
     classes.push('active');
+
+    classes.push(cxs({
+      "background-color": props.buttonColor
+    }));
   }
 
   return (

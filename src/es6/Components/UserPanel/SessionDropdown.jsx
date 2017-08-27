@@ -4,7 +4,6 @@
 // session switching.
 
 import Inferno from 'inferno';
-import cxs from 'cxs';
 
 import SessionRow from './SessionRow';
 
@@ -23,6 +22,7 @@ export const SessionDropdown = (props) => {
       .map((session) => (
         <SessionRow
           activeSession={ props.activeSession }
+          buttonColor={ props.buttonColor }
           key={ session.key }
           session={ session }
           handleDropdownClick={ props.handleDropdownClick }
@@ -36,10 +36,6 @@ export const SessionDropdown = (props) => {
 
   if (props.dropdownActive === true) {
     classes.push('active');
-
-    classes.push(cxs({
-      "background-color": props.buttonColor
-    }));
   }
 
   return (

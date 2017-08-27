@@ -36,13 +36,18 @@ html
   box-sizing: inherit
 
 body
-  font-family: "Open Sans"
   background: #222
+
+  font-family: "Open Sans"
 
   overflow: hidden
 
   height: 100vh
   width: 100vw
+
+  text-rendering: optimizeLegibility !important
+  -webkit-font-smoothing: antialiased !important
+  -moz-osx-font-smoothing: grayscale !important
 
 
 /*****************************************************************
@@ -164,6 +169,10 @@ body
     width: 30%
 
   .user-panel
+    border-style: solid
+    border-bottom: none
+    border-width: 1px
+
     height: 100%
     width: 70%
 
@@ -210,9 +219,6 @@ body
 
 .user-panel
   color: #fff
-  background: $right-background-image
-
-  border: 1px solid rgba(255, 255, 255, 0.1);
   border-bottom: none
 
   & > div
@@ -345,28 +351,42 @@ body
           width: 20%
 
         .right .submit-button
-          color: #fff
-          background: rgba(255, 255, 255, 0.22)
-
-          border: none
-          border-radius: 4px
-          outline: none
-
-          position: relative
-          left: 6px
-
-          font-weight: bold
-          font-size: 8pt
-
-          padding: 8px
-
-          height: 30px
-
           box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05)
 
           &:hover
             cursor: pointer
-            background: rgba(255, 255, 255, 0.5)
+
+            polygon
+              transform: scale(1.1) translateX(2px)
+
+
+          & > div
+            position: relative
+            left: 8px
+
+          input[type=submit]
+            display: none
+
+          svg
+            background-color: currentColor
+
+            height: 30px
+
+            filter: drop-shadow(0px 2px 1px rgba(0, 0, 0, 0.10))
+            border-radius: 4px
+
+            circle
+              // fill: rgba(255, 255, 255, 0.35)
+              r: 0
+
+            polygon
+              stroke: rgba(42, 19, 15, 0.05)
+              stroke-width: 1px
+
+              transform: scale(1) translateX(0px)
+              transform-origin: center
+
+              transition: all 200ms cubic-bezier(0.64, 0.15, 0.18, 0.52)
 
       .submit-row-container
         position: relative
@@ -374,22 +394,29 @@ body
       .left .dropdown .dropdown-item
         color: #525252
         display: none
-        background: rgba(255, 255, 255, 0.9)
 
         padding: 8px 10px
 
-        &:hover
+        transition: background-position-y 200ms ease
+
+        &:not(.active):hover
           background: rgba(255, 255, 255, 1)
+
+        &:not(.active)
+          background: rgba(255, 255, 255, 0.9)
 
       .left .dropdown .dropdown-item.active
         color: #fff
         display: block
 
-        background: rgba(255, 255, 255, 0.22) $dropdown-caret no-repeat 90% 50%
+        background-image: $dropdown-caret
+        background-repeat: no-repeat
+        background-position: 90% 50%
         position: relative
 
-        font-style: italic
+        font-family: "Open Sans"
         font-weight: bold
+        font-style: italic
         line-height: 1.2em
 
         text-overflow: ellipsis
@@ -399,10 +426,16 @@ body
         padding-right: 30px
 
         border-radius: 2px
-        box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05)
 
-      .left .dropdown.active .dropdown-item
-        display: block
+        box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05)
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.12)
+
+      .left .dropdown.active
+        .dropdown-item
+          display: block
+
+        .dropdown-item.active
+          background-position: 90% 65%
 
   .login-panel-switcher
     display: block
@@ -539,9 +572,6 @@ body
 
 .command-panel
   color: #fff
-
-  background: $left-background
-
   height: 100%
 
   .distro-logo

@@ -67,7 +67,17 @@ export const SettingsStyle = (props) => {
 
           <h4>Login Panel</h4>
           <hr />
+          <FormCheckbox
+            name={ "Border Enabled" }
+            value={ storeState.settings.style_login_border_enabled }
+            boundFunction={ props.settingsToggleBinary.bind(this, 'style_login_border_enabled') }
+          />
           <div className="color-group">
+            <FormColorPicker
+              name={ "Border Color" }
+              value={ storeState.settings.style_login_border_color }
+              boundFunction={ props.settingsSetValue.bind(this, 'style_login_border_color') }
+            />
             <FormColorPicker
               name={ "Gradient-Top" }
               value={ storeState.settings.style_login_gradient_top_color }
@@ -77,6 +87,11 @@ export const SettingsStyle = (props) => {
               name={ "Gradient-Bottom" }
               value={ storeState.settings.style_login_gradient_bottom_color }
               boundFunction={ props.settingsSetValue.bind(this, 'style_login_gradient_bottom_color') }
+            />
+            <FormColorPicker
+              name={ "Button Color" }
+              value={ storeState.settings.style_login_button_color }
+              boundFunction={ props.settingsSetValue.bind(this, 'style_login_button_color') }
             />
             <FormColorPicker
               name={ "Username" }

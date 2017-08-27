@@ -10,6 +10,9 @@ import SessionDropdown from './SessionDropdown';
 import PasswordField from './PasswordField';
 
 
+const submitButton = require('img/arrow.svg');
+
+
 export const UserPanelForm = (props) => {
   let usernameClasses = ['user-username'];
   usernameClasses.push(cxs({
@@ -18,7 +21,7 @@ export const UserPanelForm = (props) => {
 
   let submitButtonClasses = ['submit-button'];
   submitButtonClasses.push(cxs({
-    "background-color": props.buttonColor
+    "color": props.buttonColor
   }));
 
   return (
@@ -44,7 +47,10 @@ export const UserPanelForm = (props) => {
             />
           </div>
           <div className="right">
-            <input type="submit" value="GO" className={ submitButtonClasses.join(" ") } />
+            <label className={ submitButtonClasses.join(" ") }>
+              <input type="submit" />
+              <div dangerouslySetInnerHTML={{ "__html": submitButton }} />
+            </label>
           </div>
         </div>
       </div>
