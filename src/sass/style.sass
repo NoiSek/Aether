@@ -18,6 +18,9 @@
 /*    -- #0.3b Command Panel
 /*    -- #0.3c User Panel
 /*    -- #0.4a Settings
+/*    -- #0.4b Settings General
+/*    -- #0.4c Settings Style
+/*    -- #0.4d Settings Themes
 /*    -- #0.5a Misc.
 /*
 /****************************************************************/
@@ -1164,6 +1167,101 @@ body
 
       z-index: 3
 
+
+/*****************************************************************
+  -- #0.4d Settings Themes
+  ===============================================================
+  Themes Settings section.
+/*****************************************************************/
+
+.settings-themes
+  max-height: 450px
+  overflow-y: scroll
+
+  .theme
+    margin: 15px 0px
+    padding: 10px
+
+    ul
+      display: flex
+      list-style-type: none
+
+      margin-top: 10px
+
+    li.theme-color-block
+      display: inline-block
+
+      border: 2.5px solid #fff
+
+      margin: 5px
+
+      height: 50px
+      width: 50px
+
+      box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05)
+
+      transform: translateY(0px)
+      transition: transform 250ms ease-in, box-shadow 250ms ease-in, border 250ms ease-in
+
+      &:hover
+        border: 2.5px solid #222
+        cursor: pointer
+        box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.4)
+        transform: translateY(-3px)
+
+    .upper
+      button
+        color: #222
+        background: #eee
+        outline: none
+        border: none
+
+        padding: 5px 8px 8px 8px
+        margin-left: 10px
+
+        border-radius: 2px
+
+        &:hover
+          cursor: pointer
+
+      button.delete
+        color: #581212
+        background: #f35e5e
+
+      .theme-name
+        display: inline-block
+
+        font-weight: bold
+
+        margin-right: 15px
+
+  .theme-saver
+    background: #eee
+    border-bottom: 1px solid #eaeaea
+
+    padding: 15px
+
+    p
+      margin-bottom: 12px
+
+    input
+      border: 1px solid #e0e0e0
+
+      margin-right: 5px
+      padding: 5px
+
+    button
+      color: #222
+      outline: none
+      border: none
+
+      padding: 5px 8px 8px 8px
+      margin-left: 10px
+
+      border-radius: 2px
+
+      &:hover
+        cursor: pointer
 
 
 /*****************************************************************

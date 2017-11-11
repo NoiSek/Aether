@@ -36,3 +36,33 @@ export function requestSetting(setting, defaultSetting=undefined) {
 export function saveSetting(setting, value=undefined) {
   localStorage.setItem(setting, value);
 }
+
+
+export function getUserThemes() {
+  let themes = localStorage.getItem('themes');
+
+  if (themes === null || themes === undefined) {
+    themes = {};
+  } else {
+    themes = JSON.parse(themes);
+  }
+
+  return themes;
+}
+
+
+export function saveTheme(name, settings) {
+  let themes = getUserThemes();
+  themes[name] = settings;
+
+  localStorage.setItem('themes', JSON.stringify(themes));
+}
+
+
+export function deleteTheme(name) {
+  let themes = getUserThemes();
+
+  delete themes[name];
+
+  localStorage.setItem('themes', JSON.stringify(themes));
+}

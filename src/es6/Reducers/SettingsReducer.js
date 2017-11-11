@@ -77,6 +77,17 @@ export const SettingsReducer = (state, action) => {
 
       return { ...state, "settings": newSettings };
 
+    case 'SETTINGS_APPLY_THEME':
+      var newSettings = { ...state.cachedSettings, ...action.theme };
+
+      // Create a notification
+      window.notifications.generate(`Loaded ${ action.name } theme. Remember to save!`, "success");
+
+      // This shouldn't be here. It is, though.
+      setPageZoom(newSettings.page_zoom);
+
+      return { ...state, "settings": newSettings };
+
     case 'SETTINGS_SAVE':
       // Cycle to localStorage for persistence.
       for (let key of Object.keys(state.settings)) {
