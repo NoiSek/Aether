@@ -31,9 +31,11 @@ A Sleek, straightforward Archlinux themed login screen written on lightdm and th
 ## Features
 
 **Stylish Default Themes**
+
 ![](../screenshots/theme-showcase.gif)
 
 **Advanced Customization**
+
 ![](../screenshots/settings-customization.gif)
 
 **Multi User Support**
