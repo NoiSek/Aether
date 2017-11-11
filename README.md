@@ -8,8 +8,6 @@ A Sleek, straightforward Archlinux themed login screen written on lightdm and th
 
 ![](../screenshots/screenshot.png)
 
-![](../screenshots/screenshot-2.png)
-
 ## Table of Contents
 
 - [Aether](#aether)
@@ -31,6 +29,12 @@ A Sleek, straightforward Archlinux themed login screen written on lightdm and th
     - [Credit](#credits)
 
 ## Features
+
+**Stylish Default Themes**
+![](../screenshots/theme-showcase.gif)
+
+**Advanced Customization**
+![](../screenshots/settings-customization.gif)
 
 **Multi User Support**
 
