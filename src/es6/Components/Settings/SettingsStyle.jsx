@@ -1,4 +1,5 @@
-import Inferno from 'inferno';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import { FormColorPicker } from './FormColorPicker';
 import { FormTextField } from './FormTextField';
@@ -103,6 +104,13 @@ export const SettingsStyle = (props) => {
       </div>
     </div>
   );
+};
+
+
+SettingsStyle.propTypes = {
+  'store': PropTypes.object.isRequired,
+  'settingsSetValue': PropTypes.func.isRequired,
+  'settingsToggleBinary': PropTypes.func.isRequired
 };
 
 

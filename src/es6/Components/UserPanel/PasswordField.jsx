@@ -2,7 +2,8 @@
 // --------------------------------------
 // Simple password input field.
 
-import Inferno from 'inferno';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 
 const PasswordField = (props) => {
@@ -23,5 +24,13 @@ const PasswordField = (props) => {
     />
   );
 };
+
+
+PasswordField.propTypes = {
+  'password': PropTypes.string.isRequired,
+  'passwordFailed': PropTypes.bool.isRequired,
+  'handlePasswordInput': PropTypes.func.isRequired
+};
+
 
 export default PasswordField;

@@ -3,7 +3,8 @@
 // The form displayed within the User Panel to handle
 // user input for the authentication process.
 
-import Inferno from 'inferno';
+import PropTypes from 'prop-types';
+import React from 'react';
 import cxs from 'cxs';
 
 import SessionDropdown from './SessionDropdown';
@@ -57,5 +58,23 @@ export const UserPanelForm = (props) => {
     </form>
   );
 };
+
+
+UserPanelForm.propTypes = {
+  'buttonColor': PropTypes.string.isRequired,
+  'usernameColor': PropTypes.string.isRequired,
+  'password': PropTypes.string.isRequired,
+  'passwordFailed': PropTypes.bool.isRequired,
+  'activeUser': PropTypes.object.isRequired,
+  'activeSession': PropTypes.object.isRequired,
+  'dropdownActive': PropTypes.bool.isRequired,
+
+  'handleDropdownClick': PropTypes.func.isRequired,
+  'handleDropdownLeave': PropTypes.func.isRequired,
+  'handleLoginSubmit': PropTypes.func.isRequired,
+  'handlePasswordInput': PropTypes.func.isRequired,
+  'setActiveSession': PropTypes.func.isRequired
+};
+
 
 export default UserPanelForm;

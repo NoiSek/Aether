@@ -3,35 +3,35 @@
 // Style / Composition wrapper.
 
 import cxs from 'cxs';
-import Inferno from 'inferno';
-import Component from 'inferno-component';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 
 // We don't really need or desire to hold state, here, but it is
 // necessary for this to be a component in order to force updates
 // from the settings dialogue.
 
-export default class LoginWindow extends Component {
+export default class LoginWindow extends React.Component {
   constructor(props) {
     super(props);
 
     this.store = this.props.store;
-    this.storeState = this.store.getState();
 
     this.unsubscribe = this.store.subscribe(() => {
-      this.storeState = this.store.getState();
       this.setState({
+        "storeState": this.store.getState(),
         "_toggleUpdate": !this.state._toggleUpdate
       });
     });
 
     this.state = {
-      "_toggleUpdate": false
+      "_toggleUpdate": false,
+      "storeState": this.store.getState()
     };
   }
 
   render() {
-    let settings = this.storeState.settings;
+    let settings = this.state.storeState.settings;
     let style = cxs({
       "border-radius": settings.window_border_radius,
       "font-size": settings.window_font_size
@@ -44,3 +44,9 @@ export default class LoginWindow extends Component {
     );
   }
 }
+
+
+LoginWindow.propTypes = {
+  'store': PropTypes.object.isRequired,
+  'children': PropTypes.array.isRequired
+};

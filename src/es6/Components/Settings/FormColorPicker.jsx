@@ -2,14 +2,14 @@
 // --------------------------------------
 // Wraps the jsColorPicker lib to provide a color picker.
 
-import Inferno from 'inferno';
+import React from 'react';
 import tinycolor from 'tinycolor2';
-import Component from 'inferno-component';
+import PropTypes from 'prop-types';
 
-import { ChromePicker } from 'react-color/index';
+import { ChromePicker } from 'react-color';
 
 
-export class FormColorPicker extends Component {
+export class FormColorPicker extends React.Component {
   constructor(props) {
     super(props);
 
@@ -56,10 +56,10 @@ export class FormColorPicker extends Component {
 
     return (
       <li className="settings-item settings-color">
-        <label for={ elementID } title={ this.props.name }>{ this.props.name }</label>
+        <label htmlFor={ elementID } title={ this.props.name }>{ this.props.name }</label>
         <div id={ elementID } className={ swatchContainerClasses.join(" ") }>
           <div className="swatch" onClick={ this.handleOpen.bind(this) }>
-            <div className="swatch-fg" style={ `background-color: ${ this.props.value }` } />
+            <div className="swatch-fg" style={{ 'backgroundColor': this.props.value }} />
             <div className="swatch-bg swatch-bg-black" />
             <div className="swatch-bg swatch-bg-gray" />
             <div className="swatch-bg swatch-bg-white" />
@@ -71,6 +71,13 @@ export class FormColorPicker extends Component {
     );
   }
 }
+
+
+FormColorPicker.propTypes = {
+  'value': PropTypes.string.isRequired,
+  'name': PropTypes.string.isRequired,
+  'boundFunction': PropTypes.func.isRequired
+};
 
 
 export default FormColorPicker;

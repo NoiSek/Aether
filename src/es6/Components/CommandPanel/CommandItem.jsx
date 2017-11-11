@@ -2,7 +2,8 @@
 // --------------------------------------
 // CommandList item.
 
-import Inferno from 'inferno';
+import PropTypes from 'prop-types';
+import React from 'react';
 import cxs from 'cxs';
 
 export const SVGMap = {
@@ -43,6 +44,13 @@ export const CommandItem = ({ command, handleCommand, store }) => {
       <div className={ `text ${ textStyle }` }>{ command }</div>
     </div>
   );
+};
+
+
+CommandItem.propTypes = {
+  'command': PropTypes.string.isRequired,
+  'handleCommand': PropTypes.func.isRequired,
+  'store': PropTypes.object.isRequired
 };
 
 

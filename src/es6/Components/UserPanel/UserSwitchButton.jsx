@@ -2,7 +2,8 @@
 // --------------------------------------
 // Toggles the UserSwitcher.
 
-import Inferno from 'inferno';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 
 export const UserSwitchButton = ({ handleSwitcherClick }) => {
@@ -15,6 +16,11 @@ export const UserSwitchButton = ({ handleSwitcherClick }) => {
   return (
     <div className={ classes.join(' ') } onClick={ handleSwitcherClick }>SWITCH USER</div>
   );
+};
+
+
+UserSwitchButton.propTypes = {
+  'handleSwitcherClick': PropTypes.func.isRequired
 };
 
 

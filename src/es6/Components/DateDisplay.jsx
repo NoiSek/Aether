@@ -2,32 +2,35 @@
 // --------------------------------------
 // Displays date below the login window.
 
-import Inferno from 'inferno';
-import Strftime from "strftime";
-import Component from 'inferno-component';
+import React from 'react';
+import Strftime from 'strftime';
+import PropTypes from 'prop-types';
 
 
-export default class DateDisplay extends Component {
+export default class DateDisplay extends React.Component {
   constructor(props) {
     super(props);
 
     this.store = this.props.store;
-    this.storeState = this.store.getState();
 
     this.unsubscribe = this.store.subscribe(() => {
-      this.storeState = this.store.getState();
+      let storeState = this.store.getState();
 
       this.setState({
-        "date_enabled": this.storeState.settings.date_enabled,
-        "date_format": this.storeState.settings.date_format
+        "storeState": storeState,
+        "date_enabled": storeState.settings.date_enabled,
+        "date_format": storeState.settings.date_format
       });
     });
 
+    let storeState = this.store.getState();
+
     this.state = {
       "initialized": false,
-      "date_enabled": this.storeState.settings.date_enabled,
-      "date_format": this.storeState.settings.date_format,
-      "formattedDate": ""
+      "date_enabled": storeState.settings.date_enabled,
+      "date_format": storeState.settings.date_format,
+      "formattedDate": "",
+      "storeState": storeState
     };
   }
 
@@ -67,3 +70,8 @@ export default class DateDisplay extends Component {
     );
   }
 }
+
+
+DateDisplay.propTypes = {
+  'store': PropTypes.object.isRequired
+};

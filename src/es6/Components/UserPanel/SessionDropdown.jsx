@@ -3,7 +3,8 @@
 // Displays session rows as a dropdown to handle
 // session switching.
 
-import Inferno from 'inferno';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 import SessionRow from './SessionRow';
 
@@ -44,5 +45,16 @@ export const SessionDropdown = (props) => {
     </div>
   );
 };
+
+
+SessionDropdown.propTypes = {
+  'activeSession': PropTypes.object.isRequired,
+  'buttonColor': PropTypes.string.isRequired,
+  'dropdownActive': PropTypes.bool.isRequired,
+  'handleDropdownClick': PropTypes.func.isRequired,
+  'handleDropdownLeave': PropTypes.func.isRequired,
+  'setActiveSession': PropTypes.func.isRequired
+};
+
 
 export default SessionDropdown;

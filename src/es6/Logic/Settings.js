@@ -6,9 +6,10 @@
 export const LOCALSTORAGE_ENABLED = (typeof(Storage) !== "undefined");
 
 if (!LOCALSTORAGE_ENABLED) {
-  window.notifications.generate("localStorage not supported.", 'error');
-  throw("localStorage not supported. Theme unable to function.");
+  window.notifications.generate("localStorage not supported. Theme unable to function!", 'error');
+  throw("localStorage not supported. Theme unable to function!");
 }
+
 
 export function requestSetting(setting, defaultSetting=undefined) {
   // Always return 'active' as false when initializing.
@@ -30,6 +31,7 @@ export function requestSetting(setting, defaultSetting=undefined) {
     return result;
   }
 }
+
 
 export function saveSetting(setting, value=undefined) {
   localStorage.setItem(setting, value);

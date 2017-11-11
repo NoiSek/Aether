@@ -3,8 +3,9 @@
 // Serves to handle wallpaper switching through DOM manipulation.
 
 import cxs from 'cxs';
-import Inferno from 'inferno';
-import Component from 'inferno-component';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 
 import * as FileOperations from '../../Logic/FileOperations';
 import * as Settings from '../../Logic/Settings';
@@ -12,16 +13,15 @@ import * as Settings from '../../Logic/Settings';
 const FADEOUT_TIME = 600;
 
 
-export default class WallpaperSwitcher extends Component {
+export default class WallpaperSwitcher extends React.Component {
   constructor(props) {
     super(props);
 
     this.store = this.props.store;
-    this.storeState = this.store.getState();
 
     this.unsubscribe = this.store.subscribe(() => {
-      this.storeState = this.store.getState();
       this.setState({
+        "storeState": this.store.getState(),
         "_storeToggle": !this.state._storeToggle
       });
     });
@@ -38,6 +38,7 @@ export default class WallpaperSwitcher extends Component {
       "wallpapers": wallpapers,
       "selectedWallpaper": undefined,
       "savedWallpaper": undefined,
+      "storeState": this.store.getState(),
       "switcher": {
         "active": false,
         "currentlyFading": false,
@@ -196,7 +197,7 @@ export default class WallpaperSwitcher extends Component {
     let options = this.generateOptions();
 
     let style = cxs({
-      "background-image": `url(${ this.storeState.settings.distro }) !important`
+      "background-image": `url(${ this.state.storeState.settings.distro }) !important`
     });
 
     return (
@@ -207,3 +208,7 @@ export default class WallpaperSwitcher extends Component {
     );
   }
 }
+
+WallpaperSwitcher.propTypes = {
+  'store': PropTypes.object.isRequired
+};

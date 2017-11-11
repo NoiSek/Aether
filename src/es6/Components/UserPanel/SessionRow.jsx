@@ -2,7 +2,8 @@
 // --------------------------------------
 // Just a row.
 
-import Inferno from "inferno";
+import PropTypes from 'prop-types';
+import React from 'react';
 import cxs from "cxs";
 
 
@@ -24,6 +25,15 @@ const SessionRow = (props) => {
       { props.session.name }
     </div>
   );
+};
+
+
+SessionRow.propTypes = {
+  'activeSession': PropTypes.object.isRequired,
+  'buttonColor': PropTypes.string.isRequired,
+  'session': PropTypes.object.isRequired,
+  'handleDropdownClick': PropTypes.func.isRequired,
+  'setActiveSession': PropTypes.func.isRequired
 };
 
 

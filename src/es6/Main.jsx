@@ -1,4 +1,5 @@
-import Inferno from 'inferno';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 
 import Notifications from './Utils/Notifications';
@@ -16,18 +17,28 @@ export default function Main() {
   let initialState = getDefaultState();
   initialState = addAdditionalSettings(initialState);
 
-  let store = createStore(PrimaryReducer, initialState);
+  let store;
 
-  Inferno.render((
+  if (window.__REDUX_DEVTOOLS_EXTENSION__) {
+    store = createStore(
+      PrimaryReducer,
+      initialState,
+      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    );
+  } else {
+    store = createStore(PrimaryReducer, initialState);
+  }
+
+  ReactDOM.render((
     <LoginWindow store={ store}>
       <CommandPanel store={ store } />
       <UserPanel store={ store } />
     </LoginWindow>
   ), document.getElementById('login-window-mount'));
 
-  Inferno.render(<DateDisplay store={ store } />, document.getElementById("date-display"));
-  Inferno.render(<Settings store={ store } />, document.getElementById("settings"));
-  Inferno.render(<SettingsToggler store={ store } />, document.getElementById("settings-toggler-mount"));
+  ReactDOM.render(<DateDisplay store={ store } />, document.getElementById("date-display"));
+  ReactDOM.render(<Settings store={ store } />, document.getElementById("settings"));
+  ReactDOM.render(<SettingsToggler store={ store } />, document.getElementById("settings-toggler-mount"));
 }
 
 window.onload = (e) => {

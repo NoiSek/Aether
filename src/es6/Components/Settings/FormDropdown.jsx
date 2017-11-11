@@ -2,33 +2,44 @@
 // --------------------------------------
 // Provides a basic form dropdown.
 
-import Inferno from 'inferno';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 
-export const DropdownOption = (defaultValue, option) => {
+export const DropdownOption = (option) => {
   let name = option.name || option;
   let value = option.value || option;
 
-  let selected = (value == defaultValue) ? 'selected' : false;
-
   return (
-    <option value={ value } selected={ selected }>{ name }</option>
+    <option key={ `key-${name}-${value}` } value={ value }>{ name }</option>
   );
 };
 
 
 export const FormDropdown = ({ name, value, options, boundFunction }) => {
   let elementID = `option-${ name.replace(" ", "-") }`;
-  let items = options.map((option) => DropdownOption(value, option));
-
-  let label = (name) ? (<label for={ elementID }>{ name }</label>) : false;
+  let items = options.map((option) => DropdownOption(option));
 
   return (
     <li className="settings-item">
-      { label }
-      <select id={ elementID } onChange={ boundFunction }>{ items }</select>
+      <If condition={ name !== undefined }>
+        <label htmlFor={ elementID }>{ name }</label>
+      </If>
+      <select id={ elementID } onChange={ boundFunction } value={ value }>
+        { items }
+      </select>
     </li>
   );
+};
+
+
+FormDropdown.propTypes = {
+  'name': PropTypes.string,
+  'value': PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  'options': PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.object, PropTypes.string, PropTypes.number])
+  ).isRequired,
+  'boundFunction': PropTypes.func.isRequired
 };
 
 

@@ -2,14 +2,15 @@
 // --------------------------------------
 // Provides a basic binary form checkbox.
 
-import Inferno from 'inferno';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export const FormTextField = ({ name, value, boundFunction }) => {
   let elementID = `option-${ name.replace(" ", "-")}`;
 
   return (
     <li className="settings-item">
-      <label for={ elementID }>{ name }</label>
+      <label htmlFor={ elementID }>{ name }</label>
       <input
         id={ elementID }
         type="text"
@@ -18,6 +19,13 @@ export const FormTextField = ({ name, value, boundFunction }) => {
       />
     </li>
   );
+};
+
+
+FormTextField.propTypes = {
+  'name': PropTypes.string.isRequired,
+  'value': PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  'boundFunction': PropTypes.func.isRequired
 };
 
 

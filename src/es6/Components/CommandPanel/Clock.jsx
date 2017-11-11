@@ -2,32 +2,35 @@
 // --------------------------------------
 // Just a clock.
 
-import Inferno from 'inferno';
-import Strftime from "strftime";
-import Component from 'inferno-component';
+import React from 'react';
+import Strftime from 'strftime';
+import PropTypes from 'prop-types';
 
 
-export default class Clock extends Component {
+export default class Clock extends React.Component {
   constructor(props) {
     super(props);
 
     this.store = this.props.store;
-    this.storeState = this.store.getState();
 
     this.unsubscribe = this.store.subscribe(() => {
-      this.storeState = this.store.getState();
+      let storeState = this.store.getState();
 
       this.setState({
-        "time_enabled": this.storeState.settings.time_enabled,
-        "time_format": this.storeState.settings.time_format
+        "storeState": storeState,
+        "time_enabled": storeState.settings.time_enabled,
+        "time_format": storeState.settings.time_format
       });
     });
 
+    let storeState = this.store.getState();
+
     this.state = {
       "initialized": false,
-      "time_enabled": this.storeState.settings.time_enabled,
-      "time_format": this.storeState.settings.time_format,
-      "formattedTime": ""
+      "time_enabled": storeState.settings.time_enabled,
+      "time_format": storeState.settings.time_format,
+      "formattedTime": "",
+      "storeState": storeState
     };
   }
 
@@ -70,3 +73,8 @@ export default class Clock extends Component {
     );
   }
 }
+
+
+Clock.propTypes = {
+  'store': PropTypes.object.isRequired
+};

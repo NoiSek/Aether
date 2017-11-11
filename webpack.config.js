@@ -32,11 +32,7 @@ module.exports = function(env) {
     ],
     "resolve": {
       "extensions": [".js", ".min.js", ".jsx"],
-      "modules": ["./src/dist/js", "./node_modules", "./src"],
-      "alias": {
-        "react": "inferno-compat",
-        "react-dom": "inferno-compat"
-      }
+      "modules": ["./src/dist/js", "./node_modules", "./src"]
     }
   };
 };

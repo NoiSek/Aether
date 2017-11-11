@@ -9,7 +9,8 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:inferno/recommended"
+    "plugin:react/recommended",
+    "plugin:jsx-control-statements/recommended"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -19,18 +20,17 @@
     "sourceType": "module"
   },
   "plugins": [
-    "inferno"
+    "react",
+    "jsx-control-statements"
   ],
   "rules": {
+    "react/jsx-no-undef": [2, { "allowGlobals": true }],
     "indent": [
       "error",
       2,
       {
         "SwitchCase": 1
       }
-    ],
-    "inferno/prop-types": [
-      "off"
     ],
     "linebreak-style": [
       "error",
@@ -39,7 +39,6 @@
     "no-unused-vars" : [
       "warn",
       {
-        "varsIgnorePattern": "Inferno*",
         "argsIgnorePattern": "_*"
       }
     ],

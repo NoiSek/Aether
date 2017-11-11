@@ -3,8 +3,8 @@
 // The login management half of the greeter logic.
 
 import cxs from 'cxs';
-import Inferno from 'inferno';
-import Component from 'inferno-component';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import UserSwitchButton from './UserPanel/UserSwitchButton';
 import UserSwitcher from './UserPanel/UserSwitcher';
@@ -14,17 +14,16 @@ const FADE_IN_DURATION = 200;
 const ERROR_SHAKE_DURATION = 600;
 
 
-export default class LoginPanel extends Component {
+export default class LoginPanel extends React.Component {
   constructor(props) {
     super(props);
 
     this.store = this.props.store;
-    this.storeState = this.store.getState();
 
     this.unsubscribe = this.store.subscribe(() => {
-      this.storeState = this.store.getState();
       this.setState({
-        "_toggleUpdate": !this.state._toggleUpdate
+        "_toggleUpdate": !this.state._toggleUpdate,
+        "storeState": this.store.getState()
       });
     });
 
@@ -34,7 +33,8 @@ export default class LoginPanel extends Component {
       "password": "",
       "passwordFailed": false,
       "switcherActive": false,
-      "_toggleUpdate": false
+      "_toggleUpdate": false,
+      "storeState": this.store.getState()
     };
   }
 
@@ -55,7 +55,7 @@ export default class LoginPanel extends Component {
 
     window.authentication_complete = () => {
       if (window.lightdm.is_authenticated) {
-        window.lightdm.start_session_sync(this.storeState.session.key);
+        window.lightdm.start_session_sync(this.state.storeState.session.key);
       } else {
         this.rejectPassword();
       }
@@ -88,7 +88,7 @@ export default class LoginPanel extends Component {
       if (this.state.password.toLowerCase() !== 'password') {
         this.rejectPassword();
       } else {
-        window.notifications.generate(`You are now logged in as ${ this.storeState.user.display_name } to ${ this.storeState.session.name }.`, 'success');
+        window.notifications.generate(`You are now logged in as ${ this.state.storeState.user.display_name } to ${ this.state.storeState.session.name }.`, 'success');
         this.setState({
           "password": ""
         });
@@ -96,7 +96,7 @@ export default class LoginPanel extends Component {
     }
 
     else {
-      window.lightdm.authenticate(this.storeState.user.username);
+      window.lightdm.authenticate(this.state.storeState.user.username);
     }
   }
 
@@ -108,7 +108,7 @@ export default class LoginPanel extends Component {
     } else if (window.lightdm.users.length === 2) {
       // No point in showing them the switcher if there is only one other user. Switch immediately.
       let otherUser = window.lightdm.users.filter((user) => {
-        return user.username !== this.storeState.user.username;
+        return user.username !== this.state.storeState.user.username;
       })[0];
 
       this.setActiveUser(otherUser, true);
@@ -184,7 +184,7 @@ export default class LoginPanel extends Component {
   render() {
     let loginPanelClasses = ['login-panel-main'];
     let avatarClasses = ['avatar-container'];
-    let settings = this.storeState.settings;
+    let settings = this.state.storeState.settings;
 
     if (this.state.fadeIn === true) {
       loginPanelClasses.push('fadein');
@@ -215,13 +215,13 @@ export default class LoginPanel extends Component {
           <div className={ avatarClasses.join(' ') }>
             <div className="avatar-background">
               <div className="avatar-mask">
-                <img className="user-avatar" src={ this.storeState.user.image } />
+                <img className="user-avatar" src={ this.state.storeState.user.image } />
               </div>
             </div>
           </div>
           <UserPanelForm
-            activeSession={ this.storeState.session }
-            activeUser={ this.storeState.user }
+            activeSession={ this.state.storeState.session }
+            activeUser={ this.state.storeState.user }
             dropdownActive={ this.state.dropdownActive }
             password={ this.state.password }
             passwordFailed={ this.state.passwordFailed }
@@ -239,10 +239,15 @@ export default class LoginPanel extends Component {
         </div>
         <UserSwitcher
           active={ this.state.switcherActive }
-          activeUser={ this.storeState.user }
+          activeUser={ this.state.storeState.user }
           setActiveUser={ this.setActiveUser.bind(this) }
         />
       </div>
     );
   }
 }
+
+
+LoginPanel.propTypes = {
+  'store': PropTypes.object.isRequired
+};

@@ -4,8 +4,8 @@
 // Displays system info and handles Sleep, Shutdown, etc.
 
 import cxs from 'cxs';
-import Inferno from 'inferno';
-import Component from 'inferno-component';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import * as SystemOperations from '../Logic/SystemOperations';
 import WallpaperSwitcher from './CommandPanel/WallpaperSwitcher';
@@ -13,18 +13,21 @@ import CommandList from './CommandPanel/CommandList';
 import Clock from './CommandPanel/Clock';
 
 
-export default class CommandPanel extends Component {
+export default class CommandPanel extends React.Component {
   constructor(props) {
     super(props);
 
     this.store = this.props.store;
-    this.storeState = this.store.getState();
 
     this.unsubscribe = this.store.subscribe(() => {
-      this.storeState = this.store.getState();
+      this.setState({
+        'storeState': this.store.getState()
+      });
     });
 
-    this.state = {};
+    this.state = {
+      'storeState': this.store.getState()
+    };
   }
 
 
@@ -42,10 +45,10 @@ export default class CommandPanel extends Component {
 
   getEnabledCommands() {
     let commands = {
-      "Shutdown": (window.lightdm.can_shutdown && this.storeState.settings.command_shutdown_enabled),
-      "Reboot": (window.lightdm.can_restart && this.storeState.settings.command_reboot_enabled),
-      "Hibernate": (window.lightdm.can_hibernate && this.storeState.settings.command_hibernate_enabled),
-      "Sleep": (window.lightdm.can_suspend && this.storeState.settings.command_sleep_enabled)
+      "Shutdown": (window.lightdm.can_shutdown && this.state.storeState.settings.command_shutdown_enabled),
+      "Reboot": (window.lightdm.can_restart && this.state.storeState.settings.command_reboot_enabled),
+      "Hibernate": (window.lightdm.can_hibernate && this.state.storeState.settings.command_hibernate_enabled),
+      "Sleep": (window.lightdm.can_suspend && this.state.storeState.settings.command_sleep_enabled)
     };
 
     // Filter out commands we can't execute.
@@ -66,7 +69,7 @@ export default class CommandPanel extends Component {
 
 
   render() {
-    let settings = this.store.getState().settings;
+    let settings = this.state.storeState.settings;
 
     let hostname = window.lightdm.hostname;
     let hostnameClasses = ['left', 'hostname'];
@@ -98,3 +101,8 @@ export default class CommandPanel extends Component {
     );
   }
 }
+
+
+CommandPanel.propTypes = {
+  'store': PropTypes.object.isRequired
+};

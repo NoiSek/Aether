@@ -1,7 +1,7 @@
 {
-  "presets": ["es2015", "stage-0"],
+  "presets": ["es2015", "stage-0", "react"],
   "plugins": [
     "babel-plugin-syntax-jsx",
-    "babel-plugin-inferno"
+    "jsx-control-statements"
   ]
 }

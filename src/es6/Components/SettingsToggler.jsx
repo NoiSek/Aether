@@ -2,7 +2,7 @@
 // --------------------------------------
 // Handles Settings toggling. Straightforward stuff.
 
-import Inferno from "inferno";
+import React from 'react';
 
 
 const toggleSettings = (props) => {

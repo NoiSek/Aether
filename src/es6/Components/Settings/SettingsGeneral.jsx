@@ -2,7 +2,8 @@
 // --------------------------------------
 // Basic distro / visibility / date & time formatting settings.
 
-import Inferno from 'inferno';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 import * as FileOperations from "../../Logic/FileOperations";
 import { FormTextField } from "./FormTextField";
@@ -24,10 +25,8 @@ const LogoChooser = (props) => {
   let items = logos.map((e) => {
     let [path, fileName] = e;
 
-    let selected = (activeLogo === path);
-
     return (
-      <option key={ fileName } value={ path } selected={ selected }>{ fileName.split(".")[0] }</option>
+      <option key={ fileName } value={ path }>{ fileName.split(".")[0] }</option>
     );
   });
 
@@ -39,11 +38,16 @@ const LogoChooser = (props) => {
       <div className="preview-logo">
         <img src={ selectedItem[0] } />
       </div>
-      <select onChange={ onLogoChange.bind(this, props.store) }>
+      <select onChange={ onLogoChange.bind(this, props.store) } value={ activeLogo }>
         { items }
       </select>
     </div>
   );
+};
+
+
+LogoChooser.propTypes = {
+  'store': PropTypes.object.isRequired
 };
 
 
@@ -122,6 +126,13 @@ export const SettingsGeneral = (props) => {
       </div>
     </div>
   );
+};
+
+
+SettingsGeneral.propTypes = {
+  'store': PropTypes.object.isRequired,
+  'settingsSetValue': PropTypes.func.isRequired,
+  'settingsToggleBinary': PropTypes.func.isRequired
 };
 
 

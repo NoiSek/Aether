@@ -2,9 +2,9 @@
 // --------------------------------------
 // Handles greeter configuration.
 
-import Inferno from 'inferno';
+import React from 'react';
 import Draggable from 'draggable';
-import Component from 'inferno-component';
+import PropTypes from 'prop-types';
 
 import { SettingsGeneral } from './Settings/SettingsGeneral';
 import { SettingsStyle } from './Settings/SettingsStyle';
@@ -18,23 +18,27 @@ const SETTINGS_HEIGHT = 300;
 const SETTINGS_WIDTH = 600;
 
 
-export default class Settings extends Component {
+export default class Settings extends React.Component {
   constructor(props) {
     super(props);
 
     this.store = this.props.store;
-    this.storeState = this.store.getState();
 
     this.unsubscribe = this.store.subscribe(() => {
-      this.storeState = this.store.getState();
+      let storeState = this.store.getState();
+
       this.setState({
-        "active": this.storeState.settings.active
+        "active": storeState.settings.active,
+        "storeState": storeState
       });
     });
 
+    let storeState = this.store.getState();
+
     this.state = {
-      "active": this.storeState.settings.active,
-      "selectedCategory": 'general'
+      "active": storeState.settings.active,
+      "selectedCategory": 'general',
+      "storeState": storeState
     };
   }
 
@@ -50,7 +54,7 @@ export default class Settings extends Component {
     draggable.set(centerX, centerY);
 
     // Set default zoom
-    let defaultZoom = this.storeState.settings.dpi_zoom;
+    let defaultZoom = this.state.storeState.settings.dpi_zoom;
     document.getElementById("root").style.zoom = defaultZoom;
   }
 
@@ -104,8 +108,8 @@ export default class Settings extends Component {
   generateCategories() {
     let categories = [
       'General',
-      'Style'/*,
-      'Themes',
+      'Style',
+      'Themes',/*
       'Function',
       'Presets'*/
     ];
@@ -177,3 +181,8 @@ export default class Settings extends Component {
     );
   }
 }
+
+
+Settings.propTypes = {
+  'store': PropTypes.object.isRequired
+};

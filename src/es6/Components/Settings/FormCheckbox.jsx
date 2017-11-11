@@ -2,7 +2,8 @@
 // --------------------------------------
 // Provides a basic binary form checkbox.
 
-import Inferno from "inferno";
+import PropTypes from 'prop-types';
+import React from 'react';
 
 
 export const FormCheckbox = ({ name, value, boundFunction }) => {
@@ -14,13 +15,21 @@ export const FormCheckbox = ({ name, value, boundFunction }) => {
         id={ elementID }
         type="checkbox"
         checked={ value }
+        onChange={ boundFunction }
       />
-      <label onClick={ boundFunction } for={ elementID }>
+      <label htmlFor={ elementID }>
         { name }
-        <div className="fake-checkbox"></div>
+        <div className="fake-checkbox" onChange={ boundFunction }></div>
       </label>
     </li>
   );
+};
+
+
+FormCheckbox.propTypes = {
+  'name': PropTypes.string.isRequired,
+  'value': PropTypes.bool.isRequired,
+  'boundFunction': PropTypes.func.isRequired
 };
 
 

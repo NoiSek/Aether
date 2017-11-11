@@ -3,13 +3,13 @@
 // Handles (poorly) the task of switching between
 // multiple users on the same system.
 
-import Inferno from 'inferno';
-import Component from 'inferno-component';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const FADE_DURATION = 200;
 
 
-export default class UserSwitcher extends Component {
+export default class UserSwitcher extends React.Component {
   constructor(props) {
     super(props);
 
@@ -63,7 +63,7 @@ export default class UserSwitcher extends Component {
       }
 
       return (
-        <li className={ classes.join(' ') } onClick={ this.handleUserClick.bind(this, index) } key={ user.display_name }>
+        <li className={ classes.join(' ') } onClick={ this.handleUserClick.bind(this, index) } key={ user.display_name || user.real_name }>
           <div className="avatar-background">
             <div className="avatar-mask">
               <img className="user-avatar" src={ user.image } />
@@ -82,7 +82,7 @@ export default class UserSwitcher extends Component {
     if (activeIndex === 0) {
       let user = window.lightdm.users[window.lightdm.users.length - 1];
       avatars.splice(0, 0,
-        <li className="avatar-container previous" onClick={ this.handleUserClick.bind(this, window.lightdm.users.length - 1) }>
+        <li className="avatar-container previous" onClick={ this.handleUserClick.bind(this, window.lightdm.users.length - 1) } key="ecopy1">
           <div className="avatar-background">
             <div className="avatar-mask">
               <img className="user-avatar" src={ user.image } />
@@ -101,7 +101,7 @@ export default class UserSwitcher extends Component {
     if (activeIndex === window.lightdm.users.length - 1) {
       let user = window.lightdm.users[0];
       avatars.push(
-        <li className="avatar-container next" onClick={ this.handleUserClick.bind(this, 0) }>
+        <li className="avatar-container next" onClick={ this.handleUserClick.bind(this, 0) } key="ecopy2">
           <div className="avatar-background">
             <div className="avatar-mask">
               <img className="user-avatar" src={ user.image } />
@@ -146,3 +146,10 @@ export default class UserSwitcher extends Component {
     );
   }
 }
+
+
+UserSwitcher.propTypes = {
+  'active': PropTypes.bool.isRequired,
+  'activeUser': PropTypes.object.isRequired,
+  'setActiveUser': PropTypes.func.isRequired
+};
