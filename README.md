@@ -16,6 +16,7 @@ A Sleek, straightforward Archlinux themed login screen written on lightdm and th
   - [Installation](#installation)
     - [Setting an Avatar Image](#setting-an-avatar-image)
     - [Using Your Own Wallpapers](#using-your-own-wallpapers)
+    - [Modifying Date and Time Format](#modifying-date-and-time-format)
   - [Troubleshooting](#troubleshooting)
     - [My login screen hasn't changed!](#my-login-screen-hasnt-changed)
     - [My screen is black!](#my-screen-is-black)
@@ -93,6 +94,12 @@ Add and delete wallpapers within the `src/img/wallpapers/` directory as you see 
 #### Method Two:
 Edit the `background_images` value under `branding` within your lightdm-webkit config file located at `/etc/lightdm/lightdm-webkit2-greeter.conf`.
 *Note: This ignores the default value of /usr/share/backgrounds, as this is always set and would prevent the default wallpapers from working. To use wallpapers from within that directory, create a subdirectory at /usr/share/backgrounds/aether (or any other folder name) and change your config value accordingly.*
+
+### **Modifying Date and Time Format**
+
+The formatting symbols are not necessarily what you would expect them to be! See the following:
+
+https://github.com/samsonjs/strftime#supported-specifiers
 
 ## Troubleshooting
 
