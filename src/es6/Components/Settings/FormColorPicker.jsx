@@ -21,10 +21,10 @@ export class FormColorPicker extends React.Component {
 
 
   handleChange(color, event) {
-    let colorString = tinycolor.fromRatio(color.hsl).toHslString();
+    let colorString = tinycolor(color[color.source]).toHslString();
 
     this.setState({
-      'color': color.hsl
+      'color': color[color.source]
     });
 
     this.props.boundFunction(colorString);
