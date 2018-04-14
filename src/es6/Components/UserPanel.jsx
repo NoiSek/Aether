@@ -184,6 +184,7 @@ export default class LoginPanel extends React.Component {
   render() {
     let loginPanelClasses = ['login-panel-main'];
     let avatarClasses = ['avatar-container'];
+    let avatarBackgroundClasses = ['avatar-background'];
     let settings = this.state.storeState.settings;
 
     if (this.state.fadeIn === true) {
@@ -196,6 +197,10 @@ export default class LoginPanel extends React.Component {
 
     if (settings.avatar_enabled === false) {
       avatarClasses.push('hidden');
+    }
+
+    if (settings.avatar_background_enabled === false) {
+      avatarBackgroundClasses.push('avatar-background-hidden');
     }
 
     let _styles = {
@@ -213,7 +218,7 @@ export default class LoginPanel extends React.Component {
       <div className={ `user-panel ${ style }` }>
         <div className={ loginPanelClasses.join(' ') }>
           <div className={ avatarClasses.join(' ') }>
-            <div className="avatar-background">
+            <div className= { avatarBackgroundClasses.join(' ') }>
               <div className="avatar-mask">
                 <img className="user-avatar" src={ this.state.storeState.user.image } />
               </div>
