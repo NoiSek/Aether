@@ -16,6 +16,7 @@ export function addAdditionalSettings(state) {
     "avatar_enabled": true,
     "avatar_size": "200px",
     "avatar_shape": "circle",
+    "avatar_background_enabled": true,
 
     "font_scale": 1.0,
 

@@ -47,6 +47,13 @@ export default class UserSwitcher extends React.Component {
   generateUserList() {
     let activeIndex = this.state.selectedUserIndex;
 
+    let avatarBackgroundClasses;
+    if(settings.avatar_background_enabled) {
+      avatarBackgroundClasses = 'avatar-background';
+    } else {
+      avatarBackgroundClasses = 'avatar-background avatar-background-hidden';
+    }
+
     let avatars = window.lightdm.users.map((user, index) => {
       let classes = ['avatar-container'];
 
@@ -64,7 +71,7 @@ export default class UserSwitcher extends React.Component {
 
       return (
         <li className={ classes.join(' ') } onClick={ this.handleUserClick.bind(this, index) } key={ user.display_name || user.real_name }>
-          <div className="avatar-background">
+          <div className={ avatarBackgroundClasses }>
             <div className="avatar-mask">
               <img className="user-avatar" src={ user.image } />
             </div>
@@ -83,7 +90,7 @@ export default class UserSwitcher extends React.Component {
       let user = window.lightdm.users[window.lightdm.users.length - 1];
       avatars.splice(0, 0,
         <li className="avatar-container previous" onClick={ this.handleUserClick.bind(this, window.lightdm.users.length - 1) } key="ecopy1">
-          <div className="avatar-background">
+          <div className={ avatarBackgroundClasses }>
             <div className="avatar-mask">
               <img className="user-avatar" src={ user.image } />
             </div>
@@ -102,7 +109,7 @@ export default class UserSwitcher extends React.Component {
       let user = window.lightdm.users[0];
       avatars.push(
         <li className="avatar-container next" onClick={ this.handleUserClick.bind(this, 0) } key="ecopy2">
-          <div className="avatar-background">
+          <div className={ avatarBackgroundClasses }>
             <div className="avatar-mask">
               <img className="user-avatar" src={ user.image } />
             </div>
