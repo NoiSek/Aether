@@ -4,7 +4,6 @@
     "es6": true
   },
   "globals": {
-    "jsColorPicker": true,
     "require": true
   },
   "extends": [

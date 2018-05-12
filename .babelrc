@@ -1,7 +1,16 @@
 {
-  "presets": ["es2015", "stage-0", "react"],
+  'presets': [[
+    'env',
+    {
+      'targets': {
+        'browsers': [ "last 2 versions", "chrome >= 46" ]
+      }
+    }
+  ]],
   "plugins": [
     "babel-plugin-syntax-jsx",
-    "jsx-control-statements"
+    "jsx-control-statements",
+    "transform-react-jsx",
+    "transform-object-rest-spread"
   ]
 }
