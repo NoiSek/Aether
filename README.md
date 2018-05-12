@@ -149,7 +149,6 @@ echo "light-locker &" >> ~/.xprofile
 
 Make sure you have [Node](https://nodejs.org/en/) installed.
 
-- `sudo npm install -g webpack`
 - `npm install` *(While in project directory)*
 
 ### Running Tests
@@ -159,13 +158,11 @@ npm run test
 
 ### Building Project
 ```
-# Note: Automatically runs tests first.
 npm run build
 ```
 
 ### Monitoring Changes
 ```
-# Automatically detects and re-compiles changes.
 npm run watch
 ```
 
