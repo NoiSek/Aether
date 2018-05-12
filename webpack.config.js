@@ -7,8 +7,6 @@ module.exports = function(env) {
   process.env.NODE_ENV = env.NODE_ENV;
 
   const isProduction = (env.NODE_ENV === 'production');
-  console.log(env.NODE_ENV);
-  console.log(isProduction);
 
   return {
     "entry": "./src/es6/Main.jsx",
