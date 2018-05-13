@@ -9,10 +9,10 @@ module.exports = function(env) {
   const isProduction = (env.NODE_ENV === 'production');
 
   return {
-    "entry": "./src/es6/Main.jsx",
+    "entry": "./src/js/Main.jsx",
     "mode": env.NODE_ENV,
     "output": {
-      "path": path.resolve("./src/js"),
+      "path": path.resolve("./dist/js"),
       "filename": "Aether.js"
     },
     "module": {
@@ -64,7 +64,8 @@ module.exports = function(env) {
     ],
     "resolve": {
       "extensions": [ ".js", ".min.js", ".jsx" ],
-      "modules": [ "./src/dist/js", "./node_modules", "./src" ]
+      "mainFiles": [ 'index', 'Main' ],
+      "modules": [ "./dist/js", "./node_modules", "./src", "./src/js" ]
     }
   };
 };

@@ -3,9 +3,25 @@
   <head>
     <meta charset="utf-8">
     <title>Amazing Content</title>
-    <link rel="stylesheet" href="src/css/style.css">
   </head>
+  <style>
+    .preloader {
+      position: absolute;
+
+      top: 0px;
+      left: 0px;
+      right: 0px;
+      bottom: 0px;
+
+      height: 100%;
+      width: 100%;
+
+      z-index: 99999;
+    }
+  </style>
   <body>
+    <div class="preloader"></div>
+
     <div class="wallpaper-background">
       <div class="wallpaper-foreground"></div>
       <div class="wallpaper-preload"></div>
@@ -57,6 +73,6 @@
         };
       }
     </script>
-    <script src="src/js/Aether.js"></script>
+    <script src="dist/js/Aether.js"></script>
   </body>
 </html>
