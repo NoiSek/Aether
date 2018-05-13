@@ -8,8 +8,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import * as FileOperations from "Logic/FileOperations";
-import { FormTextField } from "../inputs/TextField";
-import { FormCheckbox } from "../inputs/Checkbox";
+import TextField from "../inputs/TextField";
+import Checkbox from "../inputs/Checkbox";
 
 
 const onLogoChange = (props, e) => {
@@ -65,22 +65,22 @@ export const GeneralSection = (props) => {
         <ul>
           <h4>Date & Time</h4>
           <hr />
-          <FormCheckbox
+          <Checkbox
             name={ "Date Enabled" }
             value={ settings.date_enabled }
             boundFunction={ props.settingsToggleBinary.bind(this, 'date_enabled') }
           />
-          <FormTextField
+          <TextField
             name={ "Date Format" }
             value={ settings.date_format }
             boundFunction={ props.settingsSetValue.bind(this, 'date_format') }
           />
-          <FormCheckbox
+          <Checkbox
             name={ "Time Enabled" }
             value={ settings.time_enabled }
             boundFunction={ props.settingsToggleBinary.bind(this, 'time_enabled') }
           />
-          <FormTextField
+          <TextField
             name={ "Time Format" }
             value={ settings.time_format }
             boundFunction={ props.settingsSetValue.bind(this, 'time_format') }
@@ -88,22 +88,22 @@ export const GeneralSection = (props) => {
 
           <h4>Command Visibility</h4>
           <hr />
-          <FormCheckbox
+          <Checkbox
             name={ "Shutdown Enabled" }
             value={ settings.command_shutdown_enabled }
             boundFunction={ props.settingsToggleBinary.bind(this, 'command_shutdown_enabled') }
           />
-          <FormCheckbox
+          <Checkbox
             name={ "Reboot Enabled" }
             value={ settings.command_reboot_enabled }
             boundFunction={ props.settingsToggleBinary.bind(this, 'command_reboot_enabled') }
           />
-          <FormCheckbox
+          <Checkbox
             name={ "Hibernate Enabled" }
             value={ settings.command_hibernate_enabled }
             boundFunction={ props.settingsToggleBinary.bind(this, 'command_hibernate_enabled') }
           />
-          <FormCheckbox
+          <Checkbox
             name={ "Sleep Enabled" }
             value={ settings.command_sleep_enabled }
             boundFunction={ props.settingsToggleBinary.bind(this, 'command_sleep_enabled') }
@@ -111,13 +111,13 @@ export const GeneralSection = (props) => {
 
           <h4>Avatar Visibility</h4>
           <hr />
-          <FormCheckbox
+          <Checkbox
             name={ "Avatar Enabled" }
             value={ settings.avatar_enabled }
             boundFunction={ props.settingsToggleBinary.bind(this, 'avatar_enabled') }
           />
 
-          <FormCheckbox
+          <Checkbox
             name={ "Background Enabled" }
             value= { settings.avatar_background_enabled }
             boundFunction={ props.settingsToggleBinary.bind(this, 'avatar_background_enabled') }
@@ -125,7 +125,7 @@ export const GeneralSection = (props) => {
 
           <h4>Hostname Visibility</h4>
           <hr />
-          <FormCheckbox
+          <Checkbox
             name={ "Hostname Enabled" }
             value={ settings.hostname_enabled }
             boundFunction={ props.settingsToggleBinary.bind(this, 'hostname_enabled') }

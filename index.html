@@ -5,7 +5,8 @@
     <title>Amazing Content</title>
   </head>
   <style>
-    .preloader {
+    #preloader {
+      background: rgb(37, 37, 37);
       position: absolute;
 
       top: 0px;
@@ -17,10 +18,17 @@
       width: 100%;
 
       z-index: 99999;
+
+      transition: background 1s cubic-bezier(0.4, 0.0, 0.2, 1), top 2s cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+
+    #preloader.loaded {
+      background: rgba(0,0,0,0);
+      top: 100vh;
     }
   </style>
   <body>
-    <div class="preloader"></div>
+    <div id="preloader"></div>
 
     <div class="wallpaper-background">
       <div class="wallpaper-foreground"></div>

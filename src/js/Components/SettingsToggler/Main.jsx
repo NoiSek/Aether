@@ -5,9 +5,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import  { connect } from 'react-redux';
+
 
 const toggleSettings = (props) => {
-  props.store.dispatch({
+  props.dispatch({
     'type': "SETTINGS_TOGGLE_ACTIVE"
   });
 };
@@ -28,4 +30,7 @@ export const SettingsToggler = (props) => {
 };
 
 
-export default SettingsToggler;
+export default connect(
+  (state) => { return {}; },
+  null
+)(SettingsToggler);

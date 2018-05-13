@@ -17,9 +17,7 @@ export const SVGMap = {
 };
 
 
-export const Item = ({ command, handleCommand }) => {
-  let settings = this.props.settings;
-
+export const Item = ({ command, handleCommand, settings }) => {
   let disabled = command.toLowerCase().split('.')[1] || false;
   command = command.toLowerCase().split('.')[0];
 
@@ -53,6 +51,7 @@ export const Item = ({ command, handleCommand }) => {
 Item.propTypes = {
   'command': PropTypes.string.isRequired,
   'handleCommand': PropTypes.func.isRequired,
+  'settings': PropTypes.object.isRequired
 };
 
 

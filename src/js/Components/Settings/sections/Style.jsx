@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 
-import { FormColorPicker } from '../inputs/ColorPicker';
-import { FormTextField } from '../inputs/TextField';
-import { FormCheckbox } from '../inputs/Checkbox';
-import { FormDropdown } from '../inputs/Dropdown';
+import ColorPicker from '../inputs/ColorPicker';
+import TextField from '../inputs/TextField';
+import Checkbox from '../inputs/Checkbox';
+import Dropdown from '../inputs/Dropdown';
 
 
 export const StyleSection = (props) => {
@@ -18,17 +18,17 @@ export const StyleSection = (props) => {
         <ul>
           <h4>Window Appearance</h4>
           <hr />
-          <FormTextField
+          <TextField
             name={ "Border Radius" }
             value={ settings.window_border_radius }
             boundFunction={ props.settingsSetValue.bind(this, 'window_border_radius') }
           />
-          <FormTextField
+          <TextField
             name={ "Font-Size" }
             value={ settings.window_font_size }
             boundFunction={ props.settingsSetValue.bind(this, 'window_font_size') }
           />
-          <FormTextField
+          <TextField
             name={ "DPI Zoom" }
             value={ settings.page_zoom }
             boundFunction={ props.settingsSetValue.bind(this, 'page_zoom') }
@@ -39,29 +39,29 @@ export const StyleSection = (props) => {
         <ul>
           <h4>Command Panel</h4>
           <hr />
-          <FormCheckbox
+          <Checkbox
             name={ "Icons Enabled" }
             value={ settings.command_icons_enabled }
             boundFunction={ props.settingsToggleBinary.bind(this, 'command_icons_enabled') }
           />
-          <FormDropdown
+          <Dropdown
             name={ "Text Align" }
             value={ settings.command_text_align }
             options={ ['left', 'center', 'right'] }
             boundFunction={ props.settingsSetValue.bind(this, 'command_text_align') }
           />
           <div className="color-group">
-            <FormColorPicker
+            <ColorPicker
               name={ "Background" }
               value={ settings.style_command_background_color }
               boundFunction={ props.settingsSetValue.bind(this, 'style_command_background_color') }
             />
-            <FormColorPicker
+            <ColorPicker
               name={ "Icon Color" }
               value={ settings.style_command_icon_color }
               boundFunction={ props.settingsSetValue.bind(this, 'style_command_icon_color') }
             />
-            <FormColorPicker
+            <ColorPicker
               name={ "Text Color" }
               value={ settings.style_command_text_color }
               boundFunction={ props.settingsSetValue.bind(this, 'style_command_text_color') }
@@ -70,33 +70,33 @@ export const StyleSection = (props) => {
 
           <h4>Login Panel</h4>
           <hr />
-          <FormCheckbox
+          <Checkbox
             name={ "Border Enabled" }
             value={ settings.style_login_border_enabled }
             boundFunction={ props.settingsToggleBinary.bind(this, 'style_login_border_enabled') }
           />
           <div className="color-group">
-            <FormColorPicker
+            <ColorPicker
               name={ "Border Color" }
               value={ settings.style_login_border_color }
               boundFunction={ props.settingsSetValue.bind(this, 'style_login_border_color') }
             />
-            <FormColorPicker
+            <ColorPicker
               name={ "Gradient-Top" }
               value={ settings.style_login_gradient_top_color }
               boundFunction={ props.settingsSetValue.bind(this, 'style_login_gradient_top_color') }
             />
-            <FormColorPicker
+            <ColorPicker
               name={ "Gradient-Bottom" }
               value={ settings.style_login_gradient_bottom_color }
               boundFunction={ props.settingsSetValue.bind(this, 'style_login_gradient_bottom_color') }
             />
-            <FormColorPicker
+            <ColorPicker
               name={ "Button Color" }
               value={ settings.style_login_button_color }
               boundFunction={ props.settingsSetValue.bind(this, 'style_login_button_color') }
             />
-            <FormColorPicker
+            <ColorPicker
               name={ "Username" }
               value={ settings.style_login_username_color }
               boundFunction={ props.settingsSetValue.bind(this, 'style_login_username_color') }

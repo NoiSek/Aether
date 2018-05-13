@@ -45,7 +45,7 @@ class UserPicker extends React.Component {
 
     window.authentication_complete = () => {
       if (window.lightdm.is_authenticated) {
-        window.lightdm.start_session_sync(this.state.storeState.session.key);
+        window.lightdm.start_session_sync(this.props.activeSession.key);
       } else {
         this.rejectPassword();
       }
@@ -64,7 +64,7 @@ class UserPicker extends React.Component {
       if (this.state.password.toLowerCase() !== 'password') {
         this.rejectPassword();
       } else {
-        window.notifications.generate(`You are now logged in as ${ this.state.storeState.user.display_name } to ${ this.state.storeState.session.name }.`, 'success');
+        window.notifications.generate(`You are now logged in as ${ this.props.activeUser.display_name } to ${ this.props.activeSession.name }.`, 'success');
         this.setState({
           "password": ""
         });
@@ -72,7 +72,7 @@ class UserPicker extends React.Component {
     }
 
     else {
-      window.lightdm.authenticate(this.state.storeState.user.username);
+      window.lightdm.authenticate(this.props.activeUser.username);
     }
   }
 
@@ -84,7 +84,7 @@ class UserPicker extends React.Component {
     } else if (window.lightdm.users.length === 2) {
       // No point in showing them the switcher if there is only one other user. Switch immediately.
       let otherUser = window.lightdm.users.filter((user) => {
-        return user.username !== this.state.storeState.user.username;
+        return user.username !== this.props.activeUser.username;
       })[0];
 
       this.setActiveUser(otherUser, true);
@@ -105,7 +105,7 @@ class UserPicker extends React.Component {
 
 
   setActiveSession(session) {
-    this.store.dispatch({
+    this.props.dispatch({
       'type': 'AUTH_SET_ACTIVE_SESSION',
       'session': session
     });
@@ -193,7 +193,7 @@ class UserPicker extends React.Component {
           <div className={ avatarClasses.join(' ') }>
             <div className= { avatarBackgroundClasses.join(' ') }>
               <div className="avatar-mask">
-                <img className="user-avatar" src={ this.state.storeState.user.image } />
+                <img className="user-avatar" src={ this.props.activeUser.image } />
               </div>
             </div>
           </div>
@@ -220,13 +220,17 @@ class UserPicker extends React.Component {
 
 UserPicker.propTypes = {
   'dispatch': PropTypes.func.isRequired,
-  'settings': PropTypes.object.isRequired
+  'settings': PropTypes.object.isRequired,
+  'activeUser': PropTypes.object.isRequired,
+  'activeSession': PropTypes.object.isRequired
 };
 
 
 export default connect(
   (state) => {
     return {
+      'activeUser': state.user,
+      'activeSession': state.session,
       'settings': state.settings
     };
   },

@@ -6,47 +6,58 @@ import cxs from 'cxs';
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { connect } from 'react-redux';
 
-// We don't really need or desire to hold state, here, but it is
-// necessary for this to be a component in order to force updates
-// from the settings dialogue.
+import Sidebar from './Sidebar';
+import UserPicker from './UserPicker';
+import Settings from 'Components/Settings';
+import DateDisplay from 'Components/DateDisplay';
+import SettingsToggler from 'Components/SettingsToggler';
 
-export default class LoginWindow extends React.Component {
+
+class LoginWindow extends React.Component {
   constructor(props) {
     super(props);
-
-    this.store = this.props.store;
-
-    this.unsubscribe = this.store.subscribe(() => {
-      this.setState({
-        "storeState": this.store.getState(),
-        "_toggleUpdate": !this.state._toggleUpdate
-      });
-    });
-
-    this.state = {
-      "_toggleUpdate": false,
-      "storeState": this.store.getState()
-    };
   }
 
+
+  componentDidMount() {
+    document.getElementById('preloader').className += 'loaded';
+  }
+
+
   render() {
-    let settings = this.state.storeState.settings;
+    const settings = this.props.settings;
+
     let style = cxs({
       "border-radius": settings.window_border_radius,
       "font-size": settings.window_font_size
     });
 
-    return (
-      <div className={ `login-window ${ style }` }>
-        { this.props.children }
-      </div>
-    );
+    return [
+      <div className={ `login-window ${ style }` } key='login-window'>
+        <Sidebar />
+        <UserPicker />
+      </div>,
+
+      <DateDisplay key='date-display' />,
+      <Settings key='settings-window' />,
+      <SettingsToggler key='settings-button' />
+    ];
   }
 }
 
 
 LoginWindow.propTypes = {
-  'store': PropTypes.object.isRequired,
-  'children': PropTypes.array.isRequired
+  'settings': PropTypes.object.isRequired,
 };
+
+
+export default connect(
+  (state) => {
+    return {
+      'settings': state.settings
+    };
+  },
+  null
+)(LoginWindow);

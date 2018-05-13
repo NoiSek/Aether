@@ -6,16 +6,12 @@ import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
-import UserPicker from './Components/LoginWindow/UserPicker';
-import SettingsToggler from './Components/SettingsToggler';
-import Sidebar from './Components/LoginWindow/Sidebar';
 import LoginWindow from './Components/LoginWindow';
-import DateDisplay from './Components/DateDisplay';
 import Notifications from './Utils/Notifications';
-import Settings from './Components/Settings';
 
 import { getDefaultState, PrimaryReducer } from './Reducers/PrimaryReducer';
 import { addAdditionalSettings } from './Reducers/SettingsReducer';
+
 
 export default function Main() {
   let initialState = getDefaultState();
@@ -35,14 +31,7 @@ export default function Main() {
 
   ReactDOM.render(
     <Provider store={ store }>
-      <LoginWindow>
-        <Sidebar />
-        <UserPicker />
-      </LoginWindow>
-
-      <DateDisplay />
-      <Settings />
-      <SettingsToggler />
+      <LoginWindow />
     </Provider>,
     document.getElementById('login-window-mount')
   );

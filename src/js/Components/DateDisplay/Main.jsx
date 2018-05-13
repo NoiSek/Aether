@@ -7,31 +7,16 @@ import ReactDOM from 'react-dom';
 import Strftime from 'strftime';
 import PropTypes from 'prop-types';
 
+import { connect } from 'react-redux';
 
-export default class DateDisplay extends React.Component {
+
+class DateDisplay extends React.Component {
   constructor(props) {
     super(props);
 
-    this.store = this.props.store;
-
-    this.unsubscribe = this.store.subscribe(() => {
-      let storeState = this.store.getState();
-
-      this.setState({
-        "storeState": storeState,
-        "date_enabled": storeState.settings.date_enabled,
-        "date_format": storeState.settings.date_format
-      });
-    });
-
-    let storeState = this.store.getState();
-
     this.state = {
       "initialized": false,
-      "date_enabled": storeState.settings.date_enabled,
-      "date_format": storeState.settings.date_format,
       "formattedDate": "",
-      "storeState": storeState
     };
   }
 
@@ -47,7 +32,7 @@ export default class DateDisplay extends React.Component {
   setDate() {
     this.setState({
       "initialized": true,
-      "formattedDate": Strftime(this.state.date_format)
+      "formattedDate": Strftime(this.props.settings.date_format)
     });
 
     setTimeout(() => {
@@ -60,7 +45,7 @@ export default class DateDisplay extends React.Component {
     let dateClasses = ['date'];
     let dateString = this.state.formattedDate;
 
-    if (this.state.initialized === true && this.state.date_enabled === true) {
+    if (this.state.initialized === true && this.props.settings.date_enabled === true) {
       dateClasses.push('loaded');
     } else if (this.state.date_enabled === false) {
       dateClasses.push('invisible');
@@ -75,5 +60,15 @@ export default class DateDisplay extends React.Component {
 
 
 DateDisplay.propTypes = {
-  'store': PropTypes.object.isRequired
+  'settings': PropTypes.object.isRequired
 };
+
+
+export default connect(
+  (state) => {
+    return {
+      'settings': state.settings
+    };
+  },
+  null
+)(DateDisplay);

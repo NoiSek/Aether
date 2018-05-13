@@ -57,6 +57,7 @@ module.exports = function(env) {
         }
       ]
     },
+    "devtool": (isProduction) ? 'source-map' : 'eval-source-map',
     "plugins": [
       new webpack.DefinePlugin({
         "process.env.NODE_ENV": JSON.stringify(env.NODE_ENV)

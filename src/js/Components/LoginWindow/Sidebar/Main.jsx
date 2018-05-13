@@ -35,10 +35,10 @@ class Sidebar extends React.Component {
 
   getEnabledCommands() {
     let commands = {
-      "Shutdown": (window.lightdm.can_shutdown && this.state.storeState.settings.command_shutdown_enabled),
-      "Reboot": (window.lightdm.can_restart && this.state.storeState.settings.command_reboot_enabled),
-      "Hibernate": (window.lightdm.can_hibernate && this.state.storeState.settings.command_hibernate_enabled),
-      "Sleep": (window.lightdm.can_suspend && this.state.storeState.settings.command_sleep_enabled)
+      "Shutdown": (window.lightdm.can_shutdown && this.props.settings.command_shutdown_enabled),
+      "Reboot": (window.lightdm.can_restart && this.props.settings.command_reboot_enabled),
+      "Hibernate": (window.lightdm.can_hibernate && this.props.settings.command_hibernate_enabled),
+      "Sleep": (window.lightdm.can_suspend && this.props.settings.command_sleep_enabled)
     };
 
     // Filter out commands we can't execute.

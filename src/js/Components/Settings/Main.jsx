@@ -9,12 +9,12 @@ import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 
-import { SectionGeneral } from './sections/General';
-import { SectionStyle } from './sections/Style';
-import { SectionThemes } from './sections/Themes';
-import { SectionFunction } from './sections/Function';
-import { SectionPresets } from './sections/Presets';
-import { SaveDialogue } from './SaveDialogue';
+import SectionGeneral from './sections/General';
+import SectionStyle from './sections/Style';
+import SectionThemes from './sections/Themes';
+import SectionFunction from './sections/Function';
+import SectionPresets from './sections/Presets';
+import SaveDialogue from './SaveDialogue';
 
 
 const SETTINGS_HEIGHT = 300;
