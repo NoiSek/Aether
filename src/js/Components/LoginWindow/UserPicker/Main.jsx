@@ -15,6 +15,9 @@ import UserPanelForm from './Form';
 const FADE_IN_DURATION = 200;
 const ERROR_SHAKE_DURATION = 600;
 
+const CTRL_KEYCODE = 17;
+const A_KEYCODE = 65;
+
 
 class UserPicker extends React.Component {
   constructor(props) {
@@ -26,6 +29,9 @@ class UserPicker extends React.Component {
       "passwordFailed": false,
       "switcherActive": false,
     };
+
+    this.CTRL_Pressed = false;
+    this.A_Pressed = false;
   }
 
 
@@ -54,6 +60,40 @@ class UserPicker extends React.Component {
     window.autologin_timer_expired = () => {
       window.notifications.generate("Autologin expired.");
     };
+
+    // Add a handler for Ctrl+A to prevent selection issues.
+    document.onkeydown = this.onKeyDown.bind(this);
+    document.onkeyup = this.onKeyUp.bind(this);
+  }
+
+
+  onKeyDown(e) {
+    if (e.keyCode === CTRL_KEYCODE) {
+      this.CTRL_Pressed = true;
+    }
+
+    if (e.keyCode === A_KEYCODE) {
+      this.A_Pressed = true;
+    }
+
+    if (this.CTRL_Pressed && this.A_Pressed) {
+      e.preventDefault();
+
+      let target = document.getElementById('password-field');
+      target.focus();
+      target.select();
+    }
+  }
+
+
+  onKeyUp(e) {
+    if (e.keyCode === CTRL_KEYCODE) {
+      this.CTRL_Pressed = false;
+    }
+
+    if (e.keyCode === A_KEYCODE) {
+      this.A_Pressed = false;
+    }
   }
 
 
