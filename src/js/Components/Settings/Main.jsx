@@ -12,8 +12,6 @@ import { connect } from 'react-redux';
 import SectionGeneral from './sections/General';
 import SectionStyle from './sections/Style';
 import SectionThemes from './sections/Themes';
-import SectionFunction from './sections/Function';
-import SectionPresets from './sections/Presets';
 import SaveDialogue from './SaveDialogue';
 
 import { setPageZoom } from 'Utils/Utils';
@@ -100,9 +98,7 @@ class Settings extends React.Component {
     let categories = [
       'General',
       'Style',
-      'Themes',/*
-      'Function',
-      'Presets'*/
+      'Themes'
     ];
 
     let listItems = categories.map((category) => {
@@ -140,10 +136,6 @@ class Settings extends React.Component {
       return (<SectionStyle { ...componentProps } />);
     } else if (category === "themes") {
       return (<SectionThemes { ...componentProps } />);
-    } else if (category === "function") {
-      return (<SectionFunction { ...componentProps } />);
-    } else if (category === "presets") {
-      return (<SectionPresets { ...componentProps } />);
     }
   }
 

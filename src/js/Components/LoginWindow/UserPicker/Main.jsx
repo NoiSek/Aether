@@ -245,7 +245,9 @@ class UserPicker extends React.Component {
             setActiveSession={ this.setActiveSession.bind(this) }
           />
           <div className="bottom">
-            <UserSwitchButton handleSwitcherClick={ this.handleSwitcherClick.bind(this) } />
+            <If condition={ settings.user_switcher_enabled }>
+              <UserSwitchButton handleSwitcherClick={ this.handleSwitcherClick.bind(this) } />
+            </If>
           </div>
         </div>
         <UserSwitcher

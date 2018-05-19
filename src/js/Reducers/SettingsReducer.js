@@ -28,6 +28,8 @@ export function addAdditionalSettings(state) {
 
     "hostname_enabled": true,
 
+    "user_switcher_enabled": true,
+
     "command_shutdown_enabled": true,
     "command_reboot_enabled": true,
     "command_hibernate_enabled": true,

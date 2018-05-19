@@ -63,6 +63,13 @@ export const GeneralSection = (props) => {
       </div>
       <div className="right">
         <ul>
+          <h4>User Functionality</h4>
+          <hr />
+          <Checkbox
+            name={ "Show User Switcher" }
+            value={ settings.user_switcher_enabled }
+            boundFunction={ props.settingsToggleBinary.bind(this, 'user_switcher_enabled') }
+          />
           <h4>Date & Time</h4>
           <hr />
           <Checkbox
