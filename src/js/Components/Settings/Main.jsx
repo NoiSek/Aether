@@ -16,6 +16,8 @@ import SectionFunction from './sections/Function';
 import SectionPresets from './sections/Presets';
 import SaveDialogue from './SaveDialogue';
 
+import { setPageZoom } from 'Utils/Utils';
+
 
 const SETTINGS_HEIGHT = 300;
 const SETTINGS_WIDTH = 600;
@@ -43,8 +45,8 @@ class Settings extends React.Component {
     draggable.set(centerX, centerY);
 
     // Set default zoom
-    let defaultZoom = this.props.settings.dpi_zoom;
-    document.getElementById("root").style.zoom = defaultZoom;
+    let defaultZoom = this.props.settings.page_zoom;
+    setPageZoom(defaultZoom);
   }
 
 

@@ -8,6 +8,11 @@ import cxs from "cxs";
 
 
 const SessionRow = (props) => {
+  const handleClick = (e) => {
+    e.preventDefault();
+    props.handleClick(props.session.key);
+  };
+
   let classes = ['dropdown-item'];
 
   if (props.active === true) {
@@ -19,7 +24,7 @@ const SessionRow = (props) => {
   }
 
   return (
-    <div className={ classes.join(' ') } key={ props.session.key } onClick={ props.handleClick }>
+    <div className={ classes.join(' ') } key={ props.session.key } onClick={ handleClick }>
       { props.session.name }
     </div>
   );

@@ -4,5 +4,6 @@ export const padZeroes = (i) => {
 
 export const setPageZoom = (value) => {
   document.getElementById("root").style.zoom = value;
+
   return true;
 };

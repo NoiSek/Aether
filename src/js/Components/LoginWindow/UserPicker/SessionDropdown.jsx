@@ -22,19 +22,13 @@ export class SessionDropdown extends React.Component {
 
 
   handleClick(sessionKey) {
-    return (e) => {
-      if (sessionKey === this.props.activeSession.key) {
-        this.setState({
-          'dropdownActive': true
-        });
-      } else {
-        this.props.setActiveSession(sessionKey);
+    if (sessionKey !== this.props.activeSession) {
+      this.props.setActiveSession(sessionKey);
+    }
 
-        this.setState({
-          'dropdownActive': false
-        });
-      }
-    };
+    this.setState({
+      'dropdownActive': !this.state.dropdownActive
+    });
   }
 
 
@@ -54,15 +48,15 @@ export class SessionDropdown extends React.Component {
           return a.name.toUpperCase() > b.name.toUpperCase();
         })
         .sort((a, b) => {
-          return (b.key.toLowerCase() === this.props.activeSession.key.toLowerCase()) ? 1 : -1;
+          return (b.key.toLowerCase() === this.props.activeSession.toLowerCase()) ? 1 : -1;
         })
         .map((session) => (
           <SessionRow
-            active={ (this.props.activeSession.key === session.key) }
+            active={ (this.props.activeSession === session.key) }
             key={ session.key }
             session={ session }
             buttonColor={ this.props.buttonColor }
-            handleClick={ this.handleClick(session.key).bind(this) }
+            handleClick={ this.handleClick.bind(this) }
           />
         ))
     );
@@ -82,7 +76,7 @@ export class SessionDropdown extends React.Component {
 }
 
 SessionDropdown.propTypes = {
-  'activeSession': PropTypes.object.isRequired,
+  'activeSession': PropTypes.string.isRequired,
   'setActiveSession': PropTypes.func.isRequired,
   'buttonColor': PropTypes.string.isRequired
 };
@@ -91,7 +85,7 @@ SessionDropdown.propTypes = {
 export default connect(
   (state) => {
     return {
-      'activeSession': state.session,
+      'activeSession': state.session.key,
       'buttonColor': state.settings.style_login_button_color
     };
   },
