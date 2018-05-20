@@ -50,6 +50,8 @@ class WallpaperSwitcher extends React.Component {
 
     this.cyclerForeground.style.background = `url('${ directory }${ image }')`;
     this.cyclerForeground.style.backgroundSize = "cover";
+    document.body.style.background = `url('${ directory }${ image }')`;
+    document.body.style.backgroundSize = "cover";
 
     this.setState({
       "savedWallpaper": image
@@ -154,6 +156,8 @@ class WallpaperSwitcher extends React.Component {
       this.cyclerForeground.style.background = `url('${ directory }${ newWallpaper }')`;
       this.cyclerForeground.style.backgroundSize = 'cover';
       this.cyclerForeground.className = this.cyclerForeground.className.replace(" fadeout", "");
+      document.body.style.background = `url('${ directory }${ newWallpaper }')`;
+      document.body.style.backgroundSize = 'cover';
 
       let switcher = this.state.switcher;
       switcher.currentlyFading = false;

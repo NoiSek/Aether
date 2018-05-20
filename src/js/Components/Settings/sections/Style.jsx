@@ -33,6 +33,15 @@ export const StyleSection = (props) => {
             value={ settings.page_zoom }
             boundFunction={ props.settingsSetValue.bind(this, 'page_zoom') }
           />
+
+          <h4>Window Appearance</h4>
+          <hr />
+          <Checkbox
+            name={ "Experimental Stars" }
+            value={ settings.experimental_stars_enabled }
+            boundFunction={ props.settingsToggleBinary.bind(this, 'experimental_stars_enabled') }
+          />
+
         </ul>
       </div>
       <div className="right">

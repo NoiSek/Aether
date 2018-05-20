@@ -23,6 +23,8 @@ export function addAdditionalSettings(state) {
     "date_enabled": true,
     "date_format": "<em>%A</em>, the <em>%o</em> of <em>%B</em>",
 
+    "experimental_stars_enabled": false,
+
     "time_enabled": true,
     "time_format": "%H:%M",
 

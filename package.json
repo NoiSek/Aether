@@ -42,6 +42,7 @@
     "jquery": "^3.3.1",
     "jsx-control-statements": "^3.2.8",
     "node-sass": "^4.9.0",
+    "pixi.js": "^4.7.3",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-color": "^2.14.0",
