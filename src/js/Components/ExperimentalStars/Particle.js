@@ -29,7 +29,7 @@ export default class Particle {
 
     // Reset Sprite
     this.sprite.scale.set(this.options.startScale);
-    this.sprite.alpha = 0.1;
+    this.sprite.alpha = 0.05;
     this.sprite.tint = this.options.startColor;
     this.sprite.rotation = randomRange(-10, 10, 0) * Math.PI / 180;
 
