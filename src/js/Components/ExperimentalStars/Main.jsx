@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 import Particle from './Particle';
 
-import { scale, randomRange } from 'Utils/Utils';
+import { interpolatePoints, scale, randomRange } from 'Utils/Utils';
 
 
 const GradientGenerator = (start, end) => {
@@ -75,14 +75,14 @@ class ExperimentalStars extends React.Component {
     let circle = new PIXI.Graphics();
 
     circle.beginFill(0xFFFFFF, 1);
-    circle.drawCircle(1, 1, 2);
+    circle.drawCircle(1, 1, 1);
     circle.cacheAsBitmap = true;
 
 
     const starCount = 3;
-    const sparkCount = 1000; // Per star
-    const sparkMinDecay = 1250; // milliseconds
-    const sparkMaxDecay = 1500; // milliseconds
+    const sparkCount = 250; // Per star
+    const sparkMinDecay = 750; // milliseconds
+    const sparkMaxDecay = 1250; // milliseconds
     const sparkMinRotation = 295; // Degrees
     const sparkMaxRotation = 300; // Degrees
     const sparkStartScale = 0.001;
@@ -97,14 +97,33 @@ class ExperimentalStars extends React.Component {
       let circleInstance = circle.clone();
 
       this.stars.push([
-        // [X, Y] Velocity, Circle object, Decay
-        [-(randomRange(8, 10, 2)), randomRange(100, 125)],
+        // [X, Y] Velocity, Circle object, Delay
+        [-(randomRange(0.05, 0.09, 4)), randomRange(0.20, 0.40, 4)],
         circleInstance,
-        Number(new Date()) + randomRange(3000, 8000)
+        Number(new Date()) + randomRange(1000, 8000)
       ]);
 
+      circleInstance.blendMode = PIXI.BLEND_MODES.COLOR_BURN;
+      circleInstance.alpha = randomRange(0.7, 1, 2);
       circleInstance.x = randomRange(0, window.innerWidth + (window.innerWidth * 0.2));
-      circleInstance.y = 0;
+      circleInstance.y = -20;
+
+      circleInstance.lastX = circleInstance.x;
+      circleInstance.lastY = circleInstance.y;
+
+      circleInstance.interpolate = (ratio) => {
+        return interpolatePoints(
+          {
+            'x': circleInstance.lastX,
+            'y': circleInstance.lastY
+          },
+          {
+            'x': circleInstance.x,
+            'y': circleInstance.y
+          },
+          ratio
+        );
+      };
 
       this.application.stage.addChild(circleInstance);
     }
@@ -144,12 +163,24 @@ class ExperimentalStars extends React.Component {
         let [ velocity, object, startTime ] = currentItem;
 
         if (now > startTime) {
+          // object.historyX.pop();
+          // object.historyX.unshift(object.x);
+
+          // object.historyY.pop();
+          // object.historyY.unshift(object.y);
+
+          object.lastX = object.x;
+          object.lastY = object.y;
           object.x += velocity[0];
           object.y += velocity[1];
 
           if (object.x < -10 || object.y > window.innerHeight + 10) {
+            object.alpha = randomRange(0.7, 1, 2);
+
             object.x = randomRange(0, window.innerWidth + (window.innerWidth * 0.2));
             object.y = -20;
+
+            currentItem[0] = [-(randomRange(0.10, 0.15, 4)), randomRange(0.20, 0.40, 4)];
             currentItem[2] = now + randomRange(3000, 8000);
           }
         }

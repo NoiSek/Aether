@@ -19,9 +19,11 @@ export default class Particle {
 
 
   recycle() {
+    const [ parentVelocity, parentSprite, parentStartTime ] = this.options.parent;
+
     // Reset Particle
     this.birthDate = Number(new Date());
-    this.velocity = [ 2, -15 ];
+    this.velocity = [ -(parentVelocity[0]) / 100, -(parentVelocity[1]) / 100 ];
     this.lifetime = randomRange(this.options.minDecay, this.options.maxDecay, 0);
     this.elapsed = 0;
 
@@ -29,9 +31,10 @@ export default class Particle {
     this.sprite.scale.set(this.options.startScale);
     this.sprite.alpha = 0.1;
     this.sprite.tint = this.options.startColor;
-    this.sprite.x = this.options.parent[1].x + 2;
-    this.sprite.y = this.options.parent[1].y;
     this.sprite.rotation = randomRange(-10, 10, 0) * Math.PI / 180;
+
+    this.sprite.x = parentSprite.x + 2;
+    this.sprite.y = parentSprite.y;
   }
 
 
@@ -45,6 +48,9 @@ export default class Particle {
 
       let scaledSize = scale(this.options.startScale, this.options.endScale, percentage, false);
       this.sprite.scale.set(scaledSize);
+
+      this.sprite.x += this.velocity[0];
+      this.sprite.y += this.velocity[1];
 
       this.sprite.alpha = (1 - percentage) / 10;
       this.sprite.tint = this.options.gradientGenerator(percentage);
