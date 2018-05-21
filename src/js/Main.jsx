@@ -37,11 +37,22 @@ export default function Main() {
   );
 }
 
+
 window.onload = (e) => {
   // Add notifications to the global scope for error handling
   window.notifications = new Notifications();
 
-  Main();
-  document.getElementById("password-field").focus();
+  let init = () => {
+    Main();
+    document.getElementById("password-field").focus();
+  };
+
+  if (window.__debug === false) {
+    $(window).on('GreeterReady', () => {
+      init();
+    });
+  } else {
+    init();
+  }
 };
 

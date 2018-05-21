@@ -5,7 +5,7 @@ import { setPageZoom } from '../Utils/Utils';
 export function addAdditionalSettings(state) {
   // Define our defaults
 
-  let distroDefault = (window.debug === true) ? "src/test/logos/archlinux.png" : "/usr/share/lightdm-webkit/themes/lightdm-webkit-theme-aether/src/img/logos/archlinux.png";
+  let distroDefault = (window.__debug === true) ? "src/test/logos/archlinux.png" : "/usr/share/lightdm-webkit/themes/lightdm-webkit-theme-aether/src/img/logos/archlinux.png";
 
   let defaults = {
     "active": false,

@@ -2,7 +2,7 @@ export default class Notifications {
   constructor() {
     this.container = document.querySelectorAll('.notifications-container')[0];
 
-    if (window.debug === true) {
+    if (window.__debug === true) {
       this.generate("Hey there!", "success");
 
       setTimeout(() => {

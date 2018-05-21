@@ -4,7 +4,7 @@
 
 export function getWallpaperDirectory() {
   // Return the test folder when debugging.
-  if (window.debug === true) {
+  if (window.__debug === true) {
     return "src/test/wallpapers/";
   }
 
@@ -23,7 +23,7 @@ export function getWallpaperDirectory() {
 export function getWallpapers(directory) {
   // If we're in test mode, we stick to a static rotation of three default wallpapers.
   // In production, it is possible that a user will change what wallpapers are available.
-  if (window.debug === true) {
+  if (window.__debug === true) {
     return ['boko.jpg', 'mountains-2.png', 'space-1.jpg'];
   }
 
@@ -38,7 +38,7 @@ export function getWallpapers(directory) {
 
 export function getLogos() {
   // If we're in test mode, just return the default three.
-  if (window.debug === true) {
+  if (window.__debug === true) {
     return [
       ["src/test/logos/archlinux.png", "archlinux.png"],
       ["src/test/logos/antergos.png", "antergos.png"],

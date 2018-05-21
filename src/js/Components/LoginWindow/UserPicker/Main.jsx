@@ -100,7 +100,7 @@ class UserPicker extends React.Component {
   handleLoginSubmit(event) {
     event.preventDefault();
 
-    if (window.debug === true) {
+    if (window.__debug === true) {
       if (this.state.password.toLowerCase() !== 'password') {
         this.rejectPassword();
       } else {
@@ -112,7 +112,7 @@ class UserPicker extends React.Component {
     }
 
     else {
-      window.lightdm.authenticate(this.props.activeUser.username);
+      window.lightdm.authenticate(this.props.activeUser.username || this.props.activeUser.name);
     }
   }
 

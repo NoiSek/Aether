@@ -49,10 +49,11 @@
     <div id="settings-toggler-mount"></div>
 
     <script type="text/javascript">
-      window.debug = false;
+      window.__debug = false;
 
       if (window.lightdm === undefined) {
-        window.debug = true;
+        window.__debug = true;
+
         window.lightdm = {
           "authenticate": function(){ return true; },
           "hibernate": function(){ return true; },
