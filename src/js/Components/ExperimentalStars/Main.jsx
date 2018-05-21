@@ -78,13 +78,10 @@ class ExperimentalStars extends React.Component {
     circle.drawCircle(1, 1, 1);
     circle.cacheAsBitmap = true;
 
-
     const starCount = 3;
-    const sparkCount = 250; // Per star
+    const sparkCount = 100; // Per star
     const sparkMinDecay = 750; // milliseconds
     const sparkMaxDecay = 1250; // milliseconds
-    const sparkMinRotation = 295; // Degrees
-    const sparkMaxRotation = 300; // Degrees
     const sparkStartScale = 0.001;
     const sparkEndScale = 0.1;
     const startColor = 0xd426e0;
@@ -93,17 +90,17 @@ class ExperimentalStars extends React.Component {
     this.gradientGenerator = GradientGenerator(startColor, endColor);
 
     // Generate stars
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < starCount; i++) {
       let circleInstance = circle.clone();
 
       this.stars.push([
         // [X, Y] Velocity, Circle object, Delay
-        [-(randomRange(0.05, 0.09, 4)), randomRange(0.20, 0.40, 4)],
+        [-(randomRange(1, 2, 2)), randomRange(2, 4, 2)],
         circleInstance,
         Number(new Date()) + randomRange(1000, 8000)
       ]);
 
-      circleInstance.blendMode = PIXI.BLEND_MODES.COLOR_BURN;
+      circleInstance.blendMode = PIXI.BLEND_MODES.SCREEN;
       circleInstance.alpha = randomRange(0.7, 1, 2);
       circleInstance.x = randomRange(0, window.innerWidth + (window.innerWidth * 0.2));
       circleInstance.y = -20;
@@ -128,27 +125,25 @@ class ExperimentalStars extends React.Component {
       this.application.stage.addChild(circleInstance);
     }
 
+
     // Generate sparks
     let sparkTexture = PIXI.Texture.fromImage('src/img/gl/spark.png');
 
     for (let i = 0; i < starCount; i++) {
+      // Generate a new self managing particle instance
+      let options = {
+        'parent': this.stars[i],
+        'startColor': startColor,
+        'endColor': endColor,
+        'minDecay': sparkMinDecay,
+        'maxDecay': sparkMaxDecay,
+        'startScale': sparkStartScale,
+        'endScale': sparkEndScale,
+        'gradientGenerator': this.gradientGenerator
+      };
+
       for (let _i = 0; _i < sparkCount; _i++) {
         this.sparks[i] = this.sparks[i] || [];
-
-        // Generate a new self managing particle instance
-        let options = {
-          'parent': this.stars[i],
-          'startColor': startColor,
-          'endColor': endColor,
-          'minDecay': sparkMinDecay,
-          'maxDecay': sparkMaxDecay,
-          'minRotation': sparkMinRotation,
-          'maxRotation': sparkMaxRotation,
-          'startScale': sparkStartScale,
-          'endScale': sparkEndScale,
-          'gradientGenerator': this.gradientGenerator
-        };
-
         this.sparks[i].push(new Particle(sparkTexture, this.application, options));
       }
     }
@@ -163,24 +158,21 @@ class ExperimentalStars extends React.Component {
         let [ velocity, object, startTime ] = currentItem;
 
         if (now > startTime) {
-          // object.historyX.pop();
-          // object.historyX.unshift(object.x);
-
-          // object.historyY.pop();
-          // object.historyY.unshift(object.y);
-
           object.lastX = object.x;
           object.lastY = object.y;
           object.x += velocity[0];
           object.y += velocity[1];
 
           if (object.x < -10 || object.y > window.innerHeight + 10) {
-            object.alpha = randomRange(0.7, 1, 2);
+            object.alpha = randomRange(0.5, 1, 2);
 
             object.x = randomRange(0, window.innerWidth + (window.innerWidth * 0.2));
             object.y = -20;
 
-            currentItem[0] = [-(randomRange(0.10, 0.15, 4)), randomRange(0.20, 0.40, 4)];
+            object.lastX = object.x;
+            object.lastY = object.y;
+
+            currentItem[0] = [-(randomRange(1, 2, 2)), randomRange(2, 4, 2)];
             currentItem[2] = now + randomRange(3000, 8000);
           }
         }

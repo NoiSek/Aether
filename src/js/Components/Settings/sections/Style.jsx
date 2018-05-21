@@ -34,7 +34,7 @@ export const StyleSection = (props) => {
             boundFunction={ props.settingsSetValue.bind(this, 'page_zoom') }
           />
 
-          <h4>Window Appearance</h4>
+          <h4>Eye Candy</h4>
           <hr />
           <Checkbox
             name={ "Experimental Stars" }

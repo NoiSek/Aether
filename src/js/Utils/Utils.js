@@ -13,12 +13,12 @@ export const scale = (start, end, percentage, round) => {
 
 
 export function randomRange(min, max, decimals=0) {
-  let result = Math.random() * (max - min + 1) + min;
+  let result = Math.random() * (max - min) + min;
 
   if (decimals === 0) {
     result = Math.floor(result);
   } else {
-    result = Math.floor(result * (10 * decimals)) / decimals;
+    result = Math.floor(result * Math.pow(10, decimals)) / Math.pow(10, decimals);
   }
 
   return result;

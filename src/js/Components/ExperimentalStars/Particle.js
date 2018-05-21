@@ -19,7 +19,8 @@ export default class Particle {
 
 
   recycle() {
-    const [ parentVelocity, parentSprite, parentStartTime ] = this.options.parent;
+    const parentVelocity = this.options.parent[0];
+    const parentSprite = this.options.parent[1];
 
     // Reset Particle
     this.birthDate = Number(new Date());
@@ -33,8 +34,11 @@ export default class Particle {
     this.sprite.tint = this.options.startColor;
     this.sprite.rotation = randomRange(-10, 10, 0) * Math.PI / 180;
 
-    this.sprite.x = parentSprite.x + 2;
-    this.sprite.y = parentSprite.y;
+    let ratio = randomRange(0.5, 1, 2);
+    let interpolatedPosition = parentSprite.interpolate(ratio);
+
+    this.sprite.x = interpolatedPosition.x + 2;
+    this.sprite.y = interpolatedPosition.y;
   }
 
 
