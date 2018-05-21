@@ -47,10 +47,15 @@ window.onload = (e) => {
     document.getElementById("password-field").focus();
   };
 
+  // Horribly convoluted for necessity because reasons
   if (window.__debug === false) {
-    $(window).on('GreeterReady', () => {
+    if (window.lightdm === undefined) {
+      document.addEventListener('GreeterReady', () => {
+        init();
+      });
+    } else {
       init();
-    });
+    }
   } else {
     init();
   }

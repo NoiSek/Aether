@@ -51,9 +51,7 @@
     <script type="text/javascript">
       window.__debug = false;
 
-      if (window.lightdm === undefined) {
-        window.__debug = true;
-
+      if (window.__debug === true) {
         window.lightdm = {
           "authenticate": function(){ return true; },
           "hibernate": function(){ return true; },
