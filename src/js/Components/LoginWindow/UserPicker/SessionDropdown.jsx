@@ -41,6 +41,7 @@ export class SessionDropdown extends React.Component {
 
   render() {
     // Sort by active, then alphabetical.
+    // Then filter out duplicate entries
     // Doing this requires using sort in reverse.
     let rows = (
       window.lightdm.sessions
@@ -49,6 +50,12 @@ export class SessionDropdown extends React.Component {
         })
         .sort((a, b) => {
           return (b.key.toLowerCase() === this.props.activeSession.toLowerCase()) ? 1 : -1;
+        })
+        .filter((session, index, arr) => {
+          let firstIndex = arr.findIndex((s) => {
+            return s.key == session.key;
+          });
+          return firstIndex == index;
         })
         .map((session) => (
           <SessionRow
