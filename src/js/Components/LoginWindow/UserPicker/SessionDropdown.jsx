@@ -75,7 +75,7 @@ export class SessionDropdown extends React.Component {
     }
 
     return (
-      <div className={ classes.join(' ') } onMouseLeave={ this.handleDropdownLeave.bind(this) }>
+      <div className={ classes.join(' ') }>
         { rows }
       </div>
     );
