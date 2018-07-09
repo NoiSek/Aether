@@ -16,46 +16,54 @@ import PasswordField from './PasswordField';
 const submitButton = require('img/arrow.svg');
 
 
-export const UserPanelForm = (props) => {
-  let usernameClasses = ['user-username'];
-  usernameClasses.push(cxs({
-    "color": props.settings.style_login_username_color
-  }));
+class UserPanelForm extends React.Component {
+  constructor(props) {
+    super(props);
 
-  let submitButtonClasses = ['submit-button'];
-  submitButtonClasses.push(cxs({
-    "color": props.settings.style_login_button_color
-  }));
+    this.state = {};
+  }
 
-  return (
-    <form className="login-form" onSubmit={ props.handleLoginSubmit }>
-      <div className={ usernameClasses.join(" ") }>{ props.activeUser.display_name }</div>
-      <div className="user-password-container">
-        <PasswordField
-          password={ props.password }
-          passwordFailed={ props.passwordFailed }
-          handlePasswordInput={ props.handlePasswordInput }
-        />
-      </div>
-      <div className="submit-row-container">
-        <div className="submit-row">
-          <div className="left">
-            <SessionDropdown
-              activeSession={ props.activeSession }
-              setActiveSession={ props.setActiveSession }
-            />
-          </div>
-          <div className="right">
-            <label className={ submitButtonClasses.join(" ") }>
-              <input type="submit" />
-              <div dangerouslySetInnerHTML={{ "__html": submitButton }} />
-            </label>
+  render() {
+    let usernameClasses = ['user-username'];
+    usernameClasses.push(cxs({
+      "color": this.props.settings.style_login_username_color
+    }));
+
+    let submitButtonClasses = ['submit-button'];
+    submitButtonClasses.push(cxs({
+      "color": this.props.settings.style_login_button_color
+    }));
+
+    return (
+      <form className="login-form" onSubmit={ this.props.handleLoginSubmit }>
+        <div className={ usernameClasses.join(" ") }>{ this.props.activeUser.display_name }</div>
+        <div className="user-password-container">
+          <PasswordField
+            password={ this.props.password }
+            passwordFailed={ this.props.passwordFailed }
+            handlePasswordInput={ this.props.handlePasswordInput }
+          />
+        </div>
+        <div className="submit-row-container">
+          <div className="submit-row">
+            <div className="left">
+              <SessionDropdown
+                activeSession={ this.props.activeSession }
+                setActiveSession={ this.props.setActiveSession }
+              />
+            </div>
+            <div className="right">
+              <label className={ submitButtonClasses.join(" ") }>
+                <input type="submit" />
+                <div dangerouslySetInnerHTML={{ "__html": submitButton }} />
+              </label>
+            </div>
           </div>
         </div>
-      </div>
-    </form>
-  );
-};
+      </form>
+    );
+  }
+}
 
 
 UserPanelForm.propTypes = {
