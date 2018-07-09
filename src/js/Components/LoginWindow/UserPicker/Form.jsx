@@ -10,6 +10,7 @@ import cxs from 'cxs';
 import { connect } from 'react-redux';
 
 import PasswordField from './PasswordField';
+import SessionSelector from './SessionSelector';
 
 
 const submitButton = require('img/arrow.svg');
@@ -22,6 +23,18 @@ class UserPanelForm extends React.Component {
     this.state = {
       'selectingSession': false
     };
+  }
+
+  openSessionSelector() {
+    this.setState({
+      'selectingSession': true
+    });
+  }
+
+  closeSessionSelector() {
+    this.setState({
+      'selectingSession': false
+    });
   }
 
   render() {
@@ -40,10 +53,15 @@ class UserPanelForm extends React.Component {
       "background-color": this.props.settings.style_login_button_color
     }));
 
+    let inputContainerClasses = ['user-input-container'];
+    if (this.state.selectingSession) {
+      inputContainerClasses.push('hidden');
+    }
+
     return (
       <form className="login-form" onSubmit={ this.props.handleLoginSubmit }>
         <div className={ usernameClasses.join(" ") }>{ this.props.activeUser.display_name }</div>
-        <div className="user-input-container">
+        <div className={ inputContainerClasses.join(' ') }>
           <div className="user-password-container">
             <PasswordField
               password={ this.props.password }
@@ -52,8 +70,8 @@ class UserPanelForm extends React.Component {
             />
           </div>
           <div className="submit-row">
-            <div className={ sessionSelectButtonClasses.join(' ') }>
-              { this.props.activeSession.name }
+            <div className={ sessionSelectButtonClasses.join(' ') } onClick={ this.openSessionSelector.bind(this) }>
+              <div className='text'>{ this.props.activeSession.name }</div>
             </div>
             <div className="right">
               <label className={ submitButtonClasses.join(" ") }>
@@ -63,6 +81,11 @@ class UserPanelForm extends React.Component {
             </div>
           </div>
         </div>
+        <SessionSelector
+          setActiveSession={ this.props.setActiveSession }
+          close={ this.closeSessionSelector.bind(this) }
+          active={ this.state.selectingSession }
+        />
       </form>
     );
   }
