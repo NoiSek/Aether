@@ -9,7 +9,6 @@ import cxs from 'cxs';
 
 import { connect } from 'react-redux';
 
-import SessionDropdown from './SessionDropdown';
 import PasswordField from './PasswordField';
 
 
@@ -36,6 +35,11 @@ class UserPanelForm extends React.Component {
       "color": this.props.settings.style_login_button_color
     }));
 
+    let sessionSelectButtonClasses = ['left'];
+    sessionSelectButtonClasses.push(cxs({
+      "background-color": this.props.settings.style_login_button_color
+    }));
+
     return (
       <form className="login-form" onSubmit={ this.props.handleLoginSubmit }>
         <div className={ usernameClasses.join(" ") }>{ this.props.activeUser.display_name }</div>
@@ -48,11 +52,8 @@ class UserPanelForm extends React.Component {
             />
           </div>
           <div className="submit-row">
-            <div className="left">
-              <SessionDropdown
-                activeSession={ this.props.activeSession }
-                setActiveSession={ this.props.setActiveSession }
-              />
+            <div className={ sessionSelectButtonClasses.join(' ') }>
+              { this.props.activeSession.name }
             </div>
             <div className="right">
               <label className={ submitButtonClasses.join(" ") }>

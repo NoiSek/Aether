@@ -339,13 +339,37 @@ body
 
           .left
             grid-area: leftGA
-
-          .left .dropdown
+            color: #fff
             font-size: 0.75em
+
+            background-image: $dropdown-caret
+            background-repeat: no-repeat
+            background-position: 90% 50%
+
+            transition: background-position-y 200ms ease
+
+            font-family: "Open Sans"
+            font-weight: bold
+            font-style: italic
+            line-height: 1.2em
+
+            text-overflow: ellipsis
+            overflow: hidden
+            white-space: nowrap
+
+            padding-top: 8px
+            padding-left: 10px
+            padding-right: 30px
+
+            border-radius: 2px
+
+            box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05)
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.12)
 
             @extend .noselect
 
             &:hover
+              background-position: 90% 65%
               cursor: pointer
 
           .right
@@ -384,52 +408,6 @@ body
                 transform-origin: center
 
                 transition: all 200ms cubic-bezier(0.64, 0.15, 0.18, 0.52)
-
-        .left .dropdown .dropdown-item
-          color: #525252
-          display: none
-
-          padding: 8px 10px
-
-          transition: background-position-y 200ms ease
-
-          &:not(.active):hover
-            background: rgba(255, 255, 255, 1)
-
-          &:not(.active)
-            background: rgba(255, 255, 255, 0.9)
-
-        .left .dropdown .dropdown-item.active
-          color: #fff
-          display: block
-
-          background-image: $dropdown-caret
-          background-repeat: no-repeat
-          background-position: 90% 50%
-          position: relative
-
-          font-family: "Open Sans"
-          font-weight: bold
-          font-style: italic
-          line-height: 1.2em
-
-          text-overflow: ellipsis
-          overflow: hidden
-          white-space: nowrap
-
-          padding-right: 30px
-
-          border-radius: 2px
-
-          box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05)
-          text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.12)
-
-        .left .dropdown.active
-          .dropdown-item
-            display: block
-
-          .dropdown-item.active
-            background-position: 90% 65%
 
   .login-panel-switcher
     display: block
