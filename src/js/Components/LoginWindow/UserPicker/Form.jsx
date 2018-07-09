@@ -20,7 +20,9 @@ class UserPanelForm extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      'selectingSession': false
+    };
   }
 
   render() {
@@ -37,14 +39,14 @@ class UserPanelForm extends React.Component {
     return (
       <form className="login-form" onSubmit={ this.props.handleLoginSubmit }>
         <div className={ usernameClasses.join(" ") }>{ this.props.activeUser.display_name }</div>
-        <div className="user-password-container">
-          <PasswordField
-            password={ this.props.password }
-            passwordFailed={ this.props.passwordFailed }
-            handlePasswordInput={ this.props.handlePasswordInput }
-          />
-        </div>
-        <div className="submit-row-container">
+        <div className="user-input-container">
+          <div className="user-password-container">
+            <PasswordField
+              password={ this.props.password }
+              passwordFailed={ this.props.passwordFailed }
+              handlePasswordInput={ this.props.handlePasswordInput }
+            />
+          </div>
           <div className="submit-row">
             <div className="left">
               <SessionDropdown

@@ -287,160 +287,149 @@ body
 
         @extend .noselect
 
-      .user-password-container
-        margin: 15px auto
-        width: 200px
+      .user-input-container
 
-      .user-password
-        color: #fff
+        .user-password-container
+          margin: 15px auto
+          width: 200px
 
-        background: none
-        outline: none
-        border: none
-        border-bottom: 2px solid rgba(0, 0, 0, 0.06)
+        .user-password
+          color: #fff
 
-        font-size: 14pt
-        font-weight: bold
-        letter-spacing: 2px
+          background: none
+          outline: none
+          border: none
+          border-bottom: 2px solid rgba(0, 0, 0, 0.06)
 
-        padding-left: 0.5em
-        padding-right: 0.5em
+          font-size: 14pt
+          font-weight: bold
+          letter-spacing: 2px
 
-        width: 100%
+          padding-left: 0.5em
+          padding-right: 0.5em
 
-        transition: opacity 1s, border-bottom 150ms ease
+          width: 100%
 
-        &:focus, &:active
-          border-bottom: 2px solid rgba(255, 255, 255, 0.8)
+          transition: opacity 1s, border-bottom 150ms ease
 
-        &::-webkit-input-placeholder
-          color: rgba(255, 255, 255, 0.4)
-          @extend .noselect
+          &:focus, &:active
+            border-bottom: 2px solid rgba(255, 255, 255, 0.8)
 
-        &.error
-          animation: error-shake 600ms forwards
+          &::-webkit-input-placeholder
+            color: rgba(255, 255, 255, 0.4)
+            @extend .noselect
 
-        &.error, &.error:focus, &.error:active
-          border-bottom: 2px solid rgba(175, 3, 3, 0.6)
+          &.error
+            animation: error-shake 600ms forwards
 
-        &.error::-webkit-input-placeholder
-          color: #af0303
+          &.error, &.error:focus, &.error:active
+            border-bottom: 2px solid rgba(175, 3, 3, 0.6)
 
-      .submit-row
-        $submit-row-width: 200px
+          &.error::-webkit-input-placeholder
+            color: #af0303
 
-        margin: 0 auto
-        width: $submit-row-width
+        .submit-row
+          $submit-row-width: 200px
 
-        position: absolute
-        left: (($login-panel-width / 2) - ($submit-row-width / 2)) - $panel-padding-x
+          margin: 0 auto
+          width: $submit-row-width
 
-        .left, .right
-          display: inline-block
-          float: left
+          display: grid
+          grid-template: "leftGA . rightGA" auto / 77% auto 20%
 
-        .left
-          width: 80%
+          .left
+            grid-area: leftGA
 
-        .left .dropdown
-          font-size: 0.75em
+          .left .dropdown
+            font-size: 0.75em
 
-          width: 95%
+            @extend .noselect
 
-          @extend .noselect
+            &:hover
+              cursor: pointer
 
-          &:hover
-            cursor: pointer
+          .right
+            grid-area: rightGA
+            justify-self: end
 
-        .right
-          width: 20%
+          .right .submit-button
+            box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05)
 
-        .right .submit-button
-          box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05)
+            &:hover
+              cursor: pointer
 
-          &:hover
-            cursor: pointer
+              polygon
+                transform: scale(1.1) translateX(2px)
 
-            polygon
-              transform: scale(1.1) translateX(2px)
+            input[type=submit]
+              display: none
 
+            svg
+              background-color: currentColor
 
-          & > div
-            position: relative
-            left: 8px
+              height: 30px
 
-          input[type=submit]
-            display: none
+              filter: drop-shadow(0px 2px 1px rgba(0, 0, 0, 0.10))
+              border-radius: 4px
 
-          svg
-            background-color: currentColor
+              circle
+                // fill: rgba(255, 255, 255, 0.35)
+                r: 0
 
-            height: 30px
+              polygon
+                stroke: rgba(42, 19, 15, 0.05)
+                stroke-width: 1px
 
-            filter: drop-shadow(0px 2px 1px rgba(0, 0, 0, 0.10))
-            border-radius: 4px
+                transform: scale(1) translateX(0px)
+                transform-origin: center
 
-            circle
-              // fill: rgba(255, 255, 255, 0.35)
-              r: 0
+                transition: all 200ms cubic-bezier(0.64, 0.15, 0.18, 0.52)
 
-            polygon
-              stroke: rgba(42, 19, 15, 0.05)
-              stroke-width: 1px
+        .left .dropdown .dropdown-item
+          color: #525252
+          display: none
 
-              transform: scale(1) translateX(0px)
-              transform-origin: center
+          padding: 8px 10px
 
-              transition: all 200ms cubic-bezier(0.64, 0.15, 0.18, 0.52)
+          transition: background-position-y 200ms ease
 
-      .submit-row-container
-        position: relative
+          &:not(.active):hover
+            background: rgba(255, 255, 255, 1)
 
-      .left .dropdown .dropdown-item
-        color: #525252
-        display: none
+          &:not(.active)
+            background: rgba(255, 255, 255, 0.9)
 
-        padding: 8px 10px
-
-        transition: background-position-y 200ms ease
-
-        &:not(.active):hover
-          background: rgba(255, 255, 255, 1)
-
-        &:not(.active)
-          background: rgba(255, 255, 255, 0.9)
-
-      .left .dropdown .dropdown-item.active
-        color: #fff
-        display: block
-
-        background-image: $dropdown-caret
-        background-repeat: no-repeat
-        background-position: 90% 50%
-        position: relative
-
-        font-family: "Open Sans"
-        font-weight: bold
-        font-style: italic
-        line-height: 1.2em
-
-        text-overflow: ellipsis
-        overflow: hidden
-        white-space: nowrap
-
-        padding-right: 30px
-
-        border-radius: 2px
-
-        box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05)
-        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.12)
-
-      .left .dropdown.active
-        .dropdown-item
+        .left .dropdown .dropdown-item.active
+          color: #fff
           display: block
 
-        .dropdown-item.active
-          background-position: 90% 65%
+          background-image: $dropdown-caret
+          background-repeat: no-repeat
+          background-position: 90% 50%
+          position: relative
+
+          font-family: "Open Sans"
+          font-weight: bold
+          font-style: italic
+          line-height: 1.2em
+
+          text-overflow: ellipsis
+          overflow: hidden
+          white-space: nowrap
+
+          padding-right: 30px
+
+          border-radius: 2px
+
+          box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05)
+          text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.12)
+
+        .left .dropdown.active
+          .dropdown-item
+            display: block
+
+          .dropdown-item.active
+            background-position: 90% 65%
 
   .login-panel-switcher
     display: block
