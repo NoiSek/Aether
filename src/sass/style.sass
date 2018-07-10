@@ -206,19 +206,6 @@ body
   padding: $panel-padding-y $panel-padding-x
 
 
-.user-panel .login-panel-main
-  display: flex
-  flex-direction: column
-
-  // Vertically center when the avatar is hidden.
-  .avatar-container.hidden + .login-form
-    display: flex
-    flex-direction: column
-    justify-content: center
-
-    height: 95%
-
-
 .user-panel
   color: #fff
   border-bottom: none
@@ -240,8 +227,8 @@ body
       animation: login-fade-in 200ms ease-out forwards
 
     .avatar-container
-      height: 43%
-      padding-top: 20px
+      height: 40%
+      padding-top: 15px
       padding-bottom: 75px
 
       .avatar-background
@@ -312,7 +299,7 @@ body
       @extend .noselect
 
     .login-form
-      height: 52%
+      height: 55%
       display: block
 
       .user-username
@@ -424,7 +411,7 @@ body
     .login-session-switcher
       display: grid
 
-      margin-top: 15px
+      margin-top: 20px
       grid-template-columns: repeat(3, [begin-col] minmax(150px, 1fr) [end-col])
       grid-template-rows: repeat(5, [begin-row] 30px [end-row])
       grid-gap: 10px 10px
