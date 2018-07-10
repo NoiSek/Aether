@@ -293,7 +293,7 @@ body
         cursor: pointer
 
         .text
-          transform: translateX(10px) scale(1.15)
+          transform: translateX(3px) scale(1.05)
           transition: transform 200ms ease
 
       @extend .noselect
@@ -421,13 +421,20 @@ body
         @extend .session-button
 
         &.normal
-          background-image: $dropdown-caret
-          background-repeat: no-repeat
-          background-position: 90% 50%
+          &:hover
+            background-image: $check-mark
+            background-repeat: no-repeat
+            background-position: 95% 50%
 
         &.back
+          justify-self: end
+
           grid-column: begin-col 3
           grid-row: begin-row 5
+
+          background-image: $dropdown-caret-inverse
+          background-repeat: no-repeat
+          background-position: 83% 50%
 
   .login-panel-switcher
     display: block

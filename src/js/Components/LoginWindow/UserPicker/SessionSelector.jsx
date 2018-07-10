@@ -53,7 +53,7 @@ class SessionSelector extends React.Component {
         { rows }
         <SessionItem
           key={ CLOSE_SESSION_SELECT }
-          session={ { 'name': 'back', 'key': CLOSE_SESSION_SELECT } }
+          session={ { 'name': 'Back', 'key': CLOSE_SESSION_SELECT } }
           buttonColor={ this.props.buttonColor }
           handleClick={ this.handleClick.bind(this) }
           typeClass='back'
