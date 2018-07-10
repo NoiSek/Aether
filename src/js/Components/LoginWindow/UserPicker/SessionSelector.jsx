@@ -32,12 +32,6 @@ class SessionSelector extends React.Component {
         .sort((a, b) => {
           return a.name.toUpperCase() > b.name.toUpperCase();
         })
-        .filter((session, index, arr) => {
-          let firstIndex = arr.findIndex((s) => {
-            return s.key == session.key;
-          });
-          return firstIndex == index;
-        })
         .map((session) => (
           <SessionItem
             key={ session.key }
