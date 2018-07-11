@@ -19,7 +19,8 @@ const TRANSITION_NONE = 0;
 const TRANSITION_TO_SELECTOR = 1;
 const TRANSITION_FROM_SELECTOR = 2;
 
-const TRANSITION_TIME = 200;
+const TRANSITION_TIME_INPUT    = 200;
+const TRANSITION_TIME_SELECTOR = 300;
 
 class UserPanelForm extends React.Component {
   constructor(props) {
@@ -45,8 +46,8 @@ class UserPanelForm extends React.Component {
         this.setState({
           'transitionType': TRANSITION_NONE
         });
-      }, TRANSITION_TIME);
-    }, TRANSITION_TIME);
+      }, TRANSITION_TIME_SELECTOR);
+    }, TRANSITION_TIME_INPUT);
   }
 
   closeSessionSelector() {
@@ -67,8 +68,8 @@ class UserPanelForm extends React.Component {
         let target = document.getElementById('password-field');
         target.focus();
         target.select();
-      }, TRANSITION_TIME);
-    }, TRANSITION_TIME);
+      }, TRANSITION_TIME_INPUT);
+    }, TRANSITION_TIME_SELECTOR);
   }
 
   render() {

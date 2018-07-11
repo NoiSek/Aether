@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cxs from "cxs";
 
+const MAX_DELAY = 100;
+
 class SessionItem extends React.Component {
   constructor(props) {
     super(props);
@@ -22,8 +24,10 @@ class SessionItem extends React.Component {
       "background-color": this.props.buttonColor
     }));
 
+    let deleay = parseInt(this.props.index * (MAX_DELAY / this.props.maxIndex));
+
     return (
-      <div className={ classes.join(' ') } onClick={ this.handleClick.bind(this) }>
+      <div className={ classes.join(' ') } style={{ 'animation-delay': deleay + "ms" }} onClick={ this.handleClick.bind(this) }>
         <div className='text'>{ this.props.session.name }</div>
       </div>
     );
@@ -34,7 +38,9 @@ SessionItem.propTypes = {
   'buttonColor': PropTypes.string.isRequired,
   'session': PropTypes.object.isRequired,
   'handleClick': PropTypes.func.isRequired,
-  'typeClass': PropTypes.string.isRequired
+  'typeClass': PropTypes.string.isRequired,
+  'index': PropTypes.number.isRequired,
+  'maxIndex':  PropTypes.number.isRequired,
 };
 
 export default SessionItem;

@@ -31,33 +31,47 @@ class SessionSelector extends React.Component {
     // Sort by active, then alphabetical.
     // Then filter out duplicate entries
     // Doing this requires using sort in reverse.
+    let classes = ['login-session-switcher'];
+    let normalClass = ['normal'];
+    let backClass   = ['back'];
+
+    if (!this.props.active) {
+      classes.push('hidden');
+    } else {
+      if (this.props.staggered_enabled) {
+        switch(this.props.transitionType) {
+          case TRANSITION_TO_SELECTOR:   normalClass.push('fadeIn');  backClass.push('fadeIn');  break;
+          case TRANSITION_FROM_SELECTOR: normalClass.push('fadeOut'); backClass.push('fadeOut'); break;
+          case TRANSITION_NONE:
+          default: break;
+        }
+      } else {
+        switch(this.props.transitionType) {
+          case TRANSITION_TO_SELECTOR:   classes.push('fadeIn'); break;
+          case TRANSITION_FROM_SELECTOR: classes.push('fadeOut');  break;
+          case TRANSITION_NONE:
+          default: break;
+        }
+      }
+    }
+
     let rows = (
       window.lightdm.sessions
         .sort((a, b) => {
           return a.name.toUpperCase() > b.name.toUpperCase();
         })
-        .map((session) => (
+        .map((session, index) => (
           <SessionItem
             key={ session.key }
             session={ session }
             buttonColor={ this.props.buttonColor }
             handleClick={ this.handleClick.bind(this) }
-            typeClass='normal'
+            typeClass={ normalClass.join(' ') }
+            index={ index }
+            maxIndex={ window.lightdm.sessions.length }
           />
         ))
     );
-
-    let classes = ['login-session-switcher'];
-    if (!this.props.active) {
-      classes.push('hidden');
-    } else {
-      switch(this.props.transitionType) {
-        case TRANSITION_TO_SELECTOR:   classes.push('fadeIn'); break;
-        case TRANSITION_FROM_SELECTOR: classes.push('fadeOut');  break;
-        case TRANSITION_NONE:
-        default: break;
-      }
-    }
 
     return (
       <div className={ classes.join(' ') }>
@@ -67,7 +81,9 @@ class SessionSelector extends React.Component {
           session={ { 'name': 'Back', 'key': CLOSE_SESSION_SELECT } }
           buttonColor={ this.props.buttonColor }
           handleClick={ this.handleClick.bind(this) }
-          typeClass='back'
+          typeClass={ backClass.join(' ') }
+          index={ window.lightdm.sessions.length }
+          maxIndex={ window.lightdm.sessions.length }
         />
       </div>
     );
@@ -79,14 +95,16 @@ SessionSelector.propTypes = {
   'close': PropTypes.func.isRequired,
   'buttonColor': PropTypes.string.isRequired,
   'active': PropTypes.bool.isRequired,
-  'transitionType': PropTypes.number.isRequired
+  'transitionType': PropTypes.number.isRequired,
+  'staggered_enabled': PropTypes.bool.isRequired
 };
 
 
 export default connect(
   (state) => {
     return {
-      'buttonColor': state.settings.style_login_button_color
+      'buttonColor': state.settings.style_login_button_color,
+      'staggered_enabled': state.settings.staggered_animations_enabled
     };
   },
   null
