@@ -10,6 +10,10 @@ import { connect } from 'react-redux';
 
 const CLOSE_SESSION_SELECT = "__AETHER_COMMAND_CLOSE_SESSION_SELECT__";
 
+const TRANSITION_NONE = 0;
+const TRANSITION_TO_SELECTOR = 1;
+const TRANSITION_FROM_SELECTOR = 2;
+
 class SessionSelector extends React.Component {
   constructor(props) {
     super(props);
@@ -46,6 +50,13 @@ class SessionSelector extends React.Component {
     let classes = ['login-session-switcher'];
     if (!this.props.active) {
       classes.push('hidden');
+    } else {
+      switch(this.props.transitionType) {
+        case TRANSITION_TO_SELECTOR:   classes.push('fadeIn'); break;
+        case TRANSITION_FROM_SELECTOR: classes.push('fadeOut');  break;
+        case TRANSITION_NONE:
+        default: break;
+      }
     }
 
     return (
@@ -67,7 +78,8 @@ SessionSelector.propTypes = {
   'setActiveSession': PropTypes.func.isRequired,
   'close': PropTypes.func.isRequired,
   'buttonColor': PropTypes.string.isRequired,
-  'active': PropTypes.bool.isRequired
+  'active': PropTypes.bool.isRequired,
+  'transitionType': PropTypes.number.isRequired
 };
 
 

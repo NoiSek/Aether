@@ -15,26 +15,60 @@ import SessionSelector from './SessionSelector';
 
 const submitButton = require('img/arrow.svg');
 
+const TRANSITION_NONE = 0;
+const TRANSITION_TO_SELECTOR = 1;
+const TRANSITION_FROM_SELECTOR = 2;
+
+const TRANSITION_TIME = 200;
 
 class UserPanelForm extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      'selectingSession': false
+      'selectingSession': false,
+      'transitionType': TRANSITION_NONE
     };
   }
 
   openSessionSelector() {
     this.setState({
-      'selectingSession': true
+      'transitionType': TRANSITION_TO_SELECTOR
     });
+
+    setTimeout(() => {
+      this.setState({
+        'selectingSession': true
+      });
+
+      setTimeout(() => {
+        this.setState({
+          'transitionType': TRANSITION_NONE
+        });
+      }, TRANSITION_TIME);
+    }, TRANSITION_TIME);
   }
 
   closeSessionSelector() {
     this.setState({
-      'selectingSession': false
+      'transitionType': TRANSITION_FROM_SELECTOR
     });
+
+    setTimeout(() => {
+      this.setState({
+        'selectingSession': false
+      });
+
+      setTimeout(() => {
+        this.setState({
+          'transitionType': TRANSITION_NONE
+        });
+
+        let target = document.getElementById('password-field');
+        target.focus();
+        target.select();
+      }, TRANSITION_TIME);
+    }, TRANSITION_TIME);
   }
 
   render() {
@@ -56,6 +90,13 @@ class UserPanelForm extends React.Component {
     let inputContainerClasses = ['user-input-container'];
     if (this.state.selectingSession) {
       inputContainerClasses.push('hidden');
+    } else {
+      switch(this.state.transitionType) {
+        case TRANSITION_TO_SELECTOR:   inputContainerClasses.push('fadeOut'); break;
+        case TRANSITION_FROM_SELECTOR: inputContainerClasses.push('fadeIn');  break;
+        case TRANSITION_NONE:
+        default: break;
+      }
     }
 
     return (
@@ -85,6 +126,7 @@ class UserPanelForm extends React.Component {
           setActiveSession={ this.props.setActiveSession }
           close={ this.closeSessionSelector.bind(this) }
           active={ this.state.selectingSession }
+          transitionType={ this.state.transitionType }
         />
       </form>
     );

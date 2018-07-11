@@ -72,6 +72,41 @@
     opacity: 0
     transform: translateY(-10px) scale(0.95)
 
+
+
+@keyframes slide-in-left
+  0%
+    transform: translateX(-75px)
+    opacity: 0
+  100%
+    transform: translateX(0)
+    opacity: 1
+
+@keyframes slide-in-right
+  0%
+    transform: translateX(75px)
+    opacity: 0
+  100%
+    transform: translateX(0)
+    opacity: 1
+
+@keyframes slide-out-left
+  0%
+    transform: translateX(0)
+    opacity: 1
+  100%
+    transform: translateX(-75px)
+    opacity: 0
+
+@keyframes slide-out-right
+  0%
+    transform: translateX(0)
+    opacity: 1
+  100%
+    transform: translateX(75px)
+    opacity: 0
+
+
 @keyframes wallpaper-fade-out
   0%
     opacity: 1
