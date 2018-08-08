@@ -49,6 +49,11 @@ export function findInitialUser() {
 
 
 export function findInitialSession(user) {
+  // Try to default to the initial user
+  if (user === undefined) {
+    user = this.findInitialUser();
+  }
+
   let userSession = (user === undefined) ? undefined : user.session;
 
   return (
