@@ -206,19 +206,6 @@ body
   padding: $panel-padding-y $panel-padding-x
 
 
-.user-panel .login-panel-main
-  display: flex
-  flex-direction: column
-
-  // Vertically center when the avatar is hidden.
-  .avatar-container.hidden + .login-form
-    display: flex
-    flex-direction: column
-    justify-content: center
-
-    height: 95%
-
-
 .user-panel
   color: #fff
   border-bottom: none
@@ -240,8 +227,8 @@ body
       animation: login-fade-in 200ms ease-out forwards
 
     .avatar-container
-      height: 50%
-      padding-top: 20px
+      height: 40%
+      padding-top: 15px
       padding-bottom: 75px
 
       .avatar-background
@@ -273,8 +260,46 @@ body
         height: 125px
         width: 125px
 
+    .session-button
+      color: #fff
+      font-size: 0.75em
+      height: 30px
+
+      font-family: "Open Sans"
+      font-weight: bold
+      font-style: italic
+      line-height: 1.2em
+      vertical-align: middle
+
+      text-overflow: ellipsis
+      overflow: hidden
+      white-space: nowrap
+
+      padding-top: 8px
+      padding-left: 10px
+      padding-right: 30px
+
+      border-radius: 2px
+
+      box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05)
+      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.12)
+
+      .text
+        display: inline-block
+        transform: translateX(0px) scale(1.0)
+        transition: transform 200ms ease-out
+
+      &:hover
+        cursor: pointer
+
+        .text
+          transform: translateX(3px) scale(1.05)
+          transition: transform 200ms ease
+
+      @extend .noselect
+
     .login-form
-      height: 45%
+      height: 55%
       display: block
 
       .user-username
@@ -287,160 +312,146 @@ body
 
         @extend .noselect
 
-      .user-password-container
-        margin: 15px auto
-        width: 200px
+      .user-input-container
+        &.fadeIn
+	        animation: slide-in-right 200ms cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
 
-      .user-password
-        color: #fff
+        &.fadeOut
+	        animation: slide-out-right 200ms cubic-bezier(0.550, 0.055, 0.675, 0.190) both;
 
-        background: none
-        outline: none
-        border: none
-        border-bottom: 2px solid rgba(0, 0, 0, 0.06)
+        .user-password-container
+          margin: 15px auto
+          width: 200px
 
-        font-size: 14pt
-        font-weight: bold
-        letter-spacing: 2px
+        .user-password
+          color: #fff
 
-        padding-left: 0.5em
-        padding-right: 0.5em
+          background: none
+          outline: none
+          border: none
+          border-bottom: 2px solid rgba(0, 0, 0, 0.06)
 
-        width: 100%
+          font-size: 14pt
+          font-weight: bold
+          letter-spacing: 2px
 
-        transition: opacity 1s, border-bottom 150ms ease
+          padding-left: 0.5em
+          padding-right: 0.5em
 
-        &:focus, &:active
-          border-bottom: 2px solid rgba(255, 255, 255, 0.8)
+          width: 100%
 
-        &::-webkit-input-placeholder
-          color: rgba(255, 255, 255, 0.4)
-          @extend .noselect
+          transition: opacity 1s, border-bottom 150ms ease
 
-        &.error
-          animation: error-shake 600ms forwards
+          &:focus, &:active
+            border-bottom: 2px solid rgba(255, 255, 255, 0.8)
 
-        &.error, &.error:focus, &.error:active
-          border-bottom: 2px solid rgba(175, 3, 3, 0.6)
+          &::-webkit-input-placeholder
+            color: rgba(255, 255, 255, 0.4)
+            @extend .noselect
 
-        &.error::-webkit-input-placeholder
-          color: #af0303
+          &.error
+            animation: error-shake 600ms forwards
 
-      .submit-row
-        $submit-row-width: 200px
+          &.error, &.error:focus, &.error:active
+            border-bottom: 2px solid rgba(175, 3, 3, 0.6)
 
-        margin: 0 auto
-        width: $submit-row-width
+          &.error::-webkit-input-placeholder
+            color: #af0303
 
-        position: absolute
-        left: (($login-panel-width / 2) - ($submit-row-width / 2)) - $panel-padding-x
+        .submit-row
+          $submit-row-width: 200px
 
-        .left, .right
-          display: inline-block
-          float: left
+          margin: 0 auto
+          width: $submit-row-width
 
-        .left
-          width: 80%
+          display: grid
+          grid-template: "leftGA . rightGA" auto / 77% auto 20%
 
-        .left .dropdown
-          font-size: 0.75em
+          .left
+            grid-area: leftGA
 
-          width: 95%
+            background-image: $dropdown-caret
+            background-repeat: no-repeat
+            background-position: 90% 50%
 
-          @extend .noselect
+            @extend .session-button
 
+          .right
+            grid-area: rightGA
+            justify-self: end
+
+          .right .submit-button
+            box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05)
+
+            &:hover
+              cursor: pointer
+
+              polygon
+                transform: scale(1.1) translateX(2px)
+
+            input[type=submit]
+              display: none
+
+            svg
+              background-color: currentColor
+
+              height: 30px
+
+              filter: drop-shadow(0px 2px 1px rgba(0, 0, 0, 0.10))
+              border-radius: 4px
+
+              circle
+                // fill: rgba(255, 255, 255, 0.35)
+                r: 0
+
+              polygon
+                stroke: rgba(42, 19, 15, 0.05)
+                stroke-width: 1px
+
+                transform: scale(1) translateX(0px)
+                transform-origin: center
+
+                transition: all 200ms cubic-bezier(0.64, 0.15, 0.18, 0.52)
+
+    .login-session-switcher
+      display: grid
+
+      margin-top: 20px
+      grid-template-columns: repeat(3, [begin-col] minmax(150px, 1fr) [end-col])
+      grid-template-rows: repeat(5, [begin-row] 30px [end-row])
+      grid-gap: 10px 10px
+      grid-auto-flow: row
+
+      &.fadeIn
+	      animation: slide-in-left 300ms cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+
+      &.fadeOut
+	      animation: slide-out-left 300ms cubic-bezier(0.550, 0.055, 0.675, 0.190) both;
+
+      .login-session-item
+        @extend .session-button
+
+        &.fadeIn
+	        animation: slide-in-left 200ms cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+
+        &.fadeOut
+	        animation: slide-out-left 200ms cubic-bezier(0.550, 0.055, 0.675, 0.190) both;
+
+        &.normal
           &:hover
-            cursor: pointer
+            background-image: $check-mark
+            background-repeat: no-repeat
+            background-position: 95% 50%
 
-        .right
-          width: 20%
+        &.back
+          justify-self: end
 
-        .right .submit-button
-          box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05)
+          grid-column: begin-col 3
+          grid-row: begin-row 5
 
-          &:hover
-            cursor: pointer
-
-            polygon
-              transform: scale(1.1) translateX(2px)
-
-
-          & > div
-            position: relative
-            left: 8px
-
-          input[type=submit]
-            display: none
-
-          svg
-            background-color: currentColor
-
-            height: 30px
-
-            filter: drop-shadow(0px 2px 1px rgba(0, 0, 0, 0.10))
-            border-radius: 4px
-
-            circle
-              // fill: rgba(255, 255, 255, 0.35)
-              r: 0
-
-            polygon
-              stroke: rgba(42, 19, 15, 0.05)
-              stroke-width: 1px
-
-              transform: scale(1) translateX(0px)
-              transform-origin: center
-
-              transition: all 200ms cubic-bezier(0.64, 0.15, 0.18, 0.52)
-
-      .submit-row-container
-        position: relative
-
-      .left .dropdown .dropdown-item
-        color: #525252
-        display: none
-
-        padding: 8px 10px
-
-        transition: background-position-y 200ms ease
-
-        &:not(.active):hover
-          background: rgba(255, 255, 255, 1)
-
-        &:not(.active)
-          background: rgba(255, 255, 255, 0.9)
-
-      .left .dropdown .dropdown-item.active
-        color: #fff
-        display: block
-
-        background-image: $dropdown-caret
-        background-repeat: no-repeat
-        background-position: 90% 50%
-        position: relative
-
-        font-family: "Open Sans"
-        font-weight: bold
-        font-style: italic
-        line-height: 1.2em
-
-        text-overflow: ellipsis
-        overflow: hidden
-        white-space: nowrap
-
-        padding-right: 30px
-
-        border-radius: 2px
-
-        box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05)
-        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.12)
-
-      .left .dropdown.active
-        .dropdown-item
-          display: block
-
-        .dropdown-item.active
-          background-position: 90% 65%
+          background-image: $dropdown-caret-inverse
+          background-repeat: no-repeat
+          background-position: 83% 50%
 
   .login-panel-switcher
     display: block

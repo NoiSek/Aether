@@ -9,53 +9,130 @@ import cxs from 'cxs';
 
 import { connect } from 'react-redux';
 
-import SessionDropdown from './SessionDropdown';
 import PasswordField from './PasswordField';
+import SessionSelector from './SessionSelector';
 
 
 const submitButton = require('img/arrow.svg');
 
+const TRANSITION_NONE = 0;
+const TRANSITION_TO_SELECTOR = 1;
+const TRANSITION_FROM_SELECTOR = 2;
 
-export const UserPanelForm = (props) => {
-  let usernameClasses = ['user-username'];
-  usernameClasses.push(cxs({
-    "color": props.settings.style_login_username_color
-  }));
+const TRANSITION_TIME_INPUT    = 200;
+const TRANSITION_TIME_SELECTOR = 300;
 
-  let submitButtonClasses = ['submit-button'];
-  submitButtonClasses.push(cxs({
-    "color": props.settings.style_login_button_color
-  }));
+class UserPanelForm extends React.Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <form className="login-form" onSubmit={ props.handleLoginSubmit }>
-      <div className={ usernameClasses.join(" ") }>{ props.activeUser.display_name }</div>
-      <div className="user-password-container">
-        <PasswordField
-          password={ props.password }
-          passwordFailed={ props.passwordFailed }
-          handlePasswordInput={ props.handlePasswordInput }
-        />
-      </div>
-      <div className="submit-row-container">
-        <div className="submit-row">
-          <div className="left">
-            <SessionDropdown
-              activeSession={ props.activeSession }
-              setActiveSession={ props.setActiveSession }
+    this.state = {
+      'selectingSession': false,
+      'transitionType': TRANSITION_NONE
+    };
+  }
+
+  openSessionSelector() {
+    this.setState({
+      'transitionType': TRANSITION_TO_SELECTOR
+    });
+
+    setTimeout(() => {
+      this.setState({
+        'selectingSession': true
+      });
+
+      setTimeout(() => {
+        this.setState({
+          'transitionType': TRANSITION_NONE
+        });
+      }, TRANSITION_TIME_SELECTOR);
+    }, TRANSITION_TIME_INPUT);
+  }
+
+  closeSessionSelector() {
+    this.setState({
+      'transitionType': TRANSITION_FROM_SELECTOR
+    });
+
+    setTimeout(() => {
+      this.setState({
+        'selectingSession': false
+      });
+
+      setTimeout(() => {
+        this.setState({
+          'transitionType': TRANSITION_NONE
+        });
+
+        let target = document.getElementById('password-field');
+        target.focus();
+        target.select();
+      }, TRANSITION_TIME_INPUT);
+    }, TRANSITION_TIME_SELECTOR);
+  }
+
+  render() {
+    let usernameClasses = ['user-username'];
+    usernameClasses.push(cxs({
+      "color": this.props.settings.style_login_username_color
+    }));
+
+    let submitButtonClasses = ['submit-button'];
+    submitButtonClasses.push(cxs({
+      "color": this.props.settings.style_login_button_color
+    }));
+
+    let sessionSelectButtonClasses = ['left'];
+    sessionSelectButtonClasses.push(cxs({
+      "background-color": this.props.settings.style_login_button_color
+    }));
+
+    let inputContainerClasses = ['user-input-container'];
+    if (this.state.selectingSession) {
+      inputContainerClasses.push('hidden');
+    } else {
+      switch(this.state.transitionType) {
+        case TRANSITION_TO_SELECTOR:   inputContainerClasses.push('fadeOut'); break;
+        case TRANSITION_FROM_SELECTOR: inputContainerClasses.push('fadeIn');  break;
+        case TRANSITION_NONE:
+        default: break;
+      }
+    }
+
+    return (
+      <form className="login-form" onSubmit={ this.props.handleLoginSubmit }>
+        <div className={ usernameClasses.join(" ") }>{ this.props.activeUser.display_name }</div>
+        <div className={ inputContainerClasses.join(' ') }>
+          <div className="user-password-container">
+            <PasswordField
+              password={ this.props.password }
+              passwordFailed={ this.props.passwordFailed }
+              handlePasswordInput={ this.props.handlePasswordInput }
             />
           </div>
-          <div className="right">
-            <label className={ submitButtonClasses.join(" ") }>
-              <input type="submit" />
-              <div dangerouslySetInnerHTML={{ "__html": submitButton }} />
-            </label>
+          <div className="submit-row">
+            <div className={ sessionSelectButtonClasses.join(' ') } onClick={ this.openSessionSelector.bind(this) }>
+              <div className='text'>{ this.props.activeSession.name }</div>
+            </div>
+            <div className="right">
+              <label className={ submitButtonClasses.join(" ") }>
+                <input type="submit" />
+                <div dangerouslySetInnerHTML={{ "__html": submitButton }} />
+              </label>
+            </div>
           </div>
         </div>
-      </div>
-    </form>
-  );
-};
+        <SessionSelector
+          setActiveSession={ this.props.setActiveSession }
+          close={ this.closeSessionSelector.bind(this) }
+          active={ this.state.selectingSession }
+          transitionType={ this.state.transitionType }
+        />
+      </form>
+    );
+  }
+}
 
 
 UserPanelForm.propTypes = {

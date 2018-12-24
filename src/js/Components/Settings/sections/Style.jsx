@@ -41,6 +41,11 @@ export const StyleSection = (props) => {
             value={ settings.experimental_stars_enabled }
             boundFunction={ props.settingsToggleBinary.bind(this, 'experimental_stars_enabled') }
           />
+          <Checkbox
+            name={ "Staggered Animations" }
+            value={ settings.staggered_animations_enabled }
+            boundFunction={ props.settingsToggleBinary.bind(this, 'staggered_animations_enabled') }
+          />
 
         </ul>
       </div>

@@ -209,7 +209,7 @@ class UserPicker extends React.Component {
     }
 
     if (settings.avatar_enabled === false) {
-      avatarClasses.push('hidden');
+      avatarClasses.push('invisible');
     }
 
     if (settings.avatar_background_enabled === false) {
