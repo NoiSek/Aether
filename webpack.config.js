@@ -1,6 +1,9 @@
 var path = require("path");
 var webpack = require("webpack");
 
+const uncompressedPostCSSConfig = [ require('autoprefixer')() ];
+const compressedPostCSSConfig = [ ...uncompressedPostCSSConfig, require('cssnano')({ 'preset': 'default' }) ];
+
 
 module.exports = function(env) {
   env.NODE_ENV = (env.production) ? 'production' : 'development';
@@ -34,8 +37,13 @@ module.exports = function(env) {
               "loader": "css-loader",
               "options": {
                 "url": false,
-                "sourceMap": !isProduction,
-                "minimize": isProduction
+                "sourceMap": !isProduction
+              }
+            },
+            {
+              "loader": "postcss-loader",
+              "options": {
+                "plugins": isProduction ? compressedPostCSSConfig : uncompressedPostCSSConfig
               }
             },
             {

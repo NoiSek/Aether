@@ -20,7 +20,7 @@ const PasswordField = (props) => {
       placeholder="*******************"
       className={ classes.join(' ') }
       value={ props.password }
-      onInput={ props.handlePasswordInput }
+      onChange={ props.handlePasswordInput }
     />
   );
 };

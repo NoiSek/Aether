@@ -24,10 +24,10 @@ class SessionItem extends React.Component {
       "background-color": this.props.buttonColor
     }));
 
-    let deleay = parseInt(this.props.index * (MAX_DELAY / this.props.maxIndex));
+    let delay = parseInt(this.props.index * (MAX_DELAY / this.props.maxIndex));
 
     return (
-      <div className={ classes.join(' ') } style={{ 'animation-delay': deleay + "ms" }} onClick={ this.handleClick.bind(this) }>
+      <div className={ classes.join(' ') } style={{ 'animationDelay': delay + "ms" }} onClick={ this.handleClick.bind(this) }>
         <div className='text'>{ this.props.session.name }</div>
       </div>
     );

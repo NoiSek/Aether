@@ -35,7 +35,7 @@ class UserPicker extends React.Component {
   }
 
 
-  componentWillMount() {
+  componentDidMount() {
     // Define functions required in the global scope by LightDM.
     window.show_prompt = (text, type) => {
       if (type === 'text') {
