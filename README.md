@@ -14,6 +14,7 @@ A Sleek, straightforward Archlinux themed login screen written on lightdm and th
   - [Features](#features)
   - [Requirements](#requirements)
   - [Installation](#installation)
+    - [Accessing the Settings Dialogue](#accessing-the-settings-dialogue)
     - [Setting an Avatar Image](#setting-an-avatar-image)
     - [Using Your Own Wallpapers](#using-your-own-wallpapers)
     - [Modifying Date and Time Format](#modifying-date-and-time-format)
@@ -77,6 +78,12 @@ sudo sed -i 's/^webkit_theme\s*=\s*\(.*\)/webkit_theme = lightdm-webkit-theme-ae
 # Set default lightdm greeter to lightdm-webkit2-greeter
 sudo sed -i 's/^\(#?greeter\)-session\s*=\s*\(.*\)/greeter-session = lightdm-webkit2-greeter #\1/ #\2g' /etc/lightdm/lightdm.conf
 ```
+
+
+### **Accessing the Settings Dialogue**
+
+Hover over the bottom left of your screen to find the settings button. Once active, theme settings will remain open in a draggable dialogue window until dismissed.
+
 
 ### **Setting an Avatar Image**
 
