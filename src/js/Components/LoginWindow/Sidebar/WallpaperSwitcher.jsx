@@ -22,6 +22,8 @@ class WallpaperSwitcher extends React.Component {
     let wallpaperDirectory = FileOperations.getWallpaperDirectory();
     let wallpapers = FileOperations.getWallpapers(wallpaperDirectory);
 
+    this.defaultStarsEnabled = undefined;
+
     this.cyclerBackground = undefined;
     this.cyclerForeground = undefined;
     this.cyclerPreloader = undefined;
@@ -76,6 +78,8 @@ class WallpaperSwitcher extends React.Component {
       "savedWallpaper": selectedWallpaper,
       "switcher": switcher
     });
+
+    this.restoreStarsSetting();
   }
 
 
@@ -107,13 +111,25 @@ class WallpaperSwitcher extends React.Component {
 
 
   handleSwitcherActivation() {
-    let switcher = this.state.switcher;
-    switcher.active = true;
-    this.cycleWallpaper();
+    if (this.state.switcher.active === false) {
+      this.defaultStarsEnabled = this.props.starsEnabled;
 
-    this.setState({
-      "switcher": switcher
-    });
+      this.props.dispatch({
+        'type': 'SETTINGS_SET_VALUE',
+        'name': 'experimental_stars_enabled',
+        'value': false
+      });
+    }
+
+    setTimeout(() => {
+      let switcher = this.state.switcher;
+      switcher.active = true;
+      this.cycleWallpaper();
+
+      this.setState({
+        "switcher": switcher
+      });
+    }, 100);
   }
 
 
@@ -130,6 +146,7 @@ class WallpaperSwitcher extends React.Component {
     });
 
     this.setWallpaper(savedWallpaper);
+    this.restoreStarsSetting();
 
     window.notifications.generate("Wallpaper reset to default, no changes saved.");
   }
@@ -170,6 +187,15 @@ class WallpaperSwitcher extends React.Component {
   }
 
 
+  restoreStarsSetting() {
+    this.props.dispatch({
+      'type': 'SETTINGS_SET_VALUE',
+      'name': 'experimental_stars_enabled',
+      'value': this.defaultStarsEnabled
+    });
+  }
+
+
   generateOptions() {
     let classes = ['options'];
 
@@ -206,14 +232,18 @@ class WallpaperSwitcher extends React.Component {
 
 
 WallpaperSwitcher.propTypes = {
-  'distroImage': PropTypes.string
+  'distroImage': PropTypes.string.isRequired,
+  'starsEnabled': PropTypes.bool.isRequired,
+
+  'dispatch': PropTypes.func.isRequired
 };
 
 
 export default connect(
   (state) => {
     return {
-      'distroImage': state.settings.distro
+      'distroImage': state.settings.distro,
+      'starsEnabled': state.settings.experimental_stars_enabled
     };
   },
   null
