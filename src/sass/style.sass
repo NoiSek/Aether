@@ -355,16 +355,14 @@ body
             color: #af0303
 
         .submit-row
-          $submit-row-width: 200px
+          display: flex
 
           margin: 0 auto
-          width: $submit-row-width
-
-          display: grid
-          grid-template: "leftGA . rightGA" auto / 77% auto 20%
+          width: 200px
 
           .left
-            grid-area: leftGA
+            flex-grow: 1
+            margin-right: 15px
 
             background-image: $dropdown-caret
             background-repeat: no-repeat
@@ -376,10 +374,6 @@ body
 
             &:hover
               background-position: 90% 55%
-
-          .right
-            grid-area: rightGA
-            justify-self: end
 
           .right .submit-button
             box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05)
@@ -415,13 +409,17 @@ body
                 transition: all 200ms cubic-bezier(0.64, 0.15, 0.18, 0.52)
 
     .login-session-switcher
-      display: grid
+      display: flex
+      flex-wrap: wrap
+      justify-content: space-between
+
+      &.no-justify
+        justify-content: initial
+
+        .login-session-item
+          margin-right: 10px
 
       margin-top: 20px
-      grid-template-columns: repeat(3, [begin-col] minmax(150px, 1fr) [end-col])
-      grid-template-rows: repeat(5, [begin-row] 30px [end-row])
-      grid-gap: 10px 10px
-      grid-auto-flow: row
 
       ._transform-wrapper
         transform: translateY(0px)
@@ -431,6 +429,9 @@ body
         @extend .session-button
 
         opacity: 0
+
+        margin-bottom: 10px
+        width: 125px
 
       &.active
         .login-session-item

@@ -29,6 +29,10 @@ class SessionSelector extends React.Component {
       classes.push('active');
     }
 
+    if (window.lightdm.sessions.length < 4) {
+      classes.push('no-justify');
+    }
+
     let rows = (
       window.lightdm.sessions
         .sort((a, b) => {
