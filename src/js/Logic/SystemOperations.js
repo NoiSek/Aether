@@ -71,8 +71,8 @@ export function findInitialSession(user) {
   let userSession = (user === undefined) ? undefined : user.session;
 
   return (
-    this.findSession(userSession) ||
-    this.findSession(window.lightdm.default_session) ||
+    findSession(userSession) ||
+    findSession(window.lightdm.default_session) ||
     window.lightdm.sessions[0]
   );
 }
