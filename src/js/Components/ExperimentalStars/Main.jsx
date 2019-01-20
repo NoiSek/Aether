@@ -78,7 +78,7 @@ class ExperimentalStars extends React.Component {
     circle.drawCircle(1, 1, 1);
     circle.cacheAsBitmap = true;
 
-    const starCount = 3;
+    const starCount = 4;
     const sparkCount = 100; // Per star
     const sparkMinDecay = 750; // milliseconds
     const sparkMaxDecay = 1250; // milliseconds
@@ -93,26 +93,32 @@ class ExperimentalStars extends React.Component {
     for (let i = 0; i < starCount; i++) {
       let circleInstance = circle.clone();
 
-      this.stars.push([
-        // [X, Y] Velocity, Circle object, Delay
-        [-(randomRange(1, 2, 2)), randomRange(2, 4, 2)],
-        circleInstance,
-        Number(new Date()) + randomRange(1000, 8000)
-      ]);
-
       circleInstance.blendMode = PIXI.BLEND_MODES.SCREEN;
-      circleInstance.alpha = randomRange(0.7, 1, 2);
-      circleInstance.x = randomRange(0, window.innerWidth + (window.innerWidth * 0.2));
-      circleInstance.y = -20;
 
-      circleInstance.lastX = circleInstance.x;
-      circleInstance.lastY = circleInstance.y;
+      circleInstance.recycle = () => {
+        circleInstance.alpha = randomRange(0.7, 1, 2);
 
-      circleInstance.interpolate = (ratio) => {
+        circleInstance.x = -20;
+        circleInstance.y = -20;
+        circleInstance.startX = randomRange(0, window.innerWidth - (window.innerWidth * 0.2));
+        circleInstance.startY = randomRange(0, window.innerHeight - (window.innerHeight * 0.2));
+        circleInstance.lastX = circleInstance.x;
+        circleInstance.lastY = circleInstance.y;
+
+        circleInstance.deathY = randomRange(circleInstance.y + (window.innerHeight * 0.10), window.innerHeight);
+        circleInstance.startTime = Number(new Date()) + randomRange(1000, 8000);
+
+        circleInstance.velocity = {
+          'x': -(randomRange(1, 2, 2)),
+          'y': randomRange(2, 4, 2)
+        };
+      };
+
+      circleInstance.interpolate = (ratio, stretch=0) => {
         return interpolatePoints(
           {
-            'x': circleInstance.lastX,
-            'y': circleInstance.lastY
+            'x': circleInstance.lastX - (circleInstance.velocity.x * stretch),
+            'y': circleInstance.lastY - (circleInstance.velocity.y * stretch)
           },
           {
             'x': circleInstance.x,
@@ -122,6 +128,9 @@ class ExperimentalStars extends React.Component {
         );
       };
 
+      circleInstance.recycle();
+
+      this.stars.push(circleInstance);
       this.application.stage.addChild(circleInstance);
     }
 
@@ -155,26 +164,28 @@ class ExperimentalStars extends React.Component {
 
       for (let i = 0; i < this.stars.length; i++) {
         let currentItem = this.stars[i];
-        let [ velocity, object, startTime ] = currentItem;
+        let star = currentItem;
 
-        if (now > startTime) {
-          object.lastX = object.x;
-          object.lastY = object.y;
-          object.x += velocity[0];
-          object.y += velocity[1];
-
-          if (object.x < -10 || object.y > window.innerHeight + 10) {
-            object.alpha = randomRange(0.5, 1, 2);
-
-            object.x = randomRange(0, window.innerWidth + (window.innerWidth * 0.2));
-            object.y = -20;
-
-            object.lastX = object.x;
-            object.lastY = object.y;
-
-            currentItem[0] = [-(randomRange(1, 2, 2)), randomRange(2, 4, 2)];
-            currentItem[2] = now + randomRange(3000, 8000);
+        if (now > star.startTime) {
+          if (star.alpha == 0) {
+            star.alpha = randomRange(0.5, 1, 2);
           }
+
+          if (star.x == -20) {
+            star.x = star.startX;
+            star.y = star.startY;
+          }
+
+          star.lastX = star.x;
+          star.lastY = star.y;
+          star.x += star.velocity.x;
+          star.y += star.velocity.y;
+
+          if (star.x < -10 || star.y > star.deathY) {
+            star.recycle();
+          }
+        } else {
+          star.alpha = 0;
         }
       }
     });
