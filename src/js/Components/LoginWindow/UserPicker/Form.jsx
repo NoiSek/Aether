@@ -49,14 +49,17 @@ class UserPanelForm extends React.Component {
       "text-transform": textTransformDict[textTransformStyle.toLowerCase()]
     }));
 
+    let submitButtonWrapperClasses = cxs({ "background-color": this.props.settings.style_login_button_color });
+
     let submitButtonClasses = ['submit-button'];
     submitButtonClasses.push(cxs({
-      "color": this.props.settings.style_login_button_color
+      "color": this.props.settings.style_login_button_text_color
     }));
 
     let sessionSelectButtonClasses = ['left', 'session-select'];
     sessionSelectButtonClasses.push(cxs({
-      "background-color": this.props.settings.style_login_button_color
+      "background-color": this.props.settings.style_login_button_color,
+      "color": this.props.settings.style_login_button_text_color
     }));
 
     let inputContainerClasses = ['user-input-container'];
@@ -87,7 +90,7 @@ class UserPanelForm extends React.Component {
             <div className="right">
               <label className={ submitButtonClasses.join(" ") }>
                 <input type="submit" />
-                <div dangerouslySetInnerHTML={{ "__html": submitIcon }} />
+                <div className={ submitButtonWrapperClasses } dangerouslySetInnerHTML={{ "__html": submitIcon }} />
               </label>
             </div>
           </div>

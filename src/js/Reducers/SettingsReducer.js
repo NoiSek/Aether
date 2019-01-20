@@ -47,6 +47,7 @@ export function addAdditionalSettings(state) {
     "style_login_border_color": "hsla(0, 100%, 100%, 0.1)",
     "style_login_border_enabled": true,
     "style_login_button_color": "hsla(0, 100%, 100%, 0.22)",
+    "style_login_button_text_color": "hsla(0, 100%, 100%, 1)",
     "style_login_gradient_top_color": "hsla(18, 100%, 61%, 0.66)",
     "style_login_gradient_bottom_color": "hsla(339, 94%, 64%, 1)",
     "style_login_username_color": "hsla(0, 100%, 100%, 1)",

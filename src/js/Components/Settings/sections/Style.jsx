@@ -117,6 +117,11 @@ export const StyleSection = (props) => {
               value={ settings.style_login_username_color }
               boundFunction={ props.settingsSetValue.bind(this, 'style_login_username_color') }
             />
+            <ColorPicker
+              name={ "Button Text" }
+              value={ settings.style_login_button_text_color }
+              boundFunction={ props.settingsSetValue.bind(this, 'style_login_button_text_color') }
+            />
           </div>
         </ul>
       </div>

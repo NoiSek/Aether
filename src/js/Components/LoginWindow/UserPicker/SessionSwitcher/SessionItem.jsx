@@ -23,7 +23,8 @@ class SessionItem extends React.Component {
     let classes = ['login-session-item'];
 
     classes.push(cxs({
-      "background-color": this.props.buttonColor,
+      "color":  this.props.buttonTextColor,
+      "background-color": this.props.buttonBackgroundColor,
       "animation-delay": `${ this.props.index * ANIMATION_DURATION }ms !important`
     }));
 
@@ -38,10 +39,12 @@ class SessionItem extends React.Component {
 }
 
 SessionItem.propTypes = {
-  'buttonColor': PropTypes.string.isRequired,
+  'buttonBackgroundColor': PropTypes.string.isRequired,
+  'buttonTextColor': PropTypes.string.isRequired,
   'session': PropTypes.object.isRequired,
   'handleClick': PropTypes.func.isRequired,
   'index': PropTypes.number.isRequired,
+  'settings': PropTypes.object.isRequired
 };
 
 export default SessionItem;

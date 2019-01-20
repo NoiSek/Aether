@@ -261,7 +261,6 @@ body
         width: 125px
 
     .session-button
-      color: #fff
       font-size: 0.75em
       height: 30px
 
@@ -383,22 +382,27 @@ body
               polygon
                 transform: translateX(2px)
 
+            & > div
+              border-radius: 4px
+              height: 30px
+
+              box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.05)
+
             input[type=submit]
               display: none
 
             svg
-              background-color: currentColor
-
               height: 30px
 
               filter: drop-shadow(0px 2px 1px rgba(0, 0, 0, 0.10))
-              border-radius: 4px
 
               circle
                 // fill: rgba(255, 255, 255, 0.35)
                 r: 0
 
               polygon
+                fill: currentColor
+
                 stroke: rgba(42, 19, 15, 0.05)
                 stroke-width: 1px
 

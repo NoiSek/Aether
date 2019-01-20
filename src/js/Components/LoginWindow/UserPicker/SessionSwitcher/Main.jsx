@@ -42,7 +42,8 @@ class SessionSelector extends React.Component {
           <SessionItem
             key={ session.key }
             session={ session }
-            buttonColor={ this.props.buttonColor }
+            buttonBackgroundColor={ this.props.buttonBackgroundColor }
+            buttonTextColor={ this.props.buttonTextColor }
             handleClick={ this.handleClick.bind(this) }
             index={ index }
           />
@@ -60,7 +61,8 @@ class SessionSelector extends React.Component {
 SessionSelector.propTypes = {
   'setActiveSession': PropTypes.func.isRequired,
   'close': PropTypes.func.isRequired,
-  'buttonColor': PropTypes.string.isRequired,
+  'buttonBackgroundColor': PropTypes.string.isRequired,
+  'buttonTextColor': PropTypes.string.isRequired,
   'active': PropTypes.bool.isRequired,
 };
 
@@ -68,7 +70,8 @@ SessionSelector.propTypes = {
 export default connect(
   (state) => {
     return {
-      'buttonColor': state.settings.style_login_button_color
+      'buttonBackgroundColor': state.settings.style_login_button_color,
+      'buttonTextColor': state.settings.style_login_button_text_color
     };
   },
   null
