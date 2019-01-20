@@ -75,13 +75,21 @@ export const StyleSection = (props) => {
               boundFunction={ props.settingsSetValue.bind(this, 'style_command_text_color') }
             />
           </div>
+        </ul>
 
+        <ul>
           <h4>Login Panel</h4>
           <hr />
           <Checkbox
             name={ "Border Enabled" }
             value={ settings.style_login_border_enabled }
             boundFunction={ props.settingsToggleBinary.bind(this, 'style_login_border_enabled') }
+          />
+          <Dropdown
+            name={ "Name Style" }
+            value={ settings.style_username_capitalization }
+            options={ ['default', 'UPPERCASE', 'lowercase', 'Capitalize'] }
+            boundFunction={ props.settingsSetValue.bind(this, 'style_username_capitalization') }
           />
           <div className="color-group">
             <ColorPicker

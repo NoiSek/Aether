@@ -299,7 +299,6 @@ body
 
       .user-username
         text-align: center
-        text-transform: capitalize
 
         font-size: 2.66em
         font-style: italic
@@ -740,10 +739,9 @@ body
 
 .settings
   display: flex
-
   position: absolute
 
-  width: 600px
+  max-width: 900px
 
   opacity: 1
 
@@ -987,7 +985,7 @@ body
 .settings-general
   display: flex
 
-  padding: 25px
+  padding: 25px 0px
 
   .left
     padding: 15px
@@ -1040,16 +1038,22 @@ body
 .settings-style
   display: flex
 
-  padding: 25px
+  padding: 25px 0px
 
   .left
     padding: 25px
-    width: 100%
+    width: 40%
 
   .right
+    display: flex
+    justify-content: space-between
+
     padding: 25px
 
     width: 100%
+
+    & > ul
+      width: 47%
 
   .right .color-group
     display: flex
@@ -1080,6 +1084,9 @@ body
   .left li label
     flex-grow: 2
     width: 100%
+
+    display: flex
+    line-height: 1.2em
 
   .left ul li input[type='text']
     flex-shrink: 2

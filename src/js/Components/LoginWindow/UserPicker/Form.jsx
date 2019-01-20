@@ -34,9 +34,19 @@ class UserPanelForm extends React.Component {
   }
 
   render() {
+    const textTransformDict = {
+      'default': 'initial',
+      'uppercase': 'uppercase',
+      'lowercase': 'lowercase',
+      'capitalize': 'capitalize'
+    };
+
+    const textTransformStyle = this.props.settings.style_username_capitalization;
+
     let usernameClasses = ['user-username'];
     usernameClasses.push(cxs({
-      "color": this.props.settings.style_login_username_color
+      "color": this.props.settings.style_login_username_color,
+      "text-transform": textTransformDict[textTransformStyle.toLowerCase()]
     }));
 
     let submitButtonClasses = ['submit-button'];
