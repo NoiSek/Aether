@@ -11,6 +11,7 @@ export function addAdditionalSettings(state) {
     "active": false,
     "minimized": false,
     "distro": distroDefault,
+    "default_user": "",
     "page_zoom": 1.0,
 
     "avatar_enabled": true,
@@ -24,7 +25,6 @@ export function addAdditionalSettings(state) {
     "date_format": "<em>%A</em>, the <em>%o</em> of <em>%B</em>",
 
     "experimental_stars_enabled": false,
-    "staggered_animations_enabled": true,
 
     "time_enabled": true,
     "time_format": "%H:%M",

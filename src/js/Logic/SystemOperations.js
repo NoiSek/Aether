@@ -3,6 +3,8 @@
 // Wraps LightDM system operations, and handles the heavy
 // lifting of the more complex LightDM requests.
 
+import * as Settings from './Settings';
+
 function executeCommand(message, boundFunction) {
   window.notifications.generate(message);
 
@@ -38,13 +40,25 @@ export function findInitialUser() {
     return window.lightdm.users.filter((user) => user.logged_in)[0];
   }
 
-  else {
-    if (window.lightdm.select_user_hint !== undefined && window.lightdm.select_user_hint !== null) {
-      return window.lightdm.users.filter((user) => user.username === window.lightdm.select_user_hint)[0];
-    } else {
-      return window.lightdm.users[0];
+  if (Settings.requestSetting('default_user')) {
+    let settingsDefaultUser = Settings.requestSetting('default_user');
+    let match = window.lightdm.users.filter((user) => user.name === settingsDefaultUser);
+
+    if (match.length) {
+      return match[0];
     }
   }
+
+
+  if (window.lightdm.select_user_hint !== undefined && window.lightdm.select_user_hint !== null) {
+    let match = window.lightdm.users.filter((user) => user.name === window.lightdm.select_user_hint);
+
+    if (match.length) {
+      return match[0];
+    }
+  }
+
+  return window.lightdm.users[0];
 }
 
 

@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 
 import * as FileOperations from "Logic/FileOperations";
 import TextField from "../inputs/TextField";
+import Dropdown from "../inputs/Dropdown";
 import Checkbox from "../inputs/Checkbox";
 
 
@@ -55,6 +56,8 @@ LogoChooser.propTypes = {
 
 export const GeneralSection = (props) => {
   const settings = props.settings;
+  const users = window.lightdm.users
+    .map(e => e.name);
 
   return (
     <div className="settings-general">
@@ -65,6 +68,12 @@ export const GeneralSection = (props) => {
         <ul>
           <h4>User Functionality</h4>
           <hr />
+          <Dropdown
+            name={ "Default User" }
+            value={ settings.default_user }
+            options={ [ '', ...users ] }
+            boundFunction={ props.settingsSetValue.bind(this, 'default_user') }
+          />
           <Checkbox
             name={ "Show User Switcher" }
             value={ settings.user_switcher_enabled }
