@@ -4,7 +4,7 @@ Inspired by a lifelong love with space.
 
 A Sleek, straightforward Archlinux themed login screen written on lightdm and the lightdm-webkit2-greeter.
 
-**Try it out [here, at the live demo](https://noisek.github.io/Aether/).**
+## **[➡ ➡  Try the live demo of Aether here ⬅ ⬅](https://noisek.github.io/Aether/)**
 
 ![](../screenshots/screenshot.png)
 
