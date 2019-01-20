@@ -77,6 +77,10 @@ class UserPicker extends React.Component {
     }
 
     if (this.CTRL_Pressed && this.A_Pressed) {
+      if (this.props.settings.active) {
+        return;
+      }
+
       e.preventDefault();
 
       let target = document.getElementById('password-field');
