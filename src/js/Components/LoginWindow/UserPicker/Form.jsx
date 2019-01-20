@@ -10,66 +10,27 @@ import cxs from 'cxs';
 import { connect } from 'react-redux';
 
 import PasswordField from './PasswordField';
-import SessionSelector from './SessionSelector';
+import SessionSwitcher from './SessionSwitcher';
 
 
-const submitButton = require('img/arrow.svg');
+const submitIcon = require('img/arrow.svg');
 
-const TRANSITION_NONE = 0;
-const TRANSITION_TO_SELECTOR = 1;
-const TRANSITION_FROM_SELECTOR = 2;
-
-const TRANSITION_TIME_INPUT    = 200;
-const TRANSITION_TIME_SELECTOR = 300;
 
 class UserPanelForm extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      'selectingSession': false,
-      'transitionType': TRANSITION_NONE
+      'sessionSwitcherActive': false,
+      'enableAnimation': false
     };
   }
 
-  openSessionSelector() {
+  toggleSessionSwitcher() {
     this.setState({
-      'transitionType': TRANSITION_TO_SELECTOR
+      'sessionSwitcherActive': !this.state.sessionSwitcherActive,
+      'enableAnimation': true
     });
-
-    setTimeout(() => {
-      this.setState({
-        'selectingSession': true
-      });
-
-      setTimeout(() => {
-        this.setState({
-          'transitionType': TRANSITION_NONE
-        });
-      }, TRANSITION_TIME_SELECTOR);
-    }, TRANSITION_TIME_INPUT);
-  }
-
-  closeSessionSelector() {
-    this.setState({
-      'transitionType': TRANSITION_FROM_SELECTOR
-    });
-
-    setTimeout(() => {
-      this.setState({
-        'selectingSession': false
-      });
-
-      setTimeout(() => {
-        this.setState({
-          'transitionType': TRANSITION_NONE
-        });
-
-        let target = document.getElementById('password-field');
-        target.focus();
-        target.select();
-      }, TRANSITION_TIME_INPUT);
-    }, TRANSITION_TIME_SELECTOR);
   }
 
   render() {
@@ -83,21 +44,19 @@ class UserPanelForm extends React.Component {
       "color": this.props.settings.style_login_button_color
     }));
 
-    let sessionSelectButtonClasses = ['left'];
+    let sessionSelectButtonClasses = ['left', 'session-select'];
     sessionSelectButtonClasses.push(cxs({
       "background-color": this.props.settings.style_login_button_color
     }));
 
     let inputContainerClasses = ['user-input-container'];
-    if (this.state.selectingSession) {
-      inputContainerClasses.push('hidden');
-    } else {
-      switch(this.state.transitionType) {
-        case TRANSITION_TO_SELECTOR:   inputContainerClasses.push('fadeOut'); break;
-        case TRANSITION_FROM_SELECTOR: inputContainerClasses.push('fadeIn');  break;
-        case TRANSITION_NONE:
-        default: break;
-      }
+
+    if (!this.state.enableAnimation) {
+      inputContainerClasses.push('animation-enabled');
+    }
+
+    if (this.state.sessionSwitcherActive) {
+      inputContainerClasses.push('animate-out');
     }
 
     return (
@@ -112,22 +71,21 @@ class UserPanelForm extends React.Component {
             />
           </div>
           <div className="submit-row">
-            <div className={ sessionSelectButtonClasses.join(' ') } onClick={ this.openSessionSelector.bind(this) }>
+            <div className={ sessionSelectButtonClasses.join(' ') } onClick={ this.toggleSessionSwitcher.bind(this) }>
               <div className='text'>{ this.props.activeSession.name }</div>
             </div>
             <div className="right">
               <label className={ submitButtonClasses.join(" ") }>
                 <input type="submit" />
-                <div dangerouslySetInnerHTML={{ "__html": submitButton }} />
+                <div dangerouslySetInnerHTML={{ "__html": submitIcon }} />
               </label>
             </div>
           </div>
         </div>
-        <SessionSelector
+        <SessionSwitcher
           setActiveSession={ this.props.setActiveSession }
-          close={ this.closeSessionSelector.bind(this) }
-          active={ this.state.selectingSession }
-          transitionType={ this.state.transitionType }
+          close={ this.toggleSessionSwitcher.bind(this) }
+          active={ this.state.sessionSwitcherActive }
         />
       </form>
     );

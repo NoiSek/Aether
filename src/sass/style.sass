@@ -265,7 +265,6 @@ body
       font-size: 0.75em
       height: 30px
 
-      font-family: "Open Sans"
       font-weight: bold
       font-style: italic
       line-height: 1.2em
@@ -292,10 +291,6 @@ body
       &:hover
         cursor: pointer
 
-        .text
-          transform: translateX(3px) scale(1.05)
-          transition: transform 200ms ease
-
       @extend .noselect
 
     .login-form
@@ -313,11 +308,11 @@ body
         @extend .noselect
 
       .user-input-container
-        &.fadeIn
-	        animation: slide-in-right 200ms cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+        animation: slide-in-right 200ms cubic-bezier(0.215, 0.610, 0.355, 1.000) both
 
-        &.fadeOut
-	        animation: slide-out-right 200ms cubic-bezier(0.550, 0.055, 0.675, 0.190) both;
+        &.animate-out
+          animation: slide-out-right 200ms cubic-bezier(0.550, 0.055, 0.675, 0.190) both
+          height: 0px
 
         .user-password-container
           margin: 15px auto
@@ -330,6 +325,7 @@ body
           outline: none
           border: none
           border-bottom: 2px solid rgba(0, 0, 0, 0.06)
+          border-radius: 3px
 
           font-size: 14pt
           font-weight: bold
@@ -343,7 +339,7 @@ body
           transition: opacity 1s, border-bottom 150ms ease
 
           &:focus, &:active
-            border-bottom: 2px solid rgba(255, 255, 255, 0.8)
+            border-bottom: 2px solid rgba(255, 255, 255, 0.6)
 
           &::-webkit-input-placeholder
             color: rgba(255, 255, 255, 0.4)
@@ -374,7 +370,12 @@ body
             background-repeat: no-repeat
             background-position: 90% 50%
 
+            transition: background-position 200ms ease-in-out
+
             @extend .session-button
+
+            &:hover
+              background-position: 90% 55%
 
           .right
             grid-area: rightGA
@@ -387,7 +388,7 @@ body
               cursor: pointer
 
               polygon
-                transform: scale(1.1) translateX(2px)
+                transform: translateX(2px)
 
             input[type=submit]
               display: none
@@ -422,36 +423,24 @@ body
       grid-gap: 10px 10px
       grid-auto-flow: row
 
-      &.fadeIn
-	      animation: slide-in-left 300ms cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
-
-      &.fadeOut
-	      animation: slide-out-left 300ms cubic-bezier(0.550, 0.055, 0.675, 0.190) both;
+      ._transform-wrapper
+        transform: translateY(0px)
+        transition: transform 350ms $material-curve
 
       .login-session-item
         @extend .session-button
 
-        &.fadeIn
-	        animation: slide-in-left 200ms cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+        opacity: 0
 
-        &.fadeOut
-	        animation: slide-out-left 200ms cubic-bezier(0.550, 0.055, 0.675, 0.190) both;
+      &.active
+        .login-session-item
+          animation: slide-in-left 300ms cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards
 
-        &.normal
-          &:hover
-            background-image: $check-mark
-            background-repeat: no-repeat
-            background-position: 95% 50%
+        ._transform-wrapper:hover
+          transform: translateY(-2px)
 
-        &.back
-          justify-self: end
-
-          grid-column: begin-col 3
-          grid-row: begin-row 5
-
-          background-image: $dropdown-caret-inverse
-          background-repeat: no-repeat
-          background-position: 83% 50%
+        ._transform-wrapper:active
+          transform: translateY(2px)
 
   .login-panel-switcher
     display: block
