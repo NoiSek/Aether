@@ -38,6 +38,8 @@ export function addAdditionalSettings(state) {
     "command_hibernate_enabled": true,
     "command_sleep_enabled": true,
 
+    "style_command_logo_desaturate": false,
+    "style_command_logo_brightness": 100,
     "style_command_icons_enabled": true,
     "style_command_text_align": "left",
     "style_command_background_color": "hsla(0, 0%, 22%, 1)",

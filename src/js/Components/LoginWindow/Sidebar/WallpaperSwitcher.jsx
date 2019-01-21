@@ -216,14 +216,21 @@ class WallpaperSwitcher extends React.Component {
 
   render() {
     let options = this.generateOptions();
+    let classes = [ 'distro-logo' ];
 
-    let style = cxs({
-      "background-image": `url(${ this.props.distroImage }) !important`
-    });
+    classes.push(cxs({
+      "background-image": `url(${ this.props.distroImage }) !important`,
+    }));
+
+    if (this.props.desaturate) {
+      classes.push(cxs({
+        "filter": `grayscale(1) brightness(${ (this.props.brightness * 200) / 100 }%)`
+      }));
+    }
 
     return (
       <div className="distro-wrapper">
-        <div className={ `distro-logo ${ style }` } onClick={ this.handleSwitcherActivation.bind(this) }></div>
+        <div className={ classes.join(' ') } onClick={ this.handleSwitcherActivation.bind(this) }></div>
         { options }
       </div>
     );
@@ -234,6 +241,8 @@ class WallpaperSwitcher extends React.Component {
 WallpaperSwitcher.propTypes = {
   'distroImage': PropTypes.string.isRequired,
   'starsEnabled': PropTypes.bool.isRequired,
+  'desaturate': PropTypes.bool.isRequired,
+  'brightness': PropTypes.string.isRequired,
 
   'dispatch': PropTypes.func.isRequired
 };
@@ -243,7 +252,9 @@ export default connect(
   (state) => {
     return {
       'distroImage': state.settings.distro,
-      'starsEnabled': state.settings.experimental_stars_enabled
+      'starsEnabled': state.settings.experimental_stars_enabled,
+      'desaturate': state.settings.style_command_logo_desaturate,
+      'brightness': state.settings.style_command_logo_brightness
     };
   },
   null

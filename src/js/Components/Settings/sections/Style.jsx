@@ -75,6 +75,19 @@ export const StyleSection = (props) => {
               boundFunction={ props.settingsSetValue.bind(this, 'style_command_text_color') }
             />
           </div>
+          <h4>Distro Logo</h4>
+          <hr />
+          <Checkbox
+            name={ "Desaturate" }
+            value={ settings.style_command_logo_desaturate }
+            boundFunction={ props.settingsToggleBinary.bind(this, 'style_command_logo_desaturate') }
+          />
+          <TextField
+            name={ "Brightness" }
+            disabled={ !settings.style_command_logo_desaturate }
+            value={ settings.style_command_logo_brightness }
+            boundFunction={ props.settingsSetValue.bind(this, 'style_command_logo_brightness') }
+          />
         </ul>
 
         <ul>

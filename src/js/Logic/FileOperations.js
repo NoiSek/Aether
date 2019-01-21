@@ -42,7 +42,11 @@ export function getLogos() {
     return [
       ["src/test/logos/archlinux.png", "archlinux.png"],
       ["src/test/logos/antergos.png", "antergos.png"],
-      ["src/test/logos/ubuntu.png", "ubuntu.png"]
+      ["src/test/logos/ubuntu.png", "ubuntu.png"],
+      ["src/test/logos/debian.png", "debian.png"],
+      ["src/test/logos/generic.png", "generic.png"],
+      ["src/test/logos/tux.png", "tux.png"],
+      ["src/test/logos/tux-silhouette.png", "tux-silhouette.png"]
     ];
   }
 
