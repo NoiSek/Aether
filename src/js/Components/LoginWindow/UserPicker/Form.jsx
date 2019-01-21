@@ -14,6 +14,7 @@ import SessionSwitcher from './SessionSwitcher';
 
 
 const submitIcon = require('img/arrow.svg');
+const dropdownIcon = require('img/dropdown-caret.svg');
 
 
 class UserPanelForm extends React.Component {
@@ -56,6 +57,8 @@ class UserPanelForm extends React.Component {
       "color": this.props.settings.style_login_button_text_color
     }));
 
+    let dropdownCaretWrapperClasses = cxs({ "color": this.props.settings.style_login_button_text_color });
+
     let sessionSelectButtonClasses = ['left', 'session-select'];
     sessionSelectButtonClasses.push(cxs({
       "background-color": this.props.settings.style_login_button_color,
@@ -86,6 +89,7 @@ class UserPanelForm extends React.Component {
           <div className="submit-row">
             <div className={ sessionSelectButtonClasses.join(' ') } onClick={ this.toggleSessionSwitcher.bind(this) }>
               <div className='text'>{ this.props.activeSession.name }</div>
+              <div className={ dropdownCaretWrapperClasses } dangerouslySetInnerHTML={{ "__html": dropdownIcon }} />
             </div>
             <div className="right">
               <label className={ submitButtonClasses.join(" ") }>
