@@ -24,7 +24,7 @@ export const Item = ({ command, handleCommand, settings }) => {
   let classes = ['command', command, disabled].filter((e) => e);
   let iconWrapperClasses = ['icon-wrapper'];
 
-  if (settings.command_icons_enabled === false) {
+  if (settings.style_command_icons_enabled === false) {
     iconWrapperClasses.push('hidden');
   }
 
@@ -36,7 +36,7 @@ export const Item = ({ command, handleCommand, settings }) => {
 
   let textStyle = cxs({
     "color": settings.style_command_text_color,
-    "text-align": settings.command_text_align
+    "text-align": settings.style_command_text_align
   });
 
   return (

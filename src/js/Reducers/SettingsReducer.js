@@ -37,9 +37,9 @@ export function addAdditionalSettings(state) {
     "command_reboot_enabled": true,
     "command_hibernate_enabled": true,
     "command_sleep_enabled": true,
-    "command_icons_enabled": true,
-    "command_text_align": "left",
 
+    "style_command_icons_enabled": true,
+    "style_command_text_align": "left",
     "style_command_background_color": "hsla(0, 0%, 22%, 1)",
     "style_command_icon_color": "hsla(349, 98%, 65%, 1)",
     "style_command_text_color": "hsla(0, 100%, 100%, 1)",

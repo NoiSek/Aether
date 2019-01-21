@@ -49,14 +49,14 @@ export const StyleSection = (props) => {
           <hr />
           <Checkbox
             name={ "Icons Enabled" }
-            value={ settings.command_icons_enabled }
-            boundFunction={ props.settingsToggleBinary.bind(this, 'command_icons_enabled') }
+            value={ settings.style_command_icons_enabled }
+            boundFunction={ props.settingsToggleBinary.bind(this, 'style_command_icons_enabled') }
           />
           <Dropdown
             name={ "Text Align" }
-            value={ settings.command_text_align }
+            value={ settings.style_command_text_align }
             options={ ['left', 'center', 'right'] }
-            boundFunction={ props.settingsSetValue.bind(this, 'command_text_align') }
+            boundFunction={ props.settingsSetValue.bind(this, 'style_command_text_align') }
           />
           <div className="color-group">
             <ColorPicker
