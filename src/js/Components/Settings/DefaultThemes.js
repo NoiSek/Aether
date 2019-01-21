@@ -216,7 +216,6 @@ const Running = {
   'command_sleep_enabled': true,
   'command_icons_enabled': true,
   'command_text_align': 'left',
-  'style_username_capitalization': 'lowercase',
   'style_command_background_color': 'hsl(169, 10%, 41%)',
   'style_command_icon_color': 'hsl(98, 6%, 73%)',
   'style_command_text_color': 'hsla(0, 0%, 100%, 0.18)',
@@ -226,7 +225,10 @@ const Running = {
   'style_login_button_text_color': 'hsl(0, 0%, 44%)',
   'style_login_gradient_top_color': 'hsl(180, 6%, 56%)',
   'style_login_gradient_bottom_color': 'hsl(180, 6%, 56%)',
+  'style_login_username_bold': false,
+  'style_login_username_capitalization': 'lowercase',
   'style_login_username_color': 'hsla(0, 0%, 100%, 0.73)',
+  'style_login_username_italic': false,
   'window_border_radius': '4px',
   'window_font_size': '1em'
 };

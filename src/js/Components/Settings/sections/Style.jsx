@@ -85,12 +85,6 @@ export const StyleSection = (props) => {
             value={ settings.style_login_border_enabled }
             boundFunction={ props.settingsToggleBinary.bind(this, 'style_login_border_enabled') }
           />
-          <Dropdown
-            name={ "Name Style" }
-            value={ settings.style_username_capitalization }
-            options={ ['default', 'UPPERCASE', 'lowercase', 'Capitalize'] }
-            boundFunction={ props.settingsSetValue.bind(this, 'style_username_capitalization') }
-          />
           <div className="color-group">
             <ColorPicker
               name={ "Border Color" }
@@ -123,6 +117,24 @@ export const StyleSection = (props) => {
               boundFunction={ props.settingsSetValue.bind(this, 'style_login_button_text_color') }
             />
           </div>
+          <h4>Username</h4>
+          <hr />
+          <Dropdown
+            name={ "Capitalization" }
+            value={ settings.style_login_username_capitalization }
+            options={ ['default', 'UPPERCASE', 'lowercase', 'Capitalize'] }
+            boundFunction={ props.settingsSetValue.bind(this, 'style_login_username_capitalization') }
+          />
+          <Checkbox
+            name={ "Bold" }
+            value={ settings.style_login_username_bold }
+            boundFunction={ props.settingsToggleBinary.bind(this, 'style_login_username_bold') }
+          />
+          <Checkbox
+            name={ "Italic" }
+            value={ settings.style_login_username_italic }
+            boundFunction={ props.settingsToggleBinary.bind(this, 'style_login_username_italic') }
+          />
         </ul>
       </div>
     </div>

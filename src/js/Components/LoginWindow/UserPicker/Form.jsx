@@ -42,11 +42,13 @@ class UserPanelForm extends React.Component {
       'capitalize': 'capitalize'
     };
 
-    const textTransformStyle = this.props.settings.style_username_capitalization;
+    const textTransformStyle = this.props.settings.style_login_username_capitalization;
 
     let usernameClasses = ['user-username'];
     usernameClasses.push(cxs({
       "color": this.props.settings.style_login_username_color,
+      "font-style": (this.props.settings.style_login_username_italic) ? 'italic' : 'initial',
+      "font-weight": (this.props.settings.style_login_username_bold) ? 'bold' : 'initial',
       "text-transform": textTransformDict[textTransformStyle.toLowerCase()]
     }));
 
