@@ -51,8 +51,10 @@ class WallpaperSwitcher extends React.Component {
     this.cyclerPreloader = document.querySelectorAll('.wallpaper-preload')[0];
 
     this.cyclerForeground.style.background = `url('${ directory }${ image }')`;
+    this.cyclerForeground.style.backgroundPosition = 'center';
     this.cyclerForeground.style.backgroundSize = "cover";
     document.body.style.background = `url('${ directory }${ image }')`;
+    document.body.style.backgroundPosition = 'center';
     document.body.style.backgroundSize = "cover";
 
     this.setState({
@@ -158,7 +160,7 @@ class WallpaperSwitcher extends React.Component {
     // Fadeout foreground wallpaper to new wallpaper
     let directory = this.state.directory;
     this.cyclerBackground.style.background = `url('${ directory }${ newWallpaper }')`;
-    this.cyclerBackground.style.backgroundPosition = 'center center';
+    this.cyclerBackground.style.backgroundPosition = 'center';
     this.cyclerBackground.style.backgroundSize = 'cover';
     this.cyclerForeground.className += " fadeout";
 
@@ -172,11 +174,11 @@ class WallpaperSwitcher extends React.Component {
     setTimeout(() => {
       // Cycle new wallpaper back to the front, make it visible again.
       this.cyclerForeground.style.background = `url('${ directory }${ newWallpaper }')`;
-      this.cyclerForeground.style.backgroundPosition = 'center center';
+      this.cyclerForeground.style.backgroundPosition = 'center';
       this.cyclerForeground.style.backgroundSize = 'cover';
       this.cyclerForeground.className = this.cyclerForeground.className.replace(" fadeout", "");
       document.body.style.background = `url('${ directory }${ newWallpaper }')`;
-      document.body.style.backgroundPosition = 'center center';
+      document.body.style.backgroundPosition = 'center';
       document.body.style.backgroundSize = 'cover';
 
       let switcher = this.state.switcher;
