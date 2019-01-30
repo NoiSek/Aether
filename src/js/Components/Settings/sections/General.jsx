@@ -147,6 +147,14 @@ export const GeneralSection = (props) => {
             value={ settings.hostname_enabled }
             boundFunction={ props.settingsToggleBinary.bind(this, 'hostname_enabled') }
           />
+
+          <h4>Configuration</h4>
+          <hr />
+          <Checkbox
+            name={ "Use .conf settings" }
+            value={ settings.use_lightdm_conf }
+            boundFunction={ props.settingsToggleBinary.bind(this, 'use_lightdm_conf') }
+          />
         </ul>
       </div>
     </div>

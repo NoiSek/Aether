@@ -31,6 +31,8 @@ export function addAdditionalSettings(state) {
 
     "hostname_enabled": true,
 
+    "use_lightdm_conf": false,
+
     "user_switcher_enabled": true,
 
     "command_shutdown_enabled": true,

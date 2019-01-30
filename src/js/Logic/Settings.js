@@ -17,8 +17,17 @@ export function requestSetting(setting, defaultSetting=undefined) {
     return false;
   }
 
-  // Continue as usual
-  let result = localStorage.getItem(setting);
+  let result = null;
+  if (localStorage.getItem('use_lightdm_conf') === 'true') {
+    try {
+      result = window.config.get_str('aether', setting);
+    } catch (e) {
+      result = localStorage.getItem(setting);
+    }
+  }
+  else {
+    result = localStorage.getItem(setting);
+  }
 
   if (result === null || result === undefined) {
     return defaultSetting;
