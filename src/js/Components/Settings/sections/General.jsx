@@ -20,6 +20,11 @@ const onLogoChange = (props, e) => {
   });
 };
 
+const toggleConfig = (props) => {
+  props.dispatch({
+    "type": 'SETTINGS_TOGGLE_CONFIG'
+  });
+};
 
 const LogoChooser = (props) => {
   let logos = FileOperations.getLogos();
@@ -153,7 +158,7 @@ export const GeneralSection = (props) => {
           <Checkbox
             name={ "Use .conf settings" }
             value={ settings.use_lightdm_conf }
-            boundFunction={ props.settingsToggleBinary.bind(this, 'use_lightdm_conf') }
+            boundFunction={ toggleConfig.bind(this, props) }
           />
         </ul>
       </div>

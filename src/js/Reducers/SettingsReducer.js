@@ -1,4 +1,5 @@
 /* eslint { no-redeclare: 0 } */
+import * as FileOperations from 'Logic/FileOperations';
 import * as Settings from '../Logic/Settings';
 import { setPageZoom } from '../Utils/Utils';
 
@@ -162,6 +163,32 @@ export const SettingsReducer = (state, action) => {
       }
 
       return state;
+
+    case 'SETTINGS_TOGGLE_CONFIG':
+      localStorage.setItem('use_lightdm_conf', !state.settings.use_lightdm_conf);
+
+      var dir              = FileOperations.getWallpaperDirectory();
+      var wallpaper        = Settings.requestSetting('wallpaper', 'space-1.jpg');
+      var cyclerForeground = document.querySelectorAll('.wallpaper-foreground')[0];
+
+      var newSettings = {
+        ...state.settings,
+        "use_lightdm_conf": !state.settings.use_lightdm_conf
+      };
+
+      for (let key in state.settings) {
+        newSettings[key] = Settings.requestSetting(key, state.settings[key]);
+      }
+
+      setTimeout(() => {
+        cyclerForeground.style.background = `url('${ dir }${ wallpaper }')`;
+        cyclerForeground.style.backgroundPosition = "center";
+        cyclerForeground.style.backgroundSize = "cover";
+      }, 600);
+
+      var newState = { ...state, "settings": newSettings };
+
+      return newState;
 
     default:
       return state;
