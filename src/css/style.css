@@ -367,8 +367,8 @@ body {
       .user-panel .login-panel-main .avatar-container .avatar-background {
         background: url("../img/avatar-background.png") no-repeat center center;
         margin: 0 auto;
-        height: 155px;
-        width: 154px;
+        height: 159px;
+        width: 163px;
         transform: translateX(-10px);
         transition: all 1s; }
       .user-panel .login-panel-main .avatar-container .avatar-mask {
