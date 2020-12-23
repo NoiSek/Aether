@@ -1,6 +1,9 @@
 ---
 name: Feature request
 about: Suggest a new feature for Aether.
+title: ''
+labels: ''
+assignees: ''
 
 ---
 
