@@ -5,6 +5,7 @@
 import cxs from 'cxs';
 import React from 'react';
 import PropTypes from 'prop-types';
+import regeneratorRuntime from "regenerator-runtime";
 
 import { connect } from 'react-redux';
 
@@ -20,7 +21,6 @@ class WallpaperSwitcher extends React.Component {
     super(props);
 
     let wallpaperDirectory = FileOperations.getWallpaperDirectory();
-    let wallpapers = FileOperations.getWallpapers(wallpaperDirectory);
 
     this.defaultStarsEnabled = undefined;
 
@@ -30,7 +30,7 @@ class WallpaperSwitcher extends React.Component {
 
     this.state = {
       "directory": wallpaperDirectory,
-      "wallpapers": wallpapers,
+      "wallpapers": [],
       "selectedWallpaper": undefined,
       "savedWallpaper": undefined,
       "switcher": {
@@ -39,6 +39,13 @@ class WallpaperSwitcher extends React.Component {
         "index": 0
       },
     };
+
+    this.init();
+  }
+
+  async init() {
+    let wallpapers = await FileOperations.getWallpapers(this.state.directory);
+    this.state.wallpapers = wallpapers;
   }
 
 
@@ -229,7 +236,7 @@ class WallpaperSwitcher extends React.Component {
 
     if (this.props.desaturate) {
       classes.push(cxs({
-        "filter": `grayscale(1) brightness(${ (this.props.brightness * 200) / 100 }%)`
+        "filter": `grayscale(1) brightness(${ (parseInt(this.props.brightness) * 200) / 100 }%)`
       }));
     }
 

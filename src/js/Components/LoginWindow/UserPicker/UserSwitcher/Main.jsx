@@ -73,7 +73,7 @@ class UserSwitcher extends React.Component {
       }
 
       return (
-        <li className={ classes.join(' ') } onClick={ this.handleUserClick.bind(this, index) } key={ user.display_name || user.real_name }>
+        <li className={ classes.join(' ') } onClick={ this.handleUserClick.bind(this, index) } key={ user.display_name || user.username }>
           <div className={ avatarBackgroundClasses }>
             <div className="avatar-mask">
               <img className="user-avatar" src={ user.image } />
@@ -81,7 +81,7 @@ class UserSwitcher extends React.Component {
           </div>
           <div className="avatar-name">
             <div className="username">{ user.display_name }</div>
-            <div className="real-name">{ user.real_name }</div>
+            <div className="real-name">{ user.username }</div>
           </div>
         </li>
       );
@@ -100,7 +100,7 @@ class UserSwitcher extends React.Component {
           </div>
           <div className="avatar-name">
             <div className="username">{ user.display_name }</div>
-            <div className="real-name">{ user.real_name }</div>
+            <div className="real-name">{ user.username }</div>
           </div>
         </li>
       );
@@ -119,7 +119,7 @@ class UserSwitcher extends React.Component {
           </div>
           <div className="avatar-name">
             <div className="username">{ user.display_name }</div>
-            <div className="real-name">{ user.real_name }</div>
+            <div className="real-name">{ user.username }</div>
           </div>
         </li>
       );
