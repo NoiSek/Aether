@@ -109,6 +109,7 @@ class WallpaperSwitcher extends React.Component {
     let preloadedIndex = nextIndex(newIndex);
     let preloadedWallpaper = wallpapers[preloadedIndex];
 
+    console.log({newIndex, newWallpaper});
     this.setWallpaper(newWallpaper, preloadedWallpaper);
 
     switcher.index = newIndex;
@@ -231,7 +232,7 @@ class WallpaperSwitcher extends React.Component {
     let classes = [ 'distro-logo' ];
 
     classes.push(cxs({
-      "background-image": `url(${ this.props.distroImage }) !important`,
+      "background-image": `url("${ this.props.distroImage }") !important`,
     }));
 
     if (this.props.desaturate) {

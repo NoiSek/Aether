@@ -73,6 +73,7 @@ export function addAdditionalSettings(state) {
 export const SettingsReducer = (state, action) => {
   switch(action.type) {
     case 'SETTINGS_LOGO_CHANGE':
+      console.log("DistroLogo changed:", action.path);
       var newSettings = { ...state.settings, "distro": action.path };
 
       return { ...state, "settings": newSettings };

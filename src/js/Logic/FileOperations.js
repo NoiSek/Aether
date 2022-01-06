@@ -36,6 +36,7 @@ export async function getWallpapers(directory) {
       resolve();
     });
   });
+  console.log("Wallpapers:", wallpapers);
   return wallpapers;
 }
 
@@ -65,7 +66,11 @@ export async function getLogos() {
   });
   themeLogos.push(userLogo);
 
-  return themeLogos.map((e) => [e, e.split("/").pop()]);
+  themeLogos = themeLogos.map((e) => [e, e.split("/").pop()]);
+
+  console.log("ThemeLogos:", themeLogos);
+
+  return themeLogos;
 }
 
 
