@@ -590,7 +590,7 @@ body {
     background: url("../img/logos/archlinux.png") no-repeat center center;
     margin: 0px auto;
     height: 125px;
-    width: 125px;
+    max-width: 185px;
     transition: opacity 400ms; }
     .command-panel .distro-logo:hover {
       cursor: pointer; }
