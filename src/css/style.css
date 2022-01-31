@@ -286,6 +286,9 @@ body {
   width: 100vw;
   z-index: -1; }
 
+.wallpaper-background #experimental-mount {
+  position: fixed; }
+
 .wallpaper-foreground {
   opacity: 1; }
   .wallpaper-foreground.fadeout {

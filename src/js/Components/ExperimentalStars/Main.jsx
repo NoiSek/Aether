@@ -57,11 +57,10 @@ class ExperimentalStars extends React.Component {
     this.application = new PIXI.Application({
       'height': window.innerHeight,
       'width': window.innerWidth,
-      'transparent': true,
-      'resolution': this.props.settings.page_zoom
+      'backgroundAlpha': 0,
+      'resolution': this.props.settings.page_zoom,
+      'resizeTo': window
     });
-
-    this.application.autoResize = true;
 
     this.nodes.screen.appendChild(this.application.view);
 
@@ -136,7 +135,7 @@ class ExperimentalStars extends React.Component {
 
 
     // Generate sparks
-    let sparkTexture = PIXI.Texture.fromImage('src/img/gl/spark.png');
+    let sparkTexture = PIXI.Texture.from('src/img/gl/spark.png');
 
     for (let i = 0; i < starCount; i++) {
       // Generate a new self managing particle instance
@@ -157,7 +156,7 @@ class ExperimentalStars extends React.Component {
       }
     }
 
-    //let smoke = PIXI.Sprite.fromImage('src/img/gl/smoke.png');
+    //let smoke = PIXI.Sprite.from('src/img/gl/smoke.png');
 
     this.application.ticker.add(() => {
       const now = Number(new Date());
