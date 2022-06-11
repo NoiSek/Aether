@@ -49,6 +49,7 @@ export async function getLogos() {
       ["src/test/logos/antergos.png", "antergos.png"],
       ["src/test/logos/ubuntu.png", "ubuntu.png"],
       ["src/test/logos/debian.png", "debian.png"],
+      ["src/test/logos/nix.png", "nix.png"],
       ["src/test/logos/void.png", "void.png"],
       ["src/test/logos/generic.png", "generic.png"],
       ["src/test/logos/tux.png", "tux.png"],
