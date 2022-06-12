@@ -43,8 +43,7 @@ SessionItem.propTypes = {
   'buttonTextColor': PropTypes.string.isRequired,
   'session': PropTypes.object.isRequired,
   'handleClick': PropTypes.func.isRequired,
-  'index': PropTypes.number.isRequired,
-  'settings': PropTypes.object.isRequired
+  'index': PropTypes.number.isRequired
 };
 
 export default SessionItem;

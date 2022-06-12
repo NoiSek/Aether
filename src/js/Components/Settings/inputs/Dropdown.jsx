@@ -7,6 +7,7 @@ import React from 'react';
 
 
 export const DropdownOption = (option) => {
+  if (!option) return;
   let name = option.name || option;
   let value = option.value || option;
 

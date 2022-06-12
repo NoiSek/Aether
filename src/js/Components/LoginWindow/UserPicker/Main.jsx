@@ -38,9 +38,9 @@ class UserPicker extends React.Component {
   componentDidMount() {
     // Define functions required in the global scope by LightDM.
     window.show_prompt = (text, type) => {
-      if (type === 'text') {
+      if (text.match(/text/i)) {
         window.notifications.generate(text);
-      } else if (type === 'password') {
+      } else if (text.match(/password/i)) {
         window.lightdm.respond(this.state.password);
       }
     };
@@ -51,7 +51,7 @@ class UserPicker extends React.Component {
 
     window.authentication_complete = () => {
       if (window.lightdm.is_authenticated) {
-        window.lightdm.start_session_sync(this.props.activeSession.key);
+        window.lightdm.start_session(this.props.activeSession.key);
       } else {
         this.rejectPassword();
       }
@@ -64,6 +64,12 @@ class UserPicker extends React.Component {
     // Add a handler for Ctrl+A to prevent selection issues.
     document.onkeydown = this.onKeyDown.bind(this);
     document.onkeyup = this.onKeyUp.bind(this);
+
+    if (window.lightdm == undefined) return;
+    window.lightdm.authentication_complete?.connect(() => window.authentication_complete());
+    window.lightdm.show_message?.connect((text, type) => window.show_message(text, type));
+    window.lightdm.show_prompt?.connect((text, type) => window.show_prompt(text, type));
+    window.lightdm.autologin_timer_expired?.connect((text, type) => window.autologin_timer_expired());
   }
 
 

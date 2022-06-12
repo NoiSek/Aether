@@ -5,7 +5,7 @@ import { setPageZoom } from '../Utils/Utils';
 export function addAdditionalSettings(state) {
   // Define our defaults
 
-  let distroDefault = (window.__debug === true) ? "src/test/logos/archlinux.png" : "/usr/share/lightdm-webkit/themes/lightdm-webkit-theme-aether/src/img/logos/archlinux.png";
+  let distroDefault = (window.__debug === true) ? "src/test/logos/archlinux.png" : "src/img/logos/archlinux.png";
 
   let defaults = {
     "active": false,
@@ -73,6 +73,7 @@ export function addAdditionalSettings(state) {
 export const SettingsReducer = (state, action) => {
   switch(action.type) {
     case 'SETTINGS_LOGO_CHANGE':
+      console.log("DistroLogo changed:", action.path);
       var newSettings = { ...state.settings, "distro": action.path };
 
       return { ...state, "settings": newSettings };

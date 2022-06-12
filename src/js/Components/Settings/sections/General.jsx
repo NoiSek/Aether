@@ -20,49 +20,62 @@ const onLogoChange = (props, e) => {
   });
 };
 
+class LogoChooser extends React.Component {
+  constructor(props) {
+    super(props);
 
-const LogoChooser = (props) => {
-  let logos = FileOperations.getLogos();
-  let activeLogo = props.settings.distro;
+    this.state = {
+      "logos": [],
+    };
 
-  let items = logos.map((e) => {
-    let [path, fileName] = e;
+    this.init();
+  }
+
+  async init() {
+    // There should be a delay until rendering, kind of enough
+    // to get the logos
+    this.state.logos = await FileOperations.getLogos();
+  }
+
+  render() {
+    let activeLogo = this.props.settings.distro;
+
+    let items = this.state.logos.map((e) => {
+      let [path, fileName] = e;
+      return (
+        <option key={ fileName } value={ path }>{ fileName.split(".")[0] }</option>
+      );
+    });
+
+    let selectedItem = this.state.logos.filter((e) => (e[0] === activeLogo));
+    selectedItem = selectedItem[0] || [""];
 
     return (
-      <option key={ fileName } value={ path }>{ fileName.split(".")[0] }</option>
-    );
-  });
-
-  let selectedItem = logos.filter((e) => (e[0] === activeLogo));
-  selectedItem = selectedItem[0] || [""];
-
-  return (
-    <div>
-      <div className="preview-logo">
-        <img src={ selectedItem[0] } />
+      <div>
+        <div className="preview-logo">
+          <img src={ selectedItem[0] } />
+        </div>
+        <select onChange={ onLogoChange.bind(this, this.props) } value={ activeLogo }>
+          { items }
+        </select>
       </div>
-      <select onChange={ onLogoChange.bind(this, props) } value={ activeLogo }>
-        { items }
-      </select>
-    </div>
-  );
-};
-
+    );
+  }
+}
 
 LogoChooser.propTypes = {
   'settings': PropTypes.object.isRequired
 };
 
-
 export const GeneralSection = (props) => {
   const settings = props.settings;
   const users = window.lightdm.users
-    .map(e => e.name);
+    .map(e => e.display_name);
 
   return (
     <div className="settings-general">
       <div className="left">
-        { LogoChooser(props) }
+        <LogoChooser {...props} />
       </div>
       <div className="right">
         <ul>

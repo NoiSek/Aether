@@ -49,7 +49,7 @@ A Sleek, straightforward Archlinux themed login screen written on lightdm and th
 ![](../screenshots/wallpaper-switcher.gif)
 
 ## Requirements
-- [lightdm-webkit2-greeter (aur/lightdm-webkit2-greeter )](https://github.com/Antergos/lightdm-webkit2-greeter)
+- [web-greeter](https://github.com/JezerM/web-greeter) or [nody-greeter](https://github.com/JezerM/nody-greeter)
 
 ## Installation
 
@@ -63,20 +63,23 @@ pacaur -S lightdm-webkit-theme-aether
 
 **Manual Installation**
 
-This assumes that you already have lightdm and lightdm-webkit2-greeter installed (but not configured).
+This assumes that you already have lightdm and web-greeter (or nody-greeter) installed (but not configured).
 
-NOTE: Users performing a manual installation directly from Github should replace the `lightdm-webkit-theme-aether` values in the provided sed commands with `Aether` to match the name of the theme directory. Users performing a manual installation from the AUR should make no changes.
+NOTE: Users performing a manual installation directly from Github should replace the `web-greeter` values in the provided sed commands with `Aether` to match the name of the theme directory. Users performing a manual installation from the AUR should make no changes.
 
 ```
 # If you prefer the last stable release, download from the releases page instead: https://github.com/NoiSek/Aether/releases/latest
 git clone git@github.com:NoiSek/Aether.git
-sudo cp --recursive Aether /usr/share/lightdm-webkit/themes/Aether
+sudo cp --recursive Aether /usr/share/web-greeter/themes/Aether
 
-# Set default lightdm-webkit2-greeter theme to Aether
-sudo sed -i 's/^webkit_theme\s*=\s*\(.*\)/webkit_theme = lightdm-webkit-theme-aether #\1/g' /etc/lightdm/lightdm-webkit2-greeter.conf
+# Set default web-greeter theme to Aether
+sudo sed 's/    theme:\s*\(.*\)/    theme: Aether #\1/g' -i /etc/lightdm/web-greeter.yml
 
-# Set default lightdm greeter to lightdm-webkit2-greeter
-sudo sed -i 's/^\(#?greeter\)-session\s*=\s*\(.*\)/greeter-session = lightdm-webkit2-greeter #\1/ #\2g' /etc/lightdm/lightdm.conf
+# Set default lightdm greeter to web-greeter
+sudo sed -i 's/^\(#?greeter\)-session\s*=\s*\(.*\)/greeter-session = web-greeter #\1/ #\2g' /etc/lightdm/lightdm.conf
+
+# Either, set default lightdm greeter to nody-greeter
+sudo sed -i 's/^\(#?greeter\)-session\s*=\s*\(.*\)/greeter-session = nody-greeter #\1/ #\2g' /etc/lightdm/lightdm.conf
 ```
 
 
@@ -89,7 +92,7 @@ Hover over the bottom left of your screen to find the settings button. Once acti
 
 ![](./src/img/default-user.png)
 
-Once LightDM, LightDM Webkit Greeter, and Aether are installed you will need to set an avatar image for your users. Size is irrelevant, and avatars will be displayed as a 125x125 circle (Yes, square images too). Users that don't have an avatar set will default to the [astronaut](./src/img/default-user.png).
+Once LightDM, LightDM Web Greeter, and Aether are installed you will need to set an avatar image for your users. Size is irrelevant, and avatars will be displayed as a 125x125 circle (Yes, square images too). Users that don't have an avatar set will default to the [astronaut](./src/img/default-user.png).
 
 To accomplish this, you can do either of the following:
 - Create an image in your home directory named `.face`.
@@ -98,10 +101,10 @@ To accomplish this, you can do either of the following:
 ### **Using Your Own Wallpapers**
 
 #### Method One:
-Add and delete wallpapers within the `src/img/wallpapers/` directory as you see fit. By default, you will find this folder at the absolute path: `/usr/share/lightdm-webkit/themes/lightdm-webkit-theme-aether/src/img/wallpapers/`.
+Add and delete wallpapers within the `src/img/wallpapers/` directory as you see fit. By default, you will find this folder at the absolute path: `/usr/share/web-greeter/themes/Aether/src/img/wallpapers/`.
 
 #### Method Two:
-Edit the `background_images` value under `branding` within your lightdm-webkit config file located at `/etc/lightdm/lightdm-webkit2-greeter.conf`.
+Edit the `background_images_dir` value under `branding` within your web-greeter config file located at `/etc/lightdm/web-greeter.yml`.
 *Note: This ignores the default value of /usr/share/backgrounds, as this is always set and would prevent the default wallpapers from working. To use wallpapers from within that directory, create a subdirectory at /usr/share/backgrounds/aether (or any other folder name) and change your config value accordingly.*
 
 ### **Modifying Date and Time Format**
